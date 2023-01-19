@@ -30,5 +30,8 @@ export default {
     isLogin(state) {
       return state.user != null;
     },
+    getName(state){
+      return state.user.name.toString()
+    }
   },
 };

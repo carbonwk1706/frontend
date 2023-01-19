@@ -4,7 +4,7 @@
       <v-icon class="mr-2">mdi-login</v-icon>
       LOGIN / REGISTER
     </v-btn>
-    <span class="ml-3" v-if="isLogin">LOGIN สำเร็จ</span>
+    <span class="ml-3" v-if="isLogin">{{ getName() }}</span>
     <v-spacer></v-spacer>
     <v-toolbar-title class="ml-3 text-center">EBOOK</v-toolbar-title>
     <v-spacer></v-spacer>
@@ -37,6 +37,9 @@ export default {
     },
     goToCart(){
       router.push("/cart")
+    },
+    getName(){
+      return this.$store.getters['auth/getName']
     }
   },
   computed: {

@@ -28,7 +28,7 @@ const routes = [
     component: () => import('../views/Wishlist.vue')
   },
   {
-    path: '/Profile',
+    path: '/profile/:id',
     name: 'profile',
     component: () => import('../views/Profile.vue')
   }

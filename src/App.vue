@@ -1,31 +1,27 @@
 <template>
   <v-app>
-      <Navbar v-if="showNavbar"/>
+    <Navbar v-if="showNavbar" />
     <v-main>
       <v-container>
-          <router-view/>
+        <router-view />
       </v-container>
     </v-main>
   </v-app>
 </template>
 
 <script>
-import Navbar from './components/Navbar.vue';
+import Navbar from "./components/Navbar.vue";
 
 export default {
   name: "App",
   components: {
-    Navbar
+    Navbar,
   },
-  computed:{
-    showNavbar(){
-      return !['/login', '/register'].includes(this.$route.path)
-    }
+  computed: {
+    showNavbar() {
+      return !["/login", "/register"].includes(this.$route.path);
+    },
   },
-  
 };
 </script>
-<style>
-
-
-</style>
+<style></style>
