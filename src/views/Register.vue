@@ -14,20 +14,27 @@
       ></v-text-field>
       <v-btn type="submit">Register</v-btn>
     </v-form>
-  
+
     <v-dialog v-model="showModal" max-width="290">
       <v-card>
         <v-card-title class="headline">Error</v-card-title>
         <v-card-text>Username is already taken.</v-card-text>
         <v-card-actions>
-          <v-btn color="green" text @click="showModal = false">
-            Close
-          </v-btn>
+          <v-btn color="green" text @click="showModal = false"> Close </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
 
-    <v-progress-circular v-if="loading" :size="70" :width="7" indeterminate color="primary"></v-progress-circular>
+    <div class="center-loading">
+      <v-progress-circular
+      v-if="loading"
+      :size="70"
+      :width="7"
+      indeterminate
+      color="primary"
+    ></v-progress-circular>
+    </div>
+
   </div>
 </template>
 <script>
@@ -42,7 +49,7 @@ export default {
         roles: "User",
       },
       showModal: false,
-      loading: false
+      loading: false,
     };
   },
   methods: {
@@ -58,16 +65,16 @@ export default {
         console.log(this.form);
         console.log(res);
         if (res.status === 201) {
-          this.loading = true
-          .then(() => {
+          this.loading = true;
+          setTimeout(() => {
+            this.$store.dispatch("auth/login", this.form);
             setTimeout(() => {
-            this.loading = false;
-            this.$store.dispatch("auth/login", this.form)
-          }, 3000);
-          })
+              this.loading = false;
+            }, 2000);
+          }, 2000);
         }
       } catch (error) {
-        if(error.response.status === 409){
+        if (error.response.status === 409) {
           this.showModal = true;
         }
       }
@@ -75,4 +82,11 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+.center-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+</style>
