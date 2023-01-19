@@ -1,5 +1,5 @@
 import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
+import HomeView from '../views/Home.vue'
 
 const routes = [
   {
@@ -10,17 +10,17 @@ const routes = [
   {
     path: '/login',
     name: 'login',
-    component: () => import('../views/LoginView.vue')
+    component: () => import('../views/Login.vue')
   },
   {
     path: '/cart',
     name: 'cart',
-    component: () => import('../views/CartView.vue')
+    component: () => import('../views/Cart.vue')
   },
   {
     path: '/wishlist',
     name: 'wishlist',
-    component: () => import('../views/WishlistView.vue')
+    component: () => import('../views/Wishlist.vue')
   },
 
 ]

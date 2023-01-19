@@ -4,7 +4,7 @@
   </Auth>
 </template>
 <script>
-import Auth from "../components/AuthLogin.vue";
+import Auth from "../components/Auth.vue";
 
 export default {
   components: {
