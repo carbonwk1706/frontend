@@ -1,8 +1,15 @@
 <template>
-  <h1>Cart</h1>
+  <Auth>
+    <h1>Cart</h1>
+  </Auth>
 </template>
-<style scoped>
+<script>
+import Auth from "../components/AuthLogin.vue";
 
-
-
-</style>
+export default {
+  components: {
+    Auth,
+  },
+};
+</script>
+<style scoped></style>

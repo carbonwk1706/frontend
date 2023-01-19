@@ -1,6 +1,17 @@
 <template>
-  <h1>Wishlist</h1>
+  <Auth>
+    <h1>Wishlist</h1>
+  </Auth>
 </template>
+<script>
+import Auth from "../components/AuthLogin.vue";
+
+export default {
+  components: {
+    Auth,
+  },
+};
+</script>
 <style scoped>
 
 
