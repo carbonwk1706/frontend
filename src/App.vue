@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <HeaderNavbar/>
+      <HeaderNavbar v-if="showNavbar"/>
     <v-main>
       <v-container>
           <router-view/>
@@ -14,14 +14,15 @@ import HeaderNavbar from './components/HeaderNavbar.vue';
 
 export default {
   name: "App",
-
   components: {
     HeaderNavbar
   },
-
-  data: () => ({
-    //
-  }),
+  computed:{
+    showNavbar(){
+      return this.$route.path !== '/login'
+    }
+  },
+  
 };
 </script>
 <style scoped>
