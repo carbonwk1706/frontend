@@ -26,6 +26,8 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
+
+    <v-progress-circular v-if="loading" :size="70" :width="7" indeterminate color="primary"></v-progress-circular>
   </div>
 </template>
 <script>
@@ -40,6 +42,7 @@ export default {
         roles: "User",
       },
       showModal: false,
+      loading: false
     };
   },
   methods: {
@@ -55,7 +58,13 @@ export default {
         console.log(this.form);
         console.log(res);
         if (res.status === 201) {
-          this.$store.dispatch("auth/login", this.form);
+          this.loading = true
+          .then(() => {
+            setTimeout(() => {
+            this.loading = false;
+            this.$store.dispatch("auth/login", this.form)
+          }, 3000);
+          })
         }
       } catch (error) {
         if(error.response.status === 409){
