@@ -8,15 +8,21 @@ const routes = [
     component: HomeView
   },
   {
-    path: '/about',
-    name: 'about',
-    component: () => import('../views/AboutView.vue')
-  },
-  {
     path: '/login',
     name: 'login',
     component: () => import('../views/LoginView.vue')
-  }
+  },
+  {
+    path: '/cart',
+    name: 'cart',
+    component: () => import('../views/CartView.vue')
+  },
+  {
+    path: '/wishlist',
+    name: 'wishlist',
+    component: () => import('../views/WishlistView.vue')
+  },
+
 ]
 
 const router = createRouter({
