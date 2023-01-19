@@ -27,18 +27,19 @@
 
     <div class="center-loading">
       <v-progress-circular
-      v-if="loading"
-      :size="70"
-      :width="7"
-      indeterminate
-      color="primary"
-    ></v-progress-circular>
+        v-if="loading"
+        :size="70"
+        :width="7"
+        indeterminate
+        color="primary"
+      ></v-progress-circular>
     </div>
-
   </div>
 </template>
 <script>
+import router from "@/router";
 import axios from "axios";
+
 export default {
   data() {
     return {
@@ -66,11 +67,10 @@ export default {
         console.log(res);
         if (res.status === 201) {
           this.loading = true;
+          this.$store.dispatch("auth/login", this.form);
           setTimeout(() => {
-            this.$store.dispatch("auth/login", this.form);
-            setTimeout(() => {
-              this.loading = false;
-            }, 2000);
+            this.loading = false;
+            router.push("/");
           }, 2000);
         }
       } catch (error) {
