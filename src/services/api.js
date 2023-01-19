@@ -49,7 +49,7 @@ api.interceptors.response.use(
           });
           break;
         case 404:
-          alert("page not exist");
+          console.log("page not exist");
           break;
         case 502:
           setTimeout(() => {
