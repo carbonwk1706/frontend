@@ -1,53 +1,69 @@
 <template>
-  <v-form @submit.prevent="register">
-    <v-text-field v-model="form.name" label="Name"></v-text-field>
-    <v-text-field
-      v-model="form.username"
-      label="Username"
-      type="email"
-    ></v-text-field>
-    <v-text-field
-      v-model="form.password"
-      label="Password"
-      type="password"
-    ></v-text-field>
-    <v-btn type="submit">Register</v-btn>
-  </v-form>
+  <div>
+    <v-form @submit.prevent="register">
+      <v-text-field v-model="form.name" label="Name"></v-text-field>
+      <v-text-field
+        v-model="form.username"
+        label="Username"
+        type="email"
+      ></v-text-field>
+      <v-text-field
+        v-model="form.password"
+        label="Password"
+        type="password"
+      ></v-text-field>
+      <v-btn type="submit">Register</v-btn>
+    </v-form>
+  
+    <v-dialog v-model="showModal" max-width="290">
+      <v-card>
+        <v-card-title class="headline">Error</v-card-title>
+        <v-card-text>Username is already taken.</v-card-text>
+        <v-card-actions>
+          <v-btn color="green" text @click="showModal = false">
+            Close
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </div>
 </template>
 <script>
-import axios from 'axios'
+import axios from "axios";
 export default {
-  data(){
+  data() {
     return {
       form: {
         name: "",
         username: "",
         password: "",
-        roles: "User"
-      }
-    }
+        roles: "User",
+      },
+      showModal: false,
+    };
   },
   methods: {
-    async register(){
-      try{
-        this.isLoading = true
-        const res = await axios.post('http://localhost:3000/auth/register', {
+    async register() {
+      try {
+        const res = await axios.post("http://localhost:3000/auth/register", {
           name: this.form.name,
           username: this.form.username,
           password: this.form.password,
-          roles: this.form.roles
-        })
-        console.log("User Registered Successfully")
-        console.log(this.form)
-        console.log(res)
-         if(res.status === 201){
-           this.$store.dispatch("auth/login", this.form);
-         }
-      }catch(e){
-        console.log(e)
-      } 
-    }
-  }
+          roles: this.form.roles,
+        });
+        console.log("User Registered Successfully");
+        console.log(this.form);
+        console.log(res);
+        if (res.status === 201) {
+          this.$store.dispatch("auth/login", this.form);
+        }
+      } catch (error) {
+        if(error.response.status === 409){
+          this.showModal = true;
+        }
+      }
+    },
+  },
 };
 </script>
 <style></style>
