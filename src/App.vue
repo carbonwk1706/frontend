@@ -1,6 +1,6 @@
 <template>
   <v-app>
-      <HeaderNavbar v-if="showNavbar"/>
+      <Navbar v-if="showNavbar"/>
     <v-main>
       <v-container>
           <router-view/>
@@ -10,12 +10,12 @@
 </template>
 
 <script>
-import HeaderNavbar from './components/HeaderNavbar.vue';
+import Navbar from './components/HeaderNavbar.vue';
 
 export default {
   name: "App",
   components: {
-    HeaderNavbar
+    Navbar
   },
   computed:{
     showNavbar(){
