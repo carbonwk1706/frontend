@@ -1,5 +1,5 @@
 <template>
-  <v-form>
+  <v-form @submit.prevent="register">
     <v-text-field v-model="form.name" label="Name"></v-text-field>
     <v-text-field
       v-model="form.username"
@@ -15,15 +15,37 @@
   </v-form>
 </template>
 <script>
+import axios from 'axios'
 export default {
   data(){
     return {
-      from: {
+      form: {
         name: "",
         username: "",
         password: "",
         roles: "User"
       }
+    }
+  },
+  methods: {
+    async register(){
+      try{
+        this.isLoading = true
+        const res = await axios.post('http://localhost:3000/auth/register', {
+          name: this.form.name,
+          username: this.form.username,
+          password: this.form.password,
+          roles: this.form.roles
+        })
+        console.log("User Registered Successfully")
+        console.log(this.form)
+        console.log(res)
+         if(res.status === 201){
+           this.$store.dispatch("auth/login", this.form);
+         }
+      }catch(e){
+        console.log(e)
+      } 
     }
   }
 };
