@@ -12,7 +12,7 @@
         label="Password"
         type="password"
       ></v-text-field>
-      <v-btn type="submit">Register</v-btn>
+      <v-btn v-if="!this.$store.getters['auth/isLogin']" type="submit">Register</v-btn>
     </v-form>
 
     <v-dialog v-model="showModal" max-width="290">
