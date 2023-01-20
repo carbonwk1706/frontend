@@ -12,15 +12,25 @@
         label="Password"
         type="password"
       ></v-text-field>
-      <v-btn v-if="!this.$store.getters['auth/isLogin']" type="submit">Register</v-btn>
+      <v-btn v-if="!this.$store.getters['auth/isLogin']" type="submit"
+        >Register</v-btn
+      >
     </v-form>
 
-    <v-dialog v-model="showModal" max-width="290">
+    <v-dialog v-model="showModal" max-width="350">
       <v-card>
-        <v-card-title class="headline">Error</v-card-title>
-        <v-card-text>Username is already taken.</v-card-text>
-        <v-card-actions>
-          <v-btn color="green" text @click="showModal = false"> Close </v-btn>
+        <v-card-title class="headline center">
+          <v-icon class="font-size" color="#F8BB86"
+            >mdi-alert-circle-outline</v-icon
+          >
+        </v-card-title>
+        <v-card-text class="text-center"
+          >Username is already taken.</v-card-text
+        >
+        <v-card-actions class="center">
+          <v-btn color="white" class="btn-bg" text @click="showModal = false">
+            OK
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -88,5 +98,16 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-bg {
+  background-color: #00af70;
+}
+.font-size {
+  font-size: 5rem;
 }
 </style>

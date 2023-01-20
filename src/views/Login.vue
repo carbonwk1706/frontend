@@ -23,12 +23,14 @@
         ></v-progress-circular>
       </div>
 
-      <v-dialog v-model="error" max-width="290">
+      <v-dialog v-model="error" max-width="350">
         <v-card>
-          <v-card-title class="headline">Error</v-card-title>
-          <v-card-text>Invalid username or password</v-card-text>
-          <v-card-actions>
-            <v-btn color="green" text @click="error = false"> Close </v-btn>
+          <v-card-title class="headline center">
+            <v-icon class="font-size" color="#D10000">mdi-close-circle-outline</v-icon>
+   </v-card-title>
+          <v-card-text class="text-center">Username หรือ Password ไม่ถูกต้อง</v-card-text>
+          <v-card-actions class="center">
+            <v-btn color="white" class="btn-bg" text @click="error = false"> OK </v-btn>
           </v-card-actions>
         </v-card>
       </v-dialog>
@@ -66,14 +68,14 @@ export default {
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
         this.$store.dispatch("auth/login", user);
-        if(res.status !== 404){
+        if (res.status !== 404) {
           setTimeout(() => {
-          router.push("/");
-          this.loading = false
-        },2000)
+            router.push("/");
+            this.loading = false;
+          }, 2000);
         }
       } catch (e) {
-        this.loading = false
+        this.loading = false;
         this.error = true;
       }
     },
@@ -86,5 +88,16 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-bg {
+  background-color: #00af70;
+}
+.font-size{
+  font-size: 5rem;
 }
 </style>

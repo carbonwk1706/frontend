@@ -2,15 +2,15 @@
   <div>
     <slot></slot>
 
-    <v-dialog v-model="showModal" max-width="290" persistent>
+    <v-dialog v-model="showModal" max-width="350" persistent>
       <v-card>
-        <v-card-title class="headline">Error</v-card-title>
-        <v-card-text>กรุณาเข้าสู่ระบบ</v-card-text>
-        <v-card-actions>
-          <v-btn color="green" text @click="goToLoginAndClose"> Close </v-btn>
+        <v-card-text class="text-center">กรุณาล๊อคอินก่อนเข้าใช้หน้านี้</v-card-text>
+        <v-card-actions class="center">
+          <v-btn color="white" class="btn-bg" text @click="goToLoginAndClose"> OK </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
+
   </div>
 </template>
 <script>
@@ -48,4 +48,16 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-bg {
+  background-color: #00af70;
+}
+.font-size {
+  font-size: 5rem;
+}
+</style>
