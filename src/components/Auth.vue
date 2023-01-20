@@ -13,13 +13,13 @@ export default {
   watch: {
     isLogin(newValue) {
       if (!newValue) {
-        this.$router.push("/");
+        this.$router.push("/login");
       }
     },
   },
   mounted() {
     if (!this.isLogin) {
-      this.$router.push("/");
+      this.$router.push("/login");
     }
   },
 };
