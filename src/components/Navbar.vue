@@ -61,6 +61,15 @@
 
   <v-dialog v-model="loading" max-width="350">
     <v-card>
+      <v-card-title class="center">
+        <div class="img-size">
+          <v-img
+          src="https://media.tenor.com/6Hgtua4dLdMAAAAi/pedestrian-person-walking.gif"
+  
+          >
+          </v-img>
+        </div>
+      </v-card-title>
       <v-card-text class="text-center">กำลังออกจากระบบ</v-card-text>
       <v-card class="center-loading">
         <v-progress-circular
@@ -140,5 +149,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.img-size{
+  width: 200px;
 }
 </style>

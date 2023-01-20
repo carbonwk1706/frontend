@@ -15,6 +15,15 @@
 
       <v-dialog v-model="loading" max-width="350">
         <v-card>
+          <v-card-title class="center">
+            <div class="img-size">
+              <v-img
+              src="https://media.tenor.com/6Hgtua4dLdMAAAAi/pedestrian-person-walking.gif"
+              
+              >
+              </v-img>
+            </div>
+          </v-card-title>
           <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
           <v-card class="center-loading">
             <v-progress-circular
@@ -110,5 +119,8 @@ export default {
 }
 .font-size {
   font-size: 5rem;
+}
+.img-size{
+  width: 200px;
 }
 </style>

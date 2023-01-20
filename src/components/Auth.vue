@@ -57,7 +57,5 @@ export default {
 .btn-bg {
   background-color: #00af70;
 }
-.font-size {
-  font-size: 5rem;
-}
+
 </style>
