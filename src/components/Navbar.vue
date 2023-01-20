@@ -13,7 +13,7 @@
       <template v-slot:activator="{ props }">
         <v-btn class="header_action" v-bind="props" @click="toggleMenu">
           <v-icon class="mr-2">mdi-account</v-icon>
-          <span> สวัสดี {{ getName() }}</span>
+          <span> สวัสดี ID-{{ getId() }}</span>
           <v-icon v-if="!toggle">mdi-menu-down</v-icon>
           <v-icon v-else>mdi-menu-up</v-icon>
         </v-btn>
@@ -31,7 +31,7 @@
             <v-divider class="my-3"></v-divider>
             <v-btn rounded variant="text"> แก้ไขโปรไฟล์ </v-btn>
             <v-divider class="my-3"></v-divider>
-            <v-btn rounded variant="text"> Disconnect </v-btn>
+            <v-btn rounded variant="text"  @click="logout"> ออกจากระบบ </v-btn>
           </div>
         </v-card-text>
       </v-card>
@@ -56,15 +56,6 @@
     >
       <v-icon class="mr-2">mdi-cart</v-icon>
       ตะกร้าสินค้า
-    </v-btn>
-    <v-btn
-      class="header_action px-2 mx-2 v-btn--outline"
-      color="white"
-      v-if="isLogin"
-      @click="logout"
-    >
-      <v-icon class="mr-2">mdi-logout</v-icon>
-      Logout
     </v-btn>
   </v-toolbar>
 </template>
@@ -100,6 +91,9 @@ export default {
     },
     getUsername(){
       return this.$store.getters["auth/getUsername"];
+    },
+    getId(){
+      return this.$store.getters["auth/getId"];
     },
     toggleMenu(){
       this.toggle = !this.toggle
