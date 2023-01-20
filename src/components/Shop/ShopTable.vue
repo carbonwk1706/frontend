@@ -7,16 +7,15 @@
     <v-row no-gutters>
       <v-col v-for="(item, index) in books" :key="index">
         <v-card class="mx-auto" max-width="180">
-          <v-img
-            :src="item.image"
-            height="250px"
-          ></v-img>
+          <v-img :src="item.image" height="250px"></v-img>
           <v-card-title> {{ item.name }} </v-card-title>
 
-          <v-card-subtitle> {{ item.author }}/{{ item.publisher }} </v-card-subtitle>
-          <v-card-actions class="d-flex justify-end">
-            <v-btn outlined rounded text> ฿ {{ item.price }} </v-btn>
-          </v-card-actions>
+          <v-card-subtitle>
+            {{ item.author }}/{{ item.publisher }}
+          </v-card-subtitle>
+          <v-row class="d-flex justify-end ma-3">
+            <v-btn color="success"> ฿ {{ item.price }} </v-btn>
+          </v-row>
         </v-card>
       </v-col>
     </v-row>
