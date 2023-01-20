@@ -1,73 +1,122 @@
 <template>
-  <div>
-    <v-form @submit.prevent="register">
-      <v-text-field v-model="form.name" label="Name"></v-text-field>
-      <v-text-field
-        v-model="form.username"
-        label="Username"
-        type="email"
-      ></v-text-field>
-      <v-text-field
-        v-model="form.password"
-        label="Password"
-        type="password"
-      ></v-text-field>
-      <v-btn type="submit">Register</v-btn>
-    </v-form>
+  <AuthLogin>
+    <div>
+      <v-form @submit.prevent="checkDuplicate">
+        <v-text-field v-model="form.name" label="Name"></v-text-field>
+        <v-text-field
+          v-model="form.username"
+          label="Username"
+          type="email"
+        ></v-text-field>
+        <v-text-field
+          v-model="form.password"
+          label="Password"
+          type="password"
+        ></v-text-field>
+        <v-btn type="submit">Register</v-btn>
+      </v-form>
 
-
-
-    <v-dialog v-model="showModal" max-width="350">
-      <v-card>
-        <v-card-title class="headline center">
-          <v-icon class="font-size" color="#F8BB86"
-            >mdi-alert-circle-outline</v-icon
-          >
-        </v-card-title>
-        <v-card-text class="text-center"
-          >Username is already taken.</v-card-text
-        >
-        <v-card-actions class="center">
-          <v-btn color="white" class="btn-bg" text @click="showModal = false">
-            OK
-          </v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-
-    <v-dialog v-model="loading" max-width="350">
-      <v-card>
-        <v-card-title class="center">
-          <div class="img-size">
-            <v-img
-            src="https://media.tenor.com/YQ2q2NtGs0UAAAAM/kitty-cat.gif"
-            
+      <v-dialog v-model="showModal" max-width="350">
+        <v-card>
+          <v-card-title class="headline center">
+            <v-icon class="font-size" color="#F8BB86"
+              >mdi-alert-circle-outline</v-icon
             >
-            </v-img>
-          </div>
-        </v-card-title>
-        <v-card-text class="text-center">สมัครสมาชิกสำเร็จ</v-card-text>
-        <v-card class="center-loading">
-          <v-progress-circular
-            v-if="loading"
-            :size="50"
-            :width="5"
-            indeterminate
-            color="success"
-            class="my-4"
-          ></v-progress-circular>
+          </v-card-title>
+          <v-card-text class="text-center"
+            >Username is already taken.</v-card-text
+          >
+          <v-card-actions class="center">
+            <v-btn color="white" class="btn-bg" text @click="showModal = false">
+              OK
+            </v-btn>
+          </v-card-actions>
         </v-card>
-      </v-card>
-    </v-dialog>
+      </v-dialog>
+
+      <v-dialog v-model="loading" max-width="350">
+        <v-card>
+          <v-card-title class="center">
+            <div class="img-size">
+              <v-img
+                src="https://media.tenor.com/ItVLtljJHLoAAAAM/sweet-dreams.gif"
+              >
+              </v-img>
+            </div>
+          </v-card-title>
+          <v-card-content class="center-loading">
+            <v-progress-circular
+              v-if="loading"
+              :size="50"
+              :width="5"
+              indeterminate
+              color="success"
+            ></v-progress-circular>
+          </v-card-content>
+          <v-card-text class="text-center">กำลังสมัครสมาชิก</v-card-text>
+        </v-card>
+      </v-dialog>
 
 
-  </div>
+      <v-dialog v-model="loginModal" max-width="350">
+        <v-card>
+          <v-card-title class="center">
+            <div class="img-size">
+              <v-img
+              src="https://media.tenor.com/M00Zqk6Dx7EAAAAi/peachcat-goma.gif"
+              
+              >
+              </v-img>
+            </div>
+          </v-card-title>
+          <v-card-content class="center-loading">
+            <v-progress-circular
+              v-if="loginModal"
+              :size="50"
+              :width="5"
+              indeterminate
+              color="success"
+            ></v-progress-circular>
+          </v-card-content>
+          <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
+        </v-card>
+      </v-dialog>
+
+      <v-dialog v-model="dialog" width="600px" persistent>
+        <v-card>
+          <v-card-title class="text-center">
+            <span class="text-h5">ข้อตกลงในการให้บริการ</span>
+          </v-card-title>
+          <v-divider></v-divider>
+          <v-card-text
+            >Let Google help apps determine location. This means sending
+            anonymous location data to Google, even when no apps are
+            running.</v-card-text
+          >
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="green darken-1" text @click="disagree">
+              ยกเลิก
+            </v-btn>
+            <v-btn class="btn-agree" color="white" text @click="register">
+              <span> ยอมรับและสมัครสมาชิก</span>
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </div>
+  </AuthLogin>
 </template>
 <script>
 import router from "@/router";
 import axios from "axios";
+import AuthLogin from "@/components/AuthLogin.vue";
 
 export default {
+  components: {
+    AuthLogin,
+  },
   data() {
     return {
       form: {
@@ -78,12 +127,14 @@ export default {
       },
       showModal: false,
       loading: false,
+      dialog: false,
+      loginModal: false
     };
   },
   methods: {
-    async register() {
+    async checkDuplicate() {
       try {
-        const res = await axios.post("http://localhost:3000/auth/register", {
+        const res = await axios.post("http://localhost:3000/auth/duplicate", {
           name: this.form.name,
           username: this.form.username,
           password: this.form.password,
@@ -91,8 +142,13 @@ export default {
         });
         if (res.status === 201) {
           this.loading = true;
-          this.login();
+          setTimeout(() => {
+            this.loading = false;
+          }, 3000);
         }
+        setTimeout(() => {
+          this.dialog = true;
+        }, 3000);
       } catch (error) {
         if (error.response.status === 409) {
           console.log(error);
@@ -114,14 +170,43 @@ export default {
         this.$store.dispatch("auth/login", user);
         if (res.status !== 404) {
           setTimeout(() => {
-            this.loading = false;
+            this.loginModal = false;
             router.push("/");
-          }, 2000);
+            this.$store.dispatch("auth/newUser");
+          }, 3000);
         }
       } catch (e) {
         console.log(e);
       }
     },
+
+    disagree(){
+      this.dialog = false
+      router.push("/");
+    },
+    async register(){
+      try {
+        this.dialog = false
+        const res = await axios.post("http://localhost:3000/auth/register", {
+          name: this.form.name,
+          username: this.form.username,
+          password: this.form.password,
+          roles: this.form.roles,
+        });
+        if (res.status === 201) {
+          this.loginModal = true;
+          setTimeout(() => {
+            this.login()
+          }, 3000);
+        }
+
+      } catch (error) {
+        if (error.response.status === 409) {
+          console.log(error);
+          this.showModal = true;
+        }
+      }
+    }
   },
 };
 </script>
@@ -139,12 +224,18 @@ export default {
 }
 .btn-bg {
   background-color: #00af70;
+  border-radius: 10px;
+
 }
 .font-size {
   font-size: 5rem;
 }
 
-.img-size{
+.img-size {
   width: 100px;
+}
+.btn-agree{
+  border-radius: 10px;
+  background-color: #00af70;
 }
 </style>

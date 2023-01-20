@@ -24,17 +24,16 @@
               </v-img>
             </div>
           </v-card-title>
-          <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
-          <v-card class="center-loading">
+          <v-card-content class="center-loading">
             <v-progress-circular
               v-if="loading"
               :size="50"
               :width="5"
               indeterminate
               color="success"
-              class="my-4"
             ></v-progress-circular>
-          </v-card>
+          </v-card-content>
+          <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
         </v-card>
       </v-dialog>
 
@@ -93,7 +92,7 @@ export default {
           setTimeout(() => {
             router.push("/");
             this.loading = false;
-          }, 2000);
+          }, 3000);
         }
       } catch (e) {
         this.loading = false;
