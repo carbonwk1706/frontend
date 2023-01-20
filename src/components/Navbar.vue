@@ -58,6 +58,22 @@
       ตะกร้าสินค้า
     </v-btn>
   </v-toolbar>
+
+  <v-dialog v-model="loading" max-width="350">
+    <v-card>
+      <v-card-text class="text-center">กำลังออกจากระบบ</v-card-text>
+      <v-card class="center-loading">
+        <v-progress-circular
+          v-if="loading"
+          :size="50"
+          :width="5"
+          indeterminate
+          color="success"
+          class="my-4"
+        ></v-progress-circular>
+      </v-card>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 import router from "../router";
@@ -68,11 +84,16 @@ export default {
       fullName: "John Doe",
       email: "john.doe@doe.com",
     },
-    toggle: false
+    toggle: false,
+    loading: false
   }),
   methods: {
     logout() {
-      this.$store.dispatch("auth/logout");
+      this.loading = true;
+      setTimeout(()=>{
+        this.$store.dispatch("auth/logout");
+        this.loading = false
+      },2000)
     },
     goToHome(){
       router.push("/")
@@ -114,5 +135,10 @@ export default {
 .app_bar {
   background-image: linear-gradient(#00af70, #37c13d);
   color: #ffff;
+}
+.center-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
