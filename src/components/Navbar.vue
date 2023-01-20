@@ -64,7 +64,7 @@
       <v-card-title class="center">
         <div class="img-size">
           <v-img
-          src="https://media.tenor.com/6Hgtua4dLdMAAAAi/pedestrian-person-walking.gif"
+          src="https://media.tenor.com/oGpz_hpmmTQAAAAi/cute.gif"
   
           >
           </v-img>
@@ -156,6 +156,6 @@ export default {
   align-items: center;
 }
 .img-size{
-  width: 200px;
+  width: 100px;
 }
 </style>

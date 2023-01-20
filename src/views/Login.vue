@@ -18,7 +18,7 @@
           <v-card-title class="center">
             <div class="img-size">
               <v-img
-              src="https://media.tenor.com/6Hgtua4dLdMAAAAi/pedestrian-person-walking.gif"
+              src="https://media.tenor.com/M00Zqk6Dx7EAAAAi/peachcat-goma.gif"
               
               >
               </v-img>
@@ -121,6 +121,6 @@ export default {
   font-size: 5rem;
 }
 .img-size{
-  width: 200px;
+  width: 100px;
 }
 </style>

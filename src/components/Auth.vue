@@ -4,6 +4,15 @@
 
     <v-dialog v-model="showModal" max-width="350" persistent>
       <v-card>
+        <v-card-title class="center">
+          <div class="img-size">
+            <v-img
+            src="https://media.tenor.com/mvTL8ggxk2kAAAAC/chibicat-chibicatt.gif"
+            
+            >
+            </v-img>
+          </div>
+        </v-card-title>
         <v-card-text class="text-center">กรุณาล๊อคอินก่อนเข้าใช้หน้านี้</v-card-text>
         <v-card-actions class="center">
           <v-btn color="white" class="btn-bg" text @click="goToLoginAndClose"> OK </v-btn>
@@ -56,6 +65,9 @@ export default {
 }
 .btn-bg {
   background-color: #00af70;
+}
+.img-size{
+  width: 100px;
 }
 
 </style>
