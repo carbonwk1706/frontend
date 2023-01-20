@@ -11,9 +11,11 @@
     </v-btn>
     <v-menu v-if="isLogin" offset-y>
       <template v-slot:activator="{ props }">
-        <v-btn class="header_action" v-bind="props">
-          <v-icon class="mr-2">mdi-login</v-icon>
-          สวัสดี {{ getName() }}
+        <v-btn class="header_action" v-bind="props" @click="toggleMenu">
+          <v-icon class="mr-2">mdi-account</v-icon>
+          <span> สวัสดี {{ getName() }}</span>
+          <v-icon v-if="!toggle">mdi-menu-down</v-icon>
+          <v-icon v-else>mdi-menu-up</v-icon>
         </v-btn>
       </template>
       <v-card>
@@ -38,15 +40,28 @@
     <v-toolbar-title class="text-center">EBOOK</v-toolbar-title>
 
     <v-spacer></v-spacer>
-    <v-btn class="header_action px-2 mx-2 v-btn--outline" color="white" @click="goToWishlist">
+    <v-btn
+      class="header_action px-2 mx-2 v-btn--outline"
+      color="white"
+      @click="goToWishlist"
+    >
       <v-icon class="mr-2">mdi-heart</v-icon>
       รายการโปรด
     </v-btn>
-    <v-btn class="header_action px-2 mx-2 v-btn--outline" color="white" @click="goToCart">
+    <v-btn
+      class="header_action px-2 mx-2 v-btn--outline"
+      color="white"
+      @click="goToCart"
+    >
       <v-icon class="mr-2">mdi-cart</v-icon>
       ตะกร้าสินค้า
     </v-btn>
-    <v-btn class="header_action px-2 mx-2 v-btn--outline" color="white" v-if="isLogin" @click="logout">
+    <v-btn
+      class="header_action px-2 mx-2 v-btn--outline"
+      color="white"
+      v-if="isLogin"
+      @click="logout"
+    >
       <v-icon class="mr-2">mdi-logout</v-icon>
       Logout
     </v-btn>
@@ -61,6 +76,7 @@ export default {
       fullName: "John Doe",
       email: "john.doe@doe.com",
     },
+    toggle: false
   }),
   methods: {
     logout() {
@@ -78,6 +94,9 @@ export default {
     getName() {
       return this.$store.getters["auth/getName"];
     },
+    toggleMenu(){
+      this.toggle = !this.toggle
+    }
   },
   computed: {
     isLogin() {
