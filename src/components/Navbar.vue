@@ -37,8 +37,9 @@
       </v-card>
     </v-menu>
     <v-spacer></v-spacer>
-    <v-toolbar-title class="text-center">EBOOK</v-toolbar-title>
-
+    <v-btn @click="goToHome">
+      <v-toolbar-title class="text-center">EBOOK</v-toolbar-title>
+    </v-btn>
     <v-spacer></v-spacer>
     <v-btn
       class="header_action px-2 mx-2 v-btn--outline"
@@ -81,6 +82,9 @@ export default {
   methods: {
     logout() {
       this.$store.dispatch("auth/logout");
+    },
+    goToHome(){
+      router.push("/")
     },
     goToLogin() {
       router.push("/login");
