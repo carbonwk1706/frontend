@@ -32,6 +32,12 @@ export default {
     },
     getName(state){
       return state.user.name.toString()
+    },
+    getUsername(state){
+      return state.user.username.toString()
+    },
+    getId(state){
+      return state.user._id.toString()
     }
   },
 };
