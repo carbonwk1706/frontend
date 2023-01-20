@@ -1,8 +1,8 @@
 <template>
-  <v-app-bar class="app_bar" color="primary" dark>
+  <v-app-bar class="app_bar">
     <v-btn class="header_action" color="white" v-if="!isLogin" @click="goToLogin">
       <v-icon class="mr-2">mdi-login</v-icon>
-      LOGIN / REGISTER
+      ล็อกอินเข้าสู่ระบบ / สมัครสมาชิก
     </v-btn>
     <span class="ml-3" v-if="isLogin">{{ getName() }}</span>
     <v-spacer></v-spacer>
@@ -10,11 +10,11 @@
     <v-spacer></v-spacer>
     <v-btn class="header_action" color="white" @click="goToWishlist">
       <v-icon class="mr-2">mdi-heart</v-icon>
-      Wishlist
+      รายการโปรด
     </v-btn>
     <v-btn class="header_action" color="white"  @click="goToCart">
       <v-icon class="mr-2">mdi-cart</v-icon>
-      Cart
+      ตะกร้าสินค้า
     </v-btn>
     <v-btn class="header_action" color="white" v-if="isLogin" @click="logout">
       <v-icon class="mr-2">mdi-logout</v-icon>
