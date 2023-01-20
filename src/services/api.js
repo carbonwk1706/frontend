@@ -9,14 +9,14 @@ const api = axios.create({
   },
 });
 api.interceptors.request.use(
-  req => {
+  (req) => {
     const token = localStorage.getItem("token");
     if (token) {
-      req.headers.common.Authorization = "Bearer " + token;
+      req.headers["Authorization"] = "Bearer " + token;
     }
     return req;
   },
-  error => {
+  (error) => {
     return Promise.reject(error);
   }
 );
@@ -32,11 +32,10 @@ api.interceptors.response.use(
     if (error.response.status) {
       switch (error.response.status) {
         case 400:
-          console.log("Status 400");
           break;
         case 401:
           alert("session expired");
-          store.dispatch("auth/login")
+          store.dispatch("auth/logout");
           router.replace({
             path: "/login",
             query: { redirect: router.currentRoute.fullPath },
@@ -49,7 +48,7 @@ api.interceptors.response.use(
           });
           break;
         case 404:
-          console.log("page not exist");
+          alert("page not exist");
           break;
         case 502:
           setTimeout(() => {

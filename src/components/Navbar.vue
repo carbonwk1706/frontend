@@ -29,9 +29,11 @@
               {{ getUsername() }}
             </p>
             <v-divider class="my-3"></v-divider>
-            <v-btn rounded variant="text"> แก้ไขโปรไฟล์ </v-btn>
+            <v-btn rounded variant="text">
+              แก้ไขโปรไฟล์
+            </v-btn>
             <v-divider class="my-3"></v-divider>
-            <v-btn rounded variant="text"  @click="logout"> ออกจากระบบ </v-btn>
+            <v-btn rounded variant="text" @click="logout"> ออกจากระบบ </v-btn>
           </div>
         </v-card-text>
       </v-card>
@@ -63,10 +65,7 @@
     <v-card>
       <v-card-title class="center">
         <div class="img-size">
-          <v-img
-          src="https://media.tenor.com/oGpz_hpmmTQAAAAi/cute.gif"
-  
-          >
+          <v-img src="https://media.tenor.com/oGpz_hpmmTQAAAAi/cute.gif">
           </v-img>
         </div>
       </v-card-title>
@@ -86,6 +85,7 @@
 </template>
 <script>
 import router from "../router";
+
 export default {
   data: () => ({
     user: {
@@ -94,18 +94,18 @@ export default {
       email: "john.doe@doe.com",
     },
     toggle: false,
-    loading: false
+    loading: false,
   }),
   methods: {
     logout() {
       this.loading = true;
-      setTimeout(()=>{
+      setTimeout(() => {
         this.$store.dispatch("auth/logout");
-        this.loading = false
-      },2000)
+        this.loading = false;
+      }, 2000);
     },
-    goToHome(){
-      router.push("/")
+    goToHome() {
+      router.push("/");
     },
     goToLogin() {
       router.push("/login");
@@ -119,15 +119,15 @@ export default {
     getName() {
       return this.$store.getters["auth/getName"];
     },
-    getUsername(){
+    getUsername() {
       return this.$store.getters["auth/getUsername"];
     },
-    getId(){
+    getId() {
       return this.$store.getters["auth/getId"];
     },
-    toggleMenu(){
-      this.toggle = !this.toggle
-    }
+    toggleMenu() {
+      this.toggle = !this.toggle;
+    },
   },
   computed: {
     isLogin() {
@@ -155,7 +155,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.img-size{
+.img-size {
   width: 100px;
 }
 </style>

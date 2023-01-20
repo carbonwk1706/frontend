@@ -12,9 +12,7 @@
         label="Password"
         type="password"
       ></v-text-field>
-      <v-btn v-if="!this.$store.getters['auth/isLogin']" type="submit"
-        >Register</v-btn
-      >
+      <v-btn type="submit">Register</v-btn>
     </v-form>
 
     <v-dialog v-model="showModal" max-width="350">
@@ -57,7 +55,7 @@ export default {
         name: "",
         username: "",
         password: "",
-        roles: "User",
+        roles: ["USER"],
       },
       showModal: false,
       loading: false,
@@ -77,16 +75,35 @@ export default {
         console.log(res);
         if (res.status === 201) {
           this.loading = true;
-          this.$store.dispatch("auth/login", this.form);
+          this.login();
+        }
+      } catch (error) {
+        if (error.response.status === 409) {
+          console.log(error);
+          this.showModal = true;
+        }
+      }
+    },
+
+    async login() {
+      try {
+        const res = await axios.post("http://localhost:3000/auth/login", {
+          username: this.form.username,
+          password: this.form.password,
+        });
+        const user = res.data.user;
+        const token = res.data.token;
+        localStorage.setItem("token", token);
+        localStorage.setItem("user", JSON.stringify(user));
+        this.$store.dispatch("auth/login", user);
+        if (res.status !== 404) {
           setTimeout(() => {
             this.loading = false;
             router.push("/");
           }, 2000);
         }
-      } catch (error) {
-        if (error.response.status === 409) {
-          this.showModal = true;
-        }
+      } catch (e) {
+        console.log(e);
       }
     },
   },
