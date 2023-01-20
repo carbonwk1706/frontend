@@ -1,15 +1,17 @@
 <template>
- 
-<h1 class="text-center">Home</h1>
+  <ShopTable />
 </template>
 
 <script>
-import { defineComponent } from 'vue';
+import { defineComponent } from "vue";
+import ShopTable from "../components/Shop/ShopTable.vue";
 
 // Components
 
 export default defineComponent({
-  name: 'HomeView',
-
+  name: "HomeView",
+  components: {
+    ShopTable,
+  },
 });
 </script>
