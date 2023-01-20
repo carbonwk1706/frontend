@@ -8,7 +8,7 @@
           v-model="form.password"
           type="password"
         />
-        <v-btn type="submit" v-if="!this.$store.getters['auth/isLogin']"
+        <v-btn type="submit"
           >Log In</v-btn
         >
       </v-form>
@@ -59,9 +59,9 @@
   </AuthLogin>
 </template>
 <script>
-import api from "../services/api";
 import router from "../router";
 import AuthLogin from "../components/AuthLogin.vue";
+import axios from "axios";
 export default {
   components: {
     AuthLogin,
@@ -80,7 +80,7 @@ export default {
     async login() {
       try {
         this.loading = true;
-        const res = await api.post("/auth/login", {
+        const res = await axios.post("http://localhost:3000/auth/login", {
           username: this.form.username,
           password: this.form.password,
         });
