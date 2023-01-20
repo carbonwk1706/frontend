@@ -24,12 +24,12 @@
             <v-avatar color="brown">
               <span class="text-h5">{{ user.initials }}</span>
             </v-avatar>
-            <h3>{{ user.fullName }}</h3>
+            <h3>{{ getName() }}</h3>
             <p class="text-caption mt-1">
-              {{ user.email }}
+              {{ getUsername() }}
             </p>
             <v-divider class="my-3"></v-divider>
-            <v-btn rounded variant="text"> Edit Account </v-btn>
+            <v-btn rounded variant="text"> แก้ไขโปรไฟล์ </v-btn>
             <v-divider class="my-3"></v-divider>
             <v-btn rounded variant="text"> Disconnect </v-btn>
           </div>
@@ -93,6 +93,9 @@ export default {
     },
     getName() {
       return this.$store.getters["auth/getName"];
+    },
+    getUsername(){
+      return this.$store.getters["auth/getUsername"];
     },
     toggleMenu(){
       this.toggle = !this.toggle
