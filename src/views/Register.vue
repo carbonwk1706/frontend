@@ -15,6 +15,8 @@
       <v-btn type="submit">Register</v-btn>
     </v-form>
 
+
+
     <v-dialog v-model="showModal" max-width="350">
       <v-card>
         <v-card-title class="headline center">
@@ -33,15 +35,32 @@
       </v-card>
     </v-dialog>
 
-    <div class="center-loading">
-      <v-progress-circular
-        v-if="loading"
-        :size="70"
-        :width="7"
-        indeterminate
-        color="primary"
-      ></v-progress-circular>
-    </div>
+    <v-dialog v-model="loading" max-width="350">
+      <v-card>
+        <v-card-title class="center">
+          <div class="img-size">
+            <v-img
+            src="https://media.tenor.com/YQ2q2NtGs0UAAAAM/kitty-cat.gif"
+            
+            >
+            </v-img>
+          </div>
+        </v-card-title>
+        <v-card-text class="text-center">สมัครสมาชิกสำเร็จ</v-card-text>
+        <v-card class="center-loading">
+          <v-progress-circular
+            v-if="loading"
+            :size="50"
+            :width="5"
+            indeterminate
+            color="success"
+            class="my-4"
+          ></v-progress-circular>
+        </v-card>
+      </v-card>
+    </v-dialog>
+
+
   </div>
 </template>
 <script>
@@ -70,9 +89,6 @@ export default {
           password: this.form.password,
           roles: this.form.roles,
         });
-        console.log("User Registered Successfully");
-        console.log(this.form);
-        console.log(res);
         if (res.status === 201) {
           this.loading = true;
           this.login();
@@ -126,5 +142,9 @@ export default {
 }
 .font-size {
   font-size: 5rem;
+}
+
+.img-size{
+  width: 100px;
 }
 </style>
