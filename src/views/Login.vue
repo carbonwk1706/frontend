@@ -92,7 +92,7 @@ export default {
           setTimeout(() => {
             router.push("/");
             this.loading = false;
-          }, 3000);
+          }, 2000);
         }
       } catch (e) {
         this.loading = false;
