@@ -37,23 +37,6 @@
         </v-card>
       </v-dialog>
 
-      <v-dialog v-model="error" max-width="350">
-        <v-card>
-          <v-card-title class="headline center">
-            <v-icon class="font-size" color="#D10000"
-              >mdi-close-circle-outline</v-icon
-            >
-          </v-card-title>
-          <v-card-text class="text-center"
-            >Username หรือ Password ไม่ถูกต้อง</v-card-text
-          >
-          <v-card-actions class="center">
-            <v-btn color="white" class="btn-bg" text @click="error = false">
-              OK
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
     </div>
   </AuthLogin>
 </template>
@@ -72,17 +55,16 @@ export default {
         password: "",
       },
       loading: false,
-      error: false,
     };
   },
   methods: {
     async login() {
       try {
-        this.loading = true;
         const res = await axios.post("http://localhost:3000/auth/login", {
           username: this.form.username,
           password: this.form.password,
         });
+        this.loading = true;
         const user = res.data.user;
         const token = res.data.token;
         localStorage.setItem("token", token);
@@ -96,9 +78,18 @@ export default {
         }
       } catch (e) {
         this.loading = false;
-        this.error = true;
+        this.showAlert()
       }
     },
+    showAlert() {
+      this.$swal({
+        title: "Oops...",
+        confirmButtonColor: '#00af70',
+        text: "Username หรือ Password ไม่ถูกต้อง ! ",
+        icon: "error",
+        button: "OK",
+      });
+    }
   },
 };
 </script>
@@ -112,12 +103,6 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
-}
-.btn-bg {
-  background-color: #00af70;
-}
-.font-size {
-  font-size: 5rem;
 }
 .img-size{
   width: 100px;

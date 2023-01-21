@@ -16,24 +16,6 @@
         <v-btn type="submit">Register</v-btn>
       </v-form>
 
-      <v-dialog v-model="showModal" max-width="350">
-        <v-card>
-          <v-card-title class="headline center">
-            <v-icon class="font-size" color="#F8BB86"
-              >mdi-alert-circle-outline</v-icon
-            >
-          </v-card-title>
-          <v-card-text class="text-center"
-            >Username is already taken.</v-card-text
-          >
-          <v-card-actions class="center">
-            <v-btn color="white" class="btn-bg" text @click="showModal = false">
-              OK
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-
       <v-dialog v-model="loading" max-width="350">
         <v-card>
           <v-card-title class="center">
@@ -123,7 +105,6 @@ export default {
         password: "",
         roles: ["USER"],
       },
-      showModal: false,
       loading: false,
       dialog: false,
       loginModal: false,
@@ -149,8 +130,7 @@ export default {
         }, 2000);
       } catch (error) {
         if (error.response.status === 409) {
-          console.log(error);
-          this.showModal = true;
+          this.showAlert()
         }
       }
     },
@@ -193,16 +173,23 @@ export default {
         });
         if (res.status === 201) {
           this.loginModal = true;
-
           this.login();
         }
       } catch (error) {
         if (error.response.status === 409) {
-          console.log(error);
-          this.showModal = true;
+          this.showAlert()
         }
       }
     },
+    showAlert() {
+      this.$swal({
+        title: "ลองใหม่อีกครั้ง",
+        confirmButtonColor: '#00af70',
+        text: "Username นี้ถูกใช้ไปแล้ว",
+        icon: "warning",
+        button: "OK",
+      });
+    }
   },
 };
 </script>
