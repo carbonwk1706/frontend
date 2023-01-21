@@ -5,13 +5,18 @@
         สมัครสมาชิก
       </v-card-title>
       <v-divider></v-divider>
-      <v-card-text class="text-center">
-        กรุณาใส่ข้อมูลที่มีเครื่อง <span style="color:red">*</span> ให้ครบถ้วน
+      <v-card-text class="text-center font-color">
+        กรุณาใส่ข้อมูลที่มีเครื่อง <span style="color: red">*</span> ให้ครบถ้วน
       </v-card-text>
       <v-container>
-        <v-form @submit.prevent="checkDuplicate">
+        <v-form
+          ref="form"
+          v-model="valid"
+          lazy-validation
+          @submit.prevent="checkDuplicate"
+        >
           <v-card-text class="pa-2">
-            Name <span style="color:red">*</span>
+            Name <span style="color: red">*</span>
           </v-card-text>
           <v-text-field
             v-model="form.name"
@@ -21,7 +26,8 @@
             :rules="nameRules"
           ></v-text-field>
           <v-card-text class="pa-2">
-            Username <span style="color:red">*</span> <span style="color:gray">4-32 chars [A-z, 0-9, _-@.]</span>
+            Username <span style="color: red">*</span>
+            <span style="color: gray">4-32 chars [A-z, 0-9, _-@.]</span>
           </v-card-text>
           <v-text-field
             v-model="form.username"
@@ -31,7 +37,8 @@
             :rules="usernameRules"
           ></v-text-field>
           <v-card-text class="pa-2">
-            Password <span style="color:red">*</span> <span style="color:gray">ระบุอย่างน้อย 8 ตัว</span>
+            Password <span style="color: red">*</span>
+            <span style="color: gray">ระบุอย่างน้อย 8 ตัว</span>
           </v-card-text>
           <v-text-field
             v-model="form.password"
@@ -41,25 +48,24 @@
             placeholder="Password"
             :rules="passwordRules"
           ></v-text-field>
-        </v-form>
 
-        <v-checkbox
-          v-model="terms"
-          color="success"
-          label="ฉันยอมรับข้อตกลงและเงื่อนไข"
-        ></v-checkbox>
+          <v-checkbox
+            v-model="terms"
+            color="success"
+            label="ฉันยอมรับข้อตกลงและเงื่อนไข"
+            :rules="[(v) => !!v || 'กรุณากดตกลกเพื่อส่งข้อมูลสมัครสมาชิก!']"
+          ></v-checkbox>
+        </v-form>
       </v-container>
       <v-divider></v-divider>
       <v-card-actions>
-        <v-btn variant="text" @click="goToLogin">
-          ยกเลิก
-        </v-btn>
+        <v-btn variant="text" @click="goToLogin"> ยกเลิก </v-btn>
         <v-spacer></v-spacer>
         <div class="btn-bg">
           <v-btn type="submit" color="white" @click="checkDuplicate"
-          >ส่งข้อมูล
-          <v-icon icon="mdi-chevron-right" end></v-icon>
-        </v-btn>
+            >ส่งข้อมูล
+            <v-icon icon="mdi-chevron-right" end></v-icon>
+          </v-btn>
         </div>
       </v-card-actions>
     </v-card>
@@ -143,6 +149,7 @@ export default {
   },
   data() {
     return {
+      valid: true,
       form: {
         name: "",
         username: "",
@@ -154,16 +161,23 @@ export default {
       loginModal: false,
       terms: false,
       nameRules: [(v) => !!v || "กรุณากรอกชื่อผู้ใช้"],
-      usernameRules: [(v) => !!v || "กรุณากรอก Username"],
-      passwordRules: [(v) => !!v || "กรุณากรอก Password", v => (v && v.length >= 8) || 'ระบุอย่างน้อย 8 ตัว'],
+      usernameRules: [
+        (v) => !!v || "กรุณากรอก Username",
+        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      ],
+      passwordRules: [
+        (v) => !!v || "กรุณากรอก Password",
+        (v) => (v && v.length >= 8) || "ระบุอย่างน้อย 8 ตัว",
+      ],
     };
   },
   methods: {
     async checkDuplicate() {
-      if(!this.form.name || !this.form.username || !this.form.password){
-        this.showAlert("กรุณากรอกข้อมูลให้ครบถ้วน")
-      }
-      else if (this.terms) {
+      const { valid } = await this.$refs.form.validate();
+
+      if (!valid) {
+        this.showAlert("กรุณากรอกข้อมูลให้ถูกต้อง");
+      } else if (this.terms) {
         try {
           const res = await axios.post("http://localhost:3000/auth/duplicate", {
             name: this.form.name,
@@ -213,10 +227,10 @@ export default {
 
     disagree() {
       this.dialog = false;
-      router.push("/");
+      // router.push("/");
     },
-    goToLogin(){
-      router.push("/login")
+    goToLogin() {
+      router.push("/login");
     },
     async register() {
       try {
@@ -270,5 +284,9 @@ export default {
 .btn-agree {
   border-radius: 10px;
   background-color: #00af70;
+}
+.font-color {
+  color: #00af70;
+  font-size: 16px;
 }
 </style>
