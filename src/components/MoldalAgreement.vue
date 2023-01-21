@@ -41,6 +41,18 @@ export default {
   methods:{
     noNewUser(){
       this.$store.dispatch("auth/noNewUser");
+      this.showAlert()
+    },
+    showAlert() {
+      this.$swal({
+        title: "บันทึกข้อมูลสำเร็จ",
+        text: "ยินดีต้องรับ " + this.getName(),
+        icon: "success",
+        button: "OK",
+      });
+    },
+    getName() {
+      return this.$store.getters["auth/getName"];
     }
   },
   computed: {
