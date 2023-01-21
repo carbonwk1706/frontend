@@ -5,23 +5,41 @@
         สมัครสมาชิก
       </v-card-title>
       <v-divider></v-divider>
+      <v-card-text class="text-center">
+        กรุณาใส่ข้อมูลที่มีเครื่อง <span style="color:red">*</span> ให้ครบถ้วน
+      </v-card-text>
       <v-container>
         <v-form @submit.prevent="checkDuplicate">
+          <v-card-text class="pa-2">
+            Name <span style="color:red">*</span>
+          </v-card-text>
           <v-text-field
             v-model="form.name"
-            label="Name"
-            variant="underlined"
+            variant="outlined"
+            required
+            placeholder="Name"
+            :rules="nameRules"
           ></v-text-field>
+          <v-card-text class="pa-2">
+            Username <span style="color:red">*</span> <span style="color:gray">4-32 chars [A-z, 0-9, _-@.]</span>
+          </v-card-text>
           <v-text-field
             v-model="form.username"
-            label="Username"
-            variant="underlined"
+            variant="outlined"
+            required
+            placeholder="Username"
+            :rules="usernameRules"
           ></v-text-field>
+          <v-card-text class="pa-2">
+            Password <span style="color:red">*</span> <span style="color:gray">ระบุอย่างน้อย 8 ตัว</span>
+          </v-card-text>
           <v-text-field
             v-model="form.password"
-            label="Password"
-            variant="underlined"
+            variant="outlined"
             type="password"
+            required
+            placeholder="Password"
+            :rules="passwordRules"
           ></v-text-field>
         </v-form>
 
@@ -33,11 +51,16 @@
       </v-container>
       <v-divider></v-divider>
       <v-card-actions>
+        <v-btn variant="text" @click="goToLogin">
+          ยกเลิก
+        </v-btn>
         <v-spacer></v-spacer>
-        <v-btn type="submit" color="success" @click="checkDuplicate"
-          >สมัครสมาชิก
+        <div class="btn-bg">
+          <v-btn type="submit" color="white" @click="checkDuplicate"
+          >ส่งข้อมูล
           <v-icon icon="mdi-chevron-right" end></v-icon>
         </v-btn>
+        </div>
       </v-card-actions>
     </v-card>
 
@@ -130,11 +153,17 @@ export default {
       dialog: false,
       loginModal: false,
       terms: false,
+      nameRules: [(v) => !!v || "กรุณากรอกชื่อผู้ใช้"],
+      usernameRules: [(v) => !!v || "กรุณากรอก Username"],
+      passwordRules: [(v) => !!v || "กรุณากรอก Password", v => (v && v.length >= 8) || 'ระบุอย่างน้อย 8 ตัว'],
     };
   },
   methods: {
     async checkDuplicate() {
-      if (this.terms) {
+      if(!this.form.name || !this.form.username || !this.form.password){
+        this.showAlert("กรุณากรอกข้อมูลให้ครบถ้วน")
+      }
+      else if (this.terms) {
         try {
           const res = await axios.post("http://localhost:3000/auth/duplicate", {
             name: this.form.name,
@@ -153,7 +182,7 @@ export default {
           }, 2000);
         } catch (error) {
           if (error.response.status === 409) {
-            this.showAlert();
+            this.showAlert("Username นี้ถูกใช้ไปแล้ว");
           }
         }
       }
@@ -186,6 +215,9 @@ export default {
       this.dialog = false;
       router.push("/");
     },
+    goToLogin(){
+      router.push("/login")
+    },
     async register() {
       try {
         this.dialog = false;
@@ -201,15 +233,14 @@ export default {
         }
       } catch (error) {
         if (error.response.status === 409) {
-          this.showAlert();
+          this.showAlert("Username นี้ถูกใช้ไปแล้ว");
         }
       }
     },
-    showAlert() {
+    showAlert(text) {
       this.$swal({
-        title: "ลองใหม่อีกครั้ง",
         confirmButtonColor: "#00af70",
-        text: "Username นี้ถูกใช้ไปแล้ว",
+        text: text,
         icon: "warning",
         button: "OK",
       });
@@ -233,10 +264,6 @@ export default {
   background-color: #00af70;
   border-radius: 10px;
 }
-.font-size {
-  font-size: 5rem;
-}
-
 .img-size {
   width: 100px;
 }
