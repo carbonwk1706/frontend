@@ -1,8 +1,9 @@
 <template>
   <AuthLogin>
-      <v-sheet>
-        <v-card class="mx-auto px-6 py-8" max-width="450">
-          <v-form @submit.prevent="login">
+    <v-sheet>
+      <v-card class="mx-auto px-6 py-8" max-width="450">
+        <v-form @submit.prevent="login">
+          <v-container>
             <v-text-field
               label="Username"
               variant="outlined"
@@ -20,33 +21,49 @@
               v-model="form.password"
               :rules="passwordRules"
             ></v-text-field>
-            <v-btn type="submit" block color="success" size="large" variant="elevated">Sign In</v-btn>
-          </v-form>
-  
-          <v-dialog v-model="loading" max-width="350">
-            <v-card>
-              <v-card-title class="center">
-                <div class="img-size">
-                  <v-img
-                    src="https://media.tenor.com/M00Zqk6Dx7EAAAAi/peachcat-goma.gif"
-                  >
-                  </v-img>
-                </div>
-              </v-card-title>
-              <div class="center-loading">
-                <v-progress-circular
-                  v-if="loading"
-                  :size="50"
-                  :width="5"
-                  indeterminate
-                  color="success"
-                ></v-progress-circular>
+            <v-btn
+              type="submit"
+              block
+              color="success"
+              size="large"
+              variant="elevated"
+              >เข้าสู่ระบบ</v-btn
+            >
+          </v-container>
+          <v-divider></v-divider>
+          <v-card-actions>
+            <v-spacer></v-spacer>
+            <v-btn color="success" @click="goToRegister"> 
+              สมัครสมาชิก
+              <v-icon icon="mdi-chevron-right" end></v-icon>
+            </v-btn>
+          </v-card-actions>
+        </v-form>
+
+        <v-dialog v-model="loading" max-width="350">
+          <v-card>
+            <v-card-title class="center">
+              <div class="img-size">
+                <v-img
+                  src="https://media.tenor.com/M00Zqk6Dx7EAAAAi/peachcat-goma.gif"
+                >
+                </v-img>
               </div>
-              <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
-            </v-card>
-          </v-dialog>
-        </v-card>
-      </v-sheet>
+            </v-card-title>
+            <div class="center-loading">
+              <v-progress-circular
+                v-if="loading"
+                :size="50"
+                :width="5"
+                indeterminate
+                color="success"
+              ></v-progress-circular>
+            </div>
+            <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
+          </v-card>
+        </v-dialog>
+      </v-card>
+    </v-sheet>
   </AuthLogin>
 </template>
 <script>
@@ -94,11 +111,13 @@ export default {
               this.loading = false;
             }, 2000);
           }
-        } catch {
-          this.loading = false;
+        } catch(e) {
           this.alertLogin();
         }
       }
+    },
+    goToRegister(){
+      router.push('/register')
     },
     alertLogin() {
       this.$swal({
