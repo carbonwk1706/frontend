@@ -1,91 +1,112 @@
 <template>
   <AuthLogin>
-    <div>
-      <v-form @submit.prevent="checkDuplicate">
-        <v-text-field v-model="form.name" label="Name"></v-text-field>
-        <v-text-field
-          v-model="form.username"
-          label="Username"
-          type="email"
-        ></v-text-field>
-        <v-text-field
-          v-model="form.password"
-          label="Password"
-          type="password"
-        ></v-text-field>
-        <v-btn type="submit">Register</v-btn>
-      </v-form>
+    <v-card class="mx-auto" max-width="450">
+      <v-card-title primary-title class="text-center">
+        สมัครสมาชิก
+      </v-card-title>
+      <v-divider></v-divider>
+      <v-container>
+        <v-form @submit.prevent="checkDuplicate">
+          <v-text-field
+            v-model="form.name"
+            label="Name"
+            variant="underlined"
+          ></v-text-field>
+          <v-text-field
+            v-model="form.username"
+            label="Username"
+            variant="underlined"
+          ></v-text-field>
+          <v-text-field
+            v-model="form.password"
+            label="Password"
+            variant="underlined"
+            type="password"
+          ></v-text-field>
+        </v-form>
 
-      <v-dialog v-model="loading" max-width="350">
-        <v-card>
-          <v-card-title class="center">
-            <div class="img-size">
-              <v-img
-                src="https://media.tenor.com/ItVLtljJHLoAAAAM/sweet-dreams.gif"
-              >
-              </v-img>
-            </div>
-          </v-card-title>
-          <v-card-content class="center-loading">
-            <v-progress-circular
-              v-if="loading"
-              :size="50"
-              :width="5"
-              indeterminate
-              color="success"
-            ></v-progress-circular>
-          </v-card-content>
-          <v-card-text class="text-center">กำลังสมัครสมาชิก</v-card-text>
-        </v-card>
-      </v-dialog>
+        <v-checkbox
+          v-model="terms"
+          color="success"
+          label="ฉันยอมรับข้อตกลงและเงื่อนไข"
+        ></v-checkbox>
+      </v-container>
+      <v-divider></v-divider>
+      <v-card-actions>
+        <v-spacer></v-spacer>
+        <v-btn type="submit" color="success" @click="checkDuplicate"
+          >สมัครสมาชิก
+          <v-icon icon="mdi-chevron-right" end></v-icon>
+        </v-btn>
+      </v-card-actions>
+    </v-card>
 
-      <v-dialog v-model="loginModal" max-width="350">
-        <v-card>
-          <v-card-title class="center">
-            <div class="img-size">
-              <v-img
-                src="https://media.tenor.com/M00Zqk6Dx7EAAAAi/peachcat-goma.gif"
-              >
-              </v-img>
-            </div>
-          </v-card-title>
-          <div class="center-loading">
-            <v-progress-circular
-              v-if="loginModal"
-              :size="50"
-              :width="5"
-              indeterminate
-              color="success"
-            ></v-progress-circular>
+    <v-dialog v-model="loading" max-width="350">
+      <v-card>
+        <v-card-title class="center">
+          <div class="img-size">
+            <v-img
+              src="https://media.tenor.com/ItVLtljJHLoAAAAM/sweet-dreams.gif"
+            >
+            </v-img>
           </div>
-          <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
-        </v-card>
-      </v-dialog>
+        </v-card-title>
+        <div class="center-loading">
+          <v-progress-circular
+            v-if="loading"
+            :size="50"
+            :width="5"
+            indeterminate
+            color="success"
+          ></v-progress-circular>
+        </div>
+        <v-card-text class="text-center">กำลังสมัครสมาชิก</v-card-text>
+      </v-card>
+    </v-dialog>
 
-      <v-dialog v-model="dialog" width="600px" persistent>
-        <v-card>
-          <v-card-title class="text-center">
-            <span class="text-h5">ข้อตกลงในการให้บริการ</span>
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-card-text
-            >Let Google help apps determine location. This means sending
-            anonymous location data to Google, even when no apps are
-            running.</v-card-text
-          >
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="green darken-1" text @click="disagree">
-              ยกเลิก
-            </v-btn>
-            <v-btn class="btn-agree" color="white" text @click="register">
-              <span> ยอมรับและสมัครสมาชิก</span>
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </div>
+    <v-dialog v-model="loginModal" max-width="350">
+      <v-card>
+        <v-card-title class="center">
+          <div class="img-size">
+            <v-img
+              src="https://media.tenor.com/M00Zqk6Dx7EAAAAi/peachcat-goma.gif"
+            >
+            </v-img>
+          </div>
+        </v-card-title>
+        <div class="center-loading">
+          <v-progress-circular
+            v-if="loginModal"
+            :size="50"
+            :width="5"
+            indeterminate
+            color="success"
+          ></v-progress-circular>
+        </div>
+        <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
+      </v-card>
+    </v-dialog>
+
+    <v-dialog v-model="dialog" width="600px" persistent>
+      <v-card>
+        <v-card-title class="text-center">
+          <span class="text-h5">ข้อตกลงในการให้บริการ</span>
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-card-text
+          >Let Google help apps determine location. This means sending anonymous
+          location data to Google, even when no apps are running.</v-card-text
+        >
+        <v-divider></v-divider>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="green darken-1" text @click="disagree"> ยกเลิก </v-btn>
+          <v-btn class="btn-agree" color="white" text @click="register">
+            <span> ยอมรับและสมัครสมาชิก</span>
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </AuthLogin>
 </template>
 <script>
@@ -108,29 +129,32 @@ export default {
       loading: false,
       dialog: false,
       loginModal: false,
+      terms: false,
     };
   },
   methods: {
     async checkDuplicate() {
-      try {
-        const res = await axios.post("http://localhost:3000/auth/duplicate", {
-          name: this.form.name,
-          username: this.form.username,
-          password: this.form.password,
-          roles: this.form.roles,
-        });
-        if (res.status === 201) {
-          this.loading = true;
+      if (this.terms) {
+        try {
+          const res = await axios.post("http://localhost:3000/auth/duplicate", {
+            name: this.form.name,
+            username: this.form.username,
+            password: this.form.password,
+            roles: this.form.roles,
+          });
+          if (res.status === 201) {
+            this.loading = true;
+            setTimeout(() => {
+              this.loading = false;
+            }, 2000);
+          }
           setTimeout(() => {
-            this.loading = false;
+            this.dialog = true;
           }, 2000);
-        }
-        setTimeout(() => {
-          this.dialog = true;
-        }, 2000);
-      } catch (error) {
-        if (error.response.status === 409) {
-          this.showAlert()
+        } catch (error) {
+          if (error.response.status === 409) {
+            this.showAlert();
+          }
         }
       }
     },
@@ -177,19 +201,19 @@ export default {
         }
       } catch (error) {
         if (error.response.status === 409) {
-          this.showAlert()
+          this.showAlert();
         }
       }
     },
     showAlert() {
       this.$swal({
         title: "ลองใหม่อีกครั้ง",
-        confirmButtonColor: '#00af70',
+        confirmButtonColor: "#00af70",
         text: "Username นี้ถูกใช้ไปแล้ว",
         icon: "warning",
         button: "OK",
       });
-    }
+    },
   },
 };
 </script>
