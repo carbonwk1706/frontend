@@ -11,7 +11,7 @@ export default defineComponent({
   name: "HomeView",
   components: {
     MoldalAgreement,
-  },
+  }
 });
 </script>
 

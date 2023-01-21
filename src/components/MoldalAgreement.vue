@@ -46,6 +46,7 @@ export default {
     showAlert() {
       this.$swal({
         title: "บันทึกข้อมูลสำเร็จ",
+        confirmButtonColor: '#00af70',
         text: "ยินดีต้องรับ " + this.getName(),
         icon: "success",
         button: "OK",
