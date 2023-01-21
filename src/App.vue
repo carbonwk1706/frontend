@@ -21,7 +21,7 @@ export default {
     showNavbar() {
       return !["/login", "/register"].includes(this.$route.path);
     },
-  },
+  }
 };
 </script>
 <style></style>
