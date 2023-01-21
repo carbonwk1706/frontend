@@ -1,46 +1,47 @@
 <template>
   <AuthLogin>
-    <v-form @submit.prevent="login">
-      <v-text-field
-        label="Username"
-        v-model="form.username"
-        outlined
-        :rules="usernameRules"
-        required
-      />
-      <v-text-field
-        label="Password"
-        v-model="form.password"
-        :rules="passwordRules"
-        outlined
-        type="password"
-        required
-      />
-      <v-btn type="submit">Log In</v-btn>
-    </v-form>
-
-    <v-dialog v-model="loading" max-width="350">
-      <v-card>
-        <v-card-title class="center">
-          <div class="img-size">
-            <v-img
-              src="https://media.tenor.com/M00Zqk6Dx7EAAAAi/peachcat-goma.gif"
-            >
-            </v-img>
+    <v-app>
+      <v-form @submit.prevent="login">
+        <v-text-field
+          label="Username"
+          v-model="form.username"
+          :rules="usernameRules"
+          required
+        ></v-text-field>
+        <v-text-field
+          label="Password"
+          v-model="form.password"
+          :rules="passwordRules"
+          type="password"
+          required
+        ></v-text-field>
+        <v-btn type="submit">Log In</v-btn>
+      </v-form>
+      
+  
+      <v-dialog v-model="loading" max-width="350">
+        <v-card>
+          <v-card-title class="center">
+            <div class="img-size">
+              <v-img
+                src="https://media.tenor.com/M00Zqk6Dx7EAAAAi/peachcat-goma.gif"
+              >
+              </v-img>
+            </div>
+          </v-card-title>
+          <div class="center-loading">
+            <v-progress-circular
+              v-if="loading"
+              :size="50"
+              :width="5"
+              indeterminate
+              color="success"
+            ></v-progress-circular>
           </div>
-        </v-card-title>
-        <div class="center-loading">
-          <v-progress-circular
-            v-if="loading"
-            :size="50"
-            :width="5"
-            indeterminate
-            color="success"
-          ></v-progress-circular>
-        </div>
-        <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
-      </v-card>
-    </v-dialog>
+          <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
+        </v-card>
+      </v-dialog>
+    </v-app>
   </AuthLogin>
 </template>
 <script>
@@ -58,10 +59,8 @@ export default {
         password: "",
       },
       loading: false,
-      usernameRules: [
-        (v) => !!v || "กรุณากรอก Username"
-      ],
-      passwordRules: [(v) => !!v || "กรุณากรอก Password"]
+      usernameRules: [(v) => !!v || "กรุณากรอก Username"],
+      passwordRules: [(v) => !!v || "กรุณากรอก Password"],
     };
   },
   methods: {
@@ -70,11 +69,9 @@ export default {
         this.showAlert("กรุณากรอก Username และ Password ด้วยจ้า");
       } else if (!this.form.username) {
         this.showAlert("กรุณากรอก Username ด้วยจ้า");
-      }
-      else if(!this.form.password){
+      } else if (!this.form.password) {
         this.showAlert("กรุณากรอก Password ด้วยจ้า");
-      } 
-      else {
+      } else {
         try {
           const res = await axios.post("http://localhost:3000/auth/login", {
             username: this.form.username,
@@ -106,14 +103,14 @@ export default {
         button: "OK",
       });
     },
-    showAlert(text){
+    showAlert(text) {
       this.$swal({
         confirmButtonColor: "#00af70",
         text: text,
         icon: "warning",
         button: "OK",
       });
-    }
+    },
   },
 };
 </script>
