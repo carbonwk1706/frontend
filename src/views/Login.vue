@@ -1,16 +1,23 @@
 <template>
   <AuthLogin>
     <div>
-      <v-form @submit.prevent="login">
-        <v-text-field label="Username" v-model="form.username" type="email" />
+      <v-form @submit.prevent="login" lazy-validation>
+        <v-text-field
+          label="Username"
+          v-model="form.username"
+          :rules="usernameRules"
+          outlined
+          required
+        />
         <v-text-field
           label="Password"
           v-model="form.password"
+          :rules="passwordRules"
+          outlined
           type="password"
+          required
         />
-        <v-btn type="submit"
-          >Log In</v-btn
-        >
+        <v-btn type="submit">Log In</v-btn>
       </v-form>
 
       <v-dialog v-model="loading" max-width="350">
@@ -18,8 +25,7 @@
           <v-card-title class="center">
             <div class="img-size">
               <v-img
-              src="https://media.tenor.com/M00Zqk6Dx7EAAAAi/peachcat-goma.gif"
-              
+                src="https://media.tenor.com/M00Zqk6Dx7EAAAAi/peachcat-goma.gif"
               >
               </v-img>
             </div>
@@ -36,7 +42,6 @@
           <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
         </v-card>
       </v-dialog>
-
     </div>
   </AuthLogin>
 </template>
@@ -55,6 +60,11 @@ export default {
         password: "",
       },
       loading: false,
+      usernameRules: [
+        (v) => !!v || "กรุณากรอก Username",
+        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+      ],
+      passwordRules: [(v) => !!v || "กรุณากรอก Password"],
     };
   },
   methods: {
@@ -78,18 +88,18 @@ export default {
         }
       } catch (e) {
         this.loading = false;
-        this.showAlert()
+        this.showAlert();
       }
     },
     showAlert() {
       this.$swal({
         title: "Oops...",
-        confirmButtonColor: '#00af70',
+        confirmButtonColor: "#00af70",
         text: "Username หรือ Password ไม่ถูกต้อง ! ",
         icon: "error",
         button: "OK",
       });
-    }
+    },
   },
 };
 </script>
@@ -104,7 +114,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.img-size{
+.img-size {
   width: 100px;
 }
 </style>
