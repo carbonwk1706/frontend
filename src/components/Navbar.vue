@@ -69,7 +69,7 @@
           </v-img>
         </div>
       </v-card-title>
-      <v-card-content class="center-loading">
+      <div class="center-loading">
         <v-progress-circular
           v-if="loading"
           :size="50"
@@ -77,7 +77,7 @@
           indeterminate
           color="success"
         ></v-progress-circular>
-      </v-card-content>
+      </div>
       <v-card-text class="text-center">กำลังออกจากระบบ</v-card-text>
     </v-card>
   </v-dialog>
