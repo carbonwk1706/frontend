@@ -1,47 +1,52 @@
 <template>
   <AuthLogin>
-    <v-app>
-      <v-form @submit.prevent="login">
-        <v-text-field
-          label="Username"
-          v-model="form.username"
-          :rules="usernameRules"
-          required
-        ></v-text-field>
-        <v-text-field
-          label="Password"
-          v-model="form.password"
-          :rules="passwordRules"
-          type="password"
-          required
-        ></v-text-field>
-        <v-btn type="submit">Log In</v-btn>
-      </v-form>
-      
+      <v-sheet>
+        <v-card class="mx-auto px-6 py-8" max-width="450">
+          <v-form @submit.prevent="login">
+            <v-text-field
+              label="Username"
+              variant="outlined"
+              class="mb-2"
+              required
+              v-model="form.username"
+              :rules="usernameRules"
+            ></v-text-field>
+            <v-text-field
+              label="Password"
+              variant="outlined"
+              class="mb-2"
+              type="password"
+              required
+              v-model="form.password"
+              :rules="passwordRules"
+            ></v-text-field>
+            <v-btn type="submit" block color="success" size="large" variant="elevated">Sign In</v-btn>
+          </v-form>
   
-      <v-dialog v-model="loading" max-width="350">
-        <v-card>
-          <v-card-title class="center">
-            <div class="img-size">
-              <v-img
-                src="https://media.tenor.com/M00Zqk6Dx7EAAAAi/peachcat-goma.gif"
-              >
-              </v-img>
-            </div>
-          </v-card-title>
-          <div class="center-loading">
-            <v-progress-circular
-              v-if="loading"
-              :size="50"
-              :width="5"
-              indeterminate
-              color="success"
-            ></v-progress-circular>
-          </div>
-          <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
+          <v-dialog v-model="loading" max-width="350">
+            <v-card>
+              <v-card-title class="center">
+                <div class="img-size">
+                  <v-img
+                    src="https://media.tenor.com/M00Zqk6Dx7EAAAAi/peachcat-goma.gif"
+                  >
+                  </v-img>
+                </div>
+              </v-card-title>
+              <div class="center-loading">
+                <v-progress-circular
+                  v-if="loading"
+                  :size="50"
+                  :width="5"
+                  indeterminate
+                  color="success"
+                ></v-progress-circular>
+              </div>
+              <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
+            </v-card>
+          </v-dialog>
         </v-card>
-      </v-dialog>
-    </v-app>
+      </v-sheet>
   </AuthLogin>
 </template>
 <script>
