@@ -2,6 +2,7 @@
   <v-dialog
     transition="dialog-top-transition"
     v-model="registerModal"
+    style='z-index:900;'
     class="pa-0"
     width="500px"
     persistent

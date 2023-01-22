@@ -61,9 +61,9 @@
     </v-btn>
   </v-toolbar>
 
-  <Login />
+  <Login  />
 
-  <v-dialog v-model="loading" max-width="350">
+  <v-dialog v-model="loading" max-width="500">
     <v-card>
       <v-card-title class="center">
         <div class="img-size">
