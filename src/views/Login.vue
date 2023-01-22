@@ -1,70 +1,71 @@
 <template>
-  <v-dialog v-model="loginModal" width="500px" persistent>
-    <v-sheet>
-      <v-card class="mx-auto px-6 py-8">
-        <v-form @submit.prevent="login">
-          <div class="d-flex justify-end pa-0">
-            <v-btn @click="hideLogin">
-              <v-icon>mdi-close</v-icon>
-            </v-btn>
-          </div>
-          <v-card-title primary-title class="text-center">
-            ล็อกอินเข้าระบบ
-          </v-card-title>
-          <v-divider></v-divider>
-          <v-container>
-            <v-text-field
-              label="Username"
-              variant="outlined"
-              class="mb-2"
-              required
-              v-model="form.username"
-              :rules="usernameRules"
-            ></v-text-field>
-            <v-text-field
-              label="Password"
-              variant="outlined"
-              class="mb-2"
-              type="password"
-              required
-              v-model="form.password"
-              :rules="passwordRules"
-            ></v-text-field>
-            <div class="center">
-              <v-hover>
-                <template v-slot:default="{ isHovering, props }">
-                  <v-btn
-                    v-bind="props"
-                    class="rounded-pill"
-                    type="submit"
-                    color="success"
-                    size="large"
-                    :variant="isHovering ? 'outlined' : 'elevated'"
-                    >ล็อกอินเข้าระบบ</v-btn
-                  >
-                </template>
-              </v-hover>
+    <v-dialog v-model="loginModal" class="pa-0" width="500px" persistent>
+      <v-sheet>
+        <v-card class="mx-auto px-6 py-8">
+          <v-form @submit.prevent="login">
+            <div class="d-flex justify-end pa-0">
+              <v-btn icon @click="hideLogin">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
             </div>
-          </v-container>
-          <v-card-actions class="center">
-            <span class="mr-2">หากยังไม่สมัครบัญชีโปรด</span>
-            <v-btn
-              class="rounded-pill"
-              variant="outlined"
-              color="grey"
-              @click="goToRegister"
-            >
-              <span style="color: black"> สมัครสมาชิก</span>
-            </v-btn>
-          </v-card-actions>
-        </v-form>
-      </v-card>
-    </v-sheet>
-  </v-dialog>
+            <v-card-title primary-title class="text-center">
+              ล็อกอินเข้าระบบ
+            </v-card-title>
+            <v-divider></v-divider>
+            <v-container>
+              <v-text-field
+                label="Username"
+                variant="outlined"
+                class="mb-2"
+                required
+                v-model="form.username"
+                :rules="usernameRules"
+              ></v-text-field>
+              <v-text-field
+                label="Password"
+                variant="outlined"
+                class="mb-2"
+                type="password"
+                required
+                v-model="form.password"
+                :rules="passwordRules"
+              ></v-text-field>
+              <div class="center">
+                <v-hover>
+                  <template v-slot:default="{ isHovering, props }">
+                    <v-btn
+                      v-bind="props"
+                      class="rounded-pill"
+                      type="submit"
+                      color="success"
+                      size="large"
+                      :variant="isHovering ? 'outlined' : 'elevated'"
+                      >ล็อกอินเข้าระบบ</v-btn
+                    >
+                  </template>
+                </v-hover>
+              </div>
+            </v-container>
+            <v-card-actions class="center">
+              <span class="mr-2">หากยังไม่สมัครบัญชีโปรด</span>
+              <v-btn
+                class="rounded-pill"
+                variant="outlined"
+                color="grey"
+                @click="goToRegister"
+              >
+                <span style="color: black"> สมัครสมาชิก</span>
+              </v-btn>
+            </v-card-actions>
+          </v-form>
+        </v-card>
+      </v-sheet>
+    </v-dialog>
+
 
   <Register />
 
-  <v-dialog v-model="loading" max-width="450">
+  <v-dialog v-model="loading" max-width="500">
     <v-card>
       <v-card-title class="center">
         <div class="img-size">
@@ -145,6 +146,7 @@ export default {
     alertLogin() {
       this.$swal({
         confirmButtonColor: "#00af70",
+        width: "500",
         text: "Username หรือ Password ไม่ถูกต้อง ! ",
         icon: "error",
         button: "OK",
@@ -153,6 +155,7 @@ export default {
     showAlert(text) {
       this.$swal({
         confirmButtonColor: "#00af70",
+        width: "500",
         text: text,
         icon: "warning",
         button: "OK",
@@ -188,4 +191,6 @@ export default {
 .img-size {
   width: 100px;
 }
+
+
 </style>
