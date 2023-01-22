@@ -1,10 +1,10 @@
 <template>
-  <v-dialog v-model="showModal" width="500px" persistent>
+  <v-dialog v-model="loginModal" width="500px" persistent>
     <v-sheet>
       <v-card class="mx-auto px-6 py-8">
         <v-form @submit.prevent="login">
           <div class="d-flex justify-end pa-0">
-            <v-btn @click="hideModal">
+            <v-btn @click="hideLogin">
               <v-icon>mdi-close</v-icon>
             </v-btn>
           </div>
@@ -62,6 +62,8 @@
     </v-sheet>
   </v-dialog>
 
+  <Register />
+
   <v-dialog v-model="loading" max-width="450">
     <v-card>
       <v-card-title class="center">
@@ -88,7 +90,11 @@
 <script>
 import router from "../router";
 import axios from "axios";
+import Register from "./Register.vue";
 export default {
+  components: {
+    Register,
+  },
   data() {
     return {
       form: {
@@ -123,7 +129,7 @@ export default {
           if (res.status !== 404) {
             setTimeout(() => {
               router.push("/");
-              this.hideModal();
+              this.hideLogin();
               this.loading = false;
             }, 2000);
           }
@@ -133,7 +139,8 @@ export default {
       }
     },
     goToRegister() {
-      router.push("/register");
+      this.hideLogin();
+      this.$store.dispatch("auth/showRegister");
     },
     alertLogin() {
       this.$swal({
@@ -151,18 +158,18 @@ export default {
         button: "OK",
       });
     },
-    hideModal() {
-      this.resetForm()
-      this.$store.dispatch("auth/hideModal");
+    hideLogin() {
+      this.resetForm();
+      this.$store.dispatch("auth/hideLogin");
     },
-    resetForm(){
-      this.form.username = ''
-      this.form.password = ''
-    }
+    resetForm() {
+      this.form.username = "";
+      this.form.password = "";
+    },
   },
   computed: {
-    showModal() {
-      return this.$store.getters["auth/showModal"];
+    loginModal() {
+      return this.$store.getters["auth/loginModal"];
     },
   },
 };

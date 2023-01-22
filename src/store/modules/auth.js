@@ -1,12 +1,13 @@
 import router from "../../router";
-import { AUTH_LOGIN, AUTH_LOGOUT, NEW_USER, NOT_NEW, SHOW_LOGIN, HIDE_LOGIN } from "../mutation-types";
+import { AUTH_LOGIN, AUTH_LOGOUT, NEW_USER, NOT_NEW, SHOW_LOGIN, HIDE_LOGIN, SHOW_REGISTER, HIDE_REGISTER } from "../mutation-types";
 
 export default {
   namespaced: true,
   state: () => ({
     user:  JSON.parse(localStorage.getItem("user")),
     newUser: false,
-    showModal: false
+    loginModal: false,
+    registerModal: false
   }),
   mutations: {
     [AUTH_LOGIN](state, payload) {
@@ -22,10 +23,16 @@ export default {
       state.newUser = false;
     },
     [SHOW_LOGIN](state){
-      state.showModal = true
+      state.loginModal = true
     },
     [HIDE_LOGIN](state){
-      state.showModal = false
+      state.loginModal = false
+    },
+    [SHOW_REGISTER](state){
+      state.registerModal = true
+    },
+    [HIDE_REGISTER](state){
+      state.registerModal = false
     }
   },
   actions: {
@@ -45,11 +52,17 @@ export default {
     noNewUser({ commit }){
       commit(NOT_NEW)
     },
-    showModal({ commit }){
+    showLogin({ commit }){
       commit(SHOW_LOGIN)
     },
-    hideModal({ commit }){
+    hideLogin({ commit }){
       commit(HIDE_LOGIN)
+    },
+    showRegister({ commit }){
+      commit(SHOW_REGISTER)
+    },
+    hideRegister({ commit }){
+      commit(HIDE_REGISTER)
     }
   },
   getters: {
@@ -68,8 +81,11 @@ export default {
     isNewUser(state){
       return state.newUser
     },
-    showModal(state){
-      return state.showModal
+    loginModal(state){
+      return state.loginModal
+    },
+    registerModal(state){
+      return state.registerModal
     }
   },
 };

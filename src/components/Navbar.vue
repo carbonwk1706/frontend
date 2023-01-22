@@ -113,7 +113,7 @@ export default {
       router.push("/");
     },
     goToLogin() {
-      this.$store.dispatch("auth/showModal");
+      this.$store.dispatch("auth/showLogin");
     },
     goToWishlist() {
       router.push("/wishlist");

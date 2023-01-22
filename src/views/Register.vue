@@ -1,6 +1,11 @@
 <template>
-  <AuthLogin>
-    <v-card class="mx-auto" max-width="450">
+  <v-dialog v-model="registerModal" width="500px" persistent>
+    <v-card>
+      <div class="d-flex justify-end pa-0">
+        <v-btn @click="hideModal">
+          <v-icon>mdi-close</v-icon>
+        </v-btn>
+      </div>
       <v-card-title primary-title class="text-center">
         สมัครสมาชิก
       </v-card-title>
@@ -136,17 +141,13 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-  </AuthLogin>
+  </v-dialog>
 </template>
 <script>
 import router from "@/router";
 import axios from "axios";
-import AuthLogin from "@/components/AuthLogin.vue";
 
 export default {
-  components: {
-    AuthLogin,
-  },
   data() {
     return {
       valid: true,
@@ -216,7 +217,7 @@ export default {
         if (res.status !== 404) {
           setTimeout(() => {
             this.loginModal = false;
-            router.push("/");
+            this.hideModal()
             this.$store.dispatch("auth/newUser");
           }, 2000);
         }
@@ -227,10 +228,11 @@ export default {
 
     disagree() {
       this.dialog = false;
-      // router.push("/");
+      router.push("/");
     },
-    goToLogin() {
-      router.push("/login");
+    hideModal() {
+      this.$store.dispatch("auth/hideRegister");
+      router.push("/");
     },
     async register() {
       try {
@@ -258,6 +260,11 @@ export default {
         icon: "warning",
         button: "OK",
       });
+    },
+  },
+  computed: {
+    registerModal() {
+      return this.$store.getters["auth/registerModal"];
     },
   },
 };
