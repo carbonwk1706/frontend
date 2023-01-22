@@ -1,8 +1,13 @@
 <template>
-  <AuthLogin>
+  <v-dialog v-model="showModal" width="500px" persistent>
     <v-sheet>
-      <v-card class="mx-auto px-6 py-8" max-width="450">
+      <v-card class="mx-auto px-6 py-8">
         <v-form @submit.prevent="login">
+          <div class="d-flex justify-end pa-0">
+            <v-btn @click="hideModal">
+              <v-icon>mdi-close</v-icon>
+            </v-btn>
+          </div>
           <v-card-title primary-title class="text-center">
             ล็อกอินเข้าระบบ
           </v-card-title>
@@ -25,59 +30,65 @@
               v-model="form.password"
               :rules="passwordRules"
             ></v-text-field>
-            <v-btn
-              type="submit"
-              block
-              color="success"
-              size="large"
-              variant="elevated"
-              >ล็อกอินเข้าระบบ</v-btn
-            >
+            <div class="center">
+              <v-hover>
+                <template v-slot:default="{ isHovering, props }">
+                  <v-btn
+                    v-bind="props"
+                    class="rounded-pill"
+                    type="submit"
+                    color="success"
+                    size="large"
+                    :variant="isHovering ? 'outlined' : 'elevated'"
+                    >ล็อกอินเข้าระบบ</v-btn
+                  >
+                </template>
+              </v-hover>
+            </div>
           </v-container>
-          <v-divider></v-divider>
-          <v-card-actions>
-            <v-spacer></v-spacer>
-            <v-btn color="success" @click="goToRegister">
-              สมัครสมาชิก
-              <v-icon icon="mdi-chevron-right" end></v-icon>
+          <v-card-actions class="center">
+            <span class="mr-2">หากยังไม่สมัครบัญชีโปรด</span>
+            <v-btn
+              class="rounded-pill"
+              variant="outlined"
+              color="grey"
+              @click="goToRegister"
+            >
+              <span style="color: black"> สมัครสมาชิก</span>
             </v-btn>
           </v-card-actions>
         </v-form>
       </v-card>
     </v-sheet>
+  </v-dialog>
 
-    <v-dialog v-model="loading" max-width="350">
-      <v-card>
-        <v-card-title class="center">
-          <div class="img-size">
-            <v-img
-              src="https://media.tenor.com/M00Zqk6Dx7EAAAAi/peachcat-goma.gif"
-            >
-            </v-img>
-          </div>
-        </v-card-title>
-        <div class="center-loading">
-          <v-progress-circular
-            v-if="loading"
-            :size="50"
-            :width="5"
-            indeterminate
-            color="success"
-          ></v-progress-circular>
+  <v-dialog v-model="loading" max-width="450">
+    <v-card>
+      <v-card-title class="center">
+        <div class="img-size">
+          <v-img
+            src="https://media.tenor.com/M00Zqk6Dx7EAAAAi/peachcat-goma.gif"
+          >
+          </v-img>
         </div>
-        <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
-      </v-card>
-    </v-dialog>
-  </AuthLogin>
+      </v-card-title>
+      <div class="center-loading">
+        <v-progress-circular
+          v-if="loading"
+          :size="50"
+          :width="5"
+          indeterminate
+          color="success"
+        ></v-progress-circular>
+      </div>
+      <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 import router from "../router";
-import AuthLogin from "../components/AuthLogin.vue";
 import axios from "axios";
 export default {
-  components: {
-    AuthLogin,
-  },
   data() {
     return {
       form: {
@@ -112,6 +123,7 @@ export default {
           if (res.status !== 404) {
             setTimeout(() => {
               router.push("/");
+              this.hideModal();
               this.loading = false;
             }, 2000);
           }
@@ -138,6 +150,19 @@ export default {
         icon: "warning",
         button: "OK",
       });
+    },
+    hideModal() {
+      this.resetForm()
+      this.$store.dispatch("auth/hideModal");
+    },
+    resetForm(){
+      this.form.username = ''
+      this.form.password = ''
+    }
+  },
+  computed: {
+    showModal() {
+      return this.$store.getters["auth/showModal"];
     },
   },
 };

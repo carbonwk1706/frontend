@@ -1,16 +1,16 @@
 <template>
   <h1 class="text-center">Home</h1>
-  <MoldalAgreement />
+  <ModalAgreement />
 </template>
 
 <script>
 import { defineComponent } from "vue";
-import MoldalAgreement from "@/components/MoldalAgreement.vue";
+import ModalAgreement from "@/components/ModalAgreement.vue";
 
 export default defineComponent({
   name: "HomeView",
   components: {
-    MoldalAgreement,
+    ModalAgreement,
   }
 });
 </script>

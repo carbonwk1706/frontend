@@ -61,6 +61,8 @@
     </v-btn>
   </v-toolbar>
 
+  <Login />
+
   <v-dialog v-model="loading" max-width="350">
     <v-card>
       <v-card-title class="center">
@@ -84,8 +86,12 @@
 </template>
 <script>
 import router from "../router";
+import Login from "../views/Login.vue"
 
 export default {
+  components:{
+    Login
+  },
   data: () => ({
     user: {
       initials: "JD",
@@ -107,7 +113,7 @@ export default {
       router.push("/");
     },
     goToLogin() {
-      router.push("/login");
+      this.$store.dispatch("auth/showModal");
     },
     goToWishlist() {
       router.push("/wishlist");
