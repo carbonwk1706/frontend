@@ -75,7 +75,7 @@
       </v-card-actions>
     </v-card>
 
-    <v-dialog v-model="loading" max-width="350">
+    <v-dialog v-model="loading" max-width="450">
       <v-card>
         <v-card-title class="center">
           <div class="img-size">
@@ -98,7 +98,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="loginModal" max-width="350">
+    <v-dialog v-model="loginModal" max-width="450">
       <v-card>
         <v-card-title class="center">
           <div class="img-size">
@@ -121,7 +121,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialog" width="600px" persistent>
+    <v-dialog v-model="dialog" width="450px" persistent>
       <v-card>
         <v-card-title class="text-center">
           <span class="text-h5">ข้อตกลงในการให้บริการ</span>
@@ -217,7 +217,7 @@ export default {
         if (res.status !== 404) {
           setTimeout(() => {
             this.loginModal = false;
-            this.hideModal()
+            this.hideModal();
             this.$store.dispatch("auth/newUser");
           }, 2000);
         }
@@ -228,10 +228,11 @@ export default {
 
     disagree() {
       this.dialog = false;
-      router.push("/");
+      this.hideModal();
     },
     hideModal() {
       this.$store.dispatch("auth/hideRegister");
+      this.resetForm()
       router.push("/");
     },
     async register() {
@@ -260,6 +261,11 @@ export default {
         icon: "warning",
         button: "OK",
       });
+    },
+    resetForm() {
+      this.form.name = "";
+      this.form.username = "";
+      this.form.password = "";
     },
   },
   computed: {
