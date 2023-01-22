@@ -221,11 +221,11 @@ export default {
         const token = res.data.token;
         localStorage.setItem("token", token);
         localStorage.setItem("user", JSON.stringify(user));
-        this.$store.dispatch("auth/login", user);
         if (res.status !== 404) {
           setTimeout(() => {
             this.loginModal = false;
             this.hideModal();
+            this.$store.dispatch("auth/login", user);
             this.$store.dispatch("auth/newUser");
           }, 2000);
         }

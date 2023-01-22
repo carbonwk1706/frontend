@@ -126,13 +126,13 @@ export default {
           const token = res.data.token;
           localStorage.setItem("token", token);
           localStorage.setItem("user", JSON.stringify(user));
-          this.$store.dispatch("auth/login", user);
           if (res.status !== 404) {
             setTimeout(() => {
-              router.push("/");
-              this.hideLogin();
+              this.$store.dispatch("auth/login", user);
               this.loading = false;
+              this.hideLogin();
             }, 2000);
+            router.push("/");
           }
         } catch (e) {
           this.alertLogin();
@@ -162,8 +162,10 @@ export default {
       });
     },
     hideLogin() {
-      this.resetForm();
       this.$store.dispatch("auth/hideLogin");
+      setTimeout(() =>{
+        this.resetForm();
+      },500)
     },
     resetForm() {
       this.form.username = "";

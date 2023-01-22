@@ -38,6 +38,11 @@
         </v-card-text>
       </v-card>
     </v-menu>
+    <v-btn v-if="isLogin" class="text-none" stacked>
+      <v-badge content="2" color="error">
+        <v-icon>mdi-bell-outline</v-icon>
+      </v-badge>
+    </v-btn>
     <v-spacer></v-spacer>
     <v-btn @click="goToHome">
       <v-toolbar-title class="text-center">EBOOK</v-toolbar-title>
