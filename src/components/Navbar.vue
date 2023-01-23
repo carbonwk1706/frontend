@@ -29,9 +29,7 @@
               {{ getUsername() }}
             </p>
             <v-divider class="my-3"></v-divider>
-            <v-btn rounded variant="text">
-              แก้ไขโปรไฟล์
-            </v-btn>
+            <v-btn rounded variant="text"> แก้ไขโปรไฟล์ </v-btn>
             <v-divider class="my-3"></v-divider>
             <v-btn rounded variant="text" @click="logout"> ออกจากระบบ </v-btn>
           </div>
@@ -64,9 +62,25 @@
       <v-icon class="mr-2">mdi-cart</v-icon>
       ตะกร้าสินค้า
     </v-btn>
+   
+      <v-card-text>
+        <v-text-field
+          :loading="loadingSearch"
+          density="compact"
+          variant="solo"
+          label="ค้นหาหนังสือ"
+          prepend-inner-icon="mdi-magnify"
+          single-line
+          hide-details
+          @click:prepend-inner="onClick"
+        ></v-text-field>
+      </v-card-text>
   </v-toolbar>
 
-  <Login :visibleModal="visibleModal" @update:isVisible="visibleModal = $event"/>
+  <Login
+    :visibleModal="visibleModal"
+    @update:isVisible="visibleModal = $event"
+  />
 
   <v-dialog v-model="loading" max-width="500">
     <v-card>
@@ -91,13 +105,14 @@
 </template>
 <script>
 import router from "../router";
-import Login from "../views/Login.vue"
+import Login from "../views/Login.vue";
 
 export default {
-  components:{
-    Login
+  components: {
+    Login,
   },
   data: () => ({
+    loadingSearch: false,
     user: {
       initials: "JD",
       fullName: "John Doe",
@@ -105,9 +120,16 @@ export default {
     },
     toggle: false,
     loading: false,
-    visibleModal: false
+    visibleModal: false,
   }),
   methods: {
+    onClick () {
+        this.loadingSearch = true
+
+        setTimeout(() => {
+          this.loadingSearch = false
+        }, 2000)
+      },
     logout() {
       this.loading = true;
       setTimeout(() => {
@@ -119,7 +141,7 @@ export default {
       router.push("/");
     },
     toggleLoginModal() {
-      this.visibleModal = !this.visibleModal
+      this.visibleModal = !this.visibleModal;
     },
     goToWishlist() {
       router.push("/wishlist");
@@ -145,9 +167,9 @@ export default {
       return this.$store.getters["auth/isLogin"];
     },
   },
-  mounted(){
-    this.visibleModal = false
-  }
+  mounted() {
+    this.visibleModal = false;
+  },
 };
 </script>
 <style scoped>
