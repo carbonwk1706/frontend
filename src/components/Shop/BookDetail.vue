@@ -39,7 +39,7 @@ export default {
   display: flex;
   justify-content: center;
   margin-bottom: 30px;
-  font-size: larger;
+  font-size: 36px;
   font-weight: bold;
 }
 </style>
