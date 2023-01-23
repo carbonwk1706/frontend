@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="loginModal" style='z-index:900;' class="pr-0" width="500px" persistent>
+    <v-dialog v-model="loginModal" style='z-index:900;' class="pa-0" width="500px" persistent>
       <v-sheet>
         <v-card class="mx-auto px-6 py-8">
           <v-form @submit.prevent="login">
@@ -126,6 +126,7 @@ export default {
           const token = res.data.token;
           localStorage.setItem("token", token);
           localStorage.setItem("user", JSON.stringify(user));
+          console.log(res)
           if (res.status !== 404) {
             setTimeout(() => {
               this.$store.dispatch("auth/login", user);
@@ -135,6 +136,7 @@ export default {
             router.push("/");
           }
         } catch (e) {
+          console.log(e)
           this.alertLogin();
         }
       }
