@@ -9,7 +9,7 @@
   >
     <v-card class="pa-4">
       <div class="d-flex justify-end pa-0">
-          <v-icon @click="hideModal">mdi-close</v-icon>
+        <v-icon @click="hideModal">mdi-close</v-icon>
       </div>
       <v-card-title primary-title class="text-center pa-1">
         สมัครสมาชิก
@@ -42,8 +42,10 @@
           </v-card-text>
           <v-text-field
             v-model="form.password"
+            :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+            @click:append-inner="visible = !visible"
+            :type="visible ? 'text' : 'password'"
             variant="outlined"
-            type="password"
             required
             placeholder="Password"
             :rules="passwordRule"
@@ -53,8 +55,10 @@
           </v-card-text>
           <v-text-field
             v-model="form.repeatPassword"
+            :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+            @click:append-inner="visible = !visible"
+            :type="visible ? 'text' : 'password'"
             variant="outlined"
-            type="password"
             required
             placeholder="Repeat Password"
             :rules="[
@@ -186,6 +190,7 @@ import axios from "axios";
 export default {
   data() {
     return {
+      visible: false,
       valid: true,
       genders: ["Not specified", "Male", "Female"],
       form: {
@@ -202,7 +207,9 @@ export default {
       terms: false,
       usernameRule: [
         (v) => !!v || "กรุณากรอก username",
-        (v) => /^[A-Za-z0-9_@.-]{4,32}$/.test(v) || "Username ต้องกระกอบไปด้วยสัญลักษณ์พิเศษ และมีความยาว 4-32 ตัวอักษร"
+        (v) =>
+          /^[A-Za-z0-9_@.-]{4,32}$/.test(v) ||
+          "Username ต้องกระกอบไปด้วยสัญลักษณ์พิเศษ และมีความยาว 4-32 ตัวอักษร",
       ],
       emailRule: [
         (v) => !!v || "กรุณากรอก Email",
