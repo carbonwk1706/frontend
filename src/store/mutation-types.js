@@ -1,2 +1,8 @@
 export const AUTH_LOGIN = 'AUTH_LOGIN'
 export const AUTH_LOGOUT = 'AUTH_LOGOUT'
+export const NEW_USER = 'NEW_USER'
+export const NOT_NEW = 'NOT_NEW'
+export const SHOW_LOGIN = 'SHOW_LOGIN'
+export const HIDE_LOGIN = 'HIDE_LOGIN'
+export const SHOW_REGISTER = 'SHOW_REGISTER'
+export const HIDE_REGISTER = 'HIDE_REGISTER'

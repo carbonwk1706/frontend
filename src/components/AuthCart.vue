@@ -2,9 +2,18 @@
   <div>
     <slot></slot>
 
-    <v-dialog v-model="showModal" max-width="350" persistent>
+    <v-dialog v-model="showModal" max-width="500" persistent>
       <v-card>
-        <v-card-text class="text-center">กรุณาล๊อคอินก่อนเข้าใช้หน้านี้</v-card-text>
+        <v-card-title class="center">
+          <div class="img-size">
+            <v-img
+            src="https://media.tenor.com/mvTL8ggxk2kAAAAC/chibicat-chibicatt.gif"
+            
+            >
+            </v-img>
+          </div>
+        </v-card-title>
+        <v-card-text class="text-center">Token ของคุณหมดอายุ กรุณาเข้าสู่ระบบใหม่อีกครั้งด้วยค่ะ</v-card-text>
         <v-card-actions class="center">
           <v-btn color="white" class="btn-bg" text @click="goToLoginAndClose"> OK </v-btn>
         </v-card-actions>
@@ -21,11 +30,8 @@ export default {
     };
   },
   methods: {
-    goToLogin() {
-      this.$router.push("/");
-    },
     goToLoginAndClose() {
-      this.goToLogin();
+      this.$router.push("/");
       this.showModal = false;
     },
   },
@@ -57,7 +63,8 @@ export default {
 .btn-bg {
   background-color: #00af70;
 }
-.font-size {
-  font-size: 5rem;
+.img-size{
+  width: 100px;
 }
+
 </style>

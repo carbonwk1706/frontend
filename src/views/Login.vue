@@ -1,61 +1,100 @@
 <template>
-  <AuthLogin>
-    <div>
-      <v-form @submit.prevent="login">
-        <v-text-field label="Username" v-model="form.username" type="email" />
-        <v-text-field
-          label="Password"
-          v-model="form.password"
-          type="password"
-        />
-        <v-btn type="submit" v-if="!this.$store.getters['auth/isLogin']"
-          >Log In</v-btn
-        >
-      </v-form>
-
-      <v-dialog v-model="loading" max-width="350">
-        <v-card>
-          <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
-          <v-card class="center-loading">
-            <v-progress-circular
-              v-if="loading"
-              :size="50"
-              :width="5"
-              indeterminate
-              color="success"
-              class="my-4"
-            ></v-progress-circular>
-          </v-card>
+    <v-dialog v-model="loginModal" style='z-index:900;' class="pr-0" width="500px" persistent>
+      <v-sheet>
+        <v-card class="mx-auto px-6 py-8">
+          <v-form @submit.prevent="login">
+            <div class="d-flex justify-end pa-0">
+              <v-btn icon @click="hideLogin">
+                <v-icon>mdi-close</v-icon>
+              </v-btn>
+            </div>
+            <v-card-title primary-title class="text-center">
+              ล็อกอินเข้าระบบ
+            </v-card-title>
+            <v-divider></v-divider>
+            <v-container>
+              <v-text-field
+                label="Username"
+                variant="outlined"
+                class="mb-2"
+                required
+                v-model="form.username"
+                :rules="usernameRules"
+              ></v-text-field>
+              <v-text-field
+                label="Password"
+                variant="outlined"
+                class="mb-2"
+                type="password"
+                required
+                v-model="form.password"
+                :rules="passwordRules"
+              ></v-text-field>
+              <div class="center">
+                <v-hover>
+                  <template v-slot:default="{ isHovering, props }">
+                    <v-btn
+                      v-bind="props"
+                      class="rounded-pill"
+                      type="submit"
+                      color="success"
+                      size="large"
+                      :variant="isHovering ? 'outlined' : 'elevated'"
+                      >ล็อกอินเข้าระบบ</v-btn
+                    >
+                  </template>
+                </v-hover>
+              </div>
+            </v-container>
+            <v-card-actions class="center">
+              <span class="mr-2">หากยังไม่สมัครบัญชีโปรด</span>
+              <v-btn
+                class="rounded-pill"
+                variant="outlined"
+                color="grey"
+                @click="goToRegister"
+              >
+                <span style="color: black"> สมัครสมาชิก</span>
+              </v-btn>
+            </v-card-actions>
+          </v-form>
         </v-card>
-      </v-dialog>
+      </v-sheet>
+    </v-dialog>
 
-      <v-dialog v-model="error" max-width="350">
-        <v-card>
-          <v-card-title class="headline center">
-            <v-icon class="font-size" color="#D10000"
-              >mdi-close-circle-outline</v-icon
-            >
-          </v-card-title>
-          <v-card-text class="text-center"
-            >Username หรือ Password ไม่ถูกต้อง</v-card-text
+
+  <Register />
+
+  <v-dialog v-model="loading" max-width="500">
+    <v-card>
+      <v-card-title class="center">
+        <div class="img-size">
+          <v-img
+            src="https://media.tenor.com/M00Zqk6Dx7EAAAAi/peachcat-goma.gif"
           >
-          <v-card-actions class="center">
-            <v-btn color="white" class="btn-bg" text @click="error = false">
-              OK
-            </v-btn>
-          </v-card-actions>
-        </v-card>
-      </v-dialog>
-    </div>
-  </AuthLogin>
+          </v-img>
+        </div>
+      </v-card-title>
+      <div class="center-loading">
+        <v-progress-circular
+          v-if="loading"
+          :size="50"
+          :width="5"
+          indeterminate
+          color="success"
+        ></v-progress-circular>
+      </div>
+      <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 <script>
-import api from "../services/api";
 import router from "../router";
-import AuthLogin from "../components/AuthLogin.vue";
+import axios from "axios";
+import Register from "./Register.vue";
 export default {
   components: {
-    AuthLogin,
+    Register,
   },
   data() {
     return {
@@ -64,32 +103,78 @@ export default {
         password: "",
       },
       loading: false,
-      error: false,
+      usernameRules: [(v) => !!v || "กรุณากรอก Username"],
+      passwordRules: [(v) => !!v || "กรุณากรอก Password"],
     };
   },
   methods: {
     async login() {
-      try {
-        this.loading = true;
-        const res = await api.post("/auth/login", {
-          username: this.form.username,
-          password: this.form.password,
-        });
-        const user = res.data.user;
-        const token = res.data.token;
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
-        this.$store.dispatch("auth/login", user);
-        if (res.status !== 404) {
-          setTimeout(() => {
+      if (!this.form.username && !this.form.password) {
+        this.showAlert("กรุณากรอก Username และ Password ด้วยจ้า");
+      } else if (!this.form.username) {
+        this.showAlert("กรุณากรอก Username ด้วยจ้า");
+      } else if (!this.form.password) {
+        this.showAlert("กรุณากรอก Password ด้วยจ้า");
+      } else {
+        try {
+          const res = await axios.post("http://localhost:3000/auth/login", {
+            username: this.form.username,
+            password: this.form.password,
+          });
+          this.loading = true;
+          const user = res.data.user;
+          const token = res.data.token;
+          localStorage.setItem("token", token);
+          localStorage.setItem("user", JSON.stringify(user));
+          if (res.status !== 404) {
+            setTimeout(() => {
+              this.$store.dispatch("auth/login", user);
+              this.loading = false;
+              this.hideLogin();
+            }, 2000);
             router.push("/");
-            this.loading = false;
-          }, 2000);
+          }
+        } catch (e) {
+          this.alertLogin();
         }
-      } catch (e) {
-        this.loading = false;
-        this.error = true;
       }
+    },
+    goToRegister() {
+      this.hideLogin();
+      this.$store.dispatch("auth/showRegister");
+    },
+    alertLogin() {
+      this.$swal({
+        confirmButtonColor: "#00af70",
+        width: "500",
+        text: "Username หรือ Password ไม่ถูกต้อง ! ",
+        icon: "error",
+        button: "OK",
+      });
+    },
+    showAlert(text) {
+      this.$swal({
+        confirmButtonColor: "#00af70",
+        width: "500",
+        text: text,
+        icon: "warning",
+        button: "OK",
+      });
+    },
+    hideLogin() {
+      this.$store.dispatch("auth/hideLogin");
+      setTimeout(() =>{
+        this.resetForm();
+      },500)
+    },
+    resetForm() {
+      this.form.username = "";
+      this.form.password = "";
+    },
+  },
+  computed: {
+    loginModal() {
+      return this.$store.getters["auth/loginModal"];
     },
   },
 };
@@ -105,10 +190,9 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.btn-bg {
-  background-color: #00af70;
+.img-size {
+  width: 100px;
 }
-.font-size {
-  font-size: 5rem;
-}
+
+
 </style>

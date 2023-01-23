@@ -29,13 +29,20 @@
               {{ getUsername() }}
             </p>
             <v-divider class="my-3"></v-divider>
-            <v-btn rounded variant="text"> แก้ไขโปรไฟล์ </v-btn>
+            <v-btn rounded variant="text">
+              แก้ไขโปรไฟล์
+            </v-btn>
             <v-divider class="my-3"></v-divider>
-            <v-btn rounded variant="text"  @click="logout"> ออกจากระบบ </v-btn>
+            <v-btn rounded variant="text" @click="logout"> ออกจากระบบ </v-btn>
           </div>
         </v-card-text>
       </v-card>
     </v-menu>
+    <v-btn v-if="isLogin" class="text-none" stacked>
+      <v-badge content="2" color="error">
+        <v-icon>mdi-bell-outline</v-icon>
+      </v-badge>
+    </v-btn>
     <v-spacer></v-spacer>
     <v-btn @click="goToHome">
       <v-toolbar-title class="text-center">EBOOK</v-toolbar-title>
@@ -59,25 +66,37 @@
     </v-btn>
   </v-toolbar>
 
-  <v-dialog v-model="loading" max-width="350">
+  <Login  />
+
+  <v-dialog v-model="loading" max-width="500">
     <v-card>
-      <v-card-text class="text-center">กำลังออกจากระบบ</v-card-text>
-      <v-card class="center-loading">
+      <v-card-title class="center">
+        <div class="img-size">
+          <v-img src="https://media.tenor.com/oGpz_hpmmTQAAAAi/cute.gif">
+          </v-img>
+        </div>
+      </v-card-title>
+      <div class="center-loading">
         <v-progress-circular
           v-if="loading"
           :size="50"
           :width="5"
           indeterminate
           color="success"
-          class="my-4"
         ></v-progress-circular>
-      </v-card>
+      </div>
+      <v-card-text class="text-center">กำลังออกจากระบบ</v-card-text>
     </v-card>
   </v-dialog>
 </template>
 <script>
 import router from "../router";
+import Login from "../views/Login.vue"
+
 export default {
+  components:{
+    Login
+  },
   data: () => ({
     user: {
       initials: "JD",
@@ -85,21 +104,21 @@ export default {
       email: "john.doe@doe.com",
     },
     toggle: false,
-    loading: false
+    loading: false,
   }),
   methods: {
     logout() {
       this.loading = true;
-      setTimeout(()=>{
+      setTimeout(() => {
         this.$store.dispatch("auth/logout");
-        this.loading = false
-      },2000)
+        this.loading = false;
+      }, 2000);
     },
-    goToHome(){
-      router.push("/")
+    goToHome() {
+      router.push("/");
     },
     goToLogin() {
-      router.push("/login");
+      this.$store.dispatch("auth/showLogin");
     },
     goToWishlist() {
       router.push("/wishlist");
@@ -110,15 +129,15 @@ export default {
     getName() {
       return this.$store.getters["auth/getName"];
     },
-    getUsername(){
+    getUsername() {
       return this.$store.getters["auth/getUsername"];
     },
-    getId(){
+    getId() {
       return this.$store.getters["auth/getId"];
     },
-    toggleMenu(){
-      this.toggle = !this.toggle
-    }
+    toggleMenu() {
+      this.toggle = !this.toggle;
+    },
   },
   computed: {
     isLogin() {
@@ -140,5 +159,13 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.img-size {
+  width: 100px;
 }
 </style>
