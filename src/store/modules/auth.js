@@ -53,6 +53,12 @@ export default {
     getId(state){
       return state.user._id.toString()
     },
+    getGender(state){
+      return state.user.gender.toString()
+    },
+    getEmail(state){
+      return state.user.email.toString()
+    },
     isNewUser(state){
       return state.newUser
     },
