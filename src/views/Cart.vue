@@ -1,14 +1,14 @@
 <template>
-  <Auth>
+  <AuthCart>
     <h1>Cart</h1>
-  </Auth>
+  </AuthCart>
 </template>
 <script>
-import Auth from "../components/Auth.vue";
+import AuthCart from "../components/AuthCart.vue";
 
 export default {
   components: {
-    Auth,
+    AuthCart,
   },
 };
 </script>

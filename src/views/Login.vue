@@ -1,5 +1,5 @@
 <template>
-    <v-dialog v-model="loginModal" style='z-index:900;' class="pa-0" width="500px" persistent>
+    <v-dialog v-model="loginModal" style='z-index:900;' class="pr-0" width="500px" persistent>
       <v-sheet>
         <v-card class="mx-auto px-6 py-8">
           <v-form @submit.prevent="login">

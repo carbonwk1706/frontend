@@ -1,14 +1,14 @@
 <template>
-  <Auth>
+  <AuthWishlist>
     <h1>Wishlist</h1>
-  </Auth>
+  </AuthWishlist>
 </template>
 <script>
-import Auth from "../components/Auth.vue";
+import AuthWishlist from "../components/AuthWishlist.vue";
 
 export default {
   components: {
-    Auth,
+    AuthWishlist,
   },
 };
 </script>
