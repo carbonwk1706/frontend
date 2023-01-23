@@ -1,12 +1,11 @@
 import router from "../../router";
-import { AUTH_LOGIN, AUTH_LOGOUT, NEW_USER, NOT_NEW, SHOW_LOGIN, HIDE_LOGIN, SHOW_REGISTER, HIDE_REGISTER } from "../mutation-types";
+import { AUTH_LOGIN, AUTH_LOGOUT, NEW_USER, NOT_NEW, SHOW_REGISTER, HIDE_REGISTER } from "../mutation-types";
 
 export default {
   namespaced: true,
   state: () => ({
     user:  JSON.parse(localStorage.getItem("user")),
     newUser: false,
-    loginModal: false,
     registerModal: false
   }),
   mutations: {
@@ -21,12 +20,6 @@ export default {
     },
     [NOT_NEW](state) {
       state.newUser = false;
-    },
-    [SHOW_LOGIN](state){
-      state.loginModal = true
-    },
-    [HIDE_LOGIN](state){
-      state.loginModal = false
     },
     [SHOW_REGISTER](state){
       state.registerModal = true
@@ -52,12 +45,6 @@ export default {
     noNewUser({ commit }){
       commit(NOT_NEW)
     },
-    showLogin({ commit }){
-      commit(SHOW_LOGIN)
-    },
-    hideLogin({ commit }){
-      commit(HIDE_LOGIN)
-    },
     showRegister({ commit }){
       commit(SHOW_REGISTER)
     },
@@ -80,9 +67,6 @@ export default {
     },
     isNewUser(state){
       return state.newUser
-    },
-    loginModal(state){
-      return state.loginModal
     },
     registerModal(state){
       return state.registerModal

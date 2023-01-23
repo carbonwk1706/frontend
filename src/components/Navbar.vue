@@ -4,7 +4,7 @@
       class="px-2 mx-2 v-btn--outline header_action"
       color="white"
       v-if="!isLogin"
-      @click="goToLogin"
+      @click="toggleLoginModal"
     >
       <v-icon class="mr-2">mdi-login</v-icon>
       ล็อกอินเข้าสู่ระบบ / สมัครสมาชิก
@@ -66,7 +66,7 @@
     </v-btn>
   </v-toolbar>
 
-  <Login  />
+  <Login :visibleModal="visibleModal" @update:isVisible="visibleModal = $event"/>
 
   <v-dialog v-model="loading" max-width="500">
     <v-card>
@@ -105,6 +105,7 @@ export default {
     },
     toggle: false,
     loading: false,
+    visibleModal: false
   }),
   methods: {
     logout() {
@@ -117,8 +118,8 @@ export default {
     goToHome() {
       router.push("/");
     },
-    goToLogin() {
-      this.$store.dispatch("auth/showLogin");
+    toggleLoginModal() {
+      this.visibleModal = !this.visibleModal
     },
     goToWishlist() {
       router.push("/wishlist");

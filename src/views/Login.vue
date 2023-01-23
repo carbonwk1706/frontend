@@ -1,6 +1,6 @@
 <template>
   <v-dialog
-    v-model="loginModal"
+    v-model="isVisible"
     style="z-index: 900"
     class="pa-0"
     width="500px"
@@ -103,8 +103,15 @@ export default {
   components: {
     Register,
   },
+  props: {
+    visibleModal: {
+      type: Boolean,
+      required: true,
+    },
+  },
   data() {
     return {
+      isVisible: false,
       visible: false,
       form: {
         username: "",
@@ -173,21 +180,19 @@ export default {
       });
     },
     hideLogin() {
-      this.$store.dispatch("auth/hideLogin");
-      setTimeout(() => {
-        this.resetForm();
-      }, 500);
+      this.$emit('update:isVisible',false)
+      this.resetForm();
     },
     resetForm() {
       this.form.username = "";
       this.form.password = "";
     },
   },
-  computed: {
-    loginModal() {
-      return this.$store.getters["auth/loginModal"];
-    },
-  },
+  watch: {
+    visibleModal(){
+      this.isVisible = this.$props.visibleModal
+    }
+  }
 };
 </script>
 <style scoped>
