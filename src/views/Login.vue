@@ -1,12 +1,10 @@
 <template>
-    <v-dialog v-model="loginModal" style='z-index:900;' class="pa-0" width="500px" persistent>
+    <v-dialog v-model="loginModal" style='z-index:900' class="pa-0" width="500px" persistent>
       <v-sheet>
         <v-card class="mx-auto px-6 py-8">
           <v-form @submit.prevent="login">
             <div class="d-flex justify-end pa-0">
-              <v-btn icon @click="hideLogin">
-                <v-icon>mdi-close</v-icon>
-              </v-btn>
+                <v-icon @click="hideLogin">mdi-close</v-icon>
             </div>
             <v-card-title primary-title class="text-center">
               ล็อกอินเข้าระบบ

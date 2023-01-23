@@ -4,14 +4,12 @@
     v-model="registerModal"
     style="z-index: 900"
     class="pa-0"
-    width="500px"
+    max-width="500px"
     persistent
   >
-    <v-card>
+    <v-card class="pa-4">
       <div class="d-flex justify-end pa-0">
-        <v-btn icon @click="hideModal">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
+          <v-icon @click="hideModal">mdi-close</v-icon>
       </div>
       <v-card-title primary-title class="text-center pa-1">
         สมัครสมาชิก
@@ -29,7 +27,7 @@
         >
           <v-card-text class="pa-2">
             Username <span style="color: red">*</span>
-            <span style="color: gray"> 4-32 chars [A-z, 0-9, _-]</span>
+            <span style="color: gray"> 4-32 chars [A-z, 0-9, _-@.]</span>
           </v-card-text>
           <v-text-field
             v-model="form.username"
@@ -49,6 +47,20 @@
             required
             placeholder="Password"
             :rules="passwordRule"
+          ></v-text-field>
+          <v-card-text class="pa-2">
+            Repeat Password <span style="color: red">*</span>
+          </v-card-text>
+          <v-text-field
+            v-model="form.repeatPassword"
+            variant="outlined"
+            type="password"
+            required
+            placeholder="Repeat Password"
+            :rules="[
+              (v) => !!v || 'Please repeat your password',
+              checkPasswordMatch,
+            ]"
           ></v-text-field>
           <v-card-text class="pa-2">
             Email <span style="color: red">*</span>
@@ -189,10 +201,8 @@ export default {
       loginModal: false,
       terms: false,
       usernameRule: [
-        (v) => !!v || "กรุณากรอกชื่อผู้ใช้",
-        (v) =>
-          (v && v.length >= 4 && v.length <= 32) ||
-          "ระบุอย่างน้อย 4 ตัวและน้อยกว่า 32"
+        (v) => !!v || "กรุณากรอก username",
+        (v) => /^[A-Za-z0-9_@.-]{4,32}$/.test(v) || "Username ต้องกระกอบไปด้วยสัญลักษณ์พิเศษ และมีความยาว 4-32 ตัวอักษร"
       ],
       emailRule: [
         (v) => !!v || "กรุณากรอก Email",
@@ -206,6 +216,9 @@ export default {
     };
   },
   methods: {
+    checkPasswordMatch(v) {
+      return v === this.form.password || "รหัสผ่านไม่ตรงกัน";
+    },
     async checkDuplicate() {
       const { valid } = await this.$refs.form.validate();
 
@@ -227,13 +240,15 @@ export default {
             this.dialog = true;
           }, 2000);
         } catch (error) {
-          if(error.response.data.message === 'Username and Email already exists'){
+          if (
+            error.response.data.message === "Username and Email already exists"
+          ) {
             this.showAlert("Username และ Email นี้ถูกใช้ไปแล้ว");
-          }
-          else if (error.response.data.message === 'Username already exists') {
+          } else if (
+            error.response.data.message === "Username already exists"
+          ) {
             this.showAlert("Username นี้ถูกใช้ไปแล้ว");
-          }
-          else if(error.response.data.message === 'Email already exists') {
+          } else if (error.response.data.message === "Email already exists") {
             this.showAlert("Email นี้ถูกใช้ไปแล้ว");
           }
         }
@@ -307,7 +322,7 @@ export default {
       this.form.username = "";
       this.form.password = "";
       this.form.email = "";
-      this.terms = false
+      this.terms = false;
       this.form.gender = "Not specified";
     },
   },
