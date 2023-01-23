@@ -6,7 +6,7 @@
   <v-container class="grey lighten-5">
     <v-row no-gutters>
       <v-col v-for="(item, index) in books" :key="index">
-        <v-card class="mx-auto" max-width="180">
+        <v-card class="mx-auto" max-width="180" @click="showDetail">
           <v-img :src="item.image" height="250px"></v-img>
           <v-card-title> {{ item.name }} </v-card-title>
 
@@ -23,6 +23,7 @@
 </template>
 
 <script>
+import router from '@/router';
 export default {
   name: "ShopTable",
   data() {
@@ -80,6 +81,11 @@ export default {
         },
       ],
     };
+  },
+  methods: {
+    showDetail(){
+      router.push("/book")
+    }
   },
 };
 </script>
