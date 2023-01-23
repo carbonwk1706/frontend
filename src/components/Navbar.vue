@@ -145,6 +145,9 @@ export default {
       return this.$store.getters["auth/isLogin"];
     },
   },
+  mounted(){
+    this.visibleModal = false
+  }
 };
 </script>
 <style scoped>

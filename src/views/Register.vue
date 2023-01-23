@@ -1,7 +1,7 @@
 <template>
   <v-dialog
     transition="dialog-top-transition"
-    v-model="registerModal"
+    v-model="isVisible"
     style="z-index: 900"
     class="pa-0"
     max-width="500px"
@@ -188,8 +188,20 @@ import router from "@/router";
 import axios from "axios";
 
 export default {
+  props:{
+    registerModal:{
+      type: Boolean,
+      required: true
+    }
+  },
+  watch:{
+    registerModal(){
+      this.isVisible = this.$props.registerModal
+    }
+  },
   data() {
     return {
+      isVisible: false,
       visible: false,
       valid: true,
       genders: ["Not specified", "Male", "Female"],
@@ -197,6 +209,7 @@ export default {
         name: "",
         username: "",
         password: "",
+        repeatPassword: "",
         email: "",
         gender: "Not specified",
         roles: ["USER"],
@@ -290,7 +303,7 @@ export default {
       this.hideModal();
     },
     hideModal() {
-      this.$store.dispatch("auth/hideRegister");
+      this.$emit('update:isVisible',false)
       this.resetForm();
       router.push("/");
     },
@@ -328,16 +341,15 @@ export default {
       this.form.name = "";
       this.form.username = "";
       this.form.password = "";
+      this.form.repeatPassword = "";
       this.form.email = "";
       this.terms = false;
       this.form.gender = "Not specified";
     },
   },
-  computed: {
-    registerModal() {
-      return this.$store.getters["auth/registerModal"];
-    },
-  },
+  mounted(){
+    this.isVisible = false
+  }
 };
 </script>
 <style scoped>

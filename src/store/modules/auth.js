@@ -1,5 +1,5 @@
 import router from "../../router";
-import { AUTH_LOGIN, AUTH_LOGOUT, NEW_USER, NOT_NEW, SHOW_REGISTER, HIDE_REGISTER } from "../mutation-types";
+import { AUTH_LOGIN, AUTH_LOGOUT, NEW_USER, NOT_NEW} from "../mutation-types";
 
 export default {
   namespaced: true,
@@ -20,12 +20,6 @@ export default {
     },
     [NOT_NEW](state) {
       state.newUser = false;
-    },
-    [SHOW_REGISTER](state){
-      state.registerModal = true
-    },
-    [HIDE_REGISTER](state){
-      state.registerModal = false
     }
   },
   actions: {
@@ -44,12 +38,6 @@ export default {
     },
     noNewUser({ commit }){
       commit(NOT_NEW)
-    },
-    showRegister({ commit }){
-      commit(SHOW_REGISTER)
-    },
-    hideRegister({ commit }){
-      commit(HIDE_REGISTER)
     }
   },
   getters: {
@@ -68,8 +56,5 @@ export default {
     isNewUser(state){
       return state.newUser
     },
-    registerModal(state){
-      return state.registerModal
-    }
   },
 };

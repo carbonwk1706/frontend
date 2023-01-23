@@ -70,7 +70,10 @@
     </v-sheet>
   </v-dialog>
 
-  <Register />
+  <Register
+    :registerModal="registerModal"
+    @update:isVisible="registerModal = $event"
+  />
 
   <v-dialog v-model="loading" max-width="500">
     <v-card>
@@ -113,6 +116,7 @@ export default {
     return {
       isVisible: false,
       visible: false,
+      registerModal: false,
       form: {
         username: "",
         password: "",
@@ -157,9 +161,12 @@ export default {
         }
       }
     },
+    toggleModalRegister() {
+      this.registerModal = !this.registerModal;
+    },
     goToRegister() {
       this.hideLogin();
-      this.$store.dispatch("auth/showRegister");
+      this.toggleModalRegister();
     },
     alertLogin() {
       this.$swal({
@@ -180,8 +187,10 @@ export default {
       });
     },
     hideLogin() {
-      this.$emit('update:isVisible',false)
-      this.resetForm();
+      this.$emit("update:isVisible", false);
+      setTimeout(()=>{
+        this.resetForm();
+      },500)
     },
     resetForm() {
       this.form.username = "";
@@ -189,9 +198,12 @@ export default {
     },
   },
   watch: {
-    visibleModal(){
-      this.isVisible = this.$props.visibleModal
-    }
+    visibleModal() {
+      this.isVisible = this.$props.visibleModal;
+    },
+  },
+  mounted(){
+    this.isVisible = false
   }
 };
 </script>
