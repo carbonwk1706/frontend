@@ -132,6 +132,8 @@ export default {
 
     async editUser(){
       await api.put('/users/' + this.$store.getters["auth/getId"],this.user)
+      localStorage.setItem("user", JSON.stringify(this.user));
+      this.$store.dispatch("auth/login", this.user);
       this.hideModal()
       router.push("/profile")
       this.$emit("someEvent")

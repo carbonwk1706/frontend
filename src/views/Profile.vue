@@ -75,7 +75,7 @@ export default {
   methods: {
     toggleModal() {
       this.editModal = !this.editModal;
-      console.log(this.editModal);
+
     },
     async handleUpload() {
       const formData = new FormData();
