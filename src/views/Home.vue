@@ -1,5 +1,4 @@
 <template>
-  <h1 class="text-center">Home</h1>
   <ModalAgreement />
   <ShopTable />
 </template>
@@ -15,7 +14,6 @@ export default defineComponent({
   name: "HomeView",
   components: {
     ModalAgreement,
-  }
     ShopTable,
   },
 });
