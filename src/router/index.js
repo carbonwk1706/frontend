@@ -18,7 +18,7 @@ const routes = [
     component: () => import('../views/Wishlist.vue')
   },
   {
-    path: '/profile/:id',
+    path: '/profile',
     name: 'profile',
     component: () => import('../views/Profile.vue')
   },
@@ -27,7 +27,18 @@ const routes = [
     name: 'book',
     component: () => import('../views/Book.vue')
   }
-
+  ,
+  {
+    path: '/loginadmin',
+    name: 'loginadmin',
+    component: () => import('../views/LoginAdmin.vue')
+  }
+  ,
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('../views/Admin.vue')
+  }
 ]
 
 const router = createRouter({

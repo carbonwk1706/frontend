@@ -1,12 +1,11 @@
 import router from "../../router";
-import { AUTH_LOGIN, AUTH_LOGOUT, NEW_USER, NOT_NEW, SHOW_LOGIN, HIDE_LOGIN, SHOW_REGISTER, HIDE_REGISTER } from "../mutation-types";
+import { AUTH_LOGIN, AUTH_LOGOUT, NEW_USER, NOT_NEW} from "../mutation-types";
 
 export default {
   namespaced: true,
   state: () => ({
     user:  JSON.parse(localStorage.getItem("user")),
     newUser: false,
-    loginModal: false,
     registerModal: false
   }),
   mutations: {
@@ -21,18 +20,6 @@ export default {
     },
     [NOT_NEW](state) {
       state.newUser = false;
-    },
-    [SHOW_LOGIN](state){
-      state.loginModal = true
-    },
-    [HIDE_LOGIN](state){
-      state.loginModal = false
-    },
-    [SHOW_REGISTER](state){
-      state.registerModal = true
-    },
-    [HIDE_REGISTER](state){
-      state.registerModal = false
     }
   },
   actions: {
@@ -51,18 +38,6 @@ export default {
     },
     noNewUser({ commit }){
       commit(NOT_NEW)
-    },
-    showLogin({ commit }){
-      commit(SHOW_LOGIN)
-    },
-    hideLogin({ commit }){
-      commit(HIDE_LOGIN)
-    },
-    showRegister({ commit }){
-      commit(SHOW_REGISTER)
-    },
-    hideRegister({ commit }){
-      commit(HIDE_REGISTER)
     }
   },
   getters: {
@@ -78,14 +53,14 @@ export default {
     getId(state){
       return state.user._id.toString()
     },
+    getGender(state){
+      return state.user.gender.toString()
+    },
+    getEmail(state){
+      return state.user.email.toString()
+    },
     isNewUser(state){
       return state.newUser
     },
-    loginModal(state){
-      return state.loginModal
-    },
-    registerModal(state){
-      return state.registerModal
-    }
   },
 };

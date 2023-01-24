@@ -1,42 +1,30 @@
 <template>
   <v-dialog
     transition="dialog-top-transition"
-    v-model="registerModal"
-    style='z-index:900;'
+    v-model="isVisible"
+    style="z-index: 900"
     class="pa-0"
-    width="500px"
+    max-width="500px"
     persistent
   >
-    <v-card>
+    <v-card class="pa-4">
       <div class="d-flex justify-end pa-0">
-        <v-btn icon @click="hideModal">
-          <v-icon>mdi-close</v-icon>
-        </v-btn>
+        <v-icon @click="hideModal">mdi-close</v-icon>
       </div>
-      <v-card-title primary-title class="text-center">
+      <v-card-title primary-title class="text-center pa-1">
         สมัครสมาชิก
       </v-card-title>
       <v-divider></v-divider>
-      <v-card-text class="text-center font-color">
+      <v-card-text class="text-center font-color pa-2">
         กรุณาใส่ข้อมูลที่มีเครื่อง <span style="color: red">*</span> ให้ครบถ้วน
       </v-card-text>
-      <v-container>
+      <v-container class="pa-2">
         <v-form
           ref="form"
           v-model="valid"
           lazy-validation
           @submit.prevent="checkDuplicate"
         >
-          <v-card-text class="pa-2">
-            Name <span style="color: red">*</span>
-          </v-card-text>
-          <v-text-field
-            v-model="form.name"
-            variant="outlined"
-            required
-            placeholder="Name"
-            :rules="nameRules"
-          ></v-text-field>
           <v-card-text class="pa-2">
             Username <span style="color: red">*</span>
             <span style="color: gray"> 4-32 chars [A-z, 0-9, _-@.]</span>
@@ -46,7 +34,7 @@
             variant="outlined"
             required
             placeholder="Username"
-            :rules="usernameRules"
+            :rules="usernameRule"
           ></v-text-field>
           <v-card-text class="pa-2">
             Password <span style="color: red">*</span>
@@ -54,12 +42,56 @@
           </v-card-text>
           <v-text-field
             v-model="form.password"
+            :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+            @click:append-inner="visible = !visible"
+            :type="visible ? 'text' : 'password'"
             variant="outlined"
-            type="password"
             required
             placeholder="Password"
-            :rules="passwordRules"
+            :rules="passwordRule"
           ></v-text-field>
+          <v-card-text class="pa-2">
+            Repeat Password <span style="color: red">*</span>
+          </v-card-text>
+          <v-text-field
+            v-model="form.repeatPassword"
+            :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+            @click:append-inner="visible = !visible"
+            :type="visible ? 'text' : 'password'"
+            variant="outlined"
+            required
+            placeholder="Repeat Password"
+            :rules="[
+              (v) => !!v || 'Please repeat your password',
+              checkPasswordMatch,
+            ]"
+          ></v-text-field>
+          <v-card-text class="pa-2">
+            Email <span style="color: red">*</span>
+          </v-card-text>
+          <v-text-field
+            v-model="form.email"
+            variant="outlined"
+            required
+            placeholder="Email"
+            :rules="emailRule"
+          ></v-text-field>
+          <v-card-text class="pa-2">
+            Display name <span style="color: red">*</span>
+          </v-card-text>
+          <v-text-field
+            v-model="form.name"
+            variant="outlined"
+            required
+            placeholder="Name"
+            :rules="nameRule"
+          ></v-text-field>
+          <v-card-text class="pa-2"> Gender </v-card-text>
+          <v-select
+            :items="genders"
+            v-model="form.gender"
+            variant="solo"
+          ></v-select>
 
           <v-checkbox
             v-model="terms"
@@ -156,31 +188,57 @@ import router from "@/router";
 import axios from "axios";
 
 export default {
+  props:{
+    registerModal:{
+      type: Boolean,
+      required: true
+    }
+  },
+  watch:{
+    registerModal(){
+      this.isVisible = this.$props.registerModal
+    }
+  },
   data() {
     return {
+      isVisible: false,
+      visible: false,
       valid: true,
+      genders: ["Not specified", "Male", "Female"],
       form: {
         name: "",
         username: "",
         password: "",
+        repeatPassword: "",
+        email: "",
+        gender: "Not specified",
         roles: ["USER"],
       },
       loading: false,
       dialog: false,
       loginModal: false,
       terms: false,
-      nameRules: [(v) => !!v || "กรุณากรอกชื่อผู้ใช้"],
-      usernameRules: [
-        (v) => !!v || "กรุณากรอก Username",
+      usernameRule: [
+        (v) => !!v || "กรุณากรอก username",
+        (v) =>
+          /^[A-Za-z0-9_@.-]{4,32}$/.test(v) ||
+          "Username ต้องกระกอบไปด้วยสัญลักษณ์พิเศษ และมีความยาว 4-32 ตัวอักษร",
+      ],
+      emailRule: [
+        (v) => !!v || "กรุณากรอก Email",
         (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
       ],
-      passwordRules: [
+      nameRule: [(v) => !!v || "กรุณากรอกชื่อเล่น"],
+      passwordRule: [
         (v) => !!v || "กรุณากรอก Password",
         (v) => (v && v.length >= 8) || "ระบุอย่างน้อย 8 ตัว",
       ],
     };
   },
   methods: {
+    checkPasswordMatch(v) {
+      return v === this.form.password || "รหัสผ่านไม่ตรงกัน";
+    },
     async checkDuplicate() {
       const { valid } = await this.$refs.form.validate();
 
@@ -189,10 +247,8 @@ export default {
       } else if (this.terms) {
         try {
           const res = await axios.post("http://localhost:3000/auth/duplicate", {
-            name: this.form.name,
             username: this.form.username,
-            password: this.form.password,
-            roles: this.form.roles,
+            email: this.form.email,
           });
           if (res.status === 201) {
             this.loading = true;
@@ -204,8 +260,16 @@ export default {
             this.dialog = true;
           }, 2000);
         } catch (error) {
-          if (error.response.status === 409) {
+          if (
+            error.response.data.message === "Username and Email already exists"
+          ) {
+            this.showAlert("Username และ Email นี้ถูกใช้ไปแล้ว");
+          } else if (
+            error.response.data.message === "Username already exists"
+          ) {
             this.showAlert("Username นี้ถูกใช้ไปแล้ว");
+          } else if (error.response.data.message === "Email already exists") {
+            this.showAlert("Email นี้ถูกใช้ไปแล้ว");
           }
         }
       }
@@ -239,7 +303,7 @@ export default {
       this.hideModal();
     },
     hideModal() {
-      this.$store.dispatch("auth/hideRegister");
+      this.$emit('update:isVisible',false)
       this.resetForm();
       router.push("/");
     },
@@ -250,6 +314,8 @@ export default {
           name: this.form.name,
           username: this.form.username,
           password: this.form.password,
+          email: this.form.email,
+          gender: this.form.gender,
           roles: this.form.roles,
         });
         if (res.status === 201) {
@@ -275,13 +341,15 @@ export default {
       this.form.name = "";
       this.form.username = "";
       this.form.password = "";
+      this.form.repeatPassword = "";
+      this.form.email = "";
+      this.terms = false;
+      this.form.gender = "Not specified";
     },
   },
-  computed: {
-    registerModal() {
-      return this.$store.getters["auth/registerModal"];
-    },
-  },
+  mounted(){
+    this.isVisible = false
+  }
 };
 </script>
 <style scoped>
