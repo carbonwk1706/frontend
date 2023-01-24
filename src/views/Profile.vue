@@ -3,9 +3,9 @@
   <v-card class="mx-auto" width="600">
     <v-row>
       <v-col>
-        <v-card-text> {{ getName() }} </v-card-text>
-        <v-card-text> Username : {{ getUsername() }} </v-card-text>
-        <v-card-text> Email : {{ getEmail() }} </v-card-text>
+        <v-card-text> {{ user.name }} </v-card-text>
+        <v-card-text> Username : {{ user.username }} </v-card-text>
+        <v-card-text> Email : {{ user.email }} </v-card-text>
       </v-col>
       <v-col>
         <div class="pa-2">
@@ -15,19 +15,20 @@
                 v-bind="props"
                 class="rounded-pill"
                 color="success"
+                @click="toggleModal"
                 :variant="isHovering ? 'elevated' : 'outlined'"
                 >แก้ไขข้อมูลส่วนตัว</v-btn
               >
             </template>
           </v-hover>
         </div>
-        <v-card-text> ชื่อ : {{ getName() }} </v-card-text>
-        <v-card-text> เพศ : {{ getGender() }}</v-card-text>
+        <v-card-text> ชื่อ : {{ user.name }} </v-card-text>
+        <v-card-text> เพศ : {{ user.gender }}</v-card-text>
       </v-col>
     </v-row>
-
   </v-card>
-  <br>
+  <br />
+
   <v-file-input
     :rules="rules"
     ref="fileInput"
@@ -40,10 +41,22 @@
     @change="handleFileChange"
   ></v-file-input>
   <v-btn>Upload</v-btn>
+
+  <ManageUserForm
+    :editModal="editModal"
+    @update:isVisible="editModal = $event"
+    @someEvent="callback"
+  />
 </template>
 <script>
 import axios from "axios";
+import api from "@/services/api";
+import ManageUserForm from "@/components/ManageUserForm.vue";
+
 export default {
+  components: {
+    ManageUserForm,
+  },
   data: () => ({
     rules: [
       (value) => {
@@ -56,8 +69,14 @@ export default {
       },
     ],
     file: null,
+    user: [],
+    editModal: false,
   }),
   methods: {
+    toggleModal() {
+      this.editModal = !this.editModal;
+      console.log(this.editModal);
+    },
     async handleUpload() {
       const formData = new FormData();
       formData.append("image", this.file);
@@ -69,18 +88,20 @@ export default {
         console.log(error);
       }
     },
-    getName() {
-      return this.$store.getters["auth/getName"];
+    getId() {
+      return this.$store.getters["auth/getId"];
     },
-    getUsername() {
-      return this.$store.getters["auth/getUsername"];
+    callback() {
+      this.fetchApi();
     },
-    getEmail() {
-      return this.$store.getters["auth/getEmail"];
+    async fetchApi() {
+      const res = await api.get("/users/" + this.$store.getters["auth/getId"]);
+      this.user = res.data;
     },
-    getGender() {
-      return this.$store.getters["auth/getGender"];
-    }
+  },
+  mounted() {
+    this.editModal = false;
+    this.fetchApi();
   },
 };
 </script>

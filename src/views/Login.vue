@@ -203,7 +203,7 @@ export default {
     },
   },
   mounted(){
-    this.isVisible = false
+    this.$emit("update:isVisible", false);
   }
 };
 </script>
