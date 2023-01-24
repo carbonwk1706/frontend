@@ -36,8 +36,8 @@ export default {
   },
   methods: {
     showDetail(item) {
-      console.log(item.id);
-      this.$router.push(`/book/${item.id}`);
+      
+      this.$router.push(`/book/${item._id}`);
     },
     buyItem(item) {
       console.log(item);

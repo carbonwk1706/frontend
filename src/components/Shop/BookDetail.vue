@@ -1,25 +1,28 @@
 <template>
   <v-container>
-    
-    <v-row item="item">
-      <div class="herdName">{{ item.name }}</div>
+    <div class="herdName">{{ book.name }}</div>
+    <v-row>
       <v-col class="d-flex justify-end">
         <v-img
-          :src="item.imageBook"
+          :src="book.imageBook"
           max-height="500"
           max-width="500"
         />
       </v-col>
-      <v-col>
+      <v-col class="description">
         <v-col>
-          <v-row>โดย {{ item.auther }}</v-row>
-          <v-row>สำนักพิมพ์ {{ item.publissher }}</v-row>
-          <v-row>หมวดหมู่ {{ item.category }}</v-row>
+          <v-row>โดย {{ book.author }}</v-row>
+          <br />
+          <v-row>สำนักพิมพ์ {{ book.publisher }}</v-row>
+          <br />
+          <v-row>หมวดหมู่ {{ book.category }}</v-row>
+          <br />
           <v-row>
-            <v-btn color="success" rounded> ฿ {{ item.peice }} </v-btn>
+            <v-btn color="success" rounded width="100"> ฿ {{ book.price }} </v-btn>
           </v-row>
+          <br />
           <v-row>
-            <v-btn icon color="pink" @click="disabled">
+            <v-btn icon color="pink" size="50">
               <v-icon>mdi-heart</v-icon>
             </v-btn>
           </v-row>
@@ -30,7 +33,7 @@
 </template>
 
 <script>
-import api from '@/services/api';
+import axios from 'axios';
 
 export default {
   name: "BookDetail",
@@ -47,9 +50,11 @@ export default {
       }
     }
   },
-  async mounted() {
-    let result = await api.getBookId(this.$route.params.id);
-    this.book = result.data;
+  mounted() {
+    axios.get("http://localhost:3000/books/"+this.$route.params.id).then((result) => {
+      console.log(JSON.parse(JSON.stringify(result)))
+      this.book = result.data;
+    });
   }
 };
 </script>
@@ -61,5 +66,11 @@ export default {
   margin-bottom: 30px;
   font-size: 36px;
   font-weight: bold;
+}
+
+.description {
+  font-size: 20px;
+  font-weight: 500;
+  margin-bottom: 30px;
 }
 </style>
