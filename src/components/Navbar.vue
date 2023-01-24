@@ -82,7 +82,7 @@
     @update:isVisible="visibleModal = $event"
   />
 
-  <v-dialog v-model="loading" max-width="500">
+  <v-dialog v-model="loading" max-width="500" persistent>
     <v-card>
       <v-card-title class="center">
         <div class="img-size">
