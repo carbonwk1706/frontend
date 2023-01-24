@@ -131,7 +131,7 @@ export default {
     },
 
     async editUser(){
-      await api.put('/users/' + this.$store.getters["auth/getId"],this.user)
+      await api.put('/profile/' + this.$store.getters["auth/getId"],this.user)
       localStorage.setItem("user", JSON.stringify(this.user));
       this.$store.dispatch("auth/login", this.user);
       this.hideModal()
@@ -142,8 +142,8 @@ export default {
   },
   async mounted() {
     this.hideModal()
-    const res = await api.get('/users/' + this.$store.getters["auth/getId"])
-    this.user = res.data
+    const res = await api.get('/profile/' + this.$store.getters["auth/getId"])
+    this.user = res.data.user
   }
 };
 </script>

@@ -95,8 +95,8 @@ export default {
       this.fetchApi();
     },
     async fetchApi() {
-      const res = await api.get("/users/" + this.$store.getters["auth/getId"]);
-      this.user = res.data;
+      const res = await api.get("/profile/" + this.$store.getters["auth/getId"]);
+      this.user = res.data.user;
     },
   },
   mounted() {
