@@ -21,10 +21,10 @@ export default {
   },
   computed: {
     showNavbar() {
-      return !["/login", "/register","/loginAdmin","/admin"].includes(this.$route.path);
+      return !["/login", "/register","/loginAdmin","/admin","/usertable"].includes(this.$route.path);
     },
     showSidebar() {
-      return ["/admin"].includes(this.$route.path);
+      return ["/admin","/usertable"].includes(this.$route.path);
     },
   }
 };
