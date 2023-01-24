@@ -3,7 +3,11 @@
   <v-card class="mx-auto" width="600">
     <v-row>
       <v-col>
-        <v-card-text> {{ user.name }} </v-card-text>
+        <div class="d-flex align-center justify-start pa-6">
+          <v-avatar size="x-large">
+            <v-img :src="user.imageUrl"></v-img>
+          </v-avatar>
+        </div>
         <v-card-text> Username : {{ user.username }} </v-card-text>
         <v-card-text> Email : {{ user.email }} </v-card-text>
         <v-card-text> Phone : {{ phone() }} </v-card-text>

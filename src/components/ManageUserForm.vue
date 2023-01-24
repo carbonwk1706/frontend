@@ -16,17 +16,37 @@
       </v-card-title>
       <v-divider></v-divider>
       <v-card-text class="text-center font-color pa-2">
-         Username : {{ user.username }}
+        Username : {{ user.username }}
       </v-card-text>
       <v-container class="pa-2">
-        <v-form
-          ref="form"
-        >
+        <v-form ref="form">
           <v-text-field
+            label="Firstname"
+            variant="outlined"
+            required
+            placeholder="Name"
+            v-model="user.firstName"
+          ></v-text-field>
+          <v-text-field
+            label="Lastname"
+            variant="outlined"
+            required
+            placeholder="Name"
+            v-model="user.lastName"
+          ></v-text-field>
+          <v-text-field
+            label="Display Name"
             variant="outlined"
             required
             placeholder="Name"
             v-model="user.name"
+          ></v-text-field>
+          <v-text-field
+            label="Phone"
+            variant="outlined"
+            required
+            placeholder="Name"
+            v-model="user.phone"
           ></v-text-field>
           <v-card-text class="pa-2"> Gender </v-card-text>
           <v-select
@@ -34,7 +54,6 @@
             :items="genders"
             v-model="user.gender"
           ></v-select>
-
         </v-form>
       </v-container>
       <v-divider></v-divider>
@@ -50,49 +69,23 @@
         </v-btn>
       </v-card-actions>
     </v-card>
-
-    <v-dialog v-model="loading" max-width="500">
-      <v-card>
-        <v-card-title class="center">
-          <div class="img-size">
-            <v-img
-              src="https://media.tenor.com/ItVLtljJHLoAAAAM/sweet-dreams.gif"
-            >
-            </v-img>
-          </div>
-        </v-card-title>
-        <div class="center-loading">
-          <v-progress-circular
-            v-if="loading"
-            :size="50"
-            :width="5"
-            indeterminate
-            color="success"
-          ></v-progress-circular>
-        </div>
-        <v-card-text class="text-center">กำลังสมัครสมาชิก</v-card-text>
-      </v-card>
-    </v-dialog>
-
-
   </v-dialog>
 </template>
 <script>
-import router from '@/router';
-import api from '@/services/api';
-
+import router from "@/router";
+import api from "@/services/api";
 
 export default {
-  props:{
-    editModal:{
+  props: {
+    editModal: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
-  watch:{
-    editModal(){
-      this.isVisible = this.$props.editModal
-    }
+  watch: {
+    editModal() {
+      this.isVisible = this.$props.editModal;
+    },
   },
   data() {
     return {
@@ -108,13 +101,12 @@ export default {
         roles: ["USER"],
       },
       loading: false,
-      user: []
+      user: [],
     };
   },
   methods: {
-
     hideModal() {
-      this.$emit('update:isVisible',false)
+      this.$emit("update:isVisible", false);
     },
 
     showAlert(text) {
@@ -126,25 +118,25 @@ export default {
         button: "OK",
       });
     },
-    getId(){
-      return this.$store.getters["auth/getId"]
+    getId() {
+      return this.$store.getters["auth/getId"];
     },
 
-    async editUser(){
-      await api.put('/profile/' + this.$store.getters["auth/getId"],this.user)
+    async editUser() {
+      await api.put("/profile/" + this.$store.getters["auth/getId"], this.user);
       localStorage.setItem("user", JSON.stringify(this.user));
       this.$store.dispatch("auth/login", this.user);
-      this.hideModal()
-      router.push("/profile")
-      this.$emit("someEvent")
-      this.showAlert("บันทึกข้อมูลสำเร็จ")
-    }
+      this.hideModal();
+      router.push("/profile");
+      this.$emit("someEvent");
+      this.showAlert("บันทึกข้อมูลสำเร็จ");
+    },
   },
   async mounted() {
-    this.hideModal()
-    const res = await api.get('/profile/' + this.$store.getters["auth/getId"])
-    this.user = res.data.user
-  }
+    this.hideModal();
+    const res = await api.get("/profile/" + this.$store.getters["auth/getId"]);
+    this.user = res.data.user;
+  },
 };
 </script>
 <style scoped>
