@@ -42,8 +42,9 @@ api.interceptors.response.use(
           });
           break;
         case 403:
+          store.dispatch("auth/logout");
           router.replace({
-            path: "/login",
+            path: "/",
             query: { redirect: router.currentRoute.fullPath },
           });
           break;

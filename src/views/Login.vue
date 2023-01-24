@@ -145,7 +145,6 @@ export default {
           const token = res.data.token;
           localStorage.setItem("token", token);
           localStorage.setItem("user", JSON.stringify(user));
-          console.log(res);
           if (res.status === 200) {
             setTimeout(() => {
               this.$store.dispatch("auth/login", user);
@@ -203,7 +202,7 @@ export default {
     },
   },
   mounted(){
-    this.isVisible = false
+    this.$emit("update:isVisible", false);
   }
 };
 </script>

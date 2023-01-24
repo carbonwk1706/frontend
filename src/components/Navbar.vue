@@ -22,14 +22,14 @@
         <v-card-text>
           <div class="mx-auto text-center">
             <v-avatar color="brown">
-              <span class="text-h5">{{ user.initials }}</span>
+              <span class="text-h5">JD</span>
             </v-avatar>
             <h3>{{ getName() }}</h3>
             <p class="text-caption mt-1">
               {{ getUsername() }}
             </p>
             <v-divider class="my-3"></v-divider>
-            <v-btn rounded variant="text"> แก้ไขโปรไฟล์ </v-btn>
+            <v-btn rounded variant="text" @click="goToProfile"> แก้ไขโปรไฟล์ </v-btn>
             <v-divider class="my-3"></v-divider>
             <v-btn rounded variant="text" @click="logout"> ออกจากระบบ </v-btn>
           </div>
@@ -102,22 +102,22 @@
       <v-card-text class="text-center">กำลังออกจากระบบ</v-card-text>
     </v-card>
   </v-dialog>
+
+
+
 </template>
 <script>
 import router from "../router";
 import Login from "../views/Login.vue";
 
+
 export default {
   components: {
-    Login,
+    Login
   },
   data: () => ({
     loadingSearch: false,
-    user: {
-      initials: "JD",
-      fullName: "John Doe",
-      email: "john.doe@doe.com",
-    },
+    user: [],
     toggle: false,
     loading: false,
     visibleModal: false,
@@ -149,18 +149,21 @@ export default {
     goToCart() {
       router.push("/cart");
     },
-    getName() {
-      return this.$store.getters["auth/getName"];
-    },
-    getUsername() {
-      return this.$store.getters["auth/getUsername"];
-    },
-    getId() {
-      return this.$store.getters["auth/getId"];
+    goToProfile(){
+      router.push("/profile")
     },
     toggleMenu() {
       this.toggle = !this.toggle;
     },
+    getName(){
+      return this.$store.getters["auth/getName"];
+    },
+    getId(){
+      return this.$store.getters["auth/getId"];
+    },
+    getUsername(){
+      return this.$store.getters["auth/getUsername"];
+    }
   },
   computed: {
     isLogin() {
