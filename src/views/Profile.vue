@@ -5,10 +5,17 @@
       <v-col>
         <div class="d-flex align-center justify-start pa-6">
           <v-avatar size="x-large">
-            <v-img :src="user.imageUrl"></v-img>
+            <v-img :src="user.imageUrl" />
           </v-avatar>
-          <span>{{ user.imageUrl }}</span>
+          <v-file-input
+          ref="fileInput"
+          :rules="rules"
+          accept="image/png, image/jpeg, image/bmp"
+          prepend-icon="mdi-camera"
+          @change="handleFileUpload"
+        ></v-file-input>
         </div>
+
         <v-card-text> Username : {{ user.username }} </v-card-text>
         <v-card-text> Email : {{ user.email }} </v-card-text>
         <v-card-text> Phone : {{ phone() }} </v-card-text>
@@ -36,17 +43,6 @@
     </v-row>
   </v-card>
   <br />
-
-  <v-file-input
-    ref="fileInput"
-    :rules="rules"
-    accept="image/png, image/jpeg, image/bmp"
-    placeholder="Pick an avatar"
-    prepend-icon="mdi-camera"
-    label="Avatar"
-    @change="handleFileUpload"
-  ></v-file-input>
-  <v-btn @click="uploadFile">test</v-btn>
 
   <ManageUserForm
     :editModal="editModal"
@@ -94,15 +90,19 @@ export default {
     async handleFileUpload(e) {
       try {
         let formData = new FormData();
-        formData.append('image', e.target.files[0]);
+        formData.append("image", e.target.files[0]);
         formData.append("username", this.user.username);
-        const response = await axios.post("http://localhost:3000/upload", formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data'
+        const response = await axios.post(
+          "http://localhost:3000/upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
           }
-        });
+        );
         this.user = response.data;
-        console.log(this.user);
+        this.fetchApi()
       } catch (error) {
         console.log(error);
       }
@@ -118,7 +118,8 @@ export default {
         "/profile/" + this.$store.getters["auth/getId"]
       );
       this.user = res.data.user;
-      console.log(this.user)
+      localStorage.setItem("user", JSON.stringify(this.user));
+      this.$store.dispatch("auth/login", this.user);
     },
   },
   mounted() {
