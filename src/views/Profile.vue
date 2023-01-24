@@ -6,6 +6,7 @@
         <v-card-text> {{ user.name }} </v-card-text>
         <v-card-text> Username : {{ user.username }} </v-card-text>
         <v-card-text> Email : {{ user.email }} </v-card-text>
+        <v-card-text> Phone : {{ phone() }} </v-card-text>
       </v-col>
       <v-col>
         <div class="pa-2">
@@ -22,7 +23,9 @@
             </template>
           </v-hover>
         </div>
-        <v-card-text> ชื่อ : {{ user.name }} </v-card-text>
+        <v-card-text> ชื่อ : {{ firstName() }} </v-card-text>
+        <v-card-text> นามสกุล : {{ lastName() }} </v-card-text>
+        <v-card-text> ชื่อเล่น : {{ user.name }} </v-card-text>
         <v-card-text> เพศ : {{ user.gender }}</v-card-text>
       </v-col>
     </v-row>
@@ -73,9 +76,17 @@ export default {
     editModal: false,
   }),
   methods: {
+    firstName(){
+      return this.user.firstName ? this.user.firstName : 'ไม่ระบุ'
+    },
+    lastName(){
+      return this.user.lastName ? this.user.lastName : 'ไม่ระบุ'
+    },
+    phone(){
+      return this.user.phone ? this.user.phone : 'ไม่ระบุ'
+    },
     toggleModal() {
       this.editModal = !this.editModal;
-
     },
     async handleUpload() {
       const formData = new FormData();
