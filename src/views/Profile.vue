@@ -7,6 +7,7 @@
           <v-avatar size="x-large">
             <v-img :src="user.imageUrl"></v-img>
           </v-avatar>
+          <span>{{ user.imageUrl }}</span>
         </div>
         <v-card-text> Username : {{ user.username }} </v-card-text>
         <v-card-text> Email : {{ user.email }} </v-card-text>
@@ -37,17 +38,15 @@
   <br />
 
   <v-file-input
-    :rules="rules"
     ref="fileInput"
-    v-model="file"
-    accept="image/jpeg, image/png"
+    :rules="rules"
+    accept="image/png, image/jpeg, image/bmp"
     placeholder="Pick an avatar"
     prepend-icon="mdi-camera"
-    label="Upload Image"
-    outlined
-    @change="handleFileChange"
+    label="Avatar"
+    @change="handleFileUpload"
   ></v-file-input>
-  <v-btn>Upload</v-btn>
+  <v-btn @click="uploadFile">test</v-btn>
 
   <ManageUserForm
     :editModal="editModal"
@@ -80,25 +79,30 @@ export default {
     editModal: false,
   }),
   methods: {
-    firstName(){
-      return this.user.firstName ? this.user.firstName : 'ไม่ระบุ'
+    firstName() {
+      return this.user.firstName ? this.user.firstName : "ไม่ระบุ";
     },
-    lastName(){
-      return this.user.lastName ? this.user.lastName : 'ไม่ระบุ'
+    lastName() {
+      return this.user.lastName ? this.user.lastName : "ไม่ระบุ";
     },
-    phone(){
-      return this.user.phone ? this.user.phone : 'ไม่ระบุ'
+    phone() {
+      return this.user.phone ? this.user.phone : "ไม่ระบุ";
     },
     toggleModal() {
       this.editModal = !this.editModal;
     },
-    async handleUpload() {
-      const formData = new FormData();
-      formData.append("image", this.file);
-
+    async handleFileUpload(e) {
       try {
-        const { data } = await axios.post("/upload", formData);
-        console.log(data);
+        let formData = new FormData();
+        formData.append('image', e.target.files[0]);
+        formData.append("username", this.user.username);
+        const response = await axios.post("http://localhost:3000/upload", formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+        this.user = response.data;
+        console.log(this.user);
       } catch (error) {
         console.log(error);
       }
@@ -110,8 +114,11 @@ export default {
       this.fetchApi();
     },
     async fetchApi() {
-      const res = await api.get("/profile/" + this.$store.getters["auth/getId"]);
+      const res = await api.get(
+        "/profile/" + this.$store.getters["auth/getId"]
+      );
       this.user = res.data.user;
+      console.log(this.user)
     },
   },
   mounted() {
