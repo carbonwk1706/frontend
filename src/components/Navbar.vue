@@ -13,7 +13,7 @@
       <template v-slot:activator="{ props }">
         <v-btn class="header_action" v-bind="props" @click="toggleMenu">
           <v-icon class="mr-2">mdi-account</v-icon>
-          <span> สวัสดี ID-{{ getId() }}</span>
+          <span> สวัสดี ID-{{ getId }}</span>
           <v-icon v-if="!toggle">mdi-menu-down</v-icon>
           <v-icon v-else>mdi-menu-up</v-icon>
         </v-btn>
@@ -21,12 +21,12 @@
       <v-card>
         <v-card-text>
           <div class="mx-auto text-center">
-            <v-avatar size="">
-              <v-img :src="getImage()"></v-img>
+            <v-avatar size="x-large">
+              <v-img :src="getImage"></v-img>
             </v-avatar>
-            <h3>{{ getName() }}</h3>
+            <h3>{{ getName }}</h3>
             <p class="text-caption mt-1">
-              {{ getUsername() }}
+              {{ getUsername }}
             </p>
             <v-divider class="my-3"></v-divider>
             <v-btn rounded variant="text" @click="goToProfile"> แก้ไขโปรไฟล์ </v-btn>
@@ -155,6 +155,11 @@ export default {
     toggleMenu() {
       this.toggle = !this.toggle;
     },
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
+    },
     getName(){
       return this.$store.getters["auth/getName"];
     },
@@ -167,11 +172,6 @@ export default {
     getImage(){
       return this.$store.getters["auth/getImage"];
     }
-  },
-  computed: {
-    isLogin() {
-      return this.$store.getters["auth/isLogin"];
-    },
   },
   mounted() {
     this.visibleModal = false;
