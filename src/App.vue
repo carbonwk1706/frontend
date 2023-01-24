@@ -19,7 +19,7 @@ export default {
   },
   computed: {
     showNavbar() {
-      return !["/login", "/register"].includes(this.$route.path);
+      return !["/login", "/register","/loginAdmin"].includes(this.$route.path);
     },
   }
 };
