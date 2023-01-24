@@ -1,21 +1,22 @@
 <template>
   <v-container>
-    <div class="herdName">Name Book</div>
-    <v-row>
+    
+    <v-row item="item">
+      <div class="herdName">{{ item.name }}</div>
       <v-col class="d-flex justify-end">
         <v-img
-          src="https://cdn-local.mebmarket.com/meb/server1/225738/Thumbnail/book_detail_large.gif?2"
+          :src="item.imageBook"
           max-height="500"
           max-width="500"
         />
       </v-col>
       <v-col>
         <v-col>
-          <v-row>โดย auther</v-row>
-          <v-row>สำนักพิมพ์ publissher</v-row>
-          <v-row>หมวดหมู่ category</v-row>
+          <v-row>โดย {{ item.auther }}</v-row>
+          <v-row>สำนักพิมพ์ {{ item.publissher }}</v-row>
+          <v-row>หมวดหมู่ {{ item.category }}</v-row>
           <v-row>
-            <v-btn color="success" rounded> ฿ 1000 </v-btn>
+            <v-btn color="success" rounded> ฿ {{ item.peice }} </v-btn>
           </v-row>
           <v-row>
             <v-btn icon color="pink" @click="disabled">
@@ -29,8 +30,27 @@
 </template>
 
 <script>
+import api from '@/services/api';
+
 export default {
-  name: "BookTable",
+  name: "BookDetail",
+  data() {
+    return {
+      book: {
+        name: "",
+        auther: "",
+        publisher: "",
+        catagory: "",
+        price: "",
+        imgaeBook: null
+
+      }
+    }
+  },
+  async mounted() {
+    let result = await api.getBookId(this.$route.params.id);
+    this.book = result.data;
+  }
 };
 </script>
 

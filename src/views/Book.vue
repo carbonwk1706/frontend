@@ -1,14 +1,14 @@
 <template>
-  <BookTable />
+  <BookDetail />
 </template>
 
 <script>
-import BookTable from "@/components/Shop/BookDetail.vue";
+import BookDetail from "@/components/Shop/BookDetail.vue";
 
 export default {
   name: "Book",
   components: {
-    BookTable,
+    BookDetail,
   },
 };
 </script>
