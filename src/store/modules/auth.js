@@ -59,6 +59,9 @@ export default {
     getEmail(state){
       return state.user.email.toString()
     },
+    getImage(state){
+      return state.user.imageUrl.toString()
+    },
     isNewUser(state){
       return state.newUser
     },

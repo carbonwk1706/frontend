@@ -21,8 +21,8 @@
       <v-card>
         <v-card-text>
           <div class="mx-auto text-center">
-            <v-avatar color="brown">
-              <span class="text-h5">JD</span>
+            <v-avatar size="">
+              <v-img :src="getImage()"></v-img>
             </v-avatar>
             <h3>{{ getName() }}</h3>
             <p class="text-caption mt-1">
@@ -163,6 +163,9 @@ export default {
     },
     getUsername(){
       return this.$store.getters["auth/getUsername"];
+    },
+    getImage(){
+      return this.$store.getters["auth/getImage"];
     }
   },
   computed: {
