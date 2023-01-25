@@ -79,20 +79,34 @@ export default {
           });
           const user = res.data.user;
           const token = res.data.token;
+          const roles = user.roles;
           localStorage.setItem("token", token);
           localStorage.setItem("user", JSON.stringify(user));
 
           console.log(res);
-          if (res.status !== 404) {
-            setTimeout(() => {
-              this.$store.dispatch("auth/login", user);
+
+          for (let i = 0; i < roles.length; i++) {
+            console.log("Role:", user.roles[i]);
+            if (user.roles[i] == "ADMIN" && user.roles[i+1] == "USER"|| user.roles[i] == "LOCAL_ADMIN" && user.roles[i+1] == "USER") {
+              if (res.status !== 404) {
+
+                setTimeout(() => {
+                  this.$store.dispatch("auth/login", user);
+                  this.loading = false;
+                }, 2000);
+                router.push("/admin");
+                break;
+              }
+            } else {
+
+              this.alertLoginAdmin()
               this.loading = false;
-            }, 2000);
-            router.push("/admin");
+            }
           }
-        } catch (e) {
-          this.loading = false;
-          this.error = true;
+        } catch (error) {
+          if (error.response.data.message === "Invalid username or password") {
+            this.alertLogin()
+          }
         }
       }
     },
@@ -101,6 +115,15 @@ export default {
         confirmButtonColor: "#00af70",
         width: "500",
         text: "Username หรือ Password ไม่ถูกต้อง ! ",
+        icon: "error",
+        button: "OK",
+      });
+    },
+    alertLoginAdmin() {
+      this.$swal({
+        confirmButtonColor: "#00af70",
+        width: "500",
+        text: "You are not Admin ",
         icon: "error",
         button: "OK",
       });
