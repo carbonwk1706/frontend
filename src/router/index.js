@@ -21,7 +21,18 @@ const routes = [
     path: '/profile',
     name: 'profile',
     component: () => import('../views/Profile.vue')
+  },
+  {
+    path: '/book/:id',
+    name: 'book',
+    component: () => import('../views/Book.vue')
   }
+  // ,
+  // {
+  //   path: '/cart/:id',
+  //   name: 'cart',
+  //   component: () => import('../views/Cart.vue')
+  // }
   ,
   {
     path: '/loginadmin',
