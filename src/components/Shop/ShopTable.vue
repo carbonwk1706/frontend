@@ -5,7 +5,7 @@
       
     </div>
     <hr class="mb-6" />
-    <v-row no-gutters>
+    <v-row >
       <v-col v-for="(item, index) in books" :key="index">
         <v-card class="mx-auto" max-width="180" @click="showDetail(item)">
           <v-img :src="item.imageBook" height="250px"></v-img>
@@ -36,12 +36,10 @@ export default {
   },
   methods: {
     showDetail(item) {
-      
       this.$router.push(`/book/${item._id}`);
     },
     buyItem(item) {
-      console.log(item);
-      alert("BUY");
+      this.$router.push(`/cart/${item._id}`);
     },
   },
   mounted() {

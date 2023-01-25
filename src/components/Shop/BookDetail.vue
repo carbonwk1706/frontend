@@ -21,7 +21,7 @@
           <br />
           <v-row>
 
-            <v-btn icon color="white" @click="wishProcess()">
+            <v-btn icon color="white" >
               <v-icon>mdi-heart</v-icon>
             </v-btn>
 
@@ -47,11 +47,13 @@ export default {
         price: "",
         imgaeBook: null,
       },
+      wishStutas: false
     };
   },
   methods: {
     wishProcess() {
-      
+      this.wishStutas = !this.wishStutas
+      alert(this.wishStutas)
     },
   },
   mounted() {
