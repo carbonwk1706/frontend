@@ -3,9 +3,22 @@
   <v-card class="mx-auto" width="600">
     <v-row>
       <v-col>
-        <v-card-text> {{ user.name }} </v-card-text>
+        <div class="d-flex align-center justify-start pa-6">
+          <v-avatar size="x-large">
+            <v-img :src="user.imageUrl" />
+          </v-avatar>
+          <v-file-input
+          ref="fileInput"
+          :rules="rules"
+          accept="image/png, image/jpeg, image/bmp"
+          prepend-icon="mdi-camera"
+          @change="handleFileUpload"
+        ></v-file-input>
+        </div>
+
         <v-card-text> Username : {{ user.username }} </v-card-text>
         <v-card-text> Email : {{ user.email }} </v-card-text>
+        <v-card-text> Phone : {{ phone() }} </v-card-text>
       </v-col>
       <v-col>
         <div class="pa-2">
@@ -22,25 +35,14 @@
             </template>
           </v-hover>
         </div>
-        <v-card-text> ชื่อ : {{ user.name }} </v-card-text>
+        <v-card-text> ชื่อ : {{ firstName() }} </v-card-text>
+        <v-card-text> นามสกุล : {{ lastName() }} </v-card-text>
+        <v-card-text> ชื่อเล่น : {{ user.name }} </v-card-text>
         <v-card-text> เพศ : {{ user.gender }}</v-card-text>
       </v-col>
     </v-row>
   </v-card>
   <br />
-
-  <v-file-input
-    :rules="rules"
-    ref="fileInput"
-    v-model="file"
-    accept="image/jpeg, image/png"
-    placeholder="Pick an avatar"
-    prepend-icon="mdi-camera"
-    label="Upload Image"
-    outlined
-    @change="handleFileChange"
-  ></v-file-input>
-  <v-btn>Upload</v-btn>
 
   <ManageUserForm
     :editModal="editModal"
@@ -73,17 +75,34 @@ export default {
     editModal: false,
   }),
   methods: {
+    firstName() {
+      return this.user.firstName ? this.user.firstName : "ไม่ระบุ";
+    },
+    lastName() {
+      return this.user.lastName ? this.user.lastName : "ไม่ระบุ";
+    },
+    phone() {
+      return this.user.phone ? this.user.phone : "ไม่ระบุ";
+    },
     toggleModal() {
       this.editModal = !this.editModal;
-
     },
-    async handleUpload() {
-      const formData = new FormData();
-      formData.append("image", this.file);
-
+    async handleFileUpload(e) {
       try {
-        const { data } = await axios.post("/upload", formData);
-        console.log(data);
+        let formData = new FormData();
+        formData.append("image", e.target.files[0]);
+        formData.append("username", this.user.username);
+        const response = await axios.post(
+          "http://localhost:3000/upload",
+          formData,
+          {
+            headers: {
+              "Content-Type": "multipart/form-data",
+            },
+          }
+        );
+        this.user = response.data;
+        this.fetchApi()
       } catch (error) {
         console.log(error);
       }
@@ -95,8 +114,12 @@ export default {
       this.fetchApi();
     },
     async fetchApi() {
-      const res = await api.get("/profile/" + this.$store.getters["auth/getId"]);
+      const res = await api.get(
+        "/profile/" + this.$store.getters["auth/getId"]
+      );
       this.user = res.data.user;
+      localStorage.setItem("user", JSON.stringify(this.user));
+      this.$store.dispatch("auth/login", this.user);
     },
   },
   mounted() {

@@ -45,6 +45,12 @@ const routes = [
     name: 'admin',
     component: () => import('../views/Admin.vue')
   }
+  ,
+  {
+    path: '/usertable',
+    name: 'usertable',
+    component: () => import('../views/UserTable.vue')
+  }
 ]
 
 const router = createRouter({
