@@ -22,7 +22,7 @@
 
         <v-dialog v-model="loading" max-width="500" persistent>
           <v-card>
-            <div class="d-flex justify-end pa-0">
+            <div class="d-flex justify-end pa-1">
               <v-icon @click="hideModal">mdi-close</v-icon>
             </div>
             <v-card-title class="text-center"> อัพโหลดรูป </v-card-title>
@@ -30,6 +30,7 @@
               <v-file-input
                 ref="fileInput"
                 :rules="rules"
+                label="File input"
                 variant="solo"
                 accept="image/png, image/jpeg, image/bmp"
                 prepend-icon="mdi-camera"

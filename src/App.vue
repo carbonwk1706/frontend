@@ -7,17 +7,22 @@
         <router-view />
       </v-container>
     </v-main>
+    <v-footer class="pa-0">
+      <Footer />
+    </v-footer>
   </v-app>
 </template>
 
 <script>
+import Footer from "./components/Footer.vue";
 import Navbar from "./components/Navbar.vue";
 import Sidebar from "./components/Sidebar.vue";
 export default {
   name: "App",
   components: {
     Navbar,
-    Sidebar
+    Sidebar,
+    Footer
   },
   computed: {
     showNavbar() {
