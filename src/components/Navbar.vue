@@ -1,5 +1,4 @@
 <template>
-  <v-app-bar sticky>
     <v-toolbar class="app_bar">
       <v-btn
         class="px-2 mx-2 v-btn--outline header_action"
@@ -62,7 +61,9 @@
               <v-col cols="3">
                 <div class="float-right">
                   <v-btn rounded variant="text" @click="goToProfile">
-                    <span class="font-text" style="color: #5a5a5a">เติมเงิน</span>
+                    <span class="font-text" style="color: #5a5a5a"
+                      >เติมเงิน</span
+                    >
                   </v-btn>
                 </div></v-col
               >
@@ -138,7 +139,7 @@
         <v-icon class="mr-2">mdi-cart</v-icon>
         <span class="font-text">ตะกร้าสินค้า</span>
       </v-btn>
-  
+
       <v-card-text>
         <v-text-field
           :loading="loadingSearch"
@@ -152,8 +153,8 @@
         ></v-text-field>
       </v-card-text>
     </v-toolbar>
-  </v-app-bar>
 
+ 
 
   <Login
     :visibleModal="visibleModal"

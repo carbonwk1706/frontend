@@ -34,7 +34,7 @@
             <span>นโยบายความเป็นส่วนตัว</span>
           </div>
         </v-col>
-        <v-col class="align-center text-xs-center" cols="3">
+        <v-col  class="align-center text-xs-center" cols="3">
           <div class="text-header">เกี่ยวกับเรา</div>
           <div class="text-list pt-3 pb-1">
             <span>ข่าวสารและกิจกรรม</span>
@@ -71,7 +71,7 @@ export default {
   background-color: #f6f6f6;
 }
 .container-max-width {
-  max-width: 960px;
+  max-width: 1140px;
 }
 .text-header{
   font-size: 16px;

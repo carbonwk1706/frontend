@@ -1,5 +1,7 @@
 <template>
-<h1>buyHistory</h1>
+  <div>
+    <h1>buyHistory</h1>
+  </div>
 </template>
 <script>
 export default {

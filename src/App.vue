@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navbar v-if="showNavbar" />
+        <Navbar v-if="showNavbar" />
     <Sidebar v-if="showSidebar" />
     <v-main>
       <v-container class="container-size">

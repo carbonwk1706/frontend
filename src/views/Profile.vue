@@ -32,7 +32,6 @@
             <v-card-title class="text-center font-text"> อัพโหลดรูป </v-card-title>
             <div class="pa-3 center-loading">
               <v-file-input
-                ref="fileInput"
                 :rules="rules"
                 label="File input"
                 variant="solo"
@@ -145,6 +144,8 @@
       </v-col>
     </v-row>
   </v-container>
+
+
 
   <ManageUserForm
     :editModal="editModal"
