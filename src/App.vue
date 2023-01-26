@@ -26,7 +26,7 @@ export default {
   },
   computed: {
     showNavbar() {
-      return !["/login", "/register","/loginAdmin","/admin","/usertable"].includes(this.$route.path);
+      return !["/login", "/register","/login","/admin","/usertable"].includes(this.$route.path);
     },
     showSidebar() {
       return ["/admin","/usertable","/admintable"].includes(this.$route.path);

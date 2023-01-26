@@ -35,7 +35,7 @@ const routes = [
   // }
   ,
   {
-    path: '/loginadmin',
+    path: '/login',
     name: 'loginadmin',
     component: () => import('../views/LoginAdmin.vue')
   }

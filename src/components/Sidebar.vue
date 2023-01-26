@@ -91,7 +91,7 @@ export default {
     logout() {
       this.loading = true;
       setTimeout(() => {
-        this.$store.dispatch("auth/logoutadmin");
+        this.$store.dispatch("authAdmin/logout");
         this.loading = false;
       }, 500);
     },
