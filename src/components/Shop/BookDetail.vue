@@ -21,7 +21,10 @@
           <br />
           <v-row>
 
-            <v-btn icon color="white" >
+            <v-btn icon v-if="wishStutas" color="white" @click="wishProcess" >
+              <v-icon>mdi-heart</v-icon>
+            </v-btn>
+            <v-btn icon v-else color="pink" @click="wishProcess" >
               <v-icon>mdi-heart</v-icon>
             </v-btn>
 
@@ -52,8 +55,8 @@ export default {
   },
   methods: {
     wishProcess() {
+      console.log(this.wishStutas)
       this.wishStutas = !this.wishStutas
-      alert(this.wishStutas)
     },
   },
   mounted() {
