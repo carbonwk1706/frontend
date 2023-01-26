@@ -26,7 +26,7 @@
               </v-avatar>
               <v-col>
                 <h3>{{ getName }}</h3>
-                <p style="color: #5a5a5a" class="mt-1 text-upper">
+                <p style="color: #5a5a5a;" class="mt-1 text-upper">
                   ID-{{ getId }}
                 </p>
                 <div class="d-flex flex justify-end mt-2">
@@ -53,24 +53,24 @@
               <v-col cols="3">
                 <div class="float-right">
                   <v-btn rounded variant="text" @click="goToProfile">
-                    เติมเงิน
+                    <span style="color: #5a5a5a;">เติมเงิน</span>
                   </v-btn>
                 </div></v-col
               >
             </v-row>
             <v-divider class="my-3"></v-divider>
             <v-col class="px-0">
-              <v-btn style="color: #5a5a5a" rounded variant="text" @click="goToProfile">
+              <v-btn style="color: #5a5a5a" rounded variant="text" @click="goToWishlist">
                 รายการที่อยากได้
               </v-btn>
             </v-col>
             <v-col class="px-0">
-              <v-btn style="color: #5a5a5a" rounded variant="text" @click="goToProfile">
+              <v-btn style="color: #5a5a5a" rounded variant="text" @click="goToMyBook">
                 ชั้นหนังสือของฉัน
               </v-btn>
             </v-col>
             <v-col class="px-0">
-              <v-btn style="color: #5a5a5a" rounded variant="text" @click="goToProfile">
+              <v-btn style="color: #5a5a5a" rounded variant="text" @click="goToBuyHistory">
                 ประวัติการสั่งซื้อของฉัน
               </v-btn>
             </v-col>
@@ -194,6 +194,12 @@ export default {
     },
     goToProfile() {
       router.push("/profile");
+    },
+    goToMyBook() {
+      router.push("/mybook");
+    },
+    goToBuyHistory() {
+      router.push("/orderhistory");
     },
     toggleMenu() {
       this.toggle = !this.toggle;

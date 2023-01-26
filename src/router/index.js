@@ -53,9 +53,14 @@ const routes = [
   }
   ,
   {
-    path: '/admintable',
-    name: 'admintable',
-    component: () => import('../views/AdminTable.vue')
+    path: '/mybook',
+    name: 'mybook',
+    component: () => import('../views/MyBook.vue')
+  },
+  {
+    path: '/orderhistory',
+    name: 'orderhistory',
+    component: () => import('../views/OrderHistory.vue')
   }
 ]
 
