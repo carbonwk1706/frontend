@@ -140,23 +140,26 @@ export default {
             username: this.form.username,
             password: this.form.password,
           });
-          this.loading = true;
-          const user = res.data.user;
-          const token = res.data.token;
-          localStorage.setItem("token", token);
-          localStorage.setItem("user", JSON.stringify(user));
-          if (res.status === 200) {
+          if (
+            res.status === 200 &&
+            res.data.message !== "Invalid username or password"
+          ) {
+            this.loading = true;
+            const user = res.data.user;
+            const token = res.data.token;
+            localStorage.setItem("token", token);
+            localStorage.setItem("user", JSON.stringify(user));
             setTimeout(() => {
               this.$store.dispatch("auth/login", user);
               this.loading = false;
               this.hideLogin();
             }, 2000);
             router.push("/");
-          }
-        } catch (error) {
-          if (error.response.data.message === "Invalid username or password") {
+          } else {
             this.alertLogin();
           }
+        } catch (error) {
+            this.alertLogin();
         }
       }
     },
@@ -187,9 +190,9 @@ export default {
     },
     hideLogin() {
       this.$emit("update:isVisible", false);
-      setTimeout(()=>{
+      setTimeout(() => {
         this.resetForm();
-      },500)
+      }, 500);
     },
     resetForm() {
       this.form.username = "";
@@ -201,9 +204,9 @@ export default {
       this.isVisible = this.$props.visibleModal;
     },
   },
-  mounted(){
+  mounted() {
     this.$emit("update:isVisible", false);
-  }
+  },
 };
 </script>
 <style scoped>

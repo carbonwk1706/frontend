@@ -188,16 +188,16 @@ import router from "@/router";
 import axios from "axios";
 
 export default {
-  props:{
-    registerModal:{
+  props: {
+    registerModal: {
       type: Boolean,
-      required: true
-    }
+      required: true,
+    },
   },
-  watch:{
-    registerModal(){
-      this.isVisible = this.$props.registerModal
-    }
+  watch: {
+    registerModal() {
+      this.isVisible = this.$props.registerModal;
+    },
   },
   data() {
     return {
@@ -250,27 +250,37 @@ export default {
             username: this.form.username,
             email: this.form.email,
           });
-          if (res.status === 201) {
-            this.loading = true;
-            setTimeout(() => {
-              this.loading = false;
-            }, 2000);
-          }
-          setTimeout(() => {
-            this.dialog = true;
-          }, 2000);
-        } catch (error) {
           if (
-            error.response.data.message === "Username and Email already exists"
+            res.status === 200 &&
+            res.data.message === "Username and Email already exists"
           ) {
             this.showAlert("Username และ Email นี้ถูกใช้ไปแล้ว");
           } else if (
-            error.response.data.message === "Username already exists"
+            res.status === 200 &&
+            res.data.message === "Username already exists"
           ) {
             this.showAlert("Username นี้ถูกใช้ไปแล้ว");
-          } else if (error.response.data.message === "Email already exists") {
+          } else if (
+            res.status === 200 &&
+            res.data.message === "Email already exists"
+          ) {
             this.showAlert("Email นี้ถูกใช้ไปแล้ว");
+          } else {
+            if (
+              res.status === 201 &&
+              res.data.message === "Username and Email already"
+            ) {
+              this.loading = true;
+              setTimeout(() => {
+                this.loading = false;
+              }, 2000);
+            }
+            setTimeout(() => {
+              this.dialog = true;
+            }, 2000);
           }
+        } catch (error) {
+          this.showAlert("Error");
         }
       }
     },
@@ -281,11 +291,11 @@ export default {
           username: this.form.username,
           password: this.form.password,
         });
-        const user = res.data.user;
-        const token = res.data.token;
-        localStorage.setItem("token", token);
-        localStorage.setItem("user", JSON.stringify(user));
-        if (res.status !== 404) {
+        if (res.status === 200) {
+          const user = res.data.user;
+          const token = res.data.token;
+          localStorage.setItem("token", token);
+          localStorage.setItem("user", JSON.stringify(user));
           setTimeout(() => {
             this.loginModal = false;
             this.hideModal();
@@ -303,7 +313,7 @@ export default {
       this.hideModal();
     },
     hideModal() {
-      this.$emit('update:isVisible',false)
+      this.$emit("update:isVisible", false);
       this.resetForm();
       router.push("/");
     },
@@ -323,9 +333,7 @@ export default {
           this.login();
         }
       } catch (error) {
-        if (error.response.status === 409) {
-          this.showAlert("Username นี้ถูกใช้ไปแล้ว");
-        }
+        console.log(error)
       }
     },
     showAlert(text) {
@@ -347,9 +355,9 @@ export default {
       this.form.gender = "Not specified";
     },
   },
-  mounted(){
-    this.$emit('update:isVisible',false)
-  }
+  mounted() {
+    this.$emit("update:isVisible", false);
+  },
 };
 </script>
 <style scoped>
