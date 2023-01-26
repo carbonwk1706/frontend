@@ -51,6 +51,12 @@ const routes = [
     name: 'usertable',
     component: () => import('../views/UserTable.vue')
   }
+  ,
+  {
+    path: '/admintable',
+    name: 'admintable',
+    component: () => import('../views/AdminTable.vue')
+  }
 ]
 
 const router = createRouter({

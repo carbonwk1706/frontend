@@ -54,6 +54,8 @@ import axios from "axios";
 export default {
   data() {
     return {
+      isVisible: false,
+      visible: false,
       form: {
         username: "",
         password: "",
@@ -72,27 +74,43 @@ export default {
         this.showAlert("กรุณากรอก Password ");
       } else {
         try {
-          this.loading = true;
           const res = await axios.post("http://localhost:3000/auth/login", {
             username: this.form.username,
             password: this.form.password,
           });
+          this.loading = true;
           const user = res.data.user;
           const token = res.data.token;
+          const roles = user.roles;
+          let checkrole = "" ;
           localStorage.setItem("token", token);
           localStorage.setItem("user", JSON.stringify(user));
 
           console.log(res);
-          if (res.status !== 404) {
-            setTimeout(() => {
-              this.$store.dispatch("auth/login", user);
-              this.loading = false;
-            }, 2000);
-            router.push("/admin");
+
+          for (let i = 0; i < roles.length; i++) {
+              if(user.roles[i] ==="ADMIN"){
+                checkrole = user.roles[i]
+              }
+
           }
-        } catch (e) {
-          this.loading = false;
-          this.error = true;
+            if (checkrole === "ADMIN" && res.status !== 403  ) {
+              setTimeout(() => {
+                  this.$store.dispatch("auth/login", user);
+                  this.loading = false;
+                  this.hideLogin();
+                }, 2000);
+                router.push("/admin");
+
+            }else{
+
+              this.alertLoginAdmin()
+              this.loading = false;
+            }
+        } catch (error) {
+          if (error.response.data.message === "Invalid username or password") {
+            this.alertLogin()
+          }
         }
       }
     },
@@ -105,6 +123,15 @@ export default {
         button: "OK",
       });
     },
+    alertLoginAdmin() {
+      this.$swal({
+        confirmButtonColor: "#00af70",
+        width: "500",
+        text: "You are not Admin ",
+        icon: "error",
+        button: "OK",
+      });
+    },
     showAlert(text) {
       this.$swal({
         confirmButtonColor: "#00af70",
@@ -113,6 +140,16 @@ export default {
         icon: "warning",
         button: "OK",
       });
+    },
+    hideLogin() {
+      this.$emit("update:isVisible", false);
+      setTimeout(()=>{
+        this.resetForm();
+      },500)
+    },
+    resetForm() {
+      this.form.username = "";
+      this.form.password = "";
     },
   },
 };
