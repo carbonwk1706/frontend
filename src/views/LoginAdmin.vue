@@ -67,50 +67,49 @@ export default {
   methods: {
     async login() {
       if (!this.form.username && !this.form.password) {
-        this.showAlert("กรุณากรอก Username และ Password ");
+        this.showAlert("กรุณากรอก Username และ Password ด้วยจ้า");
       } else if (!this.form.username) {
-        this.showAlert("กรุณากรอก Username ");
+        this.showAlert("กรุณากรอก Username ด้วยจ้า");
       } else if (!this.form.password) {
-        this.showAlert("กรุณากรอก Password ");
+        this.showAlert("กรุณากรอก Password ด้วยจ้า");
       } else {
         try {
           const res = await axios.post("http://localhost:3000/auth/login", {
             username: this.form.username,
             password: this.form.password,
           });
-          this.loading = true;
-          const user = res.data.user;
-          const token = res.data.token;
-          const roles = user.roles;
-          let checkrole = "" ;
-          localStorage.setItem("token", token);
-          localStorage.setItem("user", JSON.stringify(user));
+          if (
+            res.status === 200 &&
+            res.data.message !== "Invalid username or password"
+          ) {
+            const admin = res.data.user;
+            const tokenadmin = res.data.token;
+            const roles = admin.roles;
+            let checkRole = "";
 
-          console.log(res);
-
-          for (let i = 0; i < roles.length; i++) {
-              if(user.roles[i] ==="ADMIN"){
-                checkrole = user.roles[i]
+            for (let i = 0; i < roles.length; i++) {
+              if (admin.roles[i] === "ADMIN") {
+                checkRole = admin.roles[i];
               }
-
-          }
-            if (checkrole === "ADMIN" && res.status !== 403  ) {
-              setTimeout(() => {
-                  this.$store.dispatch("auth/login", user);
-                  this.loading = false;
-                  this.hideLogin();
-                }, 2000);
-                router.push("/admin");
-
-            }else{
-
-              this.alertLoginAdmin()
-              this.loading = false;
             }
-        } catch (error) {
-          if (error.response.data.message === "Invalid username or password") {
-            this.alertLogin()
+            if (checkRole === "ADMIN") {
+              this.loading = true;
+              localStorage.setItem("tokenAdmin", tokenadmin);
+              localStorage.setItem("admin", JSON.stringify(admin));
+              setTimeout(() => {
+                this.$store.dispatch("authAdmin/login", admin);
+                this.loading = false;
+                this.hideLogin();
+              }, 2000);
+              router.push("/admin");
+            } else {
+              this.alertLoginAdmin();
+            }
+          } else {
+            this.alertLogin();
           }
+        } catch (error) {
+          console.log(error);
         }
       }
     },
@@ -143,9 +142,9 @@ export default {
     },
     hideLogin() {
       this.$emit("update:isVisible", false);
-      setTimeout(()=>{
+      setTimeout(() => {
         this.resetForm();
-      },500)
+      }, 500);
     },
     resetForm() {
       this.form.username = "";

@@ -20,9 +20,9 @@ export default {
         commit(AUTH_LOGIN, admin);
     },
     logout({ commit }) {
-      localStorage.removeItem("token");
+      localStorage.removeItem("tokenAdmin");
       localStorage.removeItem("admin");
-      router.push('/')
+      router.push('/login')
       commit(AUTH_LOGOUT);
     }
   },
