@@ -14,20 +14,23 @@
           <v-row>หมวดหมู่ {{ book.category }}</v-row>
           <br />
           <v-row>
-            <v-btn color="success" rounded width="100">
+            <v-btn
+              color="success"
+              rounded
+              width="100"
+              @click="buyProduct(book)"
+            >
               ฿ {{ book.price }}
             </v-btn>
           </v-row>
           <br />
           <v-row>
-
-            <v-btn icon v-if="wishStutas" color="white" @click="wishProcess" >
+            <v-btn icon v-if="wishStutas" color="white" @click="wishProcess">
               <v-icon>mdi-heart</v-icon>
             </v-btn>
-            <v-btn icon v-else color="pink" @click="wishProcess" >
+            <v-btn icon v-else color="pink" @click="wishProcess">
               <v-icon>mdi-heart</v-icon>
             </v-btn>
-
           </v-row>
         </v-col>
       </v-col>
@@ -50,13 +53,22 @@ export default {
         price: "",
         imgaeBook: null,
       },
-      wishStutas: false
+      wishStutas: true,
     };
   },
   methods: {
     wishProcess() {
-      console.log(this.wishStutas)
-      this.wishStutas = !this.wishStutas
+      this.wishStutas = !this.wishStutas;
+    },
+    buyProduct(item) {
+      console.log(item._id);
+      console.log(this.$store.getters["auth/getId"]);
+      const newCart = [item._id, this.$store.getters["auth/getId"]];
+      console.log(newCart);
+      axios
+        .post("http://localhost:3000/cart/", newCart)
+        .then((response) => console.log(JSON.parse(JSON.stringify(response))))
+        .catch((error) => console.log(error));
     },
   },
   mounted() {
