@@ -22,7 +22,7 @@
         <v-card-text>
           <div class="mx-auto text-center">
             <v-avatar size="x-large">
-              <v-img :src="getImage"></v-img>
+              <v-img :src="getImage" cover></v-img>
             </v-avatar>
             <h3>{{ getName }}</h3>
             <p class="text-caption mt-1">

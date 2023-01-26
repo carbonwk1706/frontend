@@ -1,48 +1,102 @@
 <template>
-  <h1 class="text-center pb-5">จัดการบัญชี</h1>
-  <v-card class="mx-auto" width="600">
+  <div class="text-center mt-6">
+    <h1>จัดการบัญชี</h1>
+  </div>
+  <div class="mt-5" style="width: 100%">
     <v-row>
-      <v-col>
-        <div class="d-flex align-center justify-start pa-6">
+      <v-col cols="4">
+        <div class="d-flex justify-start">
           <v-avatar size="x-large">
-            <v-img :src="user.imageUrl" />
+            <v-img :src="user.imageUrl" cover />
           </v-avatar>
-          <v-file-input
-          ref="fileInput"
-          :rules="rules"
-          accept="image/png, image/jpeg, image/bmp"
-          prepend-icon="mdi-camera"
-          @change="handleFileUpload"
-        ></v-file-input>
+          <div>
+            <v-card-text> {{ user.name }} </v-card-text>
+          </div>
+        </div>
+        <div class="mt-3">
+          <v-btn  rounded="pill" color="grey" @click="loading = !loading">
+            <v-icon class="mr-2">mdi-camera</v-icon>
+            เปลี่ยนรูปโปรไฟล์
+          </v-btn>
         </div>
 
-        <v-card-text> Username : {{ user.username }} </v-card-text>
-        <v-card-text> Email : {{ user.email }} </v-card-text>
-        <v-card-text> Phone : {{ phone() }} </v-card-text>
+        <v-dialog v-model="loading" max-width="500" persistent>
+          <v-card>
+            <div class="d-flex justify-end pa-0">
+              <v-icon @click="hideModal">mdi-close</v-icon>
+            </div>
+            <v-card-title class="text-center"> อัพโหลดรูป </v-card-title>
+            <div class="pa-3 center-loading">
+              <v-file-input
+                ref="fileInput"
+                :rules="rules"
+                variant="solo"
+                accept="image/png, image/jpeg, image/bmp"
+                prepend-icon="mdi-camera"
+                @change="handleFileUpload"
+              >
+              </v-file-input>
+            </div>
+          </v-card>
+        </v-dialog>
       </v-col>
       <v-col>
-        <div class="pa-2">
-          <v-hover>
-            <template v-slot:default="{ isHovering, props }">
-              <v-btn
-                v-bind="props"
-                class="rounded-pill"
-                color="success"
-                @click="toggleModal"
-                :variant="isHovering ? 'elevated' : 'outlined'"
-                >แก้ไขข้อมูลส่วนตัว</v-btn
-              >
-            </template>
-          </v-hover>
+        <div class="d-flex justify-end">
+          <div>
+            <v-hover>
+              <template v-slot:default="{ isHovering, props }">
+                <v-btn
+                  v-bind="props"
+                  class="rounded-pill"
+                  color="success"
+                  @click="toggleModal"
+                  :variant="isHovering ? 'elevated' : 'outlined'"
+                  >แก้ไขข้อมูลส่วนตัว</v-btn
+                >
+              </template>
+            </v-hover>
+          </div>
         </div>
-        <v-card-text> ชื่อ : {{ firstName() }} </v-card-text>
-        <v-card-text> นามสกุล : {{ lastName() }} </v-card-text>
-        <v-card-text> ชื่อเล่น : {{ user.name }} </v-card-text>
-        <v-card-text> เพศ : {{ user.gender }}</v-card-text>
+      </v-col>
+    </v-row>
+  </div>
+
+  <v-card class="mt-4 mx-auto card-bg">
+    <v-row>
+      <v-col class="pa-4">
+        <div class="pa-3">
+          <v-card-text>
+            <span class="mr-3"> Username : </span>
+            <span> {{ user.username }}</span>
+          </v-card-text>
+          <v-card-text>
+            <span class="mr-3"> Email : </span>
+            <span> {{ user.email }}</span>
+          </v-card-text>
+        </div>
+      </v-col>
+      <v-col class="pa-4">
+        <div class="pa-3 div-border">
+          <v-card-text>
+            <span class="mr-3"> Firstname : </span>
+            <span> {{ firstName() }}</span>
+          </v-card-text>
+          <v-card-text>
+            <span class="mr-3"> Lastname : </span>
+            <span> {{ lastName() }}</span>
+          </v-card-text>
+          <v-card-text>
+            <span class="mr-3"> Gender : </span>
+            <span> {{ user.gender }}</span>
+          </v-card-text>
+          <v-card-text>
+            <span class="mr-3"> Phone : </span>
+            <span> {{ phone() }}</span>
+          </v-card-text>
+        </div>
       </v-col>
     </v-row>
   </v-card>
-  <br />
 
   <ManageUserForm
     :editModal="editModal"
@@ -60,6 +114,7 @@ export default {
     ManageUserForm,
   },
   data: () => ({
+    loading: false,
     rules: [
       (value) => {
         return (
@@ -73,6 +128,7 @@ export default {
     file: null,
     user: [],
     editModal: false,
+    formData: null,
   }),
   methods: {
     firstName() {
@@ -102,10 +158,25 @@ export default {
           }
         );
         this.user = response.data;
-        this.fetchApi()
+        this.fetchApi();
+        setTimeout(() => {
+          this.loading = false;
+        }, 300);
+        this.showAlert()
       } catch (error) {
         console.log(error);
       }
+    },
+    hideModal() {
+      this.loading = false;
+    },
+    showAlert() {
+      this.$swal({
+        confirmButtonColor: '#00af70',
+        text: "เปลี่ยนรูปโปรไฟล์สำเร็จ",
+        icon: "success",
+        button: "OK",
+      });
     },
     getId() {
       return this.$store.getters["auth/getId"];
@@ -128,4 +199,11 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+.div-border {
+  border-left: 1px solid #e6e6e6;
+}
+.card-bg {
+  background-color: #f6f6f6;
+}
+</style>
