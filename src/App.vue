@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navbar v-if="showNavbar" />
+        <Navbar v-if="showNavbar" />
     <Sidebar v-if="showSidebar" />
     <v-main>
       <v-container class="container-size">
@@ -36,6 +36,6 @@ export default {
 </script>
 <style scoped>
 .container-size{
-  max-width: 960px;
+  max-width: 1100px;
 }
 </style>

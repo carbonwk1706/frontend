@@ -64,16 +64,34 @@
           color="success"
           size="large"
           variant="elevated"
-          @click="editUser"
+          @click="showModalConfirm"
           >ส่งข้อมูล
         </v-btn>
       </v-card-actions>
     </v-card>
   </v-dialog>
+
+  <v-dialog v-model="showConfirm" max-width="500" persistent>
+    <v-card>
+      <div class="d-flex justify-end pa-1">
+        <v-icon @click="toggleShowModalConfirm">mdi-close</v-icon>
+      </div>
+      <v-card-title class="text-center font-text"> ยืนยันรหัสผ่าน </v-card-title>
+      <div class="pa-3 center-loading">
+        <v-text-field label="Password" v-model="password" variant="outlined" type="password"></v-text-field>
+      </div>
+      <v-card-actions class="center">
+        <v-btn color="white" class="btn-bg" text @click="confirmPassword"> OK </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
+
+
 </template>
 <script>
 import router from "@/router";
 import api from "@/services/api";
+import axios from "axios";
 
 export default {
   props: {
@@ -89,7 +107,9 @@ export default {
   },
   data() {
     return {
+      showConfirm: false,
       isVisible: false,
+      password: "",
       genders: ["Not specified", "Male", "Female"],
       form: {
         name: "",
@@ -100,21 +120,57 @@ export default {
         gender: "Not specified",
         roles: ["USER"],
       },
-      loading: false,
       user: [],
     };
   },
   methods: {
+    showModalConfirm(){
+      this.showConfirm = true
+    },
+    toggleShowModalConfirm(){
+      this.showConfirm = !this.showConfirm
+      this.password = ""
+    },  
+    async confirmPassword(){
+      try{
+        const response = await axios.post("http://localhost:3000/confirmPassword",{
+          id: this.$store.getters["auth/getId"],
+          password: this.password
+        });
+        if(response.data.message !== "Invalid username or password"){
+          this.editUser()
+          this.password = ""
+          this.showConfirm = false
+        }else{
+          this.alertError("รหัสผ่านไม่ถูกต้อง")
+        }
+      }catch(error){
+        console.log(error)
+      }
+    },
     hideModal() {
+      this.resetForm()
       this.$emit("update:isVisible", false);
     },
-
+   async resetForm(){
+      const res = await api.get("/profile/" + this.$store.getters["auth/getId"]);
+       this.user = res.data.user;
+    },
     showAlert(text) {
       this.$swal({
         confirmButtonColor: "#00af70",
         width: "500",
         text: text,
         icon: "success",
+        button: "OK",
+      });
+    },
+    alertError(text){
+      this.$swal({
+        confirmButtonColor: "#00af70",
+        width: "500",
+        text: text,
+        icon: "error",
         button: "OK",
       });
     },
@@ -151,10 +207,10 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.img-size {
-  width: 100px;
-}
 .font-color {
   font-size: 18px;
+}
+.btn-bg {
+  background-color: #00af70;
 }
 </style>
