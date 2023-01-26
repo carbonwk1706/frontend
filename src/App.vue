@@ -36,6 +36,6 @@ export default {
 </script>
 <style scoped>
 .container-size{
-  max-width: 960px;
+  max-width: 1100px;
 }
 </style>
