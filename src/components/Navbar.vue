@@ -6,80 +6,108 @@
       v-if="!isLogin"
       @click="toggleLoginModal"
     >
-      <v-icon class="mr-2">mdi-login</v-icon>
+      <v-icon class="font-text mr-2">mdi-login</v-icon>
       ล็อกอินเข้าสู่ระบบ / สมัครสมาชิก
     </v-btn>
     <v-menu v-if="isLogin" offset-y>
       <template v-slot:activator="{ props }">
         <v-btn class="header_action" v-bind="props" @click="toggleMenu">
           <v-icon class="mr-2">mdi-account</v-icon>
-          <span> สวัสดี ID-{{ getId }}</span>
+          <span class="font-text"> สวัสดี ID-{{ getId }}</span>
           <v-icon v-if="!toggle">mdi-menu-down</v-icon>
           <v-icon v-else>mdi-menu-up</v-icon>
         </v-btn>
       </template>
-      <v-card width="325px">
+      <v-card max-width="auto">
         <v-card-text>
-            <v-row class="pa-2">
-              <v-avatar size="x-large">
-                <v-img :src="getImage" cover></v-img>
-              </v-avatar>
-              <v-col>
-                <h3>{{ getName }}</h3>
-                <p style="color: #5a5a5a;" class="mt-1 text-upper">
-                  ID-{{ getId }}
-                </p>
-                <div class="d-flex flex justify-end mt-2">
-                  <v-btn
-                    class="rounded-pill px-4 py-0"
-                    variant="outlined"
-                    color="error"
-                    @click="logout"
+          <v-row class="pa-2">
+            <v-avatar size="x-large">
+              <v-img :src="getImage" cover></v-img>
+            </v-avatar>
+            <v-col>
+              <h3 class="font-text">{{ getName }}</h3>
+              <p style="color: #5a5a5a" class="mt-1 text-upper font-text">
+                ID-{{ getId }}
+              </p>
+              <div class="d-flex flex justify-end mt-2">
+                <v-btn
+                  class="rounded-pill px-4 py-0"
+                  variant="outlined"
+                  color="error"
+                  @click="logout"
+                >
+                  <span class="font-text" style="font-size: 12px"
+                    >ออกจากระบบ</span
                   >
-                    <span style="font-size: 12px">ออกจากระบบ</span>
-                  </v-btn>
-                </div>
-              </v-col>
-            </v-row>
-            <v-divider class="my-3"></v-divider>
-            <v-row>
-              <v-col cols="9">
-                <div class="px-3 py-2">
-                  <span style="font-size: 14px" class="mr-2">COIN </span> 
-                  <span style="font-size: 16px; color: #f58b1b" class="mr-2">0.00</span>
-                  <span style="font-size: 14px" class="mr-2">เหรียญ</span>
-                </div>
-              </v-col>
-              <v-col cols="3">
-                <div class="float-right">
-                  <v-btn rounded variant="text" @click="goToProfile">
-                    <span style="color: #5a5a5a;">เติมเงิน</span>
-                  </v-btn>
-                </div></v-col
-              >
-            </v-row>
-            <v-divider class="my-3"></v-divider>
-            <v-col class="px-0">
-              <v-btn style="color: #5a5a5a" rounded variant="text" @click="goToWishlist">
-                รายการที่อยากได้
-              </v-btn>
+                </v-btn>
+              </div>
             </v-col>
-            <v-col class="px-0">
-              <v-btn style="color: #5a5a5a" rounded variant="text" @click="goToMyBook">
-                ชั้นหนังสือของฉัน
-              </v-btn>
+          </v-row>
+          <v-divider class="my-3"></v-divider>
+          <v-row>
+            <v-col cols="9">
+              <div class="px-3 py-2">
+                <span style="font-size: 14px" class="mr-2 font-text"
+                  >COIN
+                </span>
+                <span
+                  style="font-size: 16px; color: #f58b1b"
+                  class="mr-2 font-text"
+                  >0.00</span
+                >
+                <span style="font-size: 14px" class="font-text">เหรียญ</span>
+              </div>
             </v-col>
-            <v-col class="px-0">
-              <v-btn style="color: #5a5a5a" rounded variant="text" @click="goToBuyHistory">
-                ประวัติการสั่งซื้อของฉัน
-              </v-btn>
-            </v-col>
-            <v-divider class="my-3"></v-divider>
-            <v-col class="px-0">
-              <v-btn style="color: #5a5a5a" rounded variant="text" @click="goToProfile">
-                จัดการบัญชี
-              </v-btn>
-            </v-col>
+            <v-col cols="3">
+              <div class="float-right">
+                <v-btn rounded variant="text" @click="goToProfile">
+                  <span class="font-text" style="color: #5a5a5a">เติมเงิน</span>
+                </v-btn>
+              </div></v-col
+            >
+          </v-row>
+          <v-divider class="my-3"></v-divider>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToWishlist"
+            >
+              <span class="font-text"> รายการที่อยากได้ </span>
+            </v-btn>
+          </v-col>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToMyBook"
+            >
+              <span class="font-text"> ชั้นหนังสือของฉัน</span>
+            </v-btn>
+          </v-col>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToBuyHistory"
+            >
+              <span class="font-text"> ประวัติการสั่งซื้อของฉัน</span>
+            </v-btn>
+          </v-col>
+          <v-divider class="my-3"></v-divider>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToProfile"
+            >
+              <span class="font-text"> จัดการบัญชี</span>
+            </v-btn>
+          </v-col>
         </v-card-text>
       </v-card>
     </v-menu>
@@ -90,7 +118,7 @@
     </v-btn>
     <v-spacer></v-spacer>
     <v-btn @click="goToHome">
-      <v-toolbar-title class="text-center">EBOOK</v-toolbar-title>
+      <v-toolbar-title class="text-center font-text">EBOOK</v-toolbar-title>
     </v-btn>
     <v-spacer></v-spacer>
     <v-btn
@@ -99,7 +127,7 @@
       @click="goToWishlist"
     >
       <v-icon class="mr-2">mdi-heart</v-icon>
-      รายการโปรด
+      <span class="font-text">รายการโปรด</span>
     </v-btn>
     <v-btn
       class="header_action px-2 mx-2 v-btn--outline"
@@ -107,7 +135,7 @@
       @click="goToCart"
     >
       <v-icon class="mr-2">mdi-cart</v-icon>
-      ตะกร้าสินค้า
+      <span class="font-text">ตะกร้าสินค้า</span>
     </v-btn>
 
     <v-card-text>
@@ -251,5 +279,8 @@ export default {
 }
 .text-upper {
   text-transform: uppercase;
+}
+.font-text {
+  font-family: Prompt, sans-serif;
 }
 </style>

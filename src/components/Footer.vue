@@ -1,28 +1,62 @@
 <template>
-  <v-footer class="footer-bg text-center d-flex flex-row h-100 pa-10" max-width="auto">
-    <div>
-      <v-btn
-        v-for="icon in icons"
-        :key="icon"
-        class="mx-4"
-        :icon="icon"
-        variant="text"
-      ></v-btn>
-    </div>
-
-    <div class="pt-0">
-      Phasellus feugiat arcu sapien, et iaculis ipsum elementum sit amet. Mauris
-      cursus commodo interdum. Praesent ut risus eget metus luctus accumsan id
-      ultrices nunc. Sed at orci sed massa consectetur dignissim a sit amet dui.
-      Duis commodo vitae velit et faucibus. Morbi vehicula lacinia malesuada.
-      Nulla placerat augue vel ipsum ultrices, cursus iaculis dui sollicitudin.
-      Vestibulum eu ipsum vel diam elementum tempor vel ut orci. Orci varius
-      natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-    </div>
-
-    <v-divider></v-divider>
-
-    <div>{{ new Date().getFullYear() }} — <strong>Vuetify</strong></div>
+  <v-footer class="footer-bg d-flex flex-row h-100 pa-10" max-width="auto">
+    <v-container class="container-max-width">
+      <v-row class="d-flex">
+        <v-col class="align-center text-xs-center" cols="3">
+          <div class="text-header">
+            <span>เลือกหมวดหมู่</span>
+          </div>
+          <div class="text-list pt-3 pb-1">
+            <span>นิยาย</span>
+          </div>
+          <div class="text-list pb-1">
+            <span>การ์ตูน</span>
+          </div>
+          <div class="text-list pb-1">
+            <span>แม็กกาซีน</span>
+          </div>
+          <div class="text-list pb-1"> 
+            <span>ทั่วไป</span>
+          </div>
+        </v-col>
+        <v-col class="align-center text-xs-center" cols="3">
+          <div class="text-header">บริการช่วยเหลือ</div>
+          <div class="text-list pt-3 pb-1">
+            <span>วิธีการใช้งาน</span>
+          </div>
+          <div class="text-list pb-1">
+            <span>ขายอีบุ๊กกับเรา</span>
+          </div>
+          <div class="text-list pb-1">
+            <span>เงื่อนไขในการใช้บริการ</span>
+          </div>
+          <div class="text-list pb-1"> 
+            <span>นโยบายความเป็นส่วนตัว</span>
+          </div>
+        </v-col>
+        <v-col class="align-center text-xs-center" cols="3">
+          <div class="text-header">เกี่ยวกับเรา</div>
+          <div class="text-list pt-3 pb-1">
+            <span>ข่าวสารและกิจกรรม</span>
+          </div>
+          <div class="text-list pb-1">
+            <span>ติดต่อเรา</span>
+          </div>
+        </v-col>
+        <v-col class="align-center text-xs-center" cols="3">
+          <div class="text-header">Social</div>
+          <div class="text-list pt-3 pb-1">
+            <v-icon>mdi-facebook</v-icon>
+          </div>
+          <div class="text-list pb-1">
+            <v-icon>mdi-twitter</v-icon>
+          </div>
+          <div class="text-list pb-1">
+            <v-icon>mdi-instagram</v-icon>
+          </div>
+        </v-col>
+      </v-row>
+    </v-container>
   </v-footer>
 </template>
 <script>
@@ -35,5 +69,19 @@ export default {
 <style scoped>
 .footer-bg {
   background-color: #f6f6f6;
+}
+.container-max-width {
+  max-width: 960px;
+}
+.text-header{
+  font-size: 16px;
+  font-family: Prompt, sans-serif;
+  font-weight: 600;
+}
+.text-list{
+  font-size: 14px;
+  font-family: Prompt, sans-serif;
+  font-weight: 400;
+  color: #5a5a5a;
 }
 </style>
