@@ -18,21 +18,68 @@
           <v-icon v-else>mdi-menu-up</v-icon>
         </v-btn>
       </template>
-      <v-card>
+      <v-card width="325px">
         <v-card-text>
-          <div class="mx-auto text-center">
-            <v-avatar size="x-large">
-              <v-img :src="getImage" cover></v-img>
-            </v-avatar>
-            <h3>{{ getName }}</h3>
-            <p class="text-caption mt-1">
-              {{ getUsername }}
-            </p>
+            <v-row class="pa-2">
+              <v-avatar size="x-large">
+                <v-img :src="getImage" cover></v-img>
+              </v-avatar>
+              <v-col>
+                <h3>{{ getName }}</h3>
+                <p style="color: #5a5a5a" class="mt-1 text-upper">
+                  ID-{{ getId }}
+                </p>
+                <div class="d-flex flex justify-end mt-2">
+                  <v-btn
+                    class="rounded-pill px-4 py-0"
+                    variant="outlined"
+                    color="error"
+                    @click="logout"
+                  >
+                    <span style="font-size: 12px">ออกจากระบบ</span>
+                  </v-btn>
+                </div>
+              </v-col>
+            </v-row>
             <v-divider class="my-3"></v-divider>
-            <v-btn rounded variant="text" @click="goToProfile"> แก้ไขโปรไฟล์ </v-btn>
+            <v-row>
+              <v-col cols="9">
+                <div class="px-3 py-2">
+                  <span style="font-size: 14px" class="mr-2">COIN </span> 
+                  <span style="font-size: 16px; color: #f58b1b" class="mr-2">0.00</span>
+                  <span style="font-size: 14px" class="mr-2">เหรียญ</span>
+                </div>
+              </v-col>
+              <v-col cols="3">
+                <div class="float-right">
+                  <v-btn rounded variant="text" @click="goToProfile">
+                    เติมเงิน
+                  </v-btn>
+                </div></v-col
+              >
+            </v-row>
             <v-divider class="my-3"></v-divider>
-            <v-btn rounded variant="text" @click="logout"> ออกจากระบบ </v-btn>
-          </div>
+            <v-col class="px-0">
+              <v-btn style="color: #5a5a5a" rounded variant="text" @click="goToProfile">
+                รายการที่อยากได้
+              </v-btn>
+            </v-col>
+            <v-col class="px-0">
+              <v-btn style="color: #5a5a5a" rounded variant="text" @click="goToProfile">
+                ชั้นหนังสือของฉัน
+              </v-btn>
+            </v-col>
+            <v-col class="px-0">
+              <v-btn style="color: #5a5a5a" rounded variant="text" @click="goToProfile">
+                ประวัติการสั่งซื้อของฉัน
+              </v-btn>
+            </v-col>
+            <v-divider class="my-3"></v-divider>
+            <v-col class="px-0">
+              <v-btn style="color: #5a5a5a" rounded variant="text" @click="goToProfile">
+                จัดการบัญชี
+              </v-btn>
+            </v-col>
         </v-card-text>
       </v-card>
     </v-menu>
@@ -62,19 +109,19 @@
       <v-icon class="mr-2">mdi-cart</v-icon>
       ตะกร้าสินค้า
     </v-btn>
-   
-      <v-card-text>
-        <v-text-field
-          :loading="loadingSearch"
-          density="compact"
-          variant="solo"
-          label="ค้นหาหนังสือ"
-          prepend-inner-icon="mdi-magnify"
-          single-line
-          hide-details
-          @click:prepend-inner="onClick"
-        ></v-text-field>
-      </v-card-text>
+
+    <v-card-text>
+      <v-text-field
+        :loading="loadingSearch"
+        density="compact"
+        variant="solo"
+        label="ค้นหาหนังสือ"
+        prepend-inner-icon="mdi-magnify"
+        single-line
+        hide-details
+        @click:prepend-inner="onClick"
+      ></v-text-field>
+    </v-card-text>
   </v-toolbar>
 
   <Login
@@ -102,18 +149,14 @@
       <v-card-text class="text-center">กำลังออกจากระบบ</v-card-text>
     </v-card>
   </v-dialog>
-
-
-
 </template>
 <script>
 import router from "../router";
 import Login from "../views/Login.vue";
 
-
 export default {
   components: {
-    Login
+    Login,
   },
   data: () => ({
     loadingSearch: false,
@@ -123,13 +166,13 @@ export default {
     visibleModal: false,
   }),
   methods: {
-    onClick () {
-        this.loadingSearch = true
+    onClick() {
+      this.loadingSearch = true;
 
-        setTimeout(() => {
-          this.loadingSearch = false
-        }, 2000)
-      },
+      setTimeout(() => {
+        this.loadingSearch = false;
+      }, 2000);
+    },
     logout() {
       this.loading = true;
       setTimeout(() => {
@@ -149,8 +192,8 @@ export default {
     goToCart() {
       router.push("/cart");
     },
-    goToProfile(){
-      router.push("/profile")
+    goToProfile() {
+      router.push("/profile");
     },
     toggleMenu() {
       this.toggle = !this.toggle;
@@ -160,18 +203,18 @@ export default {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
     },
-    getName(){
+    getName() {
       return this.$store.getters["auth/getName"];
     },
-    getId(){
+    getId() {
       return this.$store.getters["auth/getId"];
     },
-    getUsername(){
+    getUsername() {
       return this.$store.getters["auth/getUsername"];
     },
-    getImage(){
+    getImage() {
       return this.$store.getters["auth/getImage"];
-    }
+    },
   },
   mounted() {
     this.visibleModal = false;
@@ -199,5 +242,8 @@ export default {
 }
 .img-size {
   width: 100px;
+}
+.text-upper {
+  text-transform: uppercase;
 }
 </style>
