@@ -41,19 +41,19 @@ export default {
     isLogin(newValue) {
       if (!newValue) {
         this.showModal = true;
-      }
-      setTimeout(()=>{
+        setTimeout(()=>{
           this.goToLoginAndClose()
         },2000)
+      }
     },
   },
   mounted() {
     if (!this.isLogin) {
       this.showModal = true;
-    }
-    setTimeout(()=>{
+      setTimeout(()=>{
           this.goToLoginAndClose()
         },2000)
+    }
   },
 };
 </script>
