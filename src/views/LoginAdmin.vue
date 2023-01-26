@@ -54,6 +54,8 @@ import axios from "axios";
 export default {
   data() {
     return {
+      isVisible: false,
+      visible: false,
       form: {
         username: "",
         password: "",
@@ -72,37 +74,39 @@ export default {
         this.showAlert("กรุณากรอก Password ");
       } else {
         try {
-          this.loading = true;
           const res = await axios.post("http://localhost:3000/auth/login", {
             username: this.form.username,
             password: this.form.password,
           });
+          this.loading = true;
           const user = res.data.user;
           const token = res.data.token;
           const roles = user.roles;
+          let checkrole = "" ;
           localStorage.setItem("token", token);
           localStorage.setItem("user", JSON.stringify(user));
 
           console.log(res);
 
           for (let i = 0; i < roles.length; i++) {
-            console.log("Role:", user.roles[i]);
-            if (user.roles[i] == "ADMIN" && user.roles[i+1] == "USER"|| user.roles[i] == "LOCAL_ADMIN" && user.roles[i+1] == "USER") {
-              if (res.status !== 404) {
+              if(user.roles[i] ==="ADMIN"){
+                checkrole = user.roles[i]
+              }
 
-                setTimeout(() => {
+          }
+            if (checkrole === "ADMIN" && res.status !== 403  ) {
+              setTimeout(() => {
                   this.$store.dispatch("auth/login", user);
                   this.loading = false;
+                  this.hideLogin();
                 }, 2000);
                 router.push("/admin");
-                break;
-              }
-            } else {
+
+            }else{
 
               this.alertLoginAdmin()
               this.loading = false;
             }
-          }
         } catch (error) {
           if (error.response.data.message === "Invalid username or password") {
             this.alertLogin()
@@ -136,6 +140,16 @@ export default {
         icon: "warning",
         button: "OK",
       });
+    },
+    hideLogin() {
+      this.$emit("update:isVisible", false);
+      setTimeout(()=>{
+        this.resetForm();
+      },500)
+    },
+    resetForm() {
+      this.form.username = "";
+      this.form.password = "";
     },
   },
 };

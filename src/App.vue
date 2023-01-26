@@ -24,7 +24,7 @@ export default {
       return !["/login", "/register","/loginAdmin","/admin","/usertable"].includes(this.$route.path);
     },
     showSidebar() {
-      return ["/admin","/usertable"].includes(this.$route.path);
+      return ["/admin","/usertable","/admintable"].includes(this.$route.path);
     },
   }
 };
