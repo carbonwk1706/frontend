@@ -3,7 +3,7 @@
     <Navbar v-if="showNavbar" />
     <Sidebar v-if="showSidebar" />
     <v-main>
-      <v-container>
+      <v-container class="container-size">
         <router-view />
       </v-container>
     </v-main>
@@ -34,4 +34,8 @@ export default {
   }
 };
 </script>
-<style></style>
+<style scoped>
+.container-size{
+  max-width: 960px;
+}
+</style>

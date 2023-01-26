@@ -2,9 +2,9 @@
   <div class="text-center mt-6">
     <h1>จัดการบัญชี</h1>
   </div>
-  <div class="mt-5" style="width: 100%">
+  <div class="mt-5">
     <v-row>
-      <v-col cols="4">
+      <v-col>
         <div class="d-flex justify-start">
           <v-avatar size="x-large">
             <v-img :src="user.imageUrl" cover />
@@ -13,86 +13,108 @@
             <v-card-text> {{ user.name }} </v-card-text>
           </div>
         </div>
-        <div class="mt-3">
-          <v-btn  rounded="pill" color="grey" @click="loading = !loading">
-            <v-icon class="mr-2">mdi-camera</v-icon>
-            เปลี่ยนรูปโปรไฟล์
-          </v-btn>
-        </div>
-
-        <v-dialog v-model="loading" max-width="500" persistent>
-          <v-card>
-            <div class="d-flex justify-end pa-1">
-              <v-icon @click="hideModal">mdi-close</v-icon>
-            </div>
-            <v-card-title class="text-center"> อัพโหลดรูป </v-card-title>
-            <div class="pa-3 center-loading">
-              <v-file-input
-                ref="fileInput"
-                :rules="rules"
-                label="File input"
-                variant="solo"
-                accept="image/png, image/jpeg, image/bmp"
-                prepend-icon="mdi-camera"
-                @change="handleFileUpload"
-              >
-              </v-file-input>
-            </div>
-          </v-card>
-        </v-dialog>
-      </v-col>
-      <v-col>
-        <div class="d-flex justify-end">
-          <div>
-            <v-hover>
-              <template v-slot:default="{ isHovering, props }">
-                <v-btn
-                  v-bind="props"
-                  class="rounded-pill"
-                  color="success"
-                  @click="toggleModal"
-                  :variant="isHovering ? 'elevated' : 'outlined'"
-                  >แก้ไขข้อมูลส่วนตัว</v-btn
-                >
-              </template>
-            </v-hover>
-          </div>
-        </div>
       </v-col>
     </v-row>
   </div>
+
+  <v-row>
+    <v-col>
+  <div class="mt-3">
+    <v-btn rounded="pill" color="grey" @click="loading = !loading">
+      <v-icon class="mr-2">mdi-camera</v-icon>
+      เปลี่ยนรูปโปรไฟล์
+    </v-btn>
+    <v-dialog v-model="loading" max-width="500" persistent>
+      <v-card>
+        <div class="d-flex justify-end pa-1">
+          <v-icon @click="hideModal">mdi-close</v-icon>
+        </div>
+        <v-card-title class="text-center"> อัพโหลดรูป </v-card-title>
+        <div class="pa-3 center-loading">
+          <v-file-input
+            ref="fileInput"
+            :rules="rules"
+            label="File input"
+            variant="solo"
+            accept="image/png, image/jpeg, image/bmp"
+            prepend-icon="mdi-camera"
+            @change="handleFileUpload"
+          >
+          </v-file-input>
+        </div>
+      </v-card>
+    </v-dialog>
+  </div>
+    </v-col>
+    <v-col>
+      <div class="mt-3 d-flex justify-end">
+        <div>
+          <v-hover>
+            <template v-slot:default="{ isHovering, props }">
+              <v-btn
+                v-bind="props"
+                class="rounded-pill px-8"
+                color="success"
+                @click="toggleModal"
+                :variant="isHovering ? 'elevated' : 'outlined'"
+                >แก้ไขข้อมูลส่วนตัว</v-btn
+              >
+            </template>
+          </v-hover>
+        </div>
+      </div>
+    </v-col>
+  </v-row>
 
   <v-card class="mt-4 mx-auto card-bg">
     <v-row>
       <v-col class="pa-4">
         <div class="pa-3">
           <v-card-text>
-            <span class="mr-3"> Username : </span>
-            <span> {{ user.username }}</span>
+            <v-row class="pa-2">
+              <span class="mr-3 text-width">ID</span>
+              <span style="color: #5a5a5a">{{ user._id }}</span>
+            </v-row>
           </v-card-text>
           <v-card-text>
-            <span class="mr-3"> Email : </span>
-            <span> {{ user.email }}</span>
+            <v-row class="pa-2">
+              <span class="mr-3 text-width">Username</span>
+              <span style="color: #5a5a5a">{{ user.username }}</span>
+            </v-row>
+          </v-card-text>
+          <v-card-text>
+            <v-row class="pa-2">
+              <span class="mr-3 text-width">Email</span>
+              <span style="color: #5a5a5a">{{ user.email }}</span>
+            </v-row>
           </v-card-text>
         </div>
       </v-col>
       <v-col class="pa-4">
         <div class="pa-3 div-border">
           <v-card-text>
-            <span class="mr-3"> Firstname : </span>
-            <span> {{ firstName() }}</span>
+            <v-row class="pa-2">
+              <span class="mr-3 text-width">Firstname</span>
+              <span style="color: #5a5a5a">{{ firstName() }}</span>
+            </v-row>
           </v-card-text>
           <v-card-text>
-            <span class="mr-3"> Lastname : </span>
-            <span> {{ lastName() }}</span>
+            <v-row class="pa-2">
+              <span class="mr-3 text-width">Lastname</span>
+              <span style="color: #5a5a5a">{{ lastName() }}</span>
+            </v-row>
           </v-card-text>
           <v-card-text>
-            <span class="mr-3"> Gender : </span>
-            <span> {{ user.gender }}</span>
+            <v-row class="pa-2">
+              <span class="mr-3 text-width">Gender</span>
+              <span style="color: #5a5a5a">{{ user.gender }}</span>
+            </v-row>
           </v-card-text>
           <v-card-text>
-            <span class="mr-3"> Phone : </span>
-            <span> {{ phone() }}</span>
+            <v-row class="pa-2">
+              <span class="mr-3 text-width">Phone</span>
+              <span style="color: #5a5a5a"> {{ phone() }}</span>
+            </v-row>
           </v-card-text>
         </div>
       </v-col>
@@ -163,7 +185,7 @@ export default {
         setTimeout(() => {
           this.loading = false;
         }, 300);
-        this.showAlert()
+        this.showAlert();
       } catch (error) {
         console.log(error);
       }
@@ -173,7 +195,7 @@ export default {
     },
     showAlert() {
       this.$swal({
-        confirmButtonColor: '#00af70',
+        confirmButtonColor: "#00af70",
         text: "เปลี่ยนรูปโปรไฟล์สำเร็จ",
         icon: "success",
         button: "OK",
@@ -206,5 +228,8 @@ export default {
 }
 .card-bg {
   background-color: #f6f6f6;
+}
+.text-width {
+  width: 20%;
 }
 </style>
