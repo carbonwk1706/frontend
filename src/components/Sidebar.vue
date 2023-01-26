@@ -21,21 +21,41 @@
     <v-list density="compact" nav>
       <v-list-item
         prepend-icon="mdi-account"
-        title="AdminTable"
+        title="รายชื่อแอดมิน"
         value="account"
         @click="goToAdminTable()"
       ></v-list-item>
       <v-list-item
         prepend-icon="mdi-account-group-outline"
-        title="UserTable"
+        title="รายชื่อผู้ใช้งาน"
         value="users"
         @click="goToUserTable()"
       ></v-list-item>
+      <v-list-item
+        prepend-icon="mdi-view-dashboard"
+        title="รายการคำร้อง"
+        value="users"
+        @click="goToUserTable()"
+      ></v-list-item>
+      <!-- <v-list-item
+        prepend-icon="mdi-account-group-outline"
+        title="ประวัติ"
+        value="users"
+        @click="goToUserTable()"
+      ></v-list-item> -->
     </v-list>
+
+    <template v-slot:append>
+    <div class="pa-2">
+      <v-btn rounded variant="text" @click="logout"> Logout </v-btn>
+    </div>
+  </template>
   </v-navigation-drawer>
+
 </template>
 <script>
 import router from "../router";
+
 export default {
   drawer: false,
   data() {
@@ -53,6 +73,7 @@ export default {
       rail: true,
     };
   },
+  computed: {},
   methods: {
     toggleRail() {
       this.rail = !this.rail;
@@ -62,6 +83,13 @@ export default {
     },
     goToAdminTable() {
       router.push("/admintable");
+    },
+    logout() {
+      this.loading = true;
+      setTimeout(() => {
+        this.$store.dispatch("auth/logout");
+        this.loading = false;
+      }, 2000);
     },
   },
 };
