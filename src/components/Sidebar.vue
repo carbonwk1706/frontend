@@ -22,7 +22,7 @@
       <v-list-item
         prepend-icon="mdi-account"
         title="รายชื่อแอดมิน"
-        value="account"
+        value="admin"
         @click="goToAdminTable()"
       ></v-list-item>
       <v-list-item
@@ -34,7 +34,7 @@
       <v-list-item
         prepend-icon="mdi-view-dashboard"
         title="รายการคำร้อง"
-        value="users"
+        value="approve"
         @click="goToUserTable()"
       ></v-list-item>
       <!-- <v-list-item
@@ -43,13 +43,17 @@
         value="users"
         @click="goToUserTable()"
       ></v-list-item> -->
+      <v-list-item
+        prepend-icon="mdi-exit-to-app"
+        title="ออกจากระบบ"
+        value="logout"
+        @click="logout"
+      ></v-list-item>
+
+
     </v-list>
 
-    <template v-slot:append>
-    <div class="pa-2">
-      <v-btn rounded variant="text" @click="logout"> Logout </v-btn>
-    </div>
-  </template>
+
   </v-navigation-drawer>
 
 </template>
@@ -87,9 +91,9 @@ export default {
     logout() {
       this.loading = true;
       setTimeout(() => {
-        this.$store.dispatch("auth/logout");
+        this.$store.dispatch("auth/logoutadmin");
         this.loading = false;
-      }, 2000);
+      }, 500);
     },
   },
 };

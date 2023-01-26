@@ -33,6 +33,12 @@ export default {
       router.push('/')
       commit(AUTH_LOGOUT);
     },
+    logoutadmin({ commit }) {
+      localStorage.removeItem("token");
+      localStorage.removeItem("user");
+      router.push('/loginAdmin')
+      commit(AUTH_LOGOUT);
+    },
     newUser({ commit }){
       commit(NEW_USER)
     },
