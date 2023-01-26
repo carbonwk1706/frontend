@@ -1,8 +1,8 @@
 <template>
-  <v-footer class="footer-bg d-flex flex-row h-100 pa-10" max-width="auto">
-    <v-container class="container-max-width">
+  <v-footer class="footer-bg d-flex flex-row h-100 px-10 py-5" max-width="auto">
+    <v-container class="container-max-width pa-0">
       <v-row class="d-flex">
-        <v-col class="align-center text-xs-center" cols="3">
+        <v-col class="align-center text-xs-center py-0" cols="3">
           <div class="text-header">
             <span>เลือกหมวดหมู่</span>
           </div>
@@ -19,7 +19,7 @@
             <span>ทั่วไป</span>
           </div>
         </v-col>
-        <v-col class="align-center text-xs-center" cols="3">
+        <v-col class="align-center text-xs-center py-0" cols="3">
           <div class="text-header">บริการช่วยเหลือ</div>
           <div class="text-list pt-3 pb-1">
             <span>วิธีการใช้งาน</span>
@@ -34,7 +34,7 @@
             <span>นโยบายความเป็นส่วนตัว</span>
           </div>
         </v-col>
-        <v-col class="align-center text-xs-center" cols="3">
+        <v-col class="align-center text-xs-center py-0" cols="3">
           <div class="text-header">เกี่ยวกับเรา</div>
           <div class="text-list pt-3 pb-1">
             <span>ข่าวสารและกิจกรรม</span>
@@ -43,15 +43,15 @@
             <span>ติดต่อเรา</span>
           </div>
         </v-col>
-        <v-col class="align-center text-xs-center" cols="3">
+        <v-col class="align-center text-xs-center py-0" cols="3">
           <div class="text-header">Social</div>
-          <div class="text-list pt-3 pb-1">
+          <div class="text-list pt-3 pb-2">
             <v-icon>mdi-facebook</v-icon>
           </div>
-          <div class="text-list pb-1">
+          <div class="text-list pb-2">
             <v-icon>mdi-twitter</v-icon>
           </div>
-          <div class="text-list pb-1">
+          <div class="text-list pb-2">
             <v-icon>mdi-instagram</v-icon>
           </div>
         </v-col>
@@ -71,7 +71,7 @@ export default {
   background-color: #f6f6f6;
 }
 .container-max-width {
-  max-width: 960px;
+  max-width: 980px;
 }
 .text-header{
   font-size: 16px;
