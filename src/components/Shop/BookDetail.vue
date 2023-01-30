@@ -3,7 +3,7 @@
     <div class="herdName">{{ book.name }}</div>
     <v-row>
       <v-col class="d-flex justify-end">
-        <v-img :src="book.imageBook" max-height="500" max-width="500" />
+        <v-img :src="book.imageBook" max-height="360" max-width="360" />
       </v-col>
       <v-col class="description">
         <v-col>
@@ -18,7 +18,7 @@
               color="success"
               rounded
               width="100"
-              @click="buyProduct(book)"
+              @click="addProduct(book)"
             >
               ฿ {{ book.price }}
             </v-btn>
@@ -45,14 +45,7 @@ export default {
   name: "BookDetail",
   data() {
     return {
-      book: {
-        name: "",
-        auther: "",
-        publisher: "",
-        catagory: "",
-        price: "",
-        imgaeBook: null,
-      },
+      book: [],
       wishStutas: true,
     };
   },
@@ -60,15 +53,8 @@ export default {
     wishProcess() {
       this.wishStutas = !this.wishStutas;
     },
-    buyProduct(item) {
-      console.log(item._id);
-      console.log(this.$store.getters["auth/getId"]);
-      const newCart = [item._id, this.$store.getters["auth/getId"]];
-      console.log(newCart);
-      axios
-        .post("http://localhost:3000/cart/", newCart)
-        .then((response) => console.log(JSON.parse(JSON.stringify(response))))
-        .catch((error) => console.log(error));
+    addProduct(item) {
+      this.$store.dispatch('addItemToCart', item)
     },
   },
   mounted() {
