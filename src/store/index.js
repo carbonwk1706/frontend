@@ -6,6 +6,9 @@ export default createStore({
     cartList: []
   },
   getters: {
+    cartListCount(state){
+      return state.cartList.length;
+    }
   },
   mutations: {
      addItem(state, item){

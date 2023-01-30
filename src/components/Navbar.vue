@@ -128,13 +128,27 @@
       <v-icon class="mr-2">mdi-heart</v-icon>
       <span class="font-text">รายการโปรด</span>
     </v-btn>
+
     <v-btn
       class="header_action px-2 mx-2 v-btn--outline"
       color="white"
       @click="goToCart"
+      v-if="getCartListCount==0"
     >
       <v-icon class="mr-2">mdi-cart</v-icon>
-      <span class="font-text">ตะกร้าสินค้า</span>
+        <span class="font-text">ตะกร้าสินค้า</span>
+    </v-btn>
+
+    <v-btn
+      class="header_action px-2 mx-2 v-btn--outline"
+      color="white"
+      @click="goToCart"
+      v-else
+    >
+      <v-icon class="mr-2">mdi-cart</v-icon>
+      <v-badge :content="getCartListCount" color="error">
+        <span class="font-text">ตะกร้าสินค้า</span>
+      </v-badge>
     </v-btn>
 
     <v-card-text>
@@ -389,6 +403,9 @@ export default {
     },
     recommend() {
       return ["/recommend"].includes(this.$route.path);
+    },
+    getCartListCount(){
+      return this.$store.getters.cartListCount
     },
   },
   mounted() {
