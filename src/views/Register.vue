@@ -11,9 +11,7 @@
       <div class="d-flex justify-end pa-0">
         <v-icon @click="hideModal">mdi-close</v-icon>
       </div>
-      <v-card-title primary-title class="text-center pa-1">
-        สมัครสมาชิก
-      </v-card-title>
+
       <v-divider></v-divider>
       <v-card-text class="text-center font-color pa-2">
         กรุณาใส่ข้อมูลที่มีเครื่อง <span style="color: red">*</span> ให้ครบถ้วน
