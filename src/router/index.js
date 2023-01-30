@@ -69,17 +69,17 @@ const routes = [
 
   },
   {
-    path: 'bestseller',
+    path: '/bestseller',
     name: 'bestseller',
     component: () => import('../views/BestSeller.vue')
   },
   {
-    path: 'newentry',
+    path: '/newentry',
     name: 'newentry',
     component: () => import('../views/NewEntry.vue')
   },
   {
-    path: 'recommend',
+    path: '/recommend',
     name: 'recommend',
     component: () => import('../views/Recommend.vue')
   }
