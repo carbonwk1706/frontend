@@ -10,7 +10,9 @@
             <v-img :src="user.imageUrl" cover />
           </v-avatar>
           <div>
-            <v-card-text class="font-text font-size-content"> {{ user.name }} </v-card-text>
+            <v-card-text class="font-text font-size-content">
+              {{ user.name }}
+            </v-card-text>
           </div>
         </div>
       </v-col>
@@ -20,7 +22,12 @@
   <v-row>
     <v-col>
       <div class="mt-3">
-        <v-btn class="font-text" rounded="pill" color="grey" @click="loading = !loading">
+        <v-btn
+          class="font-text"
+          rounded="pill"
+          color="grey"
+          @click="loading = !loading"
+        >
           <v-icon class="mr-2">mdi-camera</v-icon>
           เปลี่ยนรูปโปรไฟล์
         </v-btn>
@@ -29,7 +36,14 @@
             <div class="d-flex justify-end pa-1">
               <v-icon @click="hideModal">mdi-close</v-icon>
             </div>
-            <v-card-title class="text-center font-text"> อัพโหลดรูป </v-card-title>
+            <v-card-title class="text-center font-text">
+              อัพโหลดรูป
+              <div class="center">
+                <div class="img-size">
+                  <v-img :src="imagePreview" />
+                </div>
+              </div>
+            </v-card-title>
             <div class="pa-3 center-loading">
               <v-file-input
                 :rules="rules"
@@ -37,10 +51,20 @@
                 variant="solo"
                 accept="image/png, image/jpeg, image/bmp"
                 prepend-icon="mdi-camera"
-                @change="handleFileUpload"
+                @change="onFileChange"
               >
               </v-file-input>
             </div>
+            <v-card-actions class="center">
+              <v-btn
+                color="white"
+                class="btn-bg"
+                text
+                @click="handleFileUpload"
+              >
+                อัพโหลด
+              </v-btn>
+            </v-card-actions>
           </v-card>
         </v-dialog>
       </div>
@@ -71,7 +95,9 @@
         <div class="pa-3">
           <v-card-text>
             <v-row class="pa-2">
-              <span class="mr-3 text-width font-text font-size-content">ID</span>
+              <span class="mr-3 text-width font-text font-size-content"
+                >ID</span
+              >
               <span class="upperText font-text" style="color: #5a5a5a">{{
                 user._id
               }}</span>
@@ -79,14 +105,22 @@
           </v-card-text>
           <v-card-text>
             <v-row class="pa-2">
-              <span class="mr-3 text-width font-text font-size-content">Username</span>
-              <span  class="font-text" style="color: #5a5a5a">{{ user.username }}</span>
+              <span class="mr-3 text-width font-text font-size-content"
+                >Username</span
+              >
+              <span class="font-text" style="color: #5a5a5a">{{
+                user.username
+              }}</span>
             </v-row>
           </v-card-text>
           <v-card-text>
             <v-row class="pa-2">
-              <span class="mr-3 text-width font-text font-size-content">Email</span>
-              <span class="font-text" style="color: #5a5a5a">{{ user.email }}</span>
+              <span class="mr-3 text-width font-text font-size-content"
+                >Email</span
+              >
+              <span class="font-text" style="color: #5a5a5a">{{
+                user.email
+              }}</span>
             </v-row>
           </v-card-text>
         </div>
@@ -95,26 +129,42 @@
         <div class="pa-3 div-border">
           <v-card-text>
             <v-row class="pa-2">
-              <span class="font-text mr-3 text-width font-size-content">Firstname</span>
-              <span  class="font-text" style="color: #5a5a5a">{{ firstName() }}</span>
+              <span class="font-text mr-3 text-width font-size-content"
+                >Firstname</span
+              >
+              <span class="font-text" style="color: #5a5a5a">{{
+                firstName()
+              }}</span>
             </v-row>
           </v-card-text>
           <v-card-text>
             <v-row class="pa-2">
-              <span class="font-text mr-3 text-width font-size-content">Lastname</span>
-              <span  class="font-text" style="color: #5a5a5a">{{ lastName() }}</span>
+              <span class="font-text mr-3 text-width font-size-content"
+                >Lastname</span
+              >
+              <span class="font-text" style="color: #5a5a5a">{{
+                lastName()
+              }}</span>
             </v-row>
           </v-card-text>
           <v-card-text>
             <v-row class="pa-2">
-              <span class="font-text mr-3 text-width font-size-content">Gender</span>
-              <span  class="font-text" style="color: #5a5a5a">{{ user.gender }}</span>
+              <span class="font-text mr-3 text-width font-size-content"
+                >Gender</span
+              >
+              <span class="font-text" style="color: #5a5a5a">{{
+                user.gender
+              }}</span>
             </v-row>
           </v-card-text>
           <v-card-text>
             <v-row class="pa-2">
-              <span class="font-text mr-3 text-width font-size-content">Phone</span>
-              <span  class="font-text" style="color: #5a5a5a"> {{ phone() }}</span>
+              <span class="font-text mr-3 text-width font-size-content"
+                >Phone</span
+              >
+              <span class="font-text" style="color: #5a5a5a">
+                {{ phone() }}</span
+              >
             </v-row>
           </v-card-text>
         </div>
@@ -126,26 +176,36 @@
     <v-row align="center">
       <v-col>
         <v-card @click="goToWishlist" class="cardHover" height="128px">
-          <v-card-title class="text-color font-text" >รายการที่อยากได้</v-card-title>
-          <v-card-text style="font-size: 12px;" class="font-text"> รายการหนังสือหรือซีรีย์ที่คุณเคยกดอยากได้ </v-card-text>
+          <v-card-title class="text-color font-text"
+            >รายการที่อยากได้</v-card-title
+          >
+          <v-card-text style="font-size: 12px" class="font-text">
+            รายการหนังสือหรือซีรีย์ที่คุณเคยกดอยากได้
+          </v-card-text>
         </v-card>
       </v-col>
       <v-col>
         <v-card @click="goToHistoryBuy" class="cardHover" height="128px">
-          <v-card-title class="text-color font-text">ประวัติการสั่งหนังสือ</v-card-title>
-          <v-card-text  style="font-size: 12px;" class="font-text"> รวมรายการสั่งซื้อสินค้าของคุณ และรายละเอียดการชำระเงิน </v-card-text>
+          <v-card-title class="text-color font-text"
+            >ประวัติการสั่งหนังสือ</v-card-title
+          >
+          <v-card-text style="font-size: 12px" class="font-text">
+            รวมรายการสั่งซื้อสินค้าของคุณ และรายละเอียดการชำระเงิน
+          </v-card-text>
         </v-card>
       </v-col>
       <v-col>
-          <v-card @click="goToBookcase" class="cardHover" height="128px">
-            <v-card-title class="text-color font-text">ชั้นหนังสือของฉัน</v-card-title>
-            <v-card-text style="font-size: 12px;" class="font-text">รายการหนังสือทั้งหมดของคุณ</v-card-text>
-          </v-card>
+        <v-card @click="goToBookcase" class="cardHover" height="128px">
+          <v-card-title class="text-color font-text"
+            >ชั้นหนังสือของฉัน</v-card-title
+          >
+          <v-card-text style="font-size: 12px" class="font-text"
+            >รายการหนังสือทั้งหมดของคุณ</v-card-text
+          >
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
-
-
 
   <ManageUserForm
     :editModal="editModal"
@@ -175,19 +235,18 @@ export default {
         );
       },
     ],
-    file: null,
+    files: null,
     user: [],
     editModal: false,
     formData: null,
+    imagePreview: "",
   }),
   methods: {
-    goToWishlist(){
-      router.push("/wishlist")
+    goToWishlist() {
+      router.push("/wishlist");
     },
-    goToBookcase(){
-    },
-    goToHistoryBuy(){
-    },
+    goToBookcase() {},
+    goToHistoryBuy() {},
     firstName() {
       return this.user.firstName ? this.user.firstName : "ไม่ระบุ";
     },
@@ -200,32 +259,59 @@ export default {
     toggleModal() {
       this.editModal = !this.editModal;
     },
-    async handleFileUpload(e) {
-      try {
-        let formData = new FormData();
-        formData.append("image", e.target.files[0]);
-        formData.append("username", this.user.username);
-        const response = await axios.post(
-          "http://localhost:3000/upload",
-          formData,
-          {
-            headers: {
-              "Content-Type": "multipart/form-data",
-            },
-          }
-        );
-        this.user = response.data;
-        this.fetchApi();
-        setTimeout(() => {
-          this.loading = false;
-        }, 300);
-        this.showAlert();
-      } catch (error) {
-        console.log(error);
+    onFileChange(e) {
+      this.files = e.target.files;
+      if (!this.files.length) return;
+
+      this.createImage(this.files[0]);
+    },
+    createImage(files) {
+      let reader = new FileReader();
+      reader.onload = (event) => {
+        this.imagePreview = event.target.result;
+      };
+      reader.readAsDataURL(files);
+    },
+    removeImage() {
+      this.imagePreview = "";
+    },
+    async handleFileUpload() {
+      if (this.imagePreview) {
+        try {
+          let formData = new FormData();
+          formData.append("image", this.files[0]);
+          formData.append("username", this.user.username);
+          const response = await axios.post(
+            "http://localhost:3000/upload",
+            formData,
+            {
+              headers: {
+                "Content-Type": "multipart/form-data",
+              },
+            }
+          );
+          this.removeImage();
+          this.user = response.data;
+          setTimeout(() => {
+            this.fetchApi();
+            this.loading = false;
+          }, 1000);
+          this.showAlert();
+        } catch (error) {
+          console.log(error);
+        }
+      }else{
+        this.$swal({
+        confirmButtonColor: "#00af70",
+        text: "กรุณาอัพโหลดรูปภาพ",
+        icon: "error",
+        button: "OK",
+      });
       }
     },
     hideModal() {
       this.loading = false;
+      this.removeImage();
     },
     showAlert() {
       this.$swal({
@@ -257,24 +343,22 @@ export default {
 };
 </script>
 <style scoped>
-
-.font-size-content{
+.font-size-content {
   font-size: 16px;
 }
-.font-text{
-  font-family: Prompt,sans-serif;
+.font-text {
+  font-family: Prompt, sans-serif;
 }
-.text-header{
+.text-header {
   font-size: 2.5rem;
-
 }
-.cardHover:hover{
+.cardHover:hover {
   border: 1px solid #00af70;
   cursor: pointer;
 }
-.text-color{
+.text-color {
   color: #00af70;
-  font-family: Prompt,sans-serif;
+  font-family: Prompt, sans-serif;
 }
 .div-border {
   border-left: 1px solid #e6e6e6;
@@ -287,5 +371,16 @@ export default {
 }
 .upperText {
   text-transform: uppercase;
+}
+.img-size {
+  width: 200px;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-bg {
+  background-color: #00af70;
 }
 </style>

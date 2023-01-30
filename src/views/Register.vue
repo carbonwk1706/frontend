@@ -31,6 +31,7 @@
           </v-card-text>
           <v-text-field
             v-model="form.username"
+            prepend-inner-icon="mdi-account-outline"
             variant="outlined"
             required
             placeholder="Username"
@@ -42,6 +43,7 @@
           </v-card-text>
           <v-text-field
             v-model="form.password"
+            prepend-inner-icon="mdi-lock-outline"
             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
             @click:append-inner="visible = !visible"
             :type="visible ? 'text' : 'password'"
@@ -55,6 +57,7 @@
           </v-card-text>
           <v-text-field
             v-model="form.repeatPassword"
+            prepend-inner-icon="mdi-repeat"
             :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
             @click:append-inner="visible = !visible"
             :type="visible ? 'text' : 'password'"
@@ -71,6 +74,7 @@
           </v-card-text>
           <v-text-field
             v-model="form.email"
+            prepend-inner-icon="mdi-email-outline"
             variant="outlined"
             required
             placeholder="Email"

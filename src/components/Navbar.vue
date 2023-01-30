@@ -1,6 +1,5 @@
 <template>
-  <nav>
-    <v-toolbar class="app_bar" >
+    <v-toolbar class="app_bar">
       <v-btn
         class="px-2 mx-2 v-btn--outline header_action"
         color="white"
@@ -54,7 +53,7 @@
                   <span
                     style="font-size: 16px; color: #f58b1b"
                     class="mr-2 font-text"
-                    >0.00</span
+                    >{{getCoin}}</span
                   >
                   <span style="font-size: 14px" class="font-text">เหรียญ</span>
                 </div>
@@ -156,12 +155,12 @@
     </v-toolbar>
     <v-toolbar id="middle-nav" v-if="showMiddleNav" style="background-color: #f6f6f6">
       <v-spacer></v-spacer>
-      <v-menu v-if="isLogin" offset-y>
+      <v-menu  offset-y>
         <template v-slot:activator="{ props }">
-          <h1 class="text-middle" v-bind="props" @click="toggleMiddle">
+          <h2 class="text-middle" v-bind="props" @click="toggleMiddle">
             อีบุ๊คทั้งหมด<v-icon v-if="!toggleMid">mdi-menu-down</v-icon>
             <v-icon v-else>mdi-menu-up</v-icon>
-          </h1>
+          </h2>
         </template>
         <v-card>
           <v-card-text>
@@ -239,7 +238,6 @@
       <span class="text-menu font-text">แนะนำ</span>
       <v-spacer></v-spacer>
     </v-toolbar>
-  </nav>
 
   <Login
     :visibleModal="visibleModal"
@@ -277,7 +275,6 @@ export default {
   },
   data: () => ({
     loadingSearch: false,
-    user: [],
     toggleMid: false,
     toggle: false,
     loading: false,
@@ -341,6 +338,9 @@ export default {
     },
     getImage() {
       return this.$store.getters["auth/getImage"];
+    },
+    getCoin(){
+      return this.$store.getters["auth/getCoin"];
     },
     showMiddleNav() {
       return ["/"].includes(this.$route.path);
