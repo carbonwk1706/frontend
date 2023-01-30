@@ -42,6 +42,7 @@
             v-model="user.name"
           ></v-text-field>
           <v-text-field
+          prepend-inner-icon="mdi-phone"
             label="Phone"
             variant="outlined"
             required
@@ -78,7 +79,11 @@
       </div>
       <v-card-title class="text-center font-text"> ยืนยันรหัสผ่าน </v-card-title>
       <div class="pa-3 center-loading">
-        <v-text-field label="Password" v-model="password" variant="outlined" type="password"></v-text-field>
+        <v-text-field
+        prepend-inner-icon="mdi-lock-outline"
+        :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+        @click:append-inner="visible = !visible"
+         label="Password" v-model="password" variant="outlined"  :type="visible ? 'text' : 'password'"></v-text-field>
       </div>
       <v-card-actions class="center">
         <v-btn color="white" class="btn-bg" text @click="confirmPassword"> OK </v-btn>
@@ -107,6 +112,7 @@ export default {
   },
   data() {
     return {
+      visible: false,
       showConfirm: false,
       isVisible: false,
       password: "",
