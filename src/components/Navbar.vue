@@ -53,7 +53,7 @@
                   <span
                     style="font-size: 16px; color: #f58b1b"
                     class="mr-2 font-text"
-                    >0.00</span
+                    >{{getCoin}}</span
                   >
                   <span style="font-size: 14px" class="font-text">เหรียญ</span>
                 </div>
@@ -338,6 +338,9 @@ export default {
     },
     getImage() {
       return this.$store.getters["auth/getImage"];
+    },
+    getCoin(){
+      return this.$store.getters["auth/getCoin"];
     },
     showMiddleNav() {
       return ["/"].includes(this.$route.path);

@@ -68,6 +68,9 @@ export default {
     getImage(state){
       return state.user.imageUrl.toString()
     },
+    getCoin(state){
+      return state.user.coin.toString()
+    },
     isNewUser(state){
       return state.newUser
     },
