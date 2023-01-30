@@ -20,7 +20,7 @@ export default {
   components: {
     Navbar,
     Sidebar,
-    Footer,
+    Footer
   },
   computed: {
     showNavbar() {

@@ -61,6 +61,27 @@ const routes = [
     path: '/orderhistory',
     name: 'orderhistory',
     component: () => import('../views/OrderHistory.vue')
+  },
+  {
+    path: '/registersell',
+    name: 'registersell',
+    component: () => import('../views/RegisterSell.vue')
+
+  },
+  {
+    path: '/bestseller',
+    name: 'bestseller',
+    component: () => import('../views/BestSeller.vue')
+  },
+  {
+    path: '/newentry',
+    name: 'newentry',
+    component: () => import('../views/NewEntry.vue')
+  },
+  {
+    path: '/recommend',
+    name: 'recommend',
+    component: () => import('../views/Recommend.vue')
   }
 ]
 
