@@ -232,24 +232,28 @@
     <span
       :class="home ? 'border-bottom' : 'text-menu'"
       class="font-text mr-3"
+      style="color: #5a5a5a;"
       @click="goToHome"
       >หน้าแรก</span
     >
     <span
       :class="bestSeller ? 'border-bottom' : 'text-menu'"
       class="text-menu font-text mr-3"
+      style="color: #5a5a5a;"
       @click="goToBestSeller"
       >ขายดี</span
     >
     <span
       :class="newEntry ? 'border-bottom' : 'text-menu'"
       class="text-menu font-text mr-3"
+      style="color: #5a5a5a;"
       @click="goToNewEntry"
       >มาใหม่</span
     >
     <span
       :class="recommend ? 'border-bottom' : 'text-menu'"
       class="text-menu font-text"
+      style="color: #5a5a5a;"
       @click="goToRecommend"
       >แนะนำ</span
     >
@@ -286,14 +290,14 @@
 import router from "../router";
 import Login from "../views/Login.vue";
 
-window.addEventListener("scroll", function() {
-    const toolbar2 = document.getElementById("bottom-nav");
-    if (window.scrollY > 50) {
-      toolbar2.classList.add("hide-nav");
-    } else {
-      toolbar2.classList.remove("hide-nav");
-    }
-  });
+window.addEventListener("scroll", function () {
+  const toolbar2 = document.getElementById("bottom-nav");
+  if (window.scrollY > 50) {
+    toolbar2.classList.add("hide-nav");
+  } else {
+    toolbar2.classList.remove("hide-nav");
+  }
+});
 
 export default {
   components: {
@@ -348,7 +352,7 @@ export default {
     },
     goToRecommend() {
       router.push("/recommend");
-    }
+    },
   },
   computed: {
     isLogin() {
@@ -370,9 +374,11 @@ export default {
       return this.$store.getters["auth/getCoin"];
     },
     showMiddleNav() {
-      return ["/","/bestseller","/newentry","/recommend"].includes(this.$route.path);
+      return ["/", "/bestseller", "/newentry", "/recommend"].includes(
+        this.$route.path
+      );
     },
-    home(){
+    home() {
       return ["/"].includes(this.$route.path);
     },
     bestSeller() {
@@ -417,7 +423,7 @@ export default {
 .bottom-nav-2 {
   position: sticky;
   top: 64px;
-  z-index: 1;  
+  z-index: 1;
   transition: all 0s;
   transform: translateY(0%);
 }
