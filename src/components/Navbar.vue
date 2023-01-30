@@ -230,7 +230,7 @@
   >
     <v-spacer></v-spacer>
     <span
-      :class="showMiddleNav ? 'border-bottom' : 'text-menu'"
+      :class="home ? 'border-bottom' : 'text-menu'"
       class="font-text mr-3"
       @click="goToHome"
       >หน้าแรก</span
@@ -285,6 +285,15 @@
 <script>
 import router from "../router";
 import Login from "../views/Login.vue";
+
+window.addEventListener("scroll", function() {
+    const toolbar2 = document.getElementById("bottom-nav");
+    if (window.scrollY > 50) {
+      toolbar2.classList.add("hide-nav");
+    } else {
+      toolbar2.classList.remove("hide-nav");
+    }
+  });
 
 export default {
   components: {
@@ -361,6 +370,9 @@ export default {
       return this.$store.getters["auth/getCoin"];
     },
     showMiddleNav() {
+      return ["/","/bestseller","/newentry","/recommend"].includes(this.$route.path);
+    },
+    home(){
       return ["/"].includes(this.$route.path);
     },
     bestSeller() {
@@ -379,6 +391,9 @@ export default {
 };
 </script>
 <style scoped>
+.hide-nav {
+  transform: translateY(-100%);
+}
 .text-middle {
   cursor: pointer;
   font-family: Prompt, sans-serif;
@@ -402,7 +417,9 @@ export default {
 .bottom-nav-2 {
   position: sticky;
   top: 64px;
-  z-index: 1;
+  z-index: 1;  
+  transition: all 0s;
+  transform: translateY(0%);
 }
 .bottom-nav {
   position: sticky;
