@@ -14,7 +14,7 @@
             {{ item.author }}/{{ item.publisher }}
           </v-card-subtitle>
           <v-row class="d-flex justify-end ma-3">
-            <v-btn color="success" @click="buyItem(item)">
+            <v-btn color="success" @click="addItem(item)">
               ฿ {{ item.price }}
             </v-btn>
           </v-row>
@@ -39,8 +39,8 @@ export default {
     showDetail(item) {
       this.$router.push(`/book/${item._id}`);
     },
-    buyItem(item) {
-      this.$router.push(`/cart/${item._id}`);
+    addItem(item) {
+      this.$store.dispatch('addItemToCart', item)
     },
   },
   mounted() {
