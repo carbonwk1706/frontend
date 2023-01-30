@@ -15,7 +15,7 @@ export default createStore({
       state.cartList.push(item)
      },
      delItem(state, product){
-      var index = state.cartList.findIndex(productIndex => productIndex.id == product)
+      var index = state.cartList.findIndex(productIndex => productIndex._id == product)
       state.cartList.splice(index, 1)
     }
   },
