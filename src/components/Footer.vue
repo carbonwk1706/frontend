@@ -1,8 +1,8 @@
 <template>
-  <v-footer class="footer-bg d-flex flex-row h-100 pa-10" max-width="auto">
+  <v-footer class="footer-bg d-flex flex-row pa-10" max-width="auto">
     <v-container class="container-max-width">
       <v-row class="d-flex">
-        <v-col class="align-center text-xs-center" cols="3">
+        <v-col  cols="3">
           <div class="text-header">
             <span>เลือกหมวดหมู่</span>
           </div>
@@ -11,12 +11,6 @@
           </div>
           <div class="text-list pb-1">
             <span>การ์ตูน</span>
-          </div>
-          <div class="text-list pb-1">
-            <span>แม็กกาซีน</span>
-          </div>
-          <div class="text-list pb-1"> 
-            <span>ทั่วไป</span>
           </div>
         </v-col>
         <v-col class="align-center text-xs-center" cols="3">

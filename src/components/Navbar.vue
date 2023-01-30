@@ -1,5 +1,6 @@
 <template>
-    <v-toolbar class="app_bar">
+  <nav>
+    <v-toolbar class="app_bar" >
       <v-btn
         class="px-2 mx-2 v-btn--outline header_action"
         color="white"
@@ -153,8 +154,92 @@
         ></v-text-field>
       </v-card-text>
     </v-toolbar>
+    <v-toolbar id="middle-nav" v-if="showMiddleNav" style="background-color: #f6f6f6">
+      <v-spacer></v-spacer>
+      <v-menu v-if="isLogin" offset-y>
+        <template v-slot:activator="{ props }">
+          <h1 class="text-middle" v-bind="props" @click="toggleMiddle">
+            อีบุ๊คทั้งหมด<v-icon v-if="!toggleMid">mdi-menu-down</v-icon>
+            <v-icon v-else>mdi-menu-up</v-icon>
+          </h1>
+        </template>
+        <v-card>
+          <v-card-text>
+            <v-col class="px-0">
+              <v-btn
+                style="color: #00af70"
+                rounded
+                variant="text"
+                @click="goToWishlist"
+              >
+                <span class="font-text"> อีบุ๊คทั้งหมด </span>
+              </v-btn>
+            </v-col>
+            <v-divider class="my-3"></v-divider>
+            <v-col class="px-0">
+              <v-btn
+                style="color: #000"
+                rounded
+                variant="text"
+                @click="goToWishlist"
+              >
+                <span class="font-text"> นิยายทั้งหมด </span>
+              </v-btn>
+            </v-col>
+            <v-col class="px-0">
+              <v-btn
+                style="color: #000"
+                rounded
+                variant="text"
+                @click="goToMyBook"
+              >
+                <span class="font-text">การ์ตูนทั้งหมด</span>
+              </v-btn>
+            </v-col>
+            <v-divider class="my-3"></v-divider>
+            <v-col class="px-0">
+              <v-btn
+                style="color: #5a5a5a"
+                rounded
+                variant="text"
+                @click="goToProfile"
+              >
+                <span class="font-text">หมวดหมู่ทั้งหมด</span>
+              </v-btn>
+            </v-col>
+            <v-col class="px-0">
+              <v-btn
+                style="color: #5a5a5a"
+                rounded
+                variant="text"
+                @click="goToProfile"
+              >
+                <span class="font-text">สำนักพิมพ์</span>
+              </v-btn>
+            </v-col>
+          </v-card-text>
+        </v-card>
+      </v-menu>
 
- 
+      <v-spacer></v-spacer>
+    </v-toolbar>
+    <v-toolbar id="bottom-nav" style="background-color: #f6f6f6">
+      <v-spacer></v-spacer>
+      <span
+        :class="
+        showMiddleNav
+            ? 'border-bottom'
+            : 'text-menu'
+        "
+        class="font-text mr-3"
+        >หน้าแรก</span
+      >
+      <span class="text-menu font-text mr-3">ขายดี</span>
+      <span class="text-menu font-text mr-3">มาใหม่</span>
+      <span class="text-menu font-text">แนะนำ</span>
+      <v-spacer></v-spacer>
+    </v-toolbar>
+  </nav>
 
   <Login
     :visibleModal="visibleModal"
@@ -193,6 +278,7 @@ export default {
   data: () => ({
     loadingSearch: false,
     user: [],
+    toggleMid: false,
     toggle: false,
     loading: false,
     visibleModal: false,
@@ -236,6 +322,9 @@ export default {
     toggleMenu() {
       this.toggle = !this.toggle;
     },
+    toggleMiddle() {
+      this.toggleMid = !this.toggleMid;
+    },
   },
   computed: {
     isLogin() {
@@ -253,6 +342,9 @@ export default {
     getImage() {
       return this.$store.getters["auth/getImage"];
     },
+    showMiddleNav() {
+      return ["/"].includes(this.$route.path);
+    },
   },
   mounted() {
     this.visibleModal = false;
@@ -260,6 +352,10 @@ export default {
 };
 </script>
 <style scoped>
+.text-middle {
+  cursor: pointer;
+  font-family: Prompt, sans-serif;
+}
 .header_action {
   border-radius: 10px;
   background-color: rgba(0, 0, 0, 0.12);
@@ -288,4 +384,13 @@ export default {
 .font-text {
   font-family: Prompt, sans-serif;
 }
+.text-menu:hover {
+  cursor: pointer;
+  border-bottom: 3px solid #00af70;
+}
+.border-bottom {
+  cursor: pointer;
+  border-bottom: 3px solid #00af70;
+}
+
 </style>
