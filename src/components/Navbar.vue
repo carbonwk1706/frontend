@@ -161,7 +161,7 @@
       <template v-slot:activator="{ props }">
         <h2 class="text-middle" v-bind="props" @click="toggleMiddle">
           อีบุ๊คทั้งหมด<v-icon v-if="!toggleMid">mdi-menu-down</v-icon>
-          <v-icon v-else>mdi-menu-up</v-icon>
+          <v-icon v-if="toggleMid">mdi-menu-up</v-icon>
         </h2>
       </template>
       <v-card>
