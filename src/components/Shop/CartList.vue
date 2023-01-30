@@ -19,7 +19,7 @@
               max-width="100"
             ></v-img>
             <div>
-              <span>{{ item.title }}</span>
+              <span>{{ item.name }}</span>
               <br />
               <div>฿ {{ item.price }}</div>
             </div>
@@ -56,29 +56,7 @@ export default {
   name: "cartList",
   data() {
     return {
-      cartList: [
-        {
-          id: 1,
-          title: "book1",
-          imageBook:
-            "https://cdn-local.mebmarket.com/meb/server1/225386/Thumbnail/web_large2.gif?2",
-          price: 100,
-        },
-        {
-          id: 2,
-          title: "book2",
-          imageBook:
-            "https://cdn-local.mebmarket.com/meb/server1/225386/Thumbnail/web_large2.gif?2",
-          price: 100,
-        },
-        {
-          id: 3,
-          title: "book3",
-          imageBook:
-            "https://cdn-local.mebmarket.com/meb/server1/225386/Thumbnail/web_large2.gif?2",
-          price: 100,
-        },
-      ],
+      cartList: [],
       total: 0,
       emtyBook: true,
     };
@@ -89,8 +67,12 @@ export default {
         this.total += item[i].price;
       }
     },
+    getCartList() {
+      this.cartList = this.$store.state.cartList
+    },
   },
   mounted() {
+    this.getCartList();
     this.checkTotal(this.cartList);
   },
 };
