@@ -214,7 +214,6 @@
   />
 </template>
 <script>
-import axios from "axios";
 import api from "@/services/api";
 import ManageUserForm from "@/components/ManageUserForm.vue";
 import router from "@/router";
@@ -281,8 +280,8 @@ export default {
           let formData = new FormData();
           formData.append("image", this.files[0]);
           formData.append("username", this.user.username);
-          const response = await axios.post(
-            "http://localhost:3000/upload",
+          const response = await api.post(
+            "/upload",
             formData,
             {
               headers: {

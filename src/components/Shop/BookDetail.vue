@@ -33,7 +33,7 @@
 </template>
 
 <script>
-import axios from "axios";
+import api from '@/services/api';
 
 export default {
   name: "BookDetail",
@@ -57,8 +57,8 @@ export default {
     },
   },
   mounted() {
-    axios
-      .get("http://localhost:3000/books/" + this.$route.params.id)
+    api
+      .get("/books/" + this.$route.params.id)
       .then((result) => {
         console.log(JSON.parse(JSON.stringify(result)));
         this.book = result.data;

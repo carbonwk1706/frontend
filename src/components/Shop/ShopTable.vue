@@ -25,7 +25,8 @@
 </template>
 
 <script>
-import axios from "axios";
+import api from '@/services/api';
+
 
 export default {
   name: "ShopTable",
@@ -43,7 +44,7 @@ export default {
     },
   },
   mounted() {
-    axios.get("http://localhost:3000/books/").then((result) => {
+    api.get("/books/").then((result) => {
       console.log(result);
       this.books = result.data;
     });

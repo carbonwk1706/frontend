@@ -187,7 +187,7 @@
 </template>
 <script>
 import router from "@/router";
-import axios from "axios";
+import api from "@/services/api";
 
 export default {
   props: {
@@ -248,7 +248,7 @@ export default {
         this.showAlert("กรุณากรอกข้อมูลให้ถูกต้อง");
       } else if (this.terms) {
         try {
-          const res = await axios.post("http://localhost:3000/auth/duplicate", {
+          const res = await api.post("/auth/duplicate", {
             username: this.form.username,
             email: this.form.email,
           });
@@ -279,7 +279,7 @@ export default {
 
     async login() {
       try {
-        const res = await axios.post("http://localhost:3000/auth/login", {
+        const res = await api.post("/auth/login", {
           username: this.form.username,
           password: this.form.password,
         });
@@ -312,7 +312,7 @@ export default {
     async register() {
       try {
         this.dialog = false;
-        const res = await axios.post("http://localhost:3000/auth/register", {
+        const res = await api.post("/auth/register", {
           name: this.form.name,
           username: this.form.username,
           password: this.form.password,

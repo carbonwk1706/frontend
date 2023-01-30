@@ -96,7 +96,7 @@
 <script>
 import router from "@/router";
 import api from "@/services/api";
-import axios from "axios";
+
 
 export default {
   props: {
@@ -139,7 +139,7 @@ export default {
     },  
     async confirmPassword(){
       try{
-        const response = await axios.post("http://localhost:3000/confirmPassword",{
+        const response = await api.post("/confirmPassword",{
           id: this.$store.getters["auth/getId"],
           password: this.password
         });

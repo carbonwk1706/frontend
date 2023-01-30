@@ -48,8 +48,9 @@
   </v-row>
 </template>
   <script>
+import api from "@/services/api";
 import router from "../router";
-import axios from "axios";
+
 
 export default {
   data() {
@@ -74,7 +75,7 @@ export default {
         this.showAlert("กรุณากรอก Password ด้วยจ้า");
       } else {
         try {
-          const res = await axios.post("http://localhost:3000/auth/login", {
+          const res = await api.post("/auth/login", {
             username: this.form.username,
             password: this.form.password,
           });
