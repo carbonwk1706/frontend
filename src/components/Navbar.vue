@@ -14,8 +14,7 @@
         <v-btn class="header_action" v-bind="props" @click="toggleMenu">
           <v-icon class="mr-2">mdi-account</v-icon>
           <span class="font-text"> สวัสดี ID-{{ getId }}</span>
-          <v-icon v-if="!toggle">mdi-menu-down</v-icon>
-          <v-icon v-else>mdi-menu-up</v-icon>
+          <v-icon>mdi-menu-down</v-icon>
         </v-btn>
       </template>
       <v-card max-width="auto">
@@ -160,9 +159,8 @@
     <v-spacer></v-spacer>
     <v-menu offset-y>
       <template v-slot:activator="{ props }">
-        <h2 class="text-middle" v-bind="props" @click="toggleMiddle">
-          อีบุ๊คทั้งหมด<v-icon v-if="!toggleMid">mdi-menu-down</v-icon>
-          <v-icon v-if="toggleMid">mdi-menu-up</v-icon>
+        <h2 class="text-middle" v-bind="props">
+          อีบุ๊คทั้งหมด<v-icon>mdi-menu-down</v-icon>
         </h2>
       </template>
       <v-card>
@@ -294,8 +292,6 @@ export default {
   },
   data: () => ({
     loadingSearch: false,
-    toggleMid: false,
-    toggle: false,
     loading: false,
     visibleModal: false,
   }),
@@ -343,13 +339,7 @@ export default {
     },
     goToRecommend() {
       router.push("/recommend");
-    },
-    toggleMenu() {
-      this.toggle = !this.toggle;
-    },
-    toggleMiddle() {
-      this.toggleMid = !this.toggleMid;
-    },
+    }
   },
   computed: {
     isLogin() {
