@@ -155,6 +155,7 @@
     id="middle-nav"
     v-if="showMiddleNav"
     style="background-color: #f6f6f6"
+    class="middle-nav"
   >
     <v-spacer></v-spacer>
     <v-menu offset-y>
@@ -224,7 +225,11 @@
 
     <v-spacer></v-spacer>
   </v-toolbar>
-  <v-toolbar id="bottom-nav" style="background-color: #f6f6f6">
+  <v-toolbar
+    id="bottom-nav"
+    :class="showMiddleNav ? 'bottom-nav' : 'bottom-nav-2'"
+    style="background-color: #f6f6f6"
+  >
     <v-spacer></v-spacer>
     <span
       :class="showMiddleNav ? 'border-bottom' : 'text-menu'"
@@ -330,13 +335,13 @@ export default {
     goToBuyHistory() {
       router.push("/orderhistory");
     },
-    goToBestSeller(){
+    goToBestSeller() {
       router.push("/bestseller");
     },
-    goToNewEntry(){
+    goToNewEntry() {
       router.push("/newentry");
     },
-    goToRecommend(){
+    goToRecommend() {
       router.push("/recommend");
     },
     toggleMenu() {
@@ -395,7 +400,24 @@ export default {
 .app_bar {
   background-image: linear-gradient(#00af70, #37c13d);
   color: #ffff;
-  width: 100%;
+  position: sticky;
+  top: 0;
+  z-index: 1;
+}
+.middle-nav {
+  position: sticky;
+  top: 64px;
+  z-index: 1;
+}
+.bottom-nav-2 {
+  position: sticky;
+  top: 64px;
+  z-index: 1;
+}
+.bottom-nav {
+  position: sticky;
+  top: 128px;
+  z-index: 1;
 }
 .center-loading {
   display: flex;
