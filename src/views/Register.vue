@@ -255,16 +255,6 @@ export default {
             res.data.message === "Username and Email already exists"
           ) {
             this.showAlert("Username และ Email นี้ถูกใช้ไปแล้ว");
-          } else if (
-            res.status === 200 &&
-            res.data.message === "Username already exists"
-          ) {
-            this.showAlert("Username นี้ถูกใช้ไปแล้ว");
-          } else if (
-            res.status === 200 &&
-            res.data.message === "Email already exists"
-          ) {
-            this.showAlert("Email นี้ถูกใช้ไปแล้ว");
           } else {
             if (
               res.status === 201 &&
@@ -333,7 +323,7 @@ export default {
           this.login();
         }
       } catch (error) {
-        console.log(error)
+        console.log(error);
       }
     },
     showAlert(text) {

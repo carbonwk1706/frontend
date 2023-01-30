@@ -1,15 +1,13 @@
 <template>
   <v-app>
-        <Navbar v-if="showNavbar" />
+    <Navbar v-if="showNavbar" />
     <Sidebar v-if="showSidebar" />
     <v-main>
       <v-container class="container-size">
         <router-view />
       </v-container>
     </v-main>
-    <v-footer class="pa-0">
-      <Footer />
-    </v-footer>
+    <Footer />
   </v-app>
 </template>
 
@@ -22,20 +20,26 @@ export default {
   components: {
     Navbar,
     Sidebar,
-    Footer
+    Footer,
   },
   computed: {
     showNavbar() {
-      return !["/login", "/register","/login","/admin","/usertable"].includes(this.$route.path);
+      return ![
+        "/login",
+        "/register",
+        "/login",
+        "/admin",
+        "/usertable",
+      ].includes(this.$route.path);
     },
     showSidebar() {
-      return ["/admin","/usertable","/admintable"].includes(this.$route.path);
+      return ["/admin", "/usertable", "/admintable"].includes(this.$route.path);
     },
-  }
+  },
 };
 </script>
 <style scoped>
-.container-size{
+.container-size {
   max-width: 1100px;
 }
 </style>
