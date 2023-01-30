@@ -25,7 +25,7 @@
             </div>
 
             <v-spacer></v-spacer>
-            <v-btn @click="$emit('onRemove', item.id)" color="error">ลบ</v-btn>
+            <v-btn @click="delProduct(item._id)" color="error">ลบ</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -70,6 +70,9 @@ export default {
     getCartList() {
       this.cartList = this.$store.state.cartList
     },
+    delProduct(item){
+      this.$store.dispatch('delItemCart', item)
+    }
   },
   mounted() {
     this.getCartList();

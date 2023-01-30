@@ -13,11 +13,18 @@ export default createStore({
   mutations: {
      addItem(state, item){
       state.cartList.push(item)
-     }
+     },
+     delItem(state, product){
+      var index = state.cartList.findIndex(productIndex => productIndex.id == product)
+      state.cartList.splice(index, 1)
+    }
   },
   actions: {
     addItemToCart(context, item){
       context.commit('addItem', item)
+    },
+    delItemCart(context, product){
+      context.commit('delItem', product)
     }
   },
   modules: {
