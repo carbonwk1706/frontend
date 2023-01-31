@@ -8,6 +8,15 @@ export default createStore({
   getters: {
     cartListCount(state){
       return state.cartList.length;
+    },
+    getTotalPrice(state){
+      var total = 0
+
+      state.cartList.forEach(item => {
+        total += parseInt(item.price)
+      })
+      
+      return total;
     }
   },
   mutations: {

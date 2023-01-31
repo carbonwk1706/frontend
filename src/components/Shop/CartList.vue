@@ -39,7 +39,7 @@
               เลือกซื้อหนังสือเล่มอื่นต่อ
             </div>
             <div class="d-flex flex-row align-center justify-center mb-5">
-              ยอดชำระ ฿{{ total }}
+              ยอดชำระ ฿{{ getTotalPrice }}
             </div>
             <div class="d-flex flex-row align-center justify-center">
               <v-btn color="success" rounded width="200">ชำระเงิน</v-btn>
@@ -57,26 +57,24 @@ export default {
   data() {
     return {
       cartList: [],
-      total: 0,
       emtyBook: true,
     };
   },
   methods: {
-    checkTotal(item) {
-      for (let i = 0; i < item.length; i++) {
-        this.total += item[i].price;
-      }
-    },
     getCartList() {
-      this.cartList = this.$store.state.cartList
+      this.cartList = this.$store.state.cartList;
     },
-    delProduct(item){
-      this.$store.dispatch('delItemCart', item)
-    }
+    delProduct(item) {
+      this.$store.dispatch("delItemCart", item);
+    },
+  },
+  computed: {
+    getTotalPrice() {
+      return this.$store.getters.getTotalPrice;
+    },
   },
   mounted() {
     this.getCartList();
-    this.checkTotal(this.cartList);
   },
 };
 </script>
