@@ -237,7 +237,6 @@ export default {
     files: null,
     user: [],
     editModal: false,
-    formData: null,
     imagePreview: "",
   }),
   methods: {
