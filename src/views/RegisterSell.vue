@@ -413,8 +413,8 @@ export default {
         road: "",
         subDistrict: "",
         district: "",
-        postCode: "",
         province: "",
+        postCode: "",
         bankAccount: "",
         idAccount: "",
       },
@@ -499,8 +499,8 @@ export default {
       this.form.road = "";
       this.form.subDistrict = "";
       this.form.district = "";
-      this.form.postCode = "";
       this.form.province = "";
+      this.form.postCode = "";
       this.form.bankAccount = "";
       this.form.idAccount = "";
     },
