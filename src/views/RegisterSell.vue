@@ -395,6 +395,8 @@
   </v-card>
 </template>
 <script>
+import api from "@/services/api";
+
 export default {
   data() {
     return {
@@ -472,19 +474,38 @@ export default {
         this.page++;
       }
     },
-    submitForm() {
+    async submitForm() {
       if (this.terms) {
-        console.log(this.form);
-        this.resetForm()
-        console.log(this.form);
-        this.$swal({
-          confirmButtonColor: "#00af70",
-          width: "500",
-          text: "บันทึกข้อมูลสำเร็จ",
-          icon: "success",
-          button: "OK",
-        });
-        this.page = 1;
+        try {
+          await api.post("/request", {
+            user: this.$store.getters["auth/getId"],
+            request: "ROLE.[SELL]",
+            publisher: this.form.publisher,
+            firstName: this.form.firstName,
+            lastName: this.form.lastName,
+            idCard: this.form.idCard,
+            phone: this.form.phone,
+            address: this.form.address,
+            road: this.form.road,
+            subDistrict: this.form.subDistrict,
+            district: this.form.district,
+            province: this.form.province,
+            postCode: this.form.postCode,
+            bankAccount: this.form.bankAccount,
+            idAccount: this.form.idAccount,
+          });
+          this.resetForm();
+          this.$swal({
+            confirmButtonColor: "#00af70",
+            width: "500",
+            text: "บันทึกข้อมูลสำเร็จ",
+            icon: "success",
+            button: "OK",
+          });
+          this.page = 1;
+        } catch (error) {
+          console.log(error);
+        }
       } else {
         this.showAlert("กรุณากดยืนยันเพื่อส่งข้อมูล");
       }
