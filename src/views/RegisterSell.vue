@@ -50,7 +50,7 @@
 
           <v-col cols="7">
             <v-text-field
-              v-model="form.name"
+              v-model="form.firstName"
               :rules="[(v) => !!v || 'กรุณากรอกกรอกชื่อ!']"
               label="กรอกชื่อ"
               variant="solo"
@@ -65,7 +65,7 @@
 
           <v-col cols="7">
             <v-text-field
-              v-model="form.surname"
+              v-model="form.lastName"
               :rules="[(v) => !!v || 'กรุณากรอกนามสกุล!']"
               label="กรอกนามสกุล"
               variant="solo"
@@ -405,8 +405,8 @@ export default {
       page: 1,
       form: {
         publisher: "",
-        name: "",
-        surname: "",
+        firstName: "",
+        lastName: "",
         idCard: "",
         phone: "",
         address: "",
@@ -491,8 +491,8 @@ export default {
     },
     resetForm() {
       this.form.publisher = "";
-      this.form.name = "";
-      this.form.surname = "";
+      this.form.firstName = "";
+      this.form.lastName = "";
       this.form.idCard = "";
       this.form.phone = "";
       this.form.address = "";
