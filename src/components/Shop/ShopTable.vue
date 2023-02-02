@@ -14,7 +14,7 @@
             {{ item.author }}/{{ item.publisher }}
           </v-card-subtitle>
           <v-row class="d-flex justify-end ma-3">
-            <v-btn color="success" class="success" @click="addItem(item)">
+            <v-btn color="success" class="success" @click.stop="addItem(item)">
               ฿ {{ item.price }}
             </v-btn>
           </v-row>
