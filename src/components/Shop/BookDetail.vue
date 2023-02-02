@@ -17,19 +17,21 @@
             <v-btn
               color="success"
               rounded
-              width="100"
+              width="160"
               @click="addProduct(book)"
             >
-              ฿ {{ book.price }}
+              ฿ {{ book.price }} บาท
             </v-btn>
           </v-row>
           <br />
           <v-row>
-            <v-btn icon v-if="wishStutas" color="white" @click="wishProcess">
-              <v-icon>mdi-heart</v-icon>
-            </v-btn>
-            <v-btn icon v-else color="pink" @click="wishProcess">
-              <v-icon>mdi-heart</v-icon>
+            <v-btn
+              color="success"
+              rounded
+              width="160"
+              @click="addWish(book)"
+            >
+              เพิ่มรายการอยากได้
             </v-btn>
           </v-row>
         </v-col>
@@ -56,12 +58,14 @@ export default {
     addProduct(item) {
       this.$store.dispatch('addItemToCart', item)
     },
+    addWish(book){
+      this.$store.dispatch('addItemToWish', book)
+    }
   },
   mounted() {
     api
       .get("/books/" + this.$route.params.id)
       .then((result) => {
-        console.log(JSON.parse(JSON.stringify(result)));
         this.book = result.data;
       });
   },
