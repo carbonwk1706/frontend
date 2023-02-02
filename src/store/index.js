@@ -3,7 +3,7 @@ import auth from "./modules/auth";
 import authAdmin from "./modules/authAdmin";
 export default createStore({
   state: {
-    cartList: [],
+    cartList: JSON.parse(localStorage.getItem("cartList")) || [],
     wishList: []
   },
   getters: {
@@ -27,6 +27,7 @@ export default createStore({
       });
       if (!duplicaProduct) {
         state.cartList.push(product);
+        localStorage.setItem("cartList", JSON.stringify(state.cartList));
       }
     },
     delItemCart(state, product) {
@@ -34,6 +35,7 @@ export default createStore({
         (productIndex) => productIndex._id == product
       );
       state.cartList.splice(index, 1);
+      localStorage.setItem("cartList", JSON.stringify(state.cartList));
     },
     addItemWish(state, product) {
       let duplicaProduct = state.wishList.find((item) => {
