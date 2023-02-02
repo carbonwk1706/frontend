@@ -3,7 +3,7 @@
     <div class="mb-5 d-flex justify-center">
       <h1>รายการที่อยากได้</h1>
     </div>
-    <div v-if="wishList.length > 0" hidden>
+    <div v-if="wishList.length == 0">
       <div class="d-flex justify-center">
         <img
           src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
@@ -19,7 +19,6 @@
         <h2>รายการที่อยากได้</h2>
       </div>
       <hr class="mb-5" />
-
       <v-row>
         <v-col v-for="(item, index) in wishList" :key="index">
           <v-card class="mx-auto" max-width="180">

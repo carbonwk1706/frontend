@@ -1,7 +1,7 @@
 <template>
   <div class="herdName">ตะกร้า</div>
   <hr />
-  <div class="noBook" v-if="cartList.length == 0" hidden>
+  <div class="noBook" v-if="cartList.length == 0">
     ไม่พบสิ้นค้าในตะกร้า
   </div>
   <div v-else>
