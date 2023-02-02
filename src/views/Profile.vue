@@ -31,7 +31,7 @@
           <v-icon class="mr-2">mdi-camera</v-icon>
           เปลี่ยนรูปโปรไฟล์
         </v-btn>
-        <v-dialog v-model="loading" max-width="500" persistent>
+        <v-dialog v-model="loading" max-width="500" persistent  style="z-index: 900">
           <v-card>
             <div class="d-flex justify-end pa-1">
               <v-icon @click="hideModal">mdi-close</v-icon>
