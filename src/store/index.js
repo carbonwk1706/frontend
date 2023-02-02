@@ -4,11 +4,14 @@ import authAdmin from "./modules/authAdmin";
 export default createStore({
   state: {
     cartList: JSON.parse(localStorage.getItem("cartList")) || [],
-    wishList: []
+    wishList: JSON.parse(localStorage.getItem("wishList")) || []
   },
   getters: {
     cartListCount(state) {
       return state.cartList.length;
+    },
+    wishListCount(state) {
+      return state.wishList.length;
     },
     getTotalPrice(state) {
       var total = 0;
@@ -43,6 +46,7 @@ export default createStore({
       });
       if (!duplicaProduct) {
         state.wishList.push(product);
+        localStorage.setItem("wishList", JSON.stringify(state.cartList));
       }
     },
     delItemWish(state, product) {
@@ -50,6 +54,7 @@ export default createStore({
         (productIndex) => productIndex._id == product
       );
       state.wishList.splice(index, 1);
+      localStorage.setItem("wishList", JSON.stringify(state.cartList));
     },
   },
   actions: {
