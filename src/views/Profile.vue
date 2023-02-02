@@ -210,7 +210,7 @@
   <ManageUserForm
     :editModal="editModal"
     @update:isVisible="editModal = $event"
-    @someEvent="callback"
+    @update:someEvent="callback"
   />
 </template>
 <script>
@@ -237,7 +237,6 @@ export default {
     files: null,
     user: [],
     editModal: false,
-    formData: null,
     imagePreview: "",
   }),
   methods: {

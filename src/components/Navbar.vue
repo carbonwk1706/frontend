@@ -11,7 +11,7 @@
     </v-btn>
     <v-menu v-if="isLogin" offset-y>
       <template v-slot:activator="{ props }">
-        <v-btn class="header_action" v-bind="props" @click="toggleMenu">
+        <v-btn class="header_action" v-bind="props">
           <v-icon class="mr-2">mdi-account</v-icon>
           <span class="font-text"> สวัสดี ID-{{ getId }}</span>
           <v-icon>mdi-menu-down</v-icon>
