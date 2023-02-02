@@ -82,6 +82,16 @@ const routes = [
     path: '/recommend',
     name: 'recommend',
     component: () => import('../views/Recommend.vue')
+  },
+  {
+    path: '/admintable',
+    name: 'admintable',
+    component: () => import('../views/AdminTable.vue')
+  },
+  {
+    path: '/request/:id',
+    name: 'request',
+    component: () => import('../views/DetailRequest.vue')
   }
 ]
 
