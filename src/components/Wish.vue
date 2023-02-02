@@ -21,7 +21,7 @@
       <hr class="mb-5" />
       <v-row>
         <v-col v-for="(item, index) in wishList" :key="index">
-          <v-card class="mx-auto" max-width="180">
+          <v-card class="mx-auto" max-width="180" @click="showDetail(item)">
             <v-img :src="item.imageBook" height="250px"
               ><v-icon
                 size="40"
@@ -35,7 +35,7 @@
               {{ item.author }}/{{ item.publisher }}
             </v-card-subtitle>
             <v-row class="d-flex justify-end ma-3">
-              <v-btn color="success" @click="addItem(item)">
+              <v-btn color="success" class="success" @click="addItem(item)">
                 ฿ {{ item.price }}
               </v-btn>
             </v-row>
@@ -60,6 +60,12 @@ export default {
     },
     delWish(item) {
       this.$store.dispatch("delItemWish", item);
+    },
+    addItem(item) {
+      this.$store.dispatch('addItemToCart', item)
+    },
+    showDetail(item) {
+      this.$router.push(`/book/${item._id}`);
     },
   },
   mounted() {
@@ -87,4 +93,7 @@ export default {
   right: 0px;
   top: 0px;
 }
+.v-btn.success:hover {
+    background-color: gray !important;
+  }
 </style>
