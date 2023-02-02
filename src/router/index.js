@@ -89,6 +89,11 @@ const routes = [
     component: () => import('../views/AdminTable.vue')
   },
   {
+    path: '/usertable',
+    name: 'usertable',
+    component: () => import('../views/UserTable.vue')
+  },
+  {
     path: '/request/:id',
     name: 'request',
     component: () => import('../views/DetailRequest.vue')
