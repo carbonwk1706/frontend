@@ -46,7 +46,7 @@ export default createStore({
       });
       if (!duplicaProduct) {
         state.wishList.push(product);
-        localStorage.setItem("wishList", JSON.stringify(state.cartList));
+        localStorage.setItem("wishList", JSON.stringify(state.wishList));
       }
     },
     delItemWish(state, product) {
@@ -54,7 +54,7 @@ export default createStore({
         (productIndex) => productIndex._id == product
       );
       state.wishList.splice(index, 1);
-      localStorage.setItem("wishList", JSON.stringify(state.cartList));
+      localStorage.setItem("wishList", JSON.stringify(state.wishList));
     },
   },
   actions: {

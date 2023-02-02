@@ -25,7 +25,7 @@
             <v-img :src="item.imageBook" height="250px"
               ><v-icon
                 size="40"
-                @click="testClick"
+                @click="delWish(item)"
                 class="ml-auto mt-auto close-button"
                 >mdi-close-circle</v-icon
               ></v-img
@@ -58,8 +58,8 @@ export default {
     getWishList() {
       this.wishList = this.$store.state.wishList;
     },
-    testClick() {
-      alert("Cilck");
+    delWish(item) {
+      this.$store.dispatch("delItemWish", item);
     },
   },
   mounted() {
