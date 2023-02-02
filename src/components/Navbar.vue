@@ -120,13 +120,27 @@
       <v-toolbar-title class="text-center font-text">EBOOK</v-toolbar-title>
     </v-btn>
     <v-spacer></v-spacer>
+
     <v-btn
       class="header_action px-2 mx-2 v-btn--outline"
       color="white"
       @click="goToWishlist"
+      v-if="getWishListCount==0"
     >
       <v-icon class="mr-2">mdi-heart</v-icon>
       <span class="font-text">รายการโปรด</span>
+    </v-btn>
+
+    <v-btn
+      class="header_action px-2 mx-2 v-btn--outline"
+      color="white"
+      @click="goToWishlist"
+      v-else
+    >
+      <v-icon class="mr-2">mdi-heart</v-icon>
+      <v-badge :content="getWishListCount" color="error">
+        <span class="font-text">รายการโปรด</span>
+      </v-badge>
     </v-btn>
 
     <v-btn
@@ -406,6 +420,9 @@ export default {
     },
     getCartListCount(){
       return this.$store.getters.cartListCount
+    },
+    getWishListCount(){
+      return this.$store.getters.wishListCount
     },
   },
   mounted() {
