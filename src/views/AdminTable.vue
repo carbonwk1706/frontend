@@ -58,18 +58,18 @@ export default {
     async approveRequest(id) {
       try {
         await api.patch(`/request/${id}/approve`);
-        this.fetchApi()
       } catch (error) {
         console.log(error);
       }
+        this.fetchApi()
     },
     async rejectsRequest(id) {
       try {
         await api.patch(`/request/${id}/reject`);
-        this.fetchApi()
       } catch (error) {
         console.log(error);
       }
+        this.fetchApi()
     },
     async fetchApi() {
       try {
