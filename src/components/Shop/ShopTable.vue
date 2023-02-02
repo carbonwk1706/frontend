@@ -45,7 +45,6 @@ export default {
   },
   mounted() {
     api.get("/books/").then((result) => {
-      console.log(result);
       this.books = result.data;
     });
   },
