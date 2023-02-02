@@ -3,6 +3,7 @@
     <thead>
       <tr>
         <th class="text-left">ลำดับ</th>
+        <th class="text-left">วันที่</th>
         <th class="text-left">คำร้อง</th>
         <th class="text-left">สถานะ</th>
         <th class="text-left"></th>
@@ -11,6 +12,7 @@
     <tbody>
       <tr v-for="(index, item) in requestStatus" :key="index">
         <td>{{ item + 1 }}</td>
+        <td>{{ formatTime(requestStatus[item].createdAt) }}</td>
         <td>{{ requestStatus[item].request }}</td>
         <td>{{ requestStatus[item].status }}</td>
         <td>
@@ -38,6 +40,7 @@
 </template>
 <script>
 import api from "@/services/api";
+import moment from "moment";
 
 export default {
   data() {
@@ -48,6 +51,9 @@ export default {
   methods: {
     showDetail(id) {
       this.$router.push(`/request/${id}`);
+    },
+    formatTime(item){
+      return moment(item).format('MM/DD/YYYY, h:mm:ss a');
     },
     async approveRequest(id) {
       try {
