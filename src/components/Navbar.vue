@@ -232,28 +232,28 @@
     <span
       :class="home ? 'border-bottom' : 'text-menu'"
       class="font-text mr-3"
-      style="color: #5a5a5a;"
+      style="color: #5a5a5a"
       @click="goToHome"
       >หน้าแรก</span
     >
     <span
       :class="bestSeller ? 'border-bottom' : 'text-menu'"
       class="text-menu font-text mr-3"
-      style="color: #5a5a5a;"
+      style="color: #5a5a5a"
       @click="goToBestSeller"
       >ขายดี</span
     >
     <span
       :class="newEntry ? 'border-bottom' : 'text-menu'"
       class="text-menu font-text mr-3"
-      style="color: #5a5a5a;"
+      style="color: #5a5a5a"
       @click="goToNewEntry"
       >มาใหม่</span
     >
     <span
       :class="recommend ? 'border-bottom' : 'text-menu'"
       class="text-menu font-text"
-      style="color: #5a5a5a;"
+      style="color: #5a5a5a"
       @click="goToRecommend"
       >แนะนำ</span
     >
@@ -321,6 +321,9 @@ export default {
       setTimeout(() => {
         this.$store.dispatch("auth/logout");
         this.loading = false;
+      }, 2000);
+      setTimeout(() => {
+        window.location.reload();
       }, 2000);
     },
     goToHome() {

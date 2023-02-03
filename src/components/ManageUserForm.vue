@@ -165,6 +165,7 @@ export default {
     showAlert(text) {
       this.$swal({
         confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
         width: "500",
         text: text,
         icon: "success",
@@ -174,6 +175,7 @@ export default {
     alertError(text){
       this.$swal({
         confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
         width: "500",
         text: text,
         icon: "error",
