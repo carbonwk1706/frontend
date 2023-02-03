@@ -155,13 +155,14 @@
     v-if="showMiddleNav"
     style="background-color: #f6f6f6"
     class="middle-nav"
+    height="50"
   >
     <v-spacer></v-spacer>
     <v-menu offset-y>
-      <template v-slot:activator="{ props }">
-        <h2 class="text-middle" v-bind="props">
+      <template  v-slot:activator="{ props }">
+        <span class="text-middle" v-bind="props">
           อีบุ๊คทั้งหมด<v-icon>mdi-menu-down</v-icon>
-        </h2>
+        </span>
       </template>
       <v-card>
         <v-card-text>
@@ -227,6 +228,7 @@
     id="bottom-nav"
     :class="showMiddleNav ? 'bottom-nav' : 'bottom-nav-2'"
     style="background-color: #f6f6f6"
+    height="50"
   >
     <v-spacer></v-spacer>
     <span
@@ -406,6 +408,7 @@ export default {
 .text-middle {
   cursor: pointer;
   font-family: Prompt, sans-serif;
+  font-size: 26px;
 }
 .header_action {
   border-radius: 10px;
@@ -432,7 +435,7 @@ export default {
 }
 .bottom-nav {
   position: sticky;
-  top: 128px;
+  top: 114px;
   z-index: 1;
 }
 .center-loading {
