@@ -336,7 +336,7 @@ export default {
     },
     async fetchApi() {
       const res = await api.get(
-        "/profile/" + this.$store.getters["auth/getId"]
+        "/profile/" + this.getId()
       );
       this.user = res.data.user;
       localStorage.setItem("user", JSON.stringify(this.user));
