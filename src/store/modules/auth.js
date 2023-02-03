@@ -33,12 +33,6 @@ export default {
       router.push('/')
       commit(AUTH_LOGOUT);
     },
-    logoutadmin({ commit }) {
-      localStorage.removeItem("token");
-      localStorage.removeItem("user");
-      router.push('/loginAdmin')
-      commit(AUTH_LOGOUT);
-    },
     newUser({ commit }){
       commit(NEW_USER)
     },
@@ -70,6 +64,9 @@ export default {
     },
     getCoin(state){
       return state.user.coin.toString()
+    },
+    getRoles(state){
+      return state.user.roles
     },
     isNewUser(state){
       return state.newUser

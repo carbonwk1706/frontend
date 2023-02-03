@@ -42,7 +42,7 @@
               </div>
             </v-col>
           </v-row>
-          <v-divider class="my-3"></v-divider>
+          <v-divider class="my-1"></v-divider>
           <v-row>
             <v-col cols="9">
               <div class="px-3 py-2">
@@ -65,7 +65,7 @@
               </div></v-col
             >
           </v-row>
-          <v-divider class="my-3"></v-divider>
+          <v-divider class="my-1"></v-divider>
           <v-col class="px-0">
             <v-btn
               style="color: #5a5a5a"
@@ -73,7 +73,7 @@
               variant="text"
               @click="goToWishlist"
             >
-              <span class="font-text"> รายการที่อยากได้ </span>
+              <span class="font-text">รายการที่อยากได้ </span>
             </v-btn>
           </v-col>
           <v-col class="px-0">
@@ -83,7 +83,7 @@
               variant="text"
               @click="goToMyBook"
             >
-              <span class="font-text"> ชั้นหนังสือของฉัน</span>
+              <span class="font-text">ชั้นหนังสือของฉัน</span>
             </v-btn>
           </v-col>
           <v-col class="px-0">
@@ -93,10 +93,10 @@
               variant="text"
               @click="goToBuyHistory"
             >
-              <span class="font-text"> ประวัติการสั่งซื้อของฉัน</span>
+              <span class="font-text">ประวัติการสั่งซื้อของฉัน</span>
             </v-btn>
           </v-col>
-          <v-divider class="my-3"></v-divider>
+          <v-divider class="my-1"></v-divider>
           <v-col class="px-0">
             <v-btn
               style="color: #5a5a5a"
@@ -104,8 +104,29 @@
               variant="text"
               @click="goToProfile"
             >
-              <span class="font-text"> จัดการบัญชี</span>
+              <span class="font-text">จัดการบัญชี</span>
             </v-btn>
+          </v-col>
+          <v-divider class="my-1"></v-divider>
+          <v-col class="px-0">
+            <v-btn
+              v-if="!this.checkRoles"
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToRegisterSell"
+            >
+              <span class="font-text">สมัครขายอีบุ๊ค</span>
+            </v-btn>
+            <v-btn
+            v-if="this.checkRoles"
+            style="color: #5a5a5a"
+            rounded
+            variant="text"
+            @click="goToMyShop"
+          >
+            <span class="font-text">ร้านค้าของฉัน</span>
+          </v-btn>
           </v-col>
         </v-card-text>
       </v-card>
@@ -306,6 +327,7 @@ export default {
     Login,
   },
   data: () => ({
+    checkRoles: null,
     loadingSearch: false,
     loading: false,
     visibleModal: false,
@@ -358,6 +380,12 @@ export default {
     goToRecommend() {
       router.push("/recommend");
     },
+    goToRegisterSell(){
+      router.push("/registersell")
+    },
+    goToMyShop(){
+      router.push("/myshop")
+    },
   },
   computed: {
     isLogin() {
@@ -377,6 +405,9 @@ export default {
     },
     getCoin() {
       return this.$store.getters["auth/getCoin"];
+    },
+    getRoles(){
+      return this.$store.getters["auth/getRoles"];
     },
     showMiddleNav() {
       return ["/", "/bestseller", "/newentry", "/recommend"].includes(
@@ -398,6 +429,11 @@ export default {
   },
   mounted() {
     this.visibleModal = false;
+    for(let i=0;i<this.getRoles.length;i++){
+      if(this.getRoles[i] === "SELL"){
+        this.checkRoles = this.getRoles[i]
+      }
+    }
   },
 };
 </script>
