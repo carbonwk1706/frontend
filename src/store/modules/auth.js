@@ -47,26 +47,8 @@ export default {
     getName(state){
       return state.user.name.toString()
     },
-    getUsername(state){
-      return state.user.username.toString()
-    },
     getId(state){
       return state.user._id.toString()
-    },
-    getGender(state){
-      return state.user.gender.toString()
-    },
-    getEmail(state){
-      return state.user.email.toString()
-    },
-    getImage(state){
-      return state.user.imageUrl.toString()
-    },
-    getCoin(state){
-      return state.user.coin.toString()
-    },
-    getRoles(state){
-      return state.user.roles
     },
     isNewUser(state){
       return state.newUser

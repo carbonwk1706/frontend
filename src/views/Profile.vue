@@ -216,7 +216,7 @@
     <ManageUserForm
       :editModal="editModal"
       @update:isVisible="editModal = $event"
-      @update:someEvent="callback"
+      @someEvent="callback"
     />
   </AuthWishlist>
 </template>
@@ -324,14 +324,19 @@ export default {
         customClass: "show-modal",
         text: "เปลี่ยนรูปโปรไฟล์สำเร็จ",
         icon: "success",
-        button: "OK",
         allowOutsideClick: false,
+        confirmButtonText: 'OK'
+      }).then((result) => {
+        if (result.value) {
+          window.location.reload();
+        }
       });
     },
     getId() {
       return this.$store.getters["auth/getId"];
     },
     callback() {
+      console.log("hello")
       this.fetchApi();
     },
     async fetchApi() {
@@ -339,8 +344,6 @@ export default {
         "/profile/" + this.getId()
       );
       this.user = res.data.user;
-      localStorage.setItem("user", JSON.stringify(this.user));
-      this.$store.dispatch("auth/login", this.user);
     },
   },
   mounted() {
