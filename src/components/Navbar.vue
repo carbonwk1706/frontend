@@ -252,6 +252,69 @@
     height="50"
   >
     <v-spacer></v-spacer>
+    <v-menu offset-y v-if="!showMiddleNav">
+      <template  v-slot:activator="{ props }">
+        <span class="font-text mr-3" v-bind="props">
+          อีบุ๊คทั้งหมด<v-icon>mdi-menu-down</v-icon>
+        </span>
+      </template>
+      <v-card>
+        <v-card-text>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #00af70"
+              rounded
+              variant="text"
+              @click="goToWishlist"
+            >
+              <span class="font-text"> อีบุ๊คทั้งหมด </span>
+            </v-btn>
+          </v-col>
+          <v-divider class="my-3"></v-divider>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #000"
+              rounded
+              variant="text"
+              @click="goToWishlist"
+            >
+              <span class="font-text"> นิยายทั้งหมด </span>
+            </v-btn>
+          </v-col>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #000"
+              rounded
+              variant="text"
+              @click="goToMyBook"
+            >
+              <span class="font-text">การ์ตูนทั้งหมด</span>
+            </v-btn>
+          </v-col>
+          <v-divider class="my-3"></v-divider>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToProfile"
+            >
+              <span class="font-text">หมวดหมู่ทั้งหมด</span>
+            </v-btn>
+          </v-col>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToProfile"
+            >
+              <span class="font-text">สำนักพิมพ์</span>
+            </v-btn>
+          </v-col>
+        </v-card-text>
+      </v-card>
+    </v-menu>
     <span
       :class="home ? 'border-bottom' : 'text-menu'"
       class="font-text mr-3"
