@@ -400,6 +400,7 @@ import router from "@/router";
 export default {
   data() {
     return {
+      roles: [],
       valid: true,
       valid1: true,
       valid2: true,
@@ -541,9 +542,24 @@ export default {
         button: "OK",
       });
     },
+    getId() {
+      return this.$store.getters["auth/getId"];
+    },
+    async fetchApi() {
+      const res = await api.get(
+        "/checkRoles/" + this.getId()
+      );
+      this.roles = res.data.user.roles;
+      for(let i=0;i<this.roles.length;i++){
+      if(this.roles[i] === "SELL"){
+        router.push("/")
+      }
+    }
+    },
   },
   mounted() {
     this.page = 1;
+    this.fetchApi()
   },
 };
 </script>
