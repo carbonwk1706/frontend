@@ -25,12 +25,7 @@
           </v-row>
           <br />
           <v-row>
-            <v-btn
-              color="success"
-              rounded
-              width="160"
-              @click="addWish(book)"
-            >
+            <v-btn color="success" rounded width="160" @click="addWish(book)">
               เพิ่มรายการอยากได้
             </v-btn>
           </v-row>
@@ -41,7 +36,7 @@
 </template>
 
 <script>
-import api from '@/services/api';
+import api from "@/services/api";
 
 export default {
   name: "BookDetail",
@@ -56,18 +51,24 @@ export default {
       this.wishStutas = !this.wishStutas;
     },
     addProduct(item) {
-      this.$store.dispatch('addItemToCart', item)
+      this.$store.dispatch("addItemToCart", item);
     },
-    addWish(book){
-      this.$store.dispatch('addItemToWish', book)
-    }
+    async addWish(item) {
+      console.log('item', JSON.stringify(item))
+      try {
+        await api.post("/wish", {
+          user: this.$store.getters["auth/getId"],
+          wish: JSON.stringify(item)
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
   mounted() {
-    api
-      .get("/books/" + this.$route.params.id)
-      .then((result) => {
-        this.book = result.data;
-      });
+    api.get("/books/" + this.$route.params.id).then((result) => {
+      this.book = result.data;
+    });
   },
 };
 </script>
