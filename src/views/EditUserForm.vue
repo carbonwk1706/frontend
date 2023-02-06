@@ -1,11 +1,13 @@
 <template>
-    <v-form>
+  <v-card>
+    <v-form  ref="form" v-model="valid" :lazy-validation="lazy">
       <v-container>
         <v-row>
           <v-col>
             <v-text-field
               label="Name"
               v-model="userItems.name"
+              :rules="[v => !!v || 'Name is required']"
             />
           </v-col>
         </v-row>
@@ -14,6 +16,8 @@
             <v-text-field
               label="Username"
               v-model="userItems.username"
+              :rules="[v => !!v || 'Username is required']"
+
             />
           </v-col>
         </v-row>
@@ -22,6 +26,16 @@
             <v-text-field
               label="Email"
               v-model="userItems.email"
+              :rules="[v => !!v || 'Email is required']"
+            />
+          </v-col>
+        </v-row>
+        <v-row>
+          <v-col>
+            <v-text-field
+              label="Password"
+              v-model="userItems.password"
+              :rules="[v => !!v || 'Password is required']"
             />
           </v-col>
         </v-row>
@@ -41,15 +55,20 @@
         </v-row>
       </v-container>
     </v-form>
+  </v-card>
   </template>
   <script>
 
   import axios from 'axios';
 
+
   export default {
     name: "EditUser",
     data() {
       return {
+
+        valid: false,
+        lazy: false,
         userItems: [],
       };
     },
@@ -58,6 +77,19 @@
         this.status = !this.status
         alert(this.status)
       },
+      alertvalidate(){
+
+      },
+      submit() {
+      this.$refs.form.validate().then(valid => {
+        if (valid) {
+          axios.put("http://localhost:3000/users/" + this.$route.params.id, this.userItems).then(() => {
+            this.$router.push("/usertable");
+          })
+          ;
+        }
+      });
+    }
     },
     mounted() {
     axios.get("http://localhost:3000/users/" + this.$route.params.id).then((result) => {
