@@ -47,6 +47,8 @@
 </template>
 
 <script>
+import api from "@/services/api";
+
 export default {
   name: "Wish",
   data() {
@@ -55,14 +57,17 @@ export default {
     };
   },
   methods: {
-    getWishList() {
-      this.wishList = this.$store.state.wishList;
+    async getWishList() {
+      await api.get("/wish/").then((result) => {
+      this.wishList = result.data.wishLists.map(wish => JSON.parse(wish.wish));
+      console.log('get ',this.wishList)
+    });
     },
     delWish(item) {
       this.$store.dispatch("delItemWish", item);
     },
     addItem(item) {
-      this.$store.dispatch('addItemToCart', item)
+      this.$store.dispatch('addItemToWish', item)
     },
     showDetail(item) {
       this.$router.push(`/book/${item._id}`);
