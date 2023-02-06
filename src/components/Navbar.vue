@@ -110,7 +110,7 @@
           <v-divider class="my-1"></v-divider>
           <v-col class="px-0">
             <v-btn
-              v-if="!this.checkRoles"
+              v-if="!hasSellRole"
               style="color: #5a5a5a"
               rounded
               variant="text"
@@ -119,7 +119,7 @@
               <span class="font-text">สมัครขายอีบุ๊ค</span>
             </v-btn>
             <v-btn
-            v-if="this.checkRoles"
+            v-if="hasSellRole"
             style="color: #5a5a5a"
             rounded
             variant="text"
@@ -419,6 +419,9 @@ export default {
     recommend() {
       return ["/recommend"].includes(this.$route.path);
     },
+    hasSellRole() {
+      return this.user.roles.includes('SELL');
+    }
   },
   watch:{
     isLogin(newValue) {
