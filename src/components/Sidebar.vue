@@ -35,7 +35,7 @@
         prepend-icon="mdi-view-dashboard"
         title="รายการคำร้อง"
         value="approve"
-        @click="goToUserTable()"
+        @click="goToApproveTable()"
       ></v-list-item>
       <!-- <v-list-item
         prepend-icon="mdi-account-group-outline"
@@ -87,6 +87,9 @@ export default {
     },
     goToAdminTable() {
       router.push("/admintable");
+    },
+    goToApproveTable(){
+      router.push("/approvetable");
     },
     logout() {
       this.loading = true;

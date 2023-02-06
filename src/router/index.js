@@ -94,9 +94,20 @@ const routes = [
     component: () => import('../views/UserTable.vue')
   },
   {
+    path: '/approvetable',
+    name: 'approvetable',
+    component: () => import('../views/ApproveTable.vue')
+  },
+  {
     path: '/request/:id',
     name: 'request',
     component: () => import('../views/DetailRequest.vue')
+  }
+  ,
+  {
+    path: '/usertable/:id',
+    name: 'edituser',
+    component: () => import('../views/EditUserForm.vue')
   }
 ]
 
