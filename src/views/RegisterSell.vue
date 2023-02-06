@@ -401,6 +401,7 @@ export default {
   data() {
     return {
       roles: [],
+      request: null,
       valid: true,
       valid1: true,
       valid2: true,
@@ -545,7 +546,7 @@ export default {
     getId() {
       return this.$store.getters["auth/getId"];
     },
-    async fetchApi() {
+    async checkRoles() {
       const res = await api.get(
         "/checkRoles/" + this.getId()
       );
@@ -556,10 +557,22 @@ export default {
       }
     }
     },
+    async checkRequest() {
+      const res = await api.get(
+        "/checkRequestRoles/" + this.getId()
+      );
+      this.request = res.data.request;
+      for(let i=0;i<this.request.length;i++){
+        if(this.request[i].status === 'pending') {
+          console.log("Hello")
+        }
+    }
+    },
   },
   mounted() {
     this.page = 1;
-    this.fetchApi()
+    this.checkRoles()
+    this.checkRequest()
   },
 };
 </script>
