@@ -290,9 +290,9 @@ export default {
           localStorage.setItem("user", JSON.stringify(user));
           setTimeout(() => {
             this.loginModal = false;
-            this.hideModal();
             this.$store.dispatch("auth/login", user);
             this.$store.dispatch("auth/newUser");
+            this.hideModal();
           }, 2000);
         }
       } catch (e) {
@@ -331,6 +331,7 @@ export default {
     showAlert(text) {
       this.$swal({
         confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
         width: "500",
         text: text,
         icon: "warning",

@@ -396,7 +396,7 @@
 </template>
 <script>
 import api from "@/services/api";
-
+import router from "@/router";
 export default {
   data() {
     return {
@@ -479,7 +479,7 @@ export default {
         try {
           await api.post("/request", {
             user: this.$store.getters["auth/getId"],
-            request: "ROLE.[SELL]",
+            request: "คำร้องขอสมัครขายอีบุ๊ค",
             publisher: this.form.publisher,
             firstName: this.form.firstName,
             lastName: this.form.lastName,
@@ -494,15 +494,21 @@ export default {
             bankAccount: this.form.bankAccount,
             idAccount: this.form.idAccount,
           });
+          this.page = 1;
           this.resetForm();
           this.$swal({
             confirmButtonColor: "#00af70",
+            allowOutsideClick: false,
             width: "500",
             text: "บันทึกข้อมูลสำเร็จ",
             icon: "success",
-            button: "OK",
+            confirmButtonText: "OK",
+          }).then((result) => {
+            if (result.value) {
+              router.push("/");
+              window.location.reload();
+            }
           });
-          this.page = 1;
         } catch (error) {
           console.log(error);
         }
@@ -528,6 +534,7 @@ export default {
     showAlert(text) {
       this.$swal({
         confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
         width: "500",
         text: text,
         icon: "warning",
