@@ -37,7 +37,7 @@
             <v-text-field
               label="กรอกนามปากกา / สำนักพิมพ์"
               variant="solo"
-              :rules="[(v) => !!v || 'กรุณากรอกนามปากกา / สำนักพิมพ์!']"
+              :rules="publisherRule"
               v-model="form.publisher"
             ></v-text-field>
           </v-col>
@@ -51,7 +51,7 @@
           <v-col cols="7">
             <v-text-field
               v-model="form.firstName"
-              :rules="[(v) => !!v || 'กรุณากรอกกรอกชื่อ!']"
+              :rules="firstNameRule"
               label="กรอกชื่อ"
               variant="solo"
             ></v-text-field>
@@ -66,7 +66,7 @@
           <v-col cols="7">
             <v-text-field
               v-model="form.lastName"
-              :rules="[(v) => !!v || 'กรุณากรอกนามสกุล!']"
+              :rules="lastNameRule"
               label="กรอกนามสกุล"
               variant="solo"
             ></v-text-field>
@@ -83,6 +83,7 @@
               v-model="form.idCard"
               :rules="idCardRule"
               label="กรอกรหัสบัตรประจำตัวประชาชน"
+              :counter="13"
               variant="solo"
             ></v-text-field>
           </v-col>
@@ -97,6 +98,7 @@
             <v-text-field
               v-model="form.phone"
               :rules="phoneRule"
+              :counter="10"
               label="กรอกเบอร์โทรศัพท์"
               variant="solo"
             ></v-text-field>
@@ -123,8 +125,9 @@
             class="btn-agree"
             color="white"
             type="submit"
+            @click="goPage2"
           >
-            <span @click="goPage2" style="font-size: 12px">หน้าต่อไป</span>
+            <span style="font-size: 12px">หน้าต่อไป</span>
           </v-btn>
         </div>
       </v-col>
@@ -221,6 +224,7 @@
             <v-text-field
               v-model="form.postCode"
               :rules="postCodeRule"
+              :counter="5"
               variant="solo"
             ></v-text-field>
           </v-col>
@@ -297,6 +301,7 @@
             <v-text-field
               v-model="form.idAccount"
               :rules="idAccountRule"
+              :counter="10"
               variant="solo"
             ></v-text-field>
           </v-col>
@@ -450,23 +455,68 @@ export default {
         "UOB-ธนาคารยูโอบี จำกัด (มหาชน)",
         "CIMB-ธนาคาร ซีไอเอ็มบี ไทย จำกัด (มหาชน)",
       ],
-      idCardRule: [
-        (v) => !!v || "กรุณากรอกรหัสบัตรประชาชน",
-        (v) => (v && v.length === 13) || "ระบุอย่างน้อย 13 ตัว",
-      ],
-      phoneRule: [
-        (v) => !!v || "กรุณากรอกเบอร์โทรศัพท์",
-        (v) => (v && v.length === 10) || "ระบุอย่างน้อย 10 ตัว",
-      ],
-      postCodeRule: [
-        (v) => !!v || "กรุณากรอกรหัสไปรษณีย์",
-        (v) => (v && v.length === 5) || "ระบุอย่างน้อย 5 ตัว",
-      ],
-      idAccountRule: [
-        (v) => !!v || "กรุณากรอกหมายเลขบัญชี",
-        (v) => (v && v.length === 10) || "ระบุอย่างน้อย 10 ตัว",
-      ],
     };
+  },
+  computed: {
+    idCardRule() {
+      return [
+        (v) => !!v || "กรุณากรอกรหัสบัตรประชาชน",
+        (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) => /^(?=.*[0-9])/.test(v) || "ระบุตัวเลข",
+        (v) => (v && v.length === 13) || "ระบุอย่างน้อย 13 ตัว",
+      ];
+    },
+    phoneRule() {
+      return [
+        (v) => !!v || "กรุณากรอกเบอร์โทรศัพท์",
+        (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) => /^0\d+$/.test(v) || "เบอร์โทรศัพท์ขึ้นต้นด้วย 0 ตามด้วยตัวเลข",
+        (v) => (v && v.length === 10) || "ระบุอย่างน้อย 10 ตัว",
+      ];
+    },
+    postCodeRule() {
+      return [
+        (v) => !!v || "กรุณากรอกรหัสไปรษณีย์",
+        (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) => /^(?=.*[0-9])/.test(v) || "ระบุตัวเลข",
+        (v) => (v && v.length === 5) || "ระบุอย่างน้อย 5 ตัว",
+      ];
+    },
+    idAccountRule() {
+      return [
+        (v) => !!v || "กรุณากรอกหมายเลขบัญชี",
+        (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) => /^(?=.*[0-9])/.test(v) || "ระบุตัวเลข",
+        (v) => (v && v.length === 10) || "ระบุอย่างน้อย 10 ตัว",
+      ];
+    },
+    publisherRule() {
+      return [
+        (v) => !!v || "กรุณากรอกนามปากกา / สำนักพิมพ์!",
+        (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) =>
+          /^[a-zA-Z]+$|^[ก-๛]+$/.test(v) ||
+          "ชื่อต้องเป็นภาษาอังกฤษหรือภาษาไทยเท่านั้น และ ห้ามภาษาอังกฤษผสมภาษาไทย",
+      ];
+    },
+    firstNameRule(){
+      return [
+        (v) => !!v || "กรุณากรอกกรอกชื่อ!",
+        (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) =>
+          /^[a-zA-Z]+$|^[ก-๛]+$/.test(v) ||
+          "ชื่อต้องเป็นภาษาอังกฤษหรือภาษาไทยเท่านั้น และ ห้ามภาษาอังกฤษผสมภาษาไทย",
+      ];
+    },
+    lastNameRule(){
+      return [
+        (v) => !!v || "กรุณากรอกนามสกุล!",
+        (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) =>
+          /^[a-zA-Z]+$|^[ก-๛]+$/.test(v) ||
+          "ชื่อต้องเป็นภาษาอังกฤษหรือภาษาไทยเท่านั้น และ ห้ามภาษาอังกฤษผสมภาษาไทย",
+      ];
+    }
   },
   methods: {
     async goPage2() {
@@ -582,8 +632,8 @@ export default {
         ) {
           this.showModal = true;
           setTimeout(() => {
-            this.showModal = false
-            router.push("/")
+            this.showModal = false;
+            router.push("/");
           }, 2000);
         }
       }
@@ -615,7 +665,7 @@ export default {
   border-radius: 20px;
   color: #00af70;
 }
-.img-size{
+.img-size {
   width: 100px;
 }
 .center {
@@ -624,4 +674,3 @@ export default {
   align-items: center;
 }
 </style>
-
