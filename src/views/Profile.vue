@@ -38,7 +38,7 @@
             persistent
             style="z-index: 900"
           >
-            <v-card >
+            <v-card>
               <div class="d-flex justify-end pa-1">
                 <v-icon @click="hideModal">mdi-close</v-icon>
               </div>
@@ -327,7 +327,7 @@ export default {
         text: "เปลี่ยนรูปโปรไฟล์สำเร็จ",
         icon: "success",
         allowOutsideClick: false,
-        confirmButtonText: 'OK'
+        confirmButtonText: "OK",
       }).then((result) => {
         if (result.value) {
           window.location.reload();
@@ -338,24 +338,24 @@ export default {
       return this.$store.getters["auth/getId"];
     },
     callback() {
-      console.log("hello")
+      console.log("hello");
       this.fetchApi();
     },
     async fetchApi() {
-      const res = await api.get(
-        "/profile/" + this.getId()
-      );
+      const res = await api.get("/profile/" + this.getId());
       this.user = res.data.user;
     },
   },
-  computed:{
+  computed: {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
-    }
+    },
   },
   mounted() {
-    this.editModal = false;
-    this.fetchApi();
+    if (this.isLogin) {
+      this.editModal = false;
+      this.fetchApi();
+    }
   },
 };
 </script>

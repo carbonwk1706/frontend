@@ -418,8 +418,7 @@
       </v-card>
     </v-dialog>
   </Auth>
-  <Auth v-if="!isLogin">
-  </Auth>
+  <Auth v-if="!isLogin"> </Auth>
 </template>
 <script>
 import api from "@/services/api";
@@ -661,12 +660,14 @@ export default {
       }
     },
   },
-  
+
   mounted() {
-    this.page = 1;
-    this.checkRoles();
-    this.checkRequest();
-    this.apiProvince();
+    if (this.isLogin) {
+      this.page = 1;
+      this.checkRoles();
+      this.checkRequest();
+      this.apiProvince();
+    }
   },
 };
 </script>
