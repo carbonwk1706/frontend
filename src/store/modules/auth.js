@@ -1,4 +1,3 @@
-import router from "../../router";
 import { AUTH_LOGIN, AUTH_LOGOUT, NEW_USER, NOT_NEW} from "../mutation-types";
 
 export default {
@@ -30,7 +29,6 @@ export default {
     logout({ commit }) {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      router.push('/')
       commit(AUTH_LOGOUT);
     },
     newUser({ commit }){

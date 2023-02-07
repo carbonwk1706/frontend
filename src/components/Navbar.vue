@@ -52,7 +52,7 @@
                 <span
                   style="font-size: 16px; color: #f58b1b"
                   class="mr-2 font-text"
-                  >{{user.coin }}</span
+                  >{{ user.coin }}</span
                 >
                 <span style="font-size: 14px" class="font-text">เหรียญ</span>
               </div>
@@ -119,14 +119,14 @@
               <span class="font-text">สมัครขายอีบุ๊ค</span>
             </v-btn>
             <v-btn
-            v-if="hasSellRole"
-            style="color: #5a5a5a"
-            rounded
-            variant="text"
-            @click="goToMyShop"
-          >
-            <span class="font-text">ร้านค้าของฉัน</span>
-          </v-btn>
+              v-if="hasSellRole"
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToMyShop"
+            >
+              <span class="font-text">ร้านค้าของฉัน</span>
+            </v-btn>
           </v-col>
         </v-card-text>
       </v-card>
@@ -180,7 +180,7 @@
   >
     <v-spacer></v-spacer>
     <v-menu offset-y>
-      <template  v-slot:activator="{ props }">
+      <template v-slot:activator="{ props }">
         <span class="text-middle" v-bind="props">
           อีบุ๊คทั้งหมด<v-icon>mdi-menu-down</v-icon>
         </span>
@@ -253,7 +253,7 @@
   >
     <v-spacer></v-spacer>
     <v-menu offset-y v-if="!showMiddleNav">
-      <template  v-slot:activator="{ props }">
+      <template v-slot:activator="{ props }">
         <span class="font-text mr-3" v-bind="props">
           อีบุ๊คทั้งหมด<v-icon>mdi-menu-down</v-icon>
         </span>
@@ -411,6 +411,7 @@ export default {
         this.$store.dispatch("auth/logout");
         this.loading = false;
       }, 2000);
+      router.push("/");
       setTimeout(() => {
         window.location.reload();
       }, 2000);
@@ -445,16 +446,14 @@ export default {
     goToRecommend() {
       router.push("/recommend");
     },
-    goToRegisterSell(){
-      router.push("/registersell")
+    goToRegisterSell() {
+      router.push("/registersell");
     },
-    goToMyShop(){
-      router.push("/myshop")
+    goToMyShop() {
+      router.push("/myshop");
     },
     async fetchApi() {
-      const res = await api.get(
-        "/profile/" + this.getId()
-      );
+      const res = await api.get("/profile/" + this.getId());
       this.user = res.data.user;
     },
     getId() {
@@ -483,22 +482,21 @@ export default {
       return ["/recommend"].includes(this.$route.path);
     },
     hasSellRole() {
-      return this.user.roles.includes('SELL');
-    }
+      return this.user.roles.includes("SELL");
+    },
   },
-  watch:{
+  watch: {
     isLogin(newValue) {
       if (newValue) {
-        this.fetchApi()
+        this.fetchApi();
       }
     },
   },
   mounted() {
     this.visibleModal = false;
-    if(this.isLogin){
-      this.fetchApi()
+    if (this.isLogin) {
+      this.fetchApi();
     }
-
   },
 };
 </script>
