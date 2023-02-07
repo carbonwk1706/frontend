@@ -15,17 +15,19 @@
         แก้ไขข้อมูลส่วนตัว
       </v-card-title>
       <v-divider></v-divider>
-      <v-card-text class="text-center font-color pa-2">
+      <v-card-text class="text-center font-color pa-3">
         Username : {{ user.username }}
       </v-card-text>
       <v-container class="pa-2">
-        <v-form ref="form">
+        <v-form ref="form" v-model="valid" lazy-validation>
           <v-text-field
             label="Firstname"
             variant="outlined"
             required
             placeholder="Name"
             v-model="user.firstName"
+            :rules="firstNameRule"
+            class="mb-3"
           ></v-text-field>
           <v-text-field
             label="Lastname"
@@ -33,6 +35,8 @@
             required
             placeholder="Name"
             v-model="user.lastName"
+            :rules="lastNameRule"
+            class="mb-3"
           ></v-text-field>
           <v-text-field
             label="Display Name"
@@ -40,6 +44,8 @@
             required
             placeholder="Name"
             v-model="user.name"
+            :rules="nameRule"
+            class="mb-3"
           ></v-text-field>
           <v-text-field
             prepend-inner-icon="mdi-phone"
@@ -48,6 +54,8 @@
             required
             placeholder="Name"
             v-model="user.phone"
+            counter="10"
+            :rules="phoneRule"
           ></v-text-field>
           <v-card-text class="pa-2"> Gender </v-card-text>
           <v-select
@@ -135,11 +143,59 @@ export default {
         gender: "Not specified",
       },
       user: [],
+      valid: true,
     };
   },
+  computed: {
+    firstNameRule() {
+      return [
+        (v) => !v || !!v,
+        (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) =>
+          !v ||
+          /^[a-zA-Z]+$|^[ก-๛]+$/.test(v) ||
+          "ชื่อต้องเป็นภาษาอังกฤษหรือภาษาไทยเท่านั้น และ ห้ามภาษาอังกฤษผสมภาษาไทย",
+      ];
+    },
+    lastNameRule() {
+      return [
+        (v) => !v || !!v,
+        (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) =>
+          !v ||
+          /^[a-zA-Z]+$|^[ก-๛]+$/.test(v) ||
+          "ชื่อต้องเป็นภาษาอังกฤษหรือภาษาไทยเท่านั้น และ ห้ามภาษาอังกฤษผสมภาษาไทย",
+      ];
+    },
+    nameRule() {
+      return [
+        (v) => !!v || "กรุณากรอกชื่อเล่น",
+        (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) =>
+          /^[a-zA-Z0-9]+$|^[ก-๛0-9]+$/.test(v) ||
+          "ชื่อต้องเป็นภาษาอังกฤษหรือภาษาไทยเท่านั้น และ ห้ามภาษาอังกฤษผสมภาษาไทย",
+        (v) =>
+          (v && v.length >= 4 && v.length <= 32) ||
+          "ระบุอย่างน้อย 4 ตัวอักษร และน้อยกว่า 15 ตัวอักษร",
+      ];
+    },
+    phoneRule() {
+      return [
+        (v) => !!v || "กรุณากรอกเบอร์โทรศัพท์",
+        (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) => /^0\d+$/.test(v) || "เบอร์โทรศัพท์ขึ้นต้นด้วย 0 ตามด้วยตัวเลข",
+        (v) => (v && v.length === 10) || "ระบุอย่างน้อย 10 ตัว",
+      ];
+    },
+  },
   methods: {
-    showModalConfirm() {
-      this.showConfirm = true;
+    async showModalConfirm() {
+      const { valid } = await this.$refs.form.validate();
+      if (!valid) {
+        this.alertError("ระบุข้อมูลให้ถูกต้อง");
+      } else {
+        this.showConfirm = true;
+      }
     },
     toggleShowModalConfirm() {
       this.showConfirm = !this.showConfirm;

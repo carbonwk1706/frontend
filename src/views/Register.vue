@@ -79,7 +79,7 @@
             :rules="emailRule"
           ></v-text-field>
           <v-card-text class="pa-2">
-            Display name <span style="color: red">*</span>
+            Display name <span style="color: red">*</span> <span style="color: gray"> 4-32 chars</span>
           </v-card-text>
           <v-text-field
             v-model="form.name"
@@ -224,11 +224,11 @@ export default {
         (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
         (v) => !!v || "กรุณากรอก username",
         (v) =>
-          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@-_])/.test(
-            v
-          ) ||
+          /^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[@-_])/.test(v) ||
           "มีสัญลักษณ์พิเศษและตัวอักษรตัวใหญ่และเลข 0-9",
-          (v) => (v && v.length >= 4 && v.length <= 32) || "ระบุอย่างน้อย 4 ตัวอักษร และ น้อยกว่า 32 ตัวอักษร",
+        (v) =>
+          (v && v.length >= 4 && v.length <= 32) ||
+          "ระบุอย่างน้อย 4 ตัวอักษร และ น้อยกว่า 32 ตัวอักษร",
       ],
       emailRule: [
         (v) => !!v || "กรุณากรอก Email",
@@ -238,6 +238,12 @@ export default {
       nameRule: [
         (v) => !!v || "กรุณากรอกชื่อเล่น",
         (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) =>
+          /^[a-zA-Z0-9]+$|^[ก-๛0-9]+$/.test(v) ||
+          "ชื่อต้องเป็นภาษาอังกฤษหรือภาษาไทยเท่านั้น และ ห้ามภาษาอังกฤษผสมภาษาไทย",
+        (v) =>
+          (v && v.length >= 4 && v.length <= 32) ||
+          "ระบุอย่างน้อย 4 ตัวอักษร และน้อยกว่า 15 ตัวอักษร",
       ],
       passwordRule: [
         (v) => !!v || "กรุณากรอก Password",
