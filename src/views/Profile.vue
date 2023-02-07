@@ -216,7 +216,7 @@
     <ManageUserForm
       :editModal="editModal"
       @update:isVisible="editModal = $event"
-      @someEvent="callback"
+      @update:someEvent="callback"
     />
   </AuthWishlist>
 </template>

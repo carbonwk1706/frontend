@@ -201,7 +201,7 @@ export default {
       await api.put("/profile/" + this.getId(), this.user);
       this.hideModal();
       console.log("edit");
-      this.$emit("someEvent");
+      this.$emit("update:someEvent");
       this.showAlert("บันทึกข้อมูลสำเร็จ");
     },
     async fetchApi() {
