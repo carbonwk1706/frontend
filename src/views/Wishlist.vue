@@ -1,14 +1,22 @@
 <template>
-  <AuthWishlist>
+  <Auth v-if="isLogin">
     <h1>Wishlist</h1>
-  </AuthWishlist>
+  </Auth>
+
+  <Auth v-if="!isLogin">
+  </Auth>
 </template>
 <script>
-import AuthWishlist from "../components/AuthWishlist.vue";
+import Auth from "../components/Auth.vue";
 
 export default {
   components: {
-    AuthWishlist,
+    Auth,
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
+    },
   },
 };
 </script>

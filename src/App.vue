@@ -7,7 +7,7 @@
         <router-view />
       </v-container>
     </v-main>
-    <Footer />
+    <Footer v-if="showFooter" />
   </v-app>
 </template>
 
@@ -20,17 +20,55 @@ export default {
   components: {
     Navbar,
     Sidebar,
-    Footer
+    Footer,
   },
   computed: {
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
+    },
     showNavbar() {
-      return ![
-        "/login",
-        "/register",
-        "/login",
-        "/admin",
-        "/usertable",
-      ].includes(this.$route.path);
+      if (!this.isLogin) {
+        return ![
+          "/login",
+          "/register",
+          "/login",
+          "/admin",
+          "/usertable",
+          "/wishlist",
+          "/profile",
+          "/registersell",
+        ].includes(this.$route.path);
+      } else {
+        return ![
+          "/login",
+          "/register",
+          "/login",
+          "/admin",
+          "/usertable",
+        ].includes(this.$route.path);
+      }
+    },
+    showFooter() {
+      if (!this.isLogin) {
+        return ![
+          "/login",
+          "/register",
+          "/login",
+          "/admin",
+          "/usertable",
+          "/wishlist",
+          "/profile",
+          "/registersell",
+        ].includes(this.$route.path);
+      } else {
+        return ![
+          "/login",
+          "/register",
+          "/login",
+          "/admin",
+          "/usertable",
+        ].includes(this.$route.path);
+      }
     },
     showSidebar() {
       return ["/admin", "/usertable", "/admintable"].includes(this.$route.path);

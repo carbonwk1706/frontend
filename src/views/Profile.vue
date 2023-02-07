@@ -1,5 +1,5 @@
 <template>
-  <AuthWishlist>
+  <Auth v-if="isLogin">
     <div class="text-center mt-6 text-header font-text">
       <span>จัดการบัญชี</span>
     </div>
@@ -218,18 +218,20 @@
       @update:isVisible="editModal = $event"
       @update:someEvent="callback"
     />
-  </AuthWishlist>
+  </Auth>
+
+  <Auth v-if="!isLogin"></Auth>
 </template>
 <script>
 import api from "@/services/api";
 import ManageUserForm from "@/components/ManageUserForm.vue";
 import router from "@/router";
-import AuthWishlist from "@/components/AuthWishlist.vue";
+import Auth from "@/components/Auth.vue";
 
 export default {
   components: {
     ManageUserForm,
-    AuthWishlist,
+    Auth,
   },
   data: () => ({
     loading: false,
@@ -345,6 +347,11 @@ export default {
       );
       this.user = res.data.user;
     },
+  },
+  computed:{
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
+    }
   },
   mounted() {
     this.editModal = false;
