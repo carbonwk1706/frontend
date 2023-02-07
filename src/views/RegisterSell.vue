@@ -418,6 +418,7 @@
 <script>
 import api from "@/services/api";
 import router from "@/router";
+import axios from "axios";
 export default {
   data() {
     return {
@@ -444,7 +445,7 @@ export default {
         bankAccount: "",
         idAccount: "",
       },
-      listProvince: ["กรุงเทพมหานคร", "สมุทรปราการ"],
+      listProvince: [],
       listBankAccout: [
         "BBL-ธนาคารกรุงเทพ จำกัด (มหาชน)",
         "KBANK-ธนาคารกสิกร จำกัด (มหาชน)",
@@ -499,7 +500,7 @@ export default {
           "ชื่อต้องเป็นภาษาอังกฤษหรือภาษาไทยเท่านั้น และ ห้ามภาษาอังกฤษผสมภาษาไทย",
       ];
     },
-    firstNameRule(){
+    firstNameRule() {
       return [
         (v) => !!v || "กรุณากรอกกรอกชื่อ!",
         (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
@@ -508,7 +509,7 @@ export default {
           "ชื่อต้องเป็นภาษาอังกฤษหรือภาษาไทยเท่านั้น และ ห้ามภาษาอังกฤษผสมภาษาไทย",
       ];
     },
-    lastNameRule(){
+    lastNameRule() {
       return [
         (v) => !!v || "กรุณากรอกนามสกุล!",
         (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
@@ -516,7 +517,7 @@ export default {
           /^[a-zA-Z]+$|^[ก-๛]+$/.test(v) ||
           "ชื่อต้องเป็นภาษาอังกฤษหรือภาษาไทยเท่านั้น และ ห้ามภาษาอังกฤษผสมภาษาไทย",
       ];
-    }
+    },
   },
   methods: {
     async goPage2() {
@@ -638,11 +639,20 @@ export default {
         }
       }
     },
+    async apiProvince() {
+      const res = await axios.get(
+        "https://raw.githubusercontent.com/kongvut/thai-province-data/master/api_province.json"
+      );
+      for (let i = 0; i < res.data.length; i++) {
+        this.listProvince.push(res.data[i].name_th);
+      }
+    },
   },
   mounted() {
     this.page = 1;
     this.checkRoles();
     this.checkRequest();
+    this.apiProvince();
   },
 };
 </script>
