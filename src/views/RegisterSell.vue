@@ -393,6 +393,22 @@
       </v-col>
     </v-card-actions>
   </v-card>
+
+  <v-dialog v-model="showModal" max-width="500" persistent>
+    <v-card>
+      <v-card-title class="center">
+        <div class="img-size">
+          <v-img
+            src="https://media.tenor.com/mvTL8ggxk2kAAAAC/chibicat-chibicatt.gif"
+          >
+          </v-img>
+        </div>
+      </v-card-title>
+      <v-card-text class="text-center"
+        >คุณได้ส่งคำร้องขอการอนุมัติไปแล้ว โปรดรออนุมัติ</v-card-text
+      >
+    </v-card>
+  </v-dialog>
 </template>
 <script>
 import api from "@/services/api";
@@ -400,6 +416,7 @@ import router from "@/router";
 export default {
   data() {
     return {
+      showModal: false,
       roles: [],
       request: null,
       valid: true,
@@ -547,32 +564,35 @@ export default {
       return this.$store.getters["auth/getId"];
     },
     async checkRoles() {
-      const res = await api.get(
-        "/checkRoles/" + this.getId()
-      );
+      const res = await api.get("/checkRoles/" + this.getId());
       this.roles = res.data.user.roles;
-      for(let i=0;i<this.roles.length;i++){
-      if(this.roles[i] === "SELL"){
-        router.push("/")
+      for (let i = 0; i < this.roles.length; i++) {
+        if (this.roles[i] === "SELL") {
+          router.push("/");
+        }
       }
-    }
     },
     async checkRequest() {
-      const res = await api.get(
-        "/checkRequestRoles/" + this.getId()
-      );
+      const res = await api.get("/checkRequestRoles/" + this.getId());
       this.request = res.data.request;
-      for(let i=0;i<this.request.length;i++){
-        if(this.request[i].status === 'pending') {
-          console.log("Hello")
+      for (let i = 0; i < this.request.length; i++) {
+        if (
+          this.request[i].status === "pending" &&
+          this.request[i].request === "คำร้องขอสมัครขายอีบุ๊ค"
+        ) {
+          this.showModal = true;
+          setTimeout(() => {
+            this.showModal = false
+            router.push("/")
+          }, 2000);
         }
-    }
+      }
     },
   },
   mounted() {
     this.page = 1;
-    this.checkRoles()
-    this.checkRequest()
+    this.checkRoles();
+    this.checkRequest();
   },
 };
 </script>
@@ -595,4 +615,13 @@ export default {
   border-radius: 20px;
   color: #00af70;
 }
+.img-size{
+  width: 100px;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
+
