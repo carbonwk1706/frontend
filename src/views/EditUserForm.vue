@@ -7,7 +7,7 @@
             <v-text-field
               label="Name"
               v-model="userItems.name"
-              :rules="[v => !!v || 'Name is required']"
+              :rules="nameRule"
             />
           </v-col>
         </v-row>
@@ -16,7 +16,7 @@
             <v-text-field
               label="Username"
               v-model="userItems.username"
-              :rules="[v => !!v || 'Username is required']"
+              :rules="usernameRule"
 
             />
           </v-col>
@@ -26,7 +26,7 @@
             <v-text-field
               label="Email"
               v-model="userItems.email"
-              :rules="[v => !!v || 'Email is required']"
+              :rules="emailRule"
             />
           </v-col>
         </v-row>
@@ -44,7 +44,7 @@
             <v-select
               label="Gender"
               v-model="userItems.gender"
-              :items="['Male', 'Female', 'Other']"
+              :items="genderItem"
             />
           </v-col>
         </v-row>
@@ -52,7 +52,12 @@
           <v-col class="text-center">
             <v-btn color="success" rounded @click="submit">Accept</v-btn>
           </v-col>
+          <v-col class="text-center">
+            <v-btn color="Grey" rounded @click="submit">Back</v-btn>
+          </v-col>
+
         </v-row>
+
       </v-container>
     </v-form>
   </v-card>
@@ -70,6 +75,33 @@
         valid: false,
         lazy: false,
         userItems: [],
+        usernameRule: [
+        (v) => !!v || "กรุณากรอก username",
+        (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) =>
+          /^[a-zA-Z0-9]+$|^[ก-๛0-9]+$/.test(v) ||
+          "ชื่อต้องเป็นภาษาอังกฤษหรือภาษาไทยเท่านั้น และ ห้ามภาษาอังกฤษผสมภาษาไทย",
+        (v) =>
+          (v && v.length >= 4 && v.length <= 32) ||
+          "ระบุอย่างน้อย 4 ตัวอักษร และน้อยกว่า 15 ตัวอักษร",
+        ],
+        nameRule:[
+        (v) => !!v || "กรุณากรอกชื่อเล่น",
+        (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) =>
+          /^[a-zA-Z0-9]+$|^[ก-๛0-9]+$/.test(v) ||
+          "ชื่อต้องเป็นภาษาอังกฤษหรือภาษาไทยเท่านั้น และ ห้ามภาษาอังกฤษผสมภาษาไทย",
+        (v) =>
+          (v && v.length >= 4 && v.length <= 32) ||
+          "ระบุอย่างน้อย 4 ตัวอักษร และน้อยกว่า 15 ตัวอักษร",
+        ],
+        genderItem:['Male', 'Female', 'Other'],
+        emailRule:[
+        (v) => !!v || "กรุณากรอก Email",
+        (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
+        ],
+
       };
     },
     methods: {
