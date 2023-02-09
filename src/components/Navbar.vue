@@ -59,7 +59,7 @@
             </v-col>
             <v-col cols="3">
               <div class="float-right">
-                <v-btn rounded variant="text" @click="goToProfile">
+                <v-btn rounded variant="text" @click="goToAddCoin">
                   <span class="font-text" style="color: #5a5a5a">เติมเงิน</span>
                 </v-btn>
               </div></v-col
@@ -413,6 +413,9 @@ export default {
     },
     goToMyShop(){
       router.push("/myshop")
+    },
+    goToAddCoin(){
+      router.push("/coin")
     },
   },
   computed: {
