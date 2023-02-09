@@ -88,6 +88,11 @@ const routes = [
     component: () => import('../views/UserTable.vue')
   },
   {
+    path: '/approvetable',
+    name: 'approvetable',
+    component: () => import('../views/ApproveTable.vue')
+  },
+  {
     path: '/request/:id',
     name: 'request',
     component: () => import('../views/DetailRequest.vue')
@@ -96,6 +101,12 @@ const routes = [
     path: '/coin',
     name: 'coin',
     component: () => import('../views/Coin.vue')
+  }
+  ,
+  {
+    path: '/usertable/:id',
+    name: 'edituser',
+    component: () => import('../views/EditUserForm.vue')
   }
 ]
 

@@ -100,7 +100,6 @@
 </template>
 <script>
 import api from "@/services/api";
-import router from "../router";
 import Register from "./Register.vue";
 export default {
   components: {
@@ -154,7 +153,6 @@ export default {
               this.loading = false;
               this.hideLogin();
             }, 2000);
-            router.push("/");
             setTimeout(() => {
               window.location.reload()
             },2000)

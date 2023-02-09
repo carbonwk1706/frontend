@@ -1,5 +1,5 @@
 <template>
-  <AuthWishlist>
+  <Auth v-if="isLogin">
     <div class="text-center mt-6 text-header font-text">
       <span>จัดการบัญชี</span>
     </div>
@@ -38,7 +38,7 @@
             persistent
             style="z-index: 900"
           >
-            <v-card >
+            <v-card>
               <div class="d-flex justify-end pa-1">
                 <v-icon @click="hideModal">mdi-close</v-icon>
               </div>
@@ -218,18 +218,20 @@
       @update:isVisible="editModal = $event"
       @update:someEvent="callback"
     />
-  </AuthWishlist>
+  </Auth>
+
+  <Auth v-if="!isLogin"></Auth>
 </template>
 <script>
 import api from "@/services/api";
 import ManageUserForm from "@/components/ManageUserForm.vue";
 import router from "@/router";
-import AuthWishlist from "@/components/AuthWishlist.vue";
+import Auth from "@/components/Auth.vue";
 
 export default {
   components: {
     ManageUserForm,
-    AuthWishlist,
+    Auth,
   },
   data: () => ({
     loading: false,
@@ -324,28 +326,36 @@ export default {
         customClass: "show-modal",
         text: "เปลี่ยนรูปโปรไฟล์สำเร็จ",
         icon: "success",
-        button: "OK",
         allowOutsideClick: false,
+        confirmButtonText: "OK",
+      }).then((result) => {
+        if (result.value) {
+          window.location.reload();
+        }
       });
     },
     getId() {
       return this.$store.getters["auth/getId"];
     },
     callback() {
+      console.log("hello");
       this.fetchApi();
     },
     async fetchApi() {
-      const res = await api.get(
-        "/profile/" + this.getId()
-      );
+      const res = await api.get("/profile/" + this.getId());
       this.user = res.data.user;
-      localStorage.setItem("user", JSON.stringify(this.user));
-      this.$store.dispatch("auth/login", this.user);
+    },
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
     },
   },
   mounted() {
-    this.editModal = false;
-    this.fetchApi();
+    if (this.isLogin) {
+      this.editModal = false;
+      this.fetchApi();
+    }
   },
 };
 </script>

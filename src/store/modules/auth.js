@@ -1,4 +1,3 @@
-import router from "../../router";
 import { AUTH_LOGIN, AUTH_LOGOUT, NEW_USER, NOT_NEW} from "../mutation-types";
 
 export default {
@@ -30,7 +29,6 @@ export default {
     logout({ commit }) {
       localStorage.removeItem("token");
       localStorage.removeItem("user");
-      router.push('/')
       commit(AUTH_LOGOUT);
     },
     newUser({ commit }){
@@ -47,26 +45,8 @@ export default {
     getName(state){
       return state.user.name.toString()
     },
-    getUsername(state){
-      return state.user.username.toString()
-    },
     getId(state){
       return state.user._id.toString()
-    },
-    getGender(state){
-      return state.user.gender.toString()
-    },
-    getEmail(state){
-      return state.user.email.toString()
-    },
-    getImage(state){
-      return state.user.imageUrl.toString()
-    },
-    getCoin(state){
-      return state.user.coin.toString()
-    },
-    getRoles(state){
-      return state.user.roles
     },
     isNewUser(state){
       return state.newUser

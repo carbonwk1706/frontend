@@ -13,7 +13,7 @@
       <template v-slot:activator="{ props }">
         <v-btn class="header_action" v-bind="props">
           <v-icon class="mr-2">mdi-account</v-icon>
-          <span class="font-text"> สวัสดี ID-{{ getId }}</span>
+          <span class="font-text"> สวัสดี ID-{{ user._id }}</span>
           <v-icon>mdi-menu-down</v-icon>
         </v-btn>
       </template>
@@ -21,12 +21,12 @@
         <v-card-text>
           <v-row class="pa-2">
             <v-avatar size="x-large">
-              <v-img :src="getImage" cover></v-img>
+              <v-img :src="user.imageUrl" cover></v-img>
             </v-avatar>
             <v-col>
-              <h3 class="font-text">{{ getName }}</h3>
+              <h3 class="font-text">{{ user.name }}</h3>
               <p style="color: #5a5a5a" class="mt-1 text-upper font-text">
-                ID-{{ getId }}
+                ID-{{ user._id }}
               </p>
               <div class="d-flex flex justify-end mt-2">
                 <v-btn
@@ -52,7 +52,7 @@
                 <span
                   style="font-size: 16px; color: #f58b1b"
                   class="mr-2 font-text"
-                  >{{ getCoin }}</span
+                  >{{ user.coin }}</span
                 >
                 <span style="font-size: 14px" class="font-text">เหรียญ</span>
               </div>
@@ -110,7 +110,7 @@
           <v-divider class="my-1"></v-divider>
           <v-col class="px-0">
             <v-btn
-              v-if="!this.checkRoles"
+              v-if="!hasSellRole"
               style="color: #5a5a5a"
               rounded
               variant="text"
@@ -119,14 +119,14 @@
               <span class="font-text">สมัครขายอีบุ๊ค</span>
             </v-btn>
             <v-btn
-            v-if="this.checkRoles"
-            style="color: #5a5a5a"
-            rounded
-            variant="text"
-            @click="goToMyShop"
-          >
-            <span class="font-text">ร้านค้าของฉัน</span>
-          </v-btn>
+              v-if="hasSellRole"
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToMyShop"
+            >
+              <span class="font-text">ร้านค้าของฉัน</span>
+            </v-btn>
           </v-col>
         </v-card-text>
       </v-card>
@@ -208,7 +208,7 @@
   >
     <v-spacer></v-spacer>
     <v-menu offset-y>
-      <template  v-slot:activator="{ props }">
+      <template v-slot:activator="{ props }">
         <span class="text-middle" v-bind="props">
           อีบุ๊คทั้งหมด<v-icon>mdi-menu-down</v-icon>
         </span>
@@ -280,6 +280,69 @@
     height="50"
   >
     <v-spacer></v-spacer>
+    <v-menu offset-y v-if="!showMiddleNav">
+      <template v-slot:activator="{ props }">
+        <span class="font-text mr-3" v-bind="props">
+          อีบุ๊คทั้งหมด<v-icon>mdi-menu-down</v-icon>
+        </span>
+      </template>
+      <v-card>
+        <v-card-text>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #00af70"
+              rounded
+              variant="text"
+              @click="goToWishlist"
+            >
+              <span class="font-text"> อีบุ๊คทั้งหมด </span>
+            </v-btn>
+          </v-col>
+          <v-divider class="my-3"></v-divider>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #000"
+              rounded
+              variant="text"
+              @click="goToWishlist"
+            >
+              <span class="font-text"> นิยายทั้งหมด </span>
+            </v-btn>
+          </v-col>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #000"
+              rounded
+              variant="text"
+              @click="goToMyBook"
+            >
+              <span class="font-text">การ์ตูนทั้งหมด</span>
+            </v-btn>
+          </v-col>
+          <v-divider class="my-3"></v-divider>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToProfile"
+            >
+              <span class="font-text">หมวดหมู่ทั้งหมด</span>
+            </v-btn>
+          </v-col>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToProfile"
+            >
+              <span class="font-text">สำนักพิมพ์</span>
+            </v-btn>
+          </v-col>
+        </v-card-text>
+      </v-card>
+    </v-menu>
     <span
       :class="home ? 'border-bottom' : 'text-menu'"
       class="font-text mr-3"
@@ -338,6 +401,7 @@
   </v-dialog>
 </template>
 <script>
+import api from "@/services/api";
 import router from "../router";
 import Login from "../views/Login.vue";
 
@@ -359,6 +423,7 @@ export default {
     loadingSearch: false,
     loading: false,
     visibleModal: false,
+    user: [],
   }),
   methods: {
     onClick() {
@@ -374,6 +439,7 @@ export default {
         this.$store.dispatch("auth/logout");
         this.loading = false;
       }, 2000);
+      router.push("/");
       setTimeout(() => {
         window.location.reload();
       }, 2000);
@@ -408,11 +474,18 @@ export default {
     goToRecommend() {
       router.push("/recommend");
     },
-    goToRegisterSell(){
-      router.push("/registersell")
+    goToRegisterSell() {
+      router.push("/registersell");
     },
-    goToMyShop(){
-      router.push("/myshop")
+    goToMyShop() {
+      router.push("/myshop");
+    },
+    async fetchApi() {
+      const res = await api.get("/profile/" + this.getId());
+      this.user = res.data.user;
+    },
+    getId() {
+      return this.$store.getters["auth/getId"];
     },
     goToAddCoin(){
       router.push("/coin")
@@ -421,24 +494,6 @@ export default {
   computed: {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
-    },
-    getName() {
-      return this.$store.getters["auth/getName"];
-    },
-    getId() {
-      return this.$store.getters["auth/getId"];
-    },
-    getUsername() {
-      return this.$store.getters["auth/getUsername"];
-    },
-    getImage() {
-      return this.$store.getters["auth/getImage"];
-    },
-    getCoin() {
-      return this.$store.getters["auth/getCoin"];
-    },
-    getRoles(){
-      return this.$store.getters["auth/getRoles"];
     },
     showMiddleNav() {
       return ["/", "/bestseller", "/newentry", "/recommend"].includes(
@@ -457,6 +512,15 @@ export default {
     recommend() {
       return ["/recommend"].includes(this.$route.path);
     },
+    hasSellRole() {
+      return this.user.roles.includes("SELL");
+    },
+  },
+  watch: {
+    isLogin(newValue) {
+      if (newValue) {
+        this.fetchApi();
+      }
     getCartListCount(){
       return this.$store.getters.cartListCount
     },
@@ -466,10 +530,8 @@ export default {
   },
   mounted() {
     this.visibleModal = false;
-    for(let i=0;i<this.getRoles.length;i++){
-      if(this.getRoles[i] === "SELL"){
-        this.checkRoles = this.getRoles[i]
-      }
+    if (this.isLogin) {
+      this.fetchApi();
     }
   },
 };
