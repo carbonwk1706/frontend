@@ -521,13 +521,8 @@ export default {
       if (newValue) {
         this.fetchApi();
       }
-    getCartListCount(){
-      return this.$store.getters.cartListCount
-    },
-    getWishListCount(){
-      return this.$store.getters.wishListCount
-    },
   },
+},
   mounted() {
     this.visibleModal = false;
     if (this.isLogin) {

@@ -1,9 +1,7 @@
 <template>
   <div class="herdName">ตะกร้า</div>
   <hr />
-  <div class="noBook" v-if="cartList.length == 0">
-    ไม่พบสิ้นค้าในตะกร้า
-  </div>
+  <div class="noBook" v-if="cartList.length == 0">ไม่พบสิ้นค้าในตะกร้า</div>
   <div v-else>
     <v-card class="pa-3">
       <v-container>
@@ -60,16 +58,9 @@ export default {
     };
   },
   methods: {
-    getCartList() {
-      this.cartList = this.$store.state.cartList;
-    },
+    getCartList() {},
     delProduct(item) {
-      this.$store.dispatch("delItemCart", item);
-    },
-  },
-  computed: {
-    getTotalPrice() {
-      return this.$store.getters.getTotalPrice;
+      console.log(item);
     },
   },
   mounted() {
