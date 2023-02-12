@@ -58,19 +58,21 @@ export default {
   },
   methods: {
     async getWishList() {
-      await api.get("/wish/").then((result) => {
-      this.wishList = result.data.wishLists.map(wish => JSON.parse(wish.wish));
-      console.log('get ',this.wishList)
-    });
+      const res = await api.get("/wishList/" + this.getId());
+      this.wishList = res.data
+      console.log(this.wishList)
     },
     delWish(item) {
-      this.$store.dispatch("delItemWish", item);
+      console.log(item)
     },
     addItem(item) {
-      this.$store.dispatch('addItemToWish', item)
+      console.log(item)
     },
     showDetail(item) {
       this.$router.push(`/book/${item._id}`);
+    },
+    getId() {
+      return this.$store.getters["auth/getId"];
     },
   },
   mounted() {

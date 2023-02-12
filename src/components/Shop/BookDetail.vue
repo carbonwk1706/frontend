@@ -25,7 +25,12 @@
           </v-row>
           <br />
           <v-row>
-            <v-btn color="success" rounded width="160" @click="addWish(book)">
+            <v-btn
+              color="success"
+              rounded
+              width="160"
+              @click="addWishlist(book)"
+            >
               เพิ่มรายการอยากได้
             </v-btn>
           </v-row>
@@ -51,18 +56,26 @@ export default {
       this.wishStutas = !this.wishStutas;
     },
     addProduct(item) {
-      this.$store.dispatch("addItemToCart", item);
+      console.log(item)
     },
-    async addWish(item) {
-      console.log('item', JSON.stringify(item))
+    async addWishlist(item) {
       try {
-        await api.post("/wish", {
-          user: this.$store.getters["auth/getId"],
-          wish: JSON.stringify(item)
+        const res = await api.post("/wishList/addWishList", {
+          userId: this.getId(),
+          bookId: item._id,
         });
+        if (
+          res.status === 200 &&
+          res.data.message === "Book already exists in wishlist."
+        ) {
+          console.log("duplicate");
+        }
       } catch (error) {
         console.log(error);
       }
+    },
+    getId() {
+      return this.$store.getters["auth/getId"];
     },
   },
   mounted() {
