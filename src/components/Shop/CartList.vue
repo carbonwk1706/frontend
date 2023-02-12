@@ -1,9 +1,7 @@
 <template>
   <div class="herdName">ตะกร้า</div>
   <hr />
-  <div class="noBook" v-if="cartList.length == 0" hidden>
-    ไม่พบสิ้นค้าในตะกร้า
-  </div>
+  <div class="noBook" v-if="cartList.length == 0">ไม่พบสิ้นค้าในตะกร้า</div>
   <div v-else>
     <v-card class="pa-3">
       <v-container>
@@ -19,13 +17,13 @@
               max-width="100"
             ></v-img>
             <div>
-              <span>{{ item.title }}</span>
+              <span>{{ item.name }}</span>
               <br />
               <div>฿ {{ item.price }}</div>
             </div>
 
             <v-spacer></v-spacer>
-            <v-btn @click="$emit('onRemove', item.id)" color="error">ลบ</v-btn>
+            <v-btn @click="delProduct(item._id)" color="error">ลบ</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -39,7 +37,7 @@
               เลือกซื้อหนังสือเล่มอื่นต่อ
             </div>
             <div class="d-flex flex-row align-center justify-center mb-5">
-              ยอดชำระ ฿{{ total }}
+              ยอดชำระ ฿{{ getTotalPrice }}
             </div>
             <div class="d-flex flex-row align-center justify-center">
               <v-btn color="success" rounded width="200">ชำระเงิน</v-btn>
@@ -56,42 +54,17 @@ export default {
   name: "cartList",
   data() {
     return {
-      cartList: [
-        {
-          id: 1,
-          title: "book1",
-          imageBook:
-            "https://cdn-local.mebmarket.com/meb/server1/225386/Thumbnail/web_large2.gif?2",
-          price: 100,
-        },
-        {
-          id: 2,
-          title: "book2",
-          imageBook:
-            "https://cdn-local.mebmarket.com/meb/server1/225386/Thumbnail/web_large2.gif?2",
-          price: 100,
-        },
-        {
-          id: 3,
-          title: "book3",
-          imageBook:
-            "https://cdn-local.mebmarket.com/meb/server1/225386/Thumbnail/web_large2.gif?2",
-          price: 100,
-        },
-      ],
-      total: 0,
-      emtyBook: true,
+      cartList: [],
     };
   },
   methods: {
-    checkTotal(item) {
-      for (let i = 0; i < item.length; i++) {
-        this.total += item[i].price;
-      }
+    getCartList() {},
+    delProduct(item) {
+      console.log(item);
     },
   },
   mounted() {
-    this.checkTotal(this.cartList);
+    this.getCartList();
   },
 };
 </script>

@@ -3,7 +3,7 @@
     <div class="herdName">{{ book.name }}</div>
     <v-row>
       <v-col class="d-flex justify-end">
-        <v-img :src="book.imageBook" max-height="500" max-width="500" />
+        <v-img :src="book.imageBook" max-height="360" max-width="360" />
       </v-col>
       <v-col class="description">
         <v-col>
@@ -14,17 +14,25 @@
           <v-row>หมวดหมู่ {{ book.category }}</v-row>
           <br />
           <v-row>
-            <v-btn color="success" rounded width="100">
-              ฿ {{ book.price }}
+            <v-btn
+              color="success"
+              rounded
+              width="160"
+              @click="addProduct(book)"
+            >
+              ฿ {{ book.price }} บาท
             </v-btn>
           </v-row>
           <br />
           <v-row>
-
-            <v-btn icon color="white" >
-              <v-icon>mdi-heart</v-icon>
+            <v-btn
+              color="success"
+              rounded
+              width="160"
+              @click="addWishlist(book)"
+            >
+              เพิ่มรายการอยากได้
             </v-btn>
-
           </v-row>
         </v-col>
       </v-col>
@@ -33,36 +41,47 @@
 </template>
 
 <script>
-import api from '@/services/api';
+import api from "@/services/api";
 
 export default {
   name: "BookDetail",
   data() {
     return {
-      book: {
-        name: "",
-        auther: "",
-        publisher: "",
-        catagory: "",
-        price: "",
-        imgaeBook: null,
-      },
-      wishStutas: false
+      book: [],
+      wishStutas: true,
     };
   },
   methods: {
     wishProcess() {
-      this.wishStutas = !this.wishStutas
-      alert(this.wishStutas)
+      this.wishStutas = !this.wishStutas;
+    },
+    addProduct(item) {
+      console.log(item)
+    },
+    async addWishlist(item) {
+      try {
+        const res = await api.post("/wishList/addWishList", {
+          userId: this.getId(),
+          bookId: item._id,
+        });
+        if (
+          res.status === 200 &&
+          res.data.message === "Book already exists in wishlist."
+        ) {
+          console.log("duplicate");
+        }
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    getId() {
+      return this.$store.getters["auth/getId"];
     },
   },
   mounted() {
-    api
-      .get("/books/" + this.$route.params.id)
-      .then((result) => {
-        console.log(JSON.parse(JSON.stringify(result)));
-        this.book = result.data;
-      });
+    api.get("/books/" + this.$route.params.id).then((result) => {
+      this.book = result.data;
+    });
   },
 };
 </script>

@@ -1,6 +1,6 @@
 <template>
   <Auth v-if="isLogin">
-    <h1>Wishlist</h1>
+    <Wish />
   </Auth>
 
   <Auth v-if="!isLogin">
@@ -8,10 +8,12 @@
 </template>
 <script>
 import Auth from "../components/Auth.vue";
+import Wish from "@/components/Wish.vue";
 
 export default {
   components: {
     Auth,
+    Wish
   },
   computed: {
     isLogin() {

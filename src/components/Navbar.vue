@@ -59,7 +59,7 @@
             </v-col>
             <v-col cols="3">
               <div class="float-right">
-                <v-btn rounded variant="text" @click="goToProfile">
+                <v-btn rounded variant="text" @click="goToAddCoin">
                   <span class="font-text" style="color: #5a5a5a">เติมเงิน</span>
                 </v-btn>
               </div></v-col
@@ -141,21 +141,49 @@
       <v-toolbar-title class="text-center font-text">EBOOK</v-toolbar-title>
     </v-btn>
     <v-spacer></v-spacer>
+
     <v-btn
       class="header_action px-2 mx-2 v-btn--outline"
       color="white"
       @click="goToWishlist"
+      v-if="getWishListCount==0"
     >
       <v-icon class="mr-2">mdi-heart</v-icon>
       <span class="font-text">รายการโปรด</span>
     </v-btn>
+
+    <v-btn
+      class="header_action px-2 mx-2 v-btn--outline"
+      color="white"
+      @click="goToWishlist"
+      v-else
+    >
+      <v-icon class="mr-2">mdi-heart</v-icon>
+      <v-badge :content="getWishListCount" color="error">
+        <span class="font-text">รายการโปรด</span>
+      </v-badge>
+    </v-btn>
+
     <v-btn
       class="header_action px-2 mx-2 v-btn--outline"
       color="white"
       @click="goToCart"
+      v-if="getCartListCount==0"
     >
       <v-icon class="mr-2">mdi-cart</v-icon>
-      <span class="font-text">ตะกร้าสินค้า</span>
+        <span class="font-text">ตะกร้าสินค้า</span>
+    </v-btn>
+
+    <v-btn
+      class="header_action px-2 mx-2 v-btn--outline"
+      color="white"
+      @click="goToCart"
+      v-else
+    >
+      <v-icon class="mr-2">mdi-cart</v-icon>
+      <v-badge :content="getCartListCount" color="error">
+        <span class="font-text">ตะกร้าสินค้า</span>
+      </v-badge>
     </v-btn>
 
     <v-card-text>
@@ -459,6 +487,9 @@ export default {
     getId() {
       return this.$store.getters["auth/getId"];
     },
+    goToAddCoin(){
+      router.push("/coin")
+    },
   },
   computed: {
     isLogin() {
@@ -490,8 +521,8 @@ export default {
       if (newValue) {
         this.fetchApi();
       }
-    },
   },
+},
   mounted() {
     this.visibleModal = false;
     if (this.isLogin) {
