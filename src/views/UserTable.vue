@@ -1,18 +1,24 @@
 <template>
   <v-table density="compact">
-    <thead>
+    <thead class="table">
       <tr>
         <th class="text-left">Name</th>
         <th class="text-left">Userame</th>
+        <th class="text-left">Email</th>
+        <th class="text-left">Gender</th>
+
       </tr>
     </thead>
     <tbody>
-      <tr v-for="(item, index) in userItems" :key="index">
+      <tr v-for="(item, index) in userItems" :key="index" >
         <td>{{ item.name }}</td>
         <td>{{ item.username }}</td>
+        <td>{{ item.email }}</td>
+        <td>{{ item.gender }}</td>
+
         <td >
-         <v-btn color="success" @click="editUser(item)">แก้ไข</v-btn>
-          <v-btn color="error" @click="deleteUser(item)">ลบ</v-btn>
+         <v-btn variant="flat" color="success" class="mr-3" @click="editUser(item)">แก้ไข</v-btn>
+          <v-btn variant="flat" color="error" class="mr-3" @click="deleteUser(item)">ลบ</v-btn>
         </td>
       </tr>
     </tbody>
@@ -32,6 +38,7 @@ export default {
       userItems: [],
       selectedUser: {},
       showForm: false
+
     };
   },
   methods: {
@@ -77,5 +84,9 @@ export default {
   display: flex;
   justify-content: left;
   align-items: center;
+}
+
+.table {
+  background-color: rgb(54, 233, 108);
 }
 </style>

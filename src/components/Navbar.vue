@@ -146,7 +146,7 @@
       class="header_action px-2 mx-2 v-btn--outline"
       color="white"
       @click="goToWishlist"
-      v-if="getWishListCount==0"
+      v-if="getWishListCount===0"
     >
       <v-icon class="mr-2">mdi-heart</v-icon>
       <span class="font-text">รายการโปรด</span>
@@ -514,6 +514,9 @@ export default {
     },
     hasSellRole() {
       return this.user.roles.includes("SELL");
+    },
+    getWishListCount(){
+      return this.$store.getters["wishlist/wishListCount"];
     },
   },
   watch: {
