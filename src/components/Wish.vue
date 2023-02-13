@@ -73,6 +73,7 @@ export default {
         bookId: item._id,
       });
       this.getWishList()
+
     },
     addItem(item) {
       console.log(item);

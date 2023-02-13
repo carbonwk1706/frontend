@@ -56,58 +56,89 @@ export default {
       this.wishStutas = !this.wishStutas;
     },
     addProduct(item) {
-      api.post("/cart/" + this.getId() + "/books/" + item._id)
+      if (this.isLogin) {
+        api.post("/cart/" + this.getId() + "/books/" + item._id);
+      } else {
+        this.$swal({
+          scrollbarPadding: false,
+          confirmButtonColor: "#00af70",
+          allowOutsideClick: false,
+          width: "500",
+          text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
+          icon: "warning",
+          button: "OK",
+        });
+      }
     },
     async addWishlist(item) {
-      try {
-        const res = await api.post("/wishlist/addWishList", {
-          userId: this.getId(),
-          bookId: item._id,
-        });
-        if (
-          res.status === 200 &&
-          res.data.message === "Book already exists in wishlist"
-        ) {
-          this.$swal({
-            confirmButtonColor: "#00af70",
-            allowOutsideClick: false,
-            width: "500",
-            text: "คุณมีสินค้านี้ในรายการโปรดแล้ว",
-            icon: "warning",
-            button: "OK",
+      if (this.isLogin) {
+        try {
+          const res = await api.post("/wishlist/addWishList", {
+            userId: this.getId(),
+            bookId: item._id,
           });
-        } else {
-          this.$swal({
-            confirmButtonColor: "#00af70",
-            allowOutsideClick: false,
-            width: "500",
-            text: "เพิ่มสินค้านี้ในรายการโปรดสำเร็จ",
-            icon: "success",
-            button: "OK",
-          });
-          this.getWishList()
+          if (
+            res.status === 200 &&
+            res.data.message === "Book already exists in wishlist"
+          ) {
+            this.$swal({
+              scrollbarPadding: false,
+              confirmButtonColor: "#00af70",
+              allowOutsideClick: false,
+              width: "500",
+              text: "คุณมีสินค้านี้ในรายการโปรดแล้ว",
+              icon: "warning",
+              button: "OK",
+            });
+          } else {
+            this.$swal({
+              scrollbarPadding: false,
+              confirmButtonColor: "#00af70",
+              allowOutsideClick: false,
+              width: "500",
+              text: "เพิ่มสินค้านี้ในรายการโปรดสำเร็จ",
+              icon: "success",
+              button: "OK",
+            });
+            this.getWishList();
+          }
+        } catch (error) {
+          console.log(error);
         }
-      } catch (error) {
-        console.log(error);
+      }else{
+        this.$swal({
+          scrollbarPadding: false,
+          confirmButtonColor: "#00af70",
+          allowOutsideClick: false,
+          width: "500",
+          text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้ารายการโปรดด้วยจ้า",
+          icon: "warning",
+          button: "OK",
+        });
       }
     },
     getId() {
       return this.$store.getters["auth/getId"];
     },
-    getBookDetail(){
+    getBookDetail() {
       api.get("/books/" + this.$route.params.id).then((result) => {
-      this.book = result.data;
-    });
+        this.book = result.data;
+      });
     },
     async getWishList() {
       const res = await api.get("/wishlist/" + this.getId());
-      this.wishList = res.data
+      this.wishList = res.data;
       this.$store.dispatch("wishlist/setWishList", this.wishList);
-      console.log(this.wishList)
-    }
+      console.log(this.wishList);
+    },
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
+    },
   },
   mounted() {
-    this.getBookDetail()
+    this.getBookDetail();
   },
 };
 </script>

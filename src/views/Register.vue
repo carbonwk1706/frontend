@@ -345,6 +345,7 @@ export default {
     },
     showAlert(text) {
       this.$swal({
+        scrollbarPadding: false,
         confirmButtonColor: "#00af70",
         allowOutsideClick: false,
         width: "500",

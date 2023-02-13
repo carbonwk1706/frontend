@@ -39,6 +39,7 @@ export default {
     },
     showAlert() {
       this.$swal({
+        scrollbarPadding: false,
         title: "บันทึกข้อมูลสำเร็จ",
         allowOutsideClick: false,
         confirmButtonColor: "#00af70",

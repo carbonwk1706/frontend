@@ -307,6 +307,7 @@ export default {
         }
       } else {
         this.$swal({
+          scrollbarPadding: false,
           width: "500",
           confirmButtonColor: "#00af70",
           text: "กรุณาอัพโหลดรูปภาพ",
@@ -322,6 +323,7 @@ export default {
     },
     showAlert() {
       this.$swal({
+        scrollbarPadding: false,
         confirmButtonColor: "#00af70",
         customClass: "show-modal",
         text: "เปลี่ยนรูปโปรไฟล์สำเร็จ",
