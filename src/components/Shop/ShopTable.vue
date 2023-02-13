@@ -63,6 +63,7 @@ export default {
           icon: "success",
           button: "OK",
         });
+        this.getCartList()
       }
     } else{
       this.$swal({
@@ -84,6 +85,12 @@ export default {
     getId() {
       return this.$store.getters["auth/getId"];
     },
+    getCartList() {
+      api.get("/cart/" + this.getId()).then((result) => {
+        this.cartList = result.data.items
+        this.$store.dispatch("cartList/setCartList", this.cartList);
+      });
+    }
   },
   computed: {
     isLogin() {

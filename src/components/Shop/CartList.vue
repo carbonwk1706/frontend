@@ -49,7 +49,7 @@
   </div>
 </template>
 <script>
-import api from '@/services/api';
+import api from "@/services/api";
 export default {
   name: "cartList",
   data() {
@@ -58,7 +58,12 @@ export default {
     };
   },
   methods: {
-    getCartList() {},
+    getCartList() {
+      api.get("/cart/" + this.getId()).then((result) => {
+        this.cartList = result.data.items
+        this.$store.dispatch("cartList/setCartList", this.cartList);
+      });
+    },
     delProduct(item) {
       console.log(item);
     },
@@ -68,9 +73,6 @@ export default {
   },
   mounted() {
     this.getCartList();
-    api.get("/cart/" + this.getId()).then((result) => {
-      console.log(result)
-    });
   },
 };
 </script>

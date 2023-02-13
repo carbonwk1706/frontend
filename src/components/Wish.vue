@@ -65,7 +65,6 @@ export default {
       const res = await api.get("/wishlist/" + this.getId());
       this.wishList = res.data;
       this.$store.dispatch("wishlist/setWishList", this.wishList);
-      console.log(this.wishList);
     },
     async delWish(item) {
       await api.post("/wishlist/deleteWishList", {

@@ -153,37 +153,36 @@
     </v-btn>
 
     <v-badge v-else :content="getWishListCount" color="error">
-    <v-btn
-      class="header_action px-2 mx-2 v-btn--outline"
-      color="white"
-      @click="goToWishlist"
-    >
+      <v-btn
+        class="header_action px-2 mx-2 v-btn--outline"
+        color="white"
+        @click="goToWishlist"
+      >
         <v-icon class="mr-2">mdi-heart</v-icon>
         <span class="font-text">รายการโปรด</span>
-    </v-btn>
-  </v-badge>
+      </v-btn>
+    </v-badge>
 
     <v-btn
       class="header_action px-2 mx-2 v-btn--outline"
       color="white"
       @click="goToCart"
-      v-if="getCartListCount == 0"
+      v-if="getCartListCount === 0"
     >
       <v-icon class="mr-2">mdi-cart</v-icon>
       <span class="font-text">ตะกร้าสินค้า</span>
     </v-btn>
+    <v-badge v-else :content="getCartListCount" color="error">
+      <v-btn
+        class="header_action px-2 mx-2 v-btn--outline"
+        color="white"
+        @click="goToCart"
+      >
+        <v-icon class="mr-2">mdi-cart</v-icon>
 
-    <v-btn
-      class="header_action px-2 mx-2 v-btn--outline"
-      color="white"
-      @click="goToCart"
-      v-else
-    >
-      <v-icon class="mr-2">mdi-cart</v-icon>
-      <v-badge :content="getCartListCount" color="error">
         <span class="font-text">ตะกร้าสินค้า</span>
-      </v-badge>
-    </v-btn>
+      </v-btn>
+    </v-badge>
 
     <v-card-text>
       <v-text-field
@@ -493,8 +492,13 @@ export default {
       const res = await api.get("/wishlist/" + this.getId());
       this.wishList = res.data;
       this.$store.dispatch("wishlist/setWishList", this.wishList);
-      console.log(this.wishList);
     },
+    getCartList() {
+      api.get("/cart/" + this.getId()).then((result) => {
+        this.cartList = result.data.items
+        this.$store.dispatch("cartList/setCartList", this.cartList);
+      });
+    }
   },
   computed: {
     isLogin() {
@@ -523,12 +527,16 @@ export default {
     getWishListCount() {
       return this.$store.getters["wishlist/wishListCount"];
     },
+    getCartListCount() {
+      return this.$store.getters["cartList/cartListCount"];
+    },
   },
   watch: {
     isLogin(newValue) {
       if (newValue) {
         this.fetchApi();
         this.getWishList();
+        this.getCartList();
       }
     },
   },
@@ -537,6 +545,7 @@ export default {
     if (this.isLogin) {
       this.fetchApi();
       this.getWishList();
+      this.getCartList();
     }
   },
 };
