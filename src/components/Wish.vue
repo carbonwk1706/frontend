@@ -3,7 +3,7 @@
     <div class="mb-5 d-flex justify-center">
       <h1>รายการที่อยากได้</h1>
     </div>
-    <div v-if="wishList.length == 0">
+    <div v-if="wishList.length === 0">
       <div class="d-flex justify-center">
         <img
           src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
@@ -25,7 +25,7 @@
             <v-img :src="item.imageBook" height="250px"
               ><v-icon
                 size="40"
-                @click.stop="delWish(item)"
+                @click.stop="delWish(item._id)"
                 class="ml-auto mt-auto close-button"
                 >mdi-close-circle</v-icon
               ></v-img
@@ -35,7 +35,11 @@
               {{ item.author }}/{{ item.publisher }}
             </v-card-subtitle>
             <v-row class="d-flex justify-end ma-3">
-              <v-btn color="success" class="success" @click.stop="addItem(item)">
+              <v-btn
+                color="success"
+                class="success"
+                @click.stop="addItem(item)"
+              >
                 ฿ {{ item.price }}
               </v-btn>
             </v-row>
@@ -58,15 +62,24 @@ export default {
   },
   methods: {
     async getWishList() {
-      const res = await api.get("/wishList/" + this.getId());
-      this.wishList = res.data
-      console.log(this.wishList)
+      const res = await api.get("/wishlist/" + this.getId());
+      this.wishList = res.data;
+      this.$store.dispatch("wishlist/setWishList", this.wishList);
+      console.log(this.wishList);
     },
-    delWish(item) {
-      console.log(item)
+    async delWish(item) {
+      try {
+        await api.delete("/wishlist/deleteWishList", {
+          userId: this.getId(),
+          bookId: item,
+        });
+      } catch (error) {
+        console.log(error);
+      }
+      this.getWishList();
     },
     addItem(item) {
-      console.log(item)
+      console.log(item);
     },
     showDetail(item) {
       this.$router.push(`/book/${item._id}`);
@@ -75,6 +88,7 @@ export default {
       return this.$store.getters["auth/getId"];
     },
   },
+  computed: {},
   mounted() {
     this.getWishList();
   },
@@ -101,6 +115,6 @@ export default {
   top: 0px;
 }
 .v-btn.success:hover {
-    background-color: gray !important;
-  }
+  background-color: gray !important;
+}
 </style>

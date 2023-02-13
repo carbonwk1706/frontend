@@ -60,7 +60,7 @@ export default {
     },
     async addWishlist(item) {
       try {
-        const res = await api.post("/wishList/addWishList", {
+        const res = await api.post("/wishlist/addWishList", {
           userId: this.getId(),
           bookId: item._id,
         });
@@ -85,6 +85,7 @@ export default {
             icon: "success",
             button: "OK",
           });
+          this.getWishList()
         }
       } catch (error) {
         console.log(error);
@@ -97,6 +98,12 @@ export default {
       api.get("/books/" + this.$route.params.id).then((result) => {
       this.book = result.data;
     });
+    },
+    async getWishList() {
+      const res = await api.get("/wishlist/" + this.getId());
+      this.wishList = res.data
+      this.$store.dispatch("wishlist/setWishList", this.wishList);
+      console.log(this.wishList)
     }
   },
   mounted() {
