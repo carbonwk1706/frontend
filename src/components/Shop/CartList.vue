@@ -12,14 +12,14 @@
         >
           <v-col cols="12" class="d-flex flex-row align-center pa-0 mb-3">
             <v-img
-              :src="item.imageBook"
+              :src="item.product.imageBook"
               max-height="100"
               max-width="100"
             ></v-img>
             <div>
-              <span>{{ item.name }}</span>
+              <span>{{ item.product.name }}</span>
               <br />
-              <div>฿ {{ item.price }}</div>
+              <div>฿ {{ item.product.price }}</div>
             </div>
 
             <v-spacer></v-spacer>
@@ -60,7 +60,8 @@ export default {
   methods: {
     getCartList() {
       api.get("/cart/" + this.getId()).then((result) => {
-        this.cartList = result.data.items
+        this.cartList = result.data.items;
+        console.log(this.cartList);
         this.$store.dispatch("cartList/setCartList", this.cartList);
       });
     },
@@ -69,6 +70,11 @@ export default {
     },
     getId() {
       return this.$store.getters["auth/getId"];
+    },
+  },
+  computed: {
+    getTotalPrice() {
+      return this.cartList.reduce((acc, item) => acc + item.product.price, 0);
     },
   },
   mounted() {
