@@ -207,7 +207,7 @@ export default {
           id: this.getId(),
           password: this.password,
         });
-        if (response.data.message !== "Invalid username or password") {
+        if (response.data.message === "Correct password") {
           this.editUser();
           this.password = "";
           this.showConfirm = false;
