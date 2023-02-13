@@ -48,8 +48,8 @@
     </v-card>
   </div>
 </template>
-
 <script>
+import api from '@/services/api';
 export default {
   name: "cartList",
   data() {
@@ -62,9 +62,15 @@ export default {
     delProduct(item) {
       console.log(item);
     },
+    getId() {
+      return this.$store.getters["auth/getId"];
+    },
   },
   mounted() {
     this.getCartList();
+    api.get("/cart/" + this.getId()).then((result) => {
+      console.log(result)
+    });
   },
 };
 </script>

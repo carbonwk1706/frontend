@@ -56,7 +56,7 @@ export default {
       this.wishStutas = !this.wishStutas;
     },
     addProduct(item) {
-      console.log(item);
+      api.post("/cart/" + this.getId() + "/books/" + item._id)
     },
     async addWishlist(item) {
       try {
