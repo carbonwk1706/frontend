@@ -6,19 +6,31 @@
         <th class="text-left">Userame</th>
         <th class="text-left">Email</th>
         <th class="text-left">Gender</th>
-
+        <th class="text-left"></th>
       </tr>
     </thead>
-    <tbody>
-      <tr v-for="(item, index) in userItems" :key="index" >
-        <td>{{ item.name }}</td>
-        <td>{{ item.username }}</td>
-        <td>{{ item.email }}</td>
-        <td>{{ item.gender }}</td>
+    <tbody >
+      <tr v-for="(item, index) in userItems" :key="index">
+        <td class="mt-2" >{{ item.name }}</td>
+        <td class="mt-2" >{{ item.username }}</td>
+        <td class="mt-2" >{{ item.email }}</td>
+        <td class="mt-2" >{{ item.gender }}</td>
 
-        <td >
-         <v-btn variant="flat" color="success" class="mr-3" @click="editUser(item)">แก้ไข</v-btn>
-          <v-btn variant="flat" color="error" class="mr-3" @click="deleteUser(item)">ลบ</v-btn>
+        <td class="d-flex justify-center mt-2  ">
+          <v-btn
+            variant="flat"
+            color="success"
+            class="mr-3 "
+            @click="editUser(item)"
+            >แก้ไข</v-btn
+          >
+          <v-btn
+            variant="flat"
+            color="error"
+            class="mr-3 "
+            @click="deleteUser(item)"
+            >ลบ</v-btn
+          >
         </td>
       </tr>
     </tbody>
@@ -26,55 +38,57 @@
 </template>
 
 <script>
-
-import axios from 'axios';
+import api from "@/services/api";
 
 export default {
-  components: {
-
-  },
+  components: {},
   data() {
     return {
       userItems: [],
       selectedUser: {},
-      showForm: false
-
+      showForm: false,
     };
   },
   methods: {
-      deleteUser(user){
-           axios.delete('http://localhost:3000/users/' + user._id, user)
-          .then(
-            (result)=>{
-              this.userItems = result.data;
-              this.fetchApi()
+    deleteUser(user) {
+      api.delete("/users/" + user._id, user).then((result) => {
+        this.userItems = result.data;
+        this.fetchApi();
+      });
+    },
+    editUser(user) {
+      this.$router.push(`/usertable/${user._id}`);
+    },
+    updateUser(updatedUser) {
+      api.put("/users/" + updatedUser._id, updatedUser).then((result) => {
+        this.userItems = result.data;
+        this.fetchApi();
+      });
+      this.showForm = false;
+    },
+    fetchApi() {
+      api.get("/users/").then((result) => {
+        for (let i = 0; i < result.data.length; i++) {
+          let isAdmin = false;
+          for (let j = 0; j < result.data[i].roles.length; j++) {
+            console.log(result.data[i].roles[j]);
+            if (
+              result.data[i].roles[j] === "ADMIN" ||
+              result.data[i].roles[j] === "LOCAL_ADMIN"
+            ) {
+              isAdmin = true;
+              break;
             }
-          )
-      },
-      editUser(user) {
-        this.$router.push(`/usertable/${user._id}`);
-      },
-      updateUser(updatedUser) {
-        axios.put('http://localhost:3000/users/' + updatedUser._id, updatedUser)
-        .then(
-          (result)=>{
-            this.userItems = result.data;
-            this.fetchApi()
           }
-        )
-        this.showForm = false
-      },
-      fetchApi(){
-        axios.get('http://localhost:3000/users').then(
-        (result)=>{
-          this.userItems = result.data;
-          console.log(this.userItems)
+          if (!isAdmin) {
+            this.userItems.push(result.data[i]);
+          }
         }
-      )
-      }
+      });
+    },
   },
   mounted() {
-      this.fetchApi()
+    this.fetchApi();
   },
 };
 </script>
