@@ -1,60 +1,70 @@
 <template>
-  <v-row class="justify-center">
-    <v-card style="width: 400px">
-      <v-container>
-        <v-toolbar dark color="green lighten-1">
-          <v-toolbar-title>ADMIN E-BOOK</v-toolbar-title>
-        </v-toolbar>
-        <v-form @submit.prevent="login">
-          <v-text-field label="Username" v-model="form.username" type="email" />
-          <v-text-field
-            label="Password"
-            v-model="form.password"
-            type="password"
-          />
-          <div class="center">
-            <v-hover>
-              <template v-slot:default="{ isHovering, props }">
-                <v-btn
-                  v-bind="props"
-                  class="rounded-pill"
-                  type="submit"
-                  color="success"
-                  size="large"
-                  :variant="isHovering ? 'outlined' : 'elevated'"
-                  >ล็อกอินเข้าระบบ</v-btn
-                >
-              </template>
-            </v-hover>
-          </div>
-        </v-form>
-
-        <v-dialog v-model="loading" max-width="500">
-          <v-card>
-            <div class="center-loading">
-              <v-progress-circular
-                v-if="loading"
-                :size="50"
-                :width="5"
-                indeterminate
-                color="success"
-              ></v-progress-circular>
+  <NoAuth>
+    <v-row class="justify-center">
+      <v-card style="width: 400px">
+        <v-container>
+          <v-toolbar dark color="green lighten-1">
+            <v-toolbar-title>ADMIN E-BOOK</v-toolbar-title>
+          </v-toolbar>
+          <v-form @submit.prevent="login">
+            <v-text-field
+              label="Username"
+              v-model="form.username"
+              type="email"
+            />
+            <v-text-field
+              label="Password"
+              v-model="form.password"
+              type="password"
+            />
+            <div class="center">
+              <v-hover>
+                <template v-slot:default="{ isHovering, props }">
+                  <v-btn
+                    v-bind="props"
+                    class="rounded-pill"
+                    type="submit"
+                    color="success"
+                    size="large"
+                    :variant="isHovering ? 'outlined' : 'elevated'"
+                    >ล็อกอินเข้าระบบ</v-btn
+                  >
+                </template>
+              </v-hover>
             </div>
-            <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
-          </v-card>
-        </v-dialog>
-      </v-container>
-    </v-card>
-  </v-row>
+          </v-form>
+
+          <v-dialog v-model="loading" max-width="500">
+            <v-card>
+              <div class="center-loading">
+                <v-progress-circular
+                  v-if="loading"
+                  :size="50"
+                  :width="5"
+                  indeterminate
+                  color="success"
+                ></v-progress-circular>
+              </div>
+              <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
+            </v-card>
+          </v-dialog>
+        </v-container>
+      </v-card>
+    </v-row>
+  </NoAuth>
 </template>
   <script>
 import api from "@/services/api";
 import router from "../router";
-
+import NoAuth from "@/components/NoAuth.vue";
 
 export default {
+  components: {
+    NoAuth,
+  },
   data() {
     return {
+      isRoles: [],
       isVisible: false,
       visible: false,
       form: {
@@ -75,7 +85,7 @@ export default {
         this.showAlert("กรุณากรอก Password ด้วยจ้า");
       } else {
         try {
-          const res = await api.post("/auth/login", {
+          const res = await api.post("/auth/loginadmin", {
             username: this.form.username,
             password: this.form.password,
           });
@@ -87,7 +97,6 @@ export default {
             const tokenadmin = res.data.token;
             const roles = admin.roles;
             let checkRole = "";
-
             for (let i = 0; i < roles.length; i++) {
               if (admin.roles[i] === "ADMIN") {
                 checkRole = admin.roles[i];
