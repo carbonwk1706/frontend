@@ -95,7 +95,23 @@ export default {
       api
         .get("/users/")
         .then((result) => {
-          this.userItems = result.data;
+
+          for(let i = 0 ;i<result.data.length; i++ ){
+            console.log(result.data[i].roles.length)
+            for(let j = 0 ; j<result.data[i].roles.length;j++){
+
+              console.log(result.data[i].roles[j])
+              if(result.data[i].roles[j] === "ADMIN" ||result.data[i].roles[j] === "LOCAL_ADMIN" )
+              {
+                this.userItems.push(result.data[i])
+                break;
+              }
+
+            }
+
+
+          }
+
         });
 
     },
