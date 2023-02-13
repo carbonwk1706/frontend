@@ -56,7 +56,7 @@ export default {
       this.wishStutas = !this.wishStutas;
     },
     addProduct(item) {
-      console.log(item)
+      console.log(item);
     },
     async addWishlist(item) {
       try {
@@ -66,9 +66,25 @@ export default {
         });
         if (
           res.status === 200 &&
-          res.data.message === "Book already exists in wishlist."
+          res.data.message === "Book already exists in wishlist"
         ) {
-          console.log("duplicate");
+          this.$swal({
+            confirmButtonColor: "#00af70",
+            allowOutsideClick: false,
+            width: "500",
+            text: "คุณมีสินค้านี้ในรายการโปรดแล้ว",
+            icon: "warning",
+            button: "OK",
+          });
+        } else {
+          this.$swal({
+            confirmButtonColor: "#00af70",
+            allowOutsideClick: false,
+            width: "500",
+            text: "เพิ่มสินค้านี้ในรายการโปรดสำเร็จ",
+            icon: "success",
+            button: "OK",
+          });
         }
       } catch (error) {
         console.log(error);
@@ -77,11 +93,14 @@ export default {
     getId() {
       return this.$store.getters["auth/getId"];
     },
-  },
-  mounted() {
-    api.get("/books/" + this.$route.params.id).then((result) => {
+    getBookDetail(){
+      api.get("/books/" + this.$route.params.id).then((result) => {
       this.book = result.data;
     });
+    }
+  },
+  mounted() {
+    this.getBookDetail()
   },
 };
 </script>
