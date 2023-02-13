@@ -50,17 +50,27 @@
         </v-row>
         <v-row>
           <v-col class="text-center">
-            <v-btn color="success" rounded @click="submit">Accept</v-btn>
+            <v-btn color="success" rounded @click="showConfirmDialog = true" >Accept</v-btn>
           </v-col>
           <v-col class="text-center">
             <v-btn color="Grey" rounded @click="submit">Back</v-btn>
           </v-col>
-
         </v-row>
 
       </v-container>
     </v-form>
   </v-card>
+
+  <v-dialog v-model="showConfirmDialog" persistent :center="true" max-width="500" :padding="20">
+    <v-card>
+      <v-card-title class="headline">ยืนยันการแก้ไข</v-card-title>
+      <v-card-text class="text-center" >ต้องการยืนยันการแก้ไขหรือไม่</v-card-text>
+      <v-card-actions class="text-center">
+        <v-btn color="success" @click="submit">OK</v-btn>
+        <v-btn color="Grey"  text @click="showConfirmDialog = false">Cancel</v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
   </template>
   <script>
 
@@ -71,7 +81,7 @@
     name: "EditUser",
     data() {
       return {
-
+        showConfirmDialog: false,
         valid: false,
         lazy: false,
         userItems: [],
@@ -140,10 +150,14 @@
     font-size: 36px;
     font-weight: bold;
   }
-
+  .text-center {
+    display: flex;
+    justify-content: center;
+  }
   .description {
     font-size: 20px;
     font-weight: 500;
     margin-bottom: 30px;
   }
+
   </style>
