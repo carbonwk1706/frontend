@@ -146,32 +146,31 @@
       class="header_action px-2 mx-2 v-btn--outline"
       color="white"
       @click="goToWishlist"
-      v-if="getWishListCount===0"
+      v-if="getWishListCount === 0"
     >
       <v-icon class="mr-2">mdi-heart</v-icon>
       <span class="font-text">รายการโปรด</span>
     </v-btn>
 
+    <v-badge v-else :content="getWishListCount" color="error">
     <v-btn
       class="header_action px-2 mx-2 v-btn--outline"
       color="white"
       @click="goToWishlist"
-      v-else
     >
-      <v-icon class="mr-2">mdi-heart</v-icon>
-      <v-badge :content="getWishListCount" color="error">
+        <v-icon class="mr-2">mdi-heart</v-icon>
         <span class="font-text">รายการโปรด</span>
-      </v-badge>
     </v-btn>
+  </v-badge>
 
     <v-btn
       class="header_action px-2 mx-2 v-btn--outline"
       color="white"
       @click="goToCart"
-      v-if="getCartListCount==0"
+      v-if="getCartListCount == 0"
     >
       <v-icon class="mr-2">mdi-cart</v-icon>
-        <span class="font-text">ตะกร้าสินค้า</span>
+      <span class="font-text">ตะกร้าสินค้า</span>
     </v-btn>
 
     <v-btn
@@ -487,8 +486,8 @@ export default {
     getId() {
       return this.$store.getters["auth/getId"];
     },
-    goToAddCoin(){
-      router.push("/coin")
+    goToAddCoin() {
+      router.push("/coin");
     },
     async getWishList() {
       const res = await api.get("/wishlist/" + this.getId());
@@ -521,7 +520,7 @@ export default {
     hasSellRole() {
       return this.user.roles.includes("SELL");
     },
-    getWishListCount(){
+    getWishListCount() {
       return this.$store.getters["wishlist/wishListCount"];
     },
   },
@@ -531,8 +530,8 @@ export default {
         this.fetchApi();
         this.getWishList();
       }
+    },
   },
-},
   mounted() {
     this.visibleModal = false;
     if (this.isLogin) {
