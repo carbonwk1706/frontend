@@ -2,6 +2,7 @@ import { createStore } from "vuex";
 import auth from "./modules/auth";
 import authAdmin from "./modules/authAdmin";
 import wishlist from "./modules/wishlist";
+import cartList from "./modules/cartList";
 export default createStore({
   state: {},
   getters: {},
@@ -10,6 +11,7 @@ export default createStore({
   modules: {
     auth,
     authAdmin,
-    wishlist
+    wishlist,
+    cartList
   },
 });
