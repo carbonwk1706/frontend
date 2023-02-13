@@ -36,22 +36,24 @@ api.interceptors.response.use(
         case 400:
           break;
         case 401:
-          alert("session expired");
-          store.dispatch("auth/logout");
-          router.replace({
-            path: "/login",
-            query: { redirect: router.currentRoute.fullPath },
-          });
-          break;
-        case 403:
           store.dispatch("auth/logout");
           router.replace({
             path: "/",
             query: { redirect: router.currentRoute.fullPath },
           });
           break;
+        case 403:
+          setTimeout(() => {
+            router.replace({
+              path: "/",
+              query: {
+                redirect: router.currentRoute.fullPath,
+              },
+            });
+          }, 2000);
+          break;
         case 404:
-          alert("page not exist");
+          console.log("page not exist");
           break;
         case 502:
           setTimeout(() => {
@@ -63,7 +65,6 @@ api.interceptors.response.use(
             });
           }, 1000);
       }
-      return Promise.reject(error.response);
     }
   }
 );

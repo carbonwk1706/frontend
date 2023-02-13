@@ -100,7 +100,6 @@
 </template>
 <script>
 import api from "@/services/api";
-import router from "../router";
 import Register from "./Register.vue";
 export default {
   components: {
@@ -154,7 +153,9 @@ export default {
               this.loading = false;
               this.hideLogin();
             }, 2000);
-            router.push("/");
+            setTimeout(() => {
+              window.location.reload()
+            },2000)
           } else {
             this.alertLogin();
           }
@@ -173,6 +174,7 @@ export default {
     alertLogin() {
       this.$swal({
         confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
         width: "500",
         text: "Username หรือ Password ไม่ถูกต้อง ! ",
         icon: "error",
@@ -181,7 +183,9 @@ export default {
     },
     showAlert(text) {
       this.$swal({
+        scrollbarPadding: false,
         confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
         width: "500",
         text: text,
         icon: "warning",

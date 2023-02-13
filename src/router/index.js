@@ -27,12 +27,6 @@ const routes = [
     name: 'book',
     component: () => import('../views/Book.vue')
   }
-  // ,
-  // {
-  //   path: '/cart/:id',
-  //   name: 'cart',
-  //   component: () => import('../views/Cart.vue')
-  // }
   ,
   {
     path: '/login',
@@ -102,6 +96,11 @@ const routes = [
     path: '/request/:id',
     name: 'request',
     component: () => import('../views/DetailRequest.vue')
+  },
+  {
+    path: '/coin',
+    name: 'coin',
+    component: () => import('../views/Coin.vue')
   }
   ,
   {

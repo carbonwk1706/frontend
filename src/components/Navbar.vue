@@ -13,7 +13,7 @@
       <template v-slot:activator="{ props }">
         <v-btn class="header_action" v-bind="props">
           <v-icon class="mr-2">mdi-account</v-icon>
-          <span class="font-text"> สวัสดี ID-{{ getId }}</span>
+          <span class="font-text"> สวัสดี ID-{{ user._id }}</span>
           <v-icon>mdi-menu-down</v-icon>
         </v-btn>
       </template>
@@ -21,12 +21,12 @@
         <v-card-text>
           <v-row class="pa-2">
             <v-avatar size="x-large">
-              <v-img :src="getImage" cover></v-img>
+              <v-img :src="user.imageUrl" cover></v-img>
             </v-avatar>
             <v-col>
-              <h3 class="font-text">{{ getName }}</h3>
+              <h3 class="font-text">{{ user.name }}</h3>
               <p style="color: #5a5a5a" class="mt-1 text-upper font-text">
-                ID-{{ getId }}
+                ID-{{ user._id }}
               </p>
               <div class="d-flex flex justify-end mt-2">
                 <v-btn
@@ -42,7 +42,7 @@
               </div>
             </v-col>
           </v-row>
-          <v-divider class="my-3"></v-divider>
+          <v-divider class="my-1"></v-divider>
           <v-row>
             <v-col cols="9">
               <div class="px-3 py-2">
@@ -52,20 +52,20 @@
                 <span
                   style="font-size: 16px; color: #f58b1b"
                   class="mr-2 font-text"
-                  >{{ getCoin }}</span
+                  >{{ user.coin }}</span
                 >
                 <span style="font-size: 14px" class="font-text">เหรียญ</span>
               </div>
             </v-col>
             <v-col cols="3">
               <div class="float-right">
-                <v-btn rounded variant="text" @click="goToProfile">
+                <v-btn rounded variant="text" @click="goToAddCoin">
                   <span class="font-text" style="color: #5a5a5a">เติมเงิน</span>
                 </v-btn>
               </div></v-col
             >
           </v-row>
-          <v-divider class="my-3"></v-divider>
+          <v-divider class="my-1"></v-divider>
           <v-col class="px-0">
             <v-btn
               style="color: #5a5a5a"
@@ -73,7 +73,7 @@
               variant="text"
               @click="goToWishlist"
             >
-              <span class="font-text"> รายการที่อยากได้ </span>
+              <span class="font-text">รายการที่อยากได้ </span>
             </v-btn>
           </v-col>
           <v-col class="px-0">
@@ -83,7 +83,7 @@
               variant="text"
               @click="goToMyBook"
             >
-              <span class="font-text"> ชั้นหนังสือของฉัน</span>
+              <span class="font-text">ชั้นหนังสือของฉัน</span>
             </v-btn>
           </v-col>
           <v-col class="px-0">
@@ -93,10 +93,10 @@
               variant="text"
               @click="goToBuyHistory"
             >
-              <span class="font-text"> ประวัติการสั่งซื้อของฉัน</span>
+              <span class="font-text">ประวัติการสั่งซื้อของฉัน</span>
             </v-btn>
           </v-col>
-          <v-divider class="my-3"></v-divider>
+          <v-divider class="my-1"></v-divider>
           <v-col class="px-0">
             <v-btn
               style="color: #5a5a5a"
@@ -104,7 +104,28 @@
               variant="text"
               @click="goToProfile"
             >
-              <span class="font-text"> จัดการบัญชี</span>
+              <span class="font-text">จัดการบัญชี</span>
+            </v-btn>
+          </v-col>
+          <v-divider class="my-1"></v-divider>
+          <v-col class="px-0">
+            <v-btn
+              v-if="!hasSellRole"
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToRegisterSell"
+            >
+              <span class="font-text">สมัครขายอีบุ๊ค</span>
+            </v-btn>
+            <v-btn
+              v-if="hasSellRole"
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToMyShop"
+            >
+              <span class="font-text">ร้านค้าของฉัน</span>
             </v-btn>
           </v-col>
         </v-card-text>
@@ -120,22 +141,48 @@
       <v-toolbar-title class="text-center font-text">EBOOK</v-toolbar-title>
     </v-btn>
     <v-spacer></v-spacer>
+
     <v-btn
       class="header_action px-2 mx-2 v-btn--outline"
       color="white"
       @click="goToWishlist"
+      v-if="getWishListCount === 0"
     >
       <v-icon class="mr-2">mdi-heart</v-icon>
       <span class="font-text">รายการโปรด</span>
     </v-btn>
+
+    <v-badge v-else :content="getWishListCount" color="error">
+      <v-btn
+        class="header_action px-2 mx-2 v-btn--outline"
+        color="white"
+        @click="goToWishlist"
+      >
+        <v-icon class="mr-2">mdi-heart</v-icon>
+        <span class="font-text">รายการโปรด</span>
+      </v-btn>
+    </v-badge>
+
     <v-btn
       class="header_action px-2 mx-2 v-btn--outline"
       color="white"
       @click="goToCart"
+      v-if="getCartListCount === 0"
     >
       <v-icon class="mr-2">mdi-cart</v-icon>
       <span class="font-text">ตะกร้าสินค้า</span>
     </v-btn>
+    <v-badge v-else :content="getCartListCount" color="error">
+      <v-btn
+        class="header_action px-2 mx-2 v-btn--outline"
+        color="white"
+        @click="goToCart"
+      >
+        <v-icon class="mr-2">mdi-cart</v-icon>
+
+        <span class="font-text">ตะกร้าสินค้า</span>
+      </v-btn>
+    </v-badge>
 
     <v-card-text>
       <v-text-field
@@ -155,13 +202,14 @@
     v-if="showMiddleNav"
     style="background-color: #f6f6f6"
     class="middle-nav"
+    height="50"
   >
     <v-spacer></v-spacer>
     <v-menu offset-y>
       <template v-slot:activator="{ props }">
-        <h2 class="text-middle" v-bind="props">
+        <span class="text-middle" v-bind="props">
           อีบุ๊คทั้งหมด<v-icon>mdi-menu-down</v-icon>
-        </h2>
+        </span>
       </template>
       <v-card>
         <v-card-text>
@@ -227,33 +275,97 @@
     id="bottom-nav"
     :class="showMiddleNav ? 'bottom-nav' : 'bottom-nav-2'"
     style="background-color: #f6f6f6"
+    height="50"
   >
     <v-spacer></v-spacer>
+    <v-menu offset-y v-if="!showMiddleNav">
+      <template v-slot:activator="{ props }">
+        <span class="font-text mr-3" v-bind="props">
+          อีบุ๊คทั้งหมด<v-icon>mdi-menu-down</v-icon>
+        </span>
+      </template>
+      <v-card>
+        <v-card-text>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #00af70"
+              rounded
+              variant="text"
+              @click="goToWishlist"
+            >
+              <span class="font-text"> อีบุ๊คทั้งหมด </span>
+            </v-btn>
+          </v-col>
+          <v-divider class="my-3"></v-divider>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #000"
+              rounded
+              variant="text"
+              @click="goToWishlist"
+            >
+              <span class="font-text"> นิยายทั้งหมด </span>
+            </v-btn>
+          </v-col>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #000"
+              rounded
+              variant="text"
+              @click="goToMyBook"
+            >
+              <span class="font-text">การ์ตูนทั้งหมด</span>
+            </v-btn>
+          </v-col>
+          <v-divider class="my-3"></v-divider>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToProfile"
+            >
+              <span class="font-text">หมวดหมู่ทั้งหมด</span>
+            </v-btn>
+          </v-col>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToProfile"
+            >
+              <span class="font-text">สำนักพิมพ์</span>
+            </v-btn>
+          </v-col>
+        </v-card-text>
+      </v-card>
+    </v-menu>
     <span
       :class="home ? 'border-bottom' : 'text-menu'"
       class="font-text mr-3"
-      style="color: #5a5a5a;"
+      style="color: #5a5a5a"
       @click="goToHome"
       >หน้าแรก</span
     >
     <span
       :class="bestSeller ? 'border-bottom' : 'text-menu'"
       class="text-menu font-text mr-3"
-      style="color: #5a5a5a;"
+      style="color: #5a5a5a"
       @click="goToBestSeller"
       >ขายดี</span
     >
     <span
       :class="newEntry ? 'border-bottom' : 'text-menu'"
       class="text-menu font-text mr-3"
-      style="color: #5a5a5a;"
+      style="color: #5a5a5a"
       @click="goToNewEntry"
       >มาใหม่</span
     >
     <span
       :class="recommend ? 'border-bottom' : 'text-menu'"
       class="text-menu font-text"
-      style="color: #5a5a5a;"
+      style="color: #5a5a5a"
       @click="goToRecommend"
       >แนะนำ</span
     >
@@ -287,6 +399,7 @@
   </v-dialog>
 </template>
 <script>
+import api from "@/services/api";
 import router from "../router";
 import Login from "../views/Login.vue";
 
@@ -304,9 +417,11 @@ export default {
     Login,
   },
   data: () => ({
+    checkRoles: null,
     loadingSearch: false,
     loading: false,
     visibleModal: false,
+    user: [],
   }),
   methods: {
     onClick() {
@@ -321,6 +436,10 @@ export default {
       setTimeout(() => {
         this.$store.dispatch("auth/logout");
         this.loading = false;
+      }, 2000);
+      router.push("/");
+      setTimeout(() => {
+        window.location.reload();
       }, 2000);
     },
     goToHome() {
@@ -353,25 +472,37 @@ export default {
     goToRecommend() {
       router.push("/recommend");
     },
-  },
-  computed: {
-    isLogin() {
-      return this.$store.getters["auth/isLogin"];
+    goToRegisterSell() {
+      router.push("/registersell");
     },
-    getName() {
-      return this.$store.getters["auth/getName"];
+    goToMyShop() {
+      router.push("/myshop");
+    },
+    async fetchApi() {
+      const res = await api.get("/profile/" + this.getId());
+      this.user = res.data.user;
     },
     getId() {
       return this.$store.getters["auth/getId"];
     },
-    getUsername() {
-      return this.$store.getters["auth/getUsername"];
+    goToAddCoin() {
+      router.push("/coin");
     },
-    getImage() {
-      return this.$store.getters["auth/getImage"];
+    async getWishList() {
+      const res = await api.get("/wishlist/" + this.getId());
+      this.wishList = res.data;
+      this.$store.dispatch("wishlist/setWishList", this.wishList);
     },
-    getCoin() {
-      return this.$store.getters["auth/getCoin"];
+    getCartList() {
+      api.get("/cart/" + this.getId()).then((result) => {
+        this.cartList = result.data.items
+        this.$store.dispatch("cartList/setCartList", this.cartList);
+      });
+    }
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
     },
     showMiddleNav() {
       return ["/", "/bestseller", "/newentry", "/recommend"].includes(
@@ -390,9 +521,32 @@ export default {
     recommend() {
       return ["/recommend"].includes(this.$route.path);
     },
+    hasSellRole() {
+      return this.user.roles.includes("SELL");
+    },
+    getWishListCount() {
+      return this.$store.getters["wishlist/wishListCount"];
+    },
+    getCartListCount() {
+      return this.$store.getters["cartList/cartListCount"];
+    },
+  },
+  watch: {
+    isLogin(newValue) {
+      if (newValue) {
+        this.fetchApi();
+        this.getWishList();
+        this.getCartList();
+      }
+    },
   },
   mounted() {
     this.visibleModal = false;
+    if (this.isLogin) {
+      this.fetchApi();
+      this.getWishList();
+      this.getCartList();
+    }
   },
 };
 </script>
@@ -403,6 +557,7 @@ export default {
 .text-middle {
   cursor: pointer;
   font-family: Prompt, sans-serif;
+  font-size: 26px;
 }
 .header_action {
   border-radius: 10px;
@@ -429,7 +584,7 @@ export default {
 }
 .bottom-nav {
   position: sticky;
-  top: 128px;
+  top: 114px;
   z-index: 1;
 }
 .center-loading {

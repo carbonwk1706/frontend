@@ -1,7 +1,6 @@
 <template>
   <div>
     <slot></slot>
-
     <v-dialog v-model="showModal" max-width="500" persistent>
       <v-card>
         <v-card-title class="center">

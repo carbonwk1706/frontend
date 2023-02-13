@@ -13,56 +13,55 @@
           หรือไม่ให้ความยินยอมในการจัดการข้อมูลส่วนบุคคลแก่เราก็ได้
           โดยความยินยอมและการจัดการข้อมูลส่วนบุคคลจะแบ่งเป็นหัวข้อดังนี้
         </p>
-        <br>
-        <p>
-          1. ความยินยอมในการมอบประสบการณ์เฉพาะบุคคล (Personalization)
-        </p>
-        <br>
-        <p>
-          2. ความยินยอมในการพัฒนาการให้บริการ
-        </p>
-        <br>
-        <p>
-          3. ความยินยอมในการให้เสนอสินค้า บริการ และโปรโมชั่นพิเศษต่างๆ
-        </p>
-        <br>
+        <br />
+        <p>1. ความยินยอมในการมอบประสบการณ์เฉพาะบุคคล (Personalization)</p>
+        <br />
+        <p>2. ความยินยอมในการพัฒนาการให้บริการ</p>
+        <br />
+        <p>3. ความยินยอมในการให้เสนอสินค้า บริการ และโปรโมชั่นพิเศษต่างๆ</p>
+        <br />
       </v-card-text>
       <v-divider></v-divider>
-        <v-card-actions class="center">
-          <v-btn class="btn-color" color="white" text @click="noNewUser()">
-            <span class="text-center">ให้ความยินยอม</span>
-          </v-btn>
-        </v-card-actions>
+      <v-card-actions class="center">
+        <v-btn class="btn-color" color="white" text @click="noNewUser()">
+          <span class="text-center">ให้ความยินยอม</span>
+        </v-btn>
+      </v-card-actions>
     </v-card>
   </v-dialog>
 </template>
 <script>
 export default {
-  methods:{
-    noNewUser(){
+  methods: {
+    noNewUser() {
       this.$store.dispatch("auth/noNewUser");
-      this.showAlert()
+      this.showAlert();
     },
     showAlert() {
       this.$swal({
+        scrollbarPadding: false,
         title: "บันทึกข้อมูลสำเร็จ",
-        confirmButtonColor: '#00af70',
+        allowOutsideClick: false,
+        confirmButtonColor: "#00af70",
         text: "ยินดีต้องรับ " + this.getName(),
         icon: "success",
-        button: "OK",
+        confirmButtonText: 'OK'
+      }).then((result) => {
+        if (result.value) {
+          window.location.reload();
+        }
       });
     },
     getName() {
       return this.$store.getters["auth/getName"];
-    }
+    },
   },
   computed: {
     newUser() {
       return this.$store.getters["auth/isNewUser"];
     },
   },
-
-}
+};
 </script>
 <style scoped>
 .center {
@@ -70,8 +69,8 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.btn-color{
-  background-color: #00af70;;
+.btn-color {
+  background-color: #00af70;
   width: 100%;
 }
 </style>
