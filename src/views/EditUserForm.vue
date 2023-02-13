@@ -74,7 +74,8 @@
   </template>
   <script>
 
-  import axios from 'axios';
+
+import api from '@/services/api';
 
 
   export default {
@@ -125,7 +126,7 @@
       submit() {
       this.$refs.form.validate().then(valid => {
         if (valid) {
-          axios.put("http://localhost:3000/users/" + this.$route.params.id, this.userItems).then(() => {
+          api.put("/users/" + this.$route.params.id, this.userItems).then(() => {
             this.$router.push("/usertable");
           })
           ;
@@ -134,7 +135,7 @@
     }
     },
     mounted() {
-    axios.get("http://localhost:3000/users/" + this.$route.params.id).then((result) => {
+      api.get("/users/" + this.$route.params.id).then((result) => {
       this.userItems = result.data;
       console.log(this.userItems);
     });
