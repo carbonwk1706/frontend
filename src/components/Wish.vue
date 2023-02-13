@@ -25,7 +25,7 @@
             <v-img :src="item.imageBook" height="250px"
               ><v-icon
                 size="40"
-                @click.stop="delWish(item._id)"
+                @click.stop="delWish(item)"
                 class="ml-auto mt-auto close-button"
                 >mdi-close-circle</v-icon
               ></v-img
@@ -68,15 +68,11 @@ export default {
       console.log(this.wishList);
     },
     async delWish(item) {
-      try {
-        await api.delete("/wishlist/deleteWishList", {
-          userId: this.getId(),
-          bookId: item,
-        });
-      } catch (error) {
-        console.log(error);
-      }
-      this.getWishList();
+      await api.post("/wishlist/deleteWishList", {
+        userId: this.getId(),
+        bookId: item._id,
+      });
+      this.getWishList()
     },
     addItem(item) {
       console.log(item);

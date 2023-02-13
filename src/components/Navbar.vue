@@ -490,6 +490,12 @@ export default {
     goToAddCoin(){
       router.push("/coin")
     },
+    async getWishList() {
+      const res = await api.get("/wishlist/" + this.getId());
+      this.wishList = res.data;
+      this.$store.dispatch("wishlist/setWishList", this.wishList);
+      console.log(this.wishList);
+    },
   },
   computed: {
     isLogin() {
@@ -523,6 +529,7 @@ export default {
     isLogin(newValue) {
       if (newValue) {
         this.fetchApi();
+        this.getWishList();
       }
   },
 },
@@ -530,6 +537,7 @@ export default {
     this.visibleModal = false;
     if (this.isLogin) {
       this.fetchApi();
+      this.getWishList();
     }
   },
 };
