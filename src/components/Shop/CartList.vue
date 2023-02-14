@@ -74,8 +74,9 @@ export default {
   computed: {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
-      return this.cartList.reduce((acc, item) => acc + item.product.price, 0);
+    },  
     getTotalPrice() {
+      return this.cartList.reduce((acc, item) => acc + item.product.price, 0);
     },
   },
   mounted() {
