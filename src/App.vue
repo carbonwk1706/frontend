@@ -1,13 +1,13 @@
 <template>
   <v-app>
-    <Navbar v-if="showNavbar" />
-    <Sidebar v-if="showSidebar" />
+    <Navbar v-if="showNavbar && !this.isNotFoundRoute" />
+    <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
     <v-main>
       <v-container class="container-size">
         <router-view />
       </v-container>
     </v-main>
-    <Footer v-if="showFooter" />
+    <Footer v-if="showFooter && !this.isNotFoundRoute" />
   </v-app>
 </template>
 
@@ -61,6 +61,11 @@ export default {
   computed: {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
+    },
+    isNotFoundRoute() {
+      return this.$route.matched.some(
+        (record) => record.path === "/:pathMatch(.*)*"
+      );
     },
     showNavbar() {
       if (!this.isLogin) {
