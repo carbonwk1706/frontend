@@ -403,14 +403,16 @@ import api from "@/services/api";
 import router from "../router";
 import Login from "../views/Login.vue";
 
-window.addEventListener("scroll", function () {
-  const toolbar2 = document.getElementById("bottom-nav");
-  if (window.scrollY > 50) {
-    toolbar2.classList.add("hide-nav");
-  } else {
-    toolbar2.classList.remove("hide-nav");
-  }
-});
+if (window.location.pathname !== "/coin") {
+  window.addEventListener("scroll", function () {
+    const toolbar2 = document.getElementById("bottom-nav");
+    if (window.scrollY > 50) {
+      toolbar2.classList.add("hide-nav");
+    } else {
+      toolbar2.classList.remove("hide-nav");
+    }
+  });
+}
 
 export default {
   components: {
@@ -495,10 +497,10 @@ export default {
     },
     getCartList() {
       api.get("/cart/" + this.getId()).then((result) => {
-        this.cartList = result.data.items
+        this.cartList = result.data.items;
         this.$store.dispatch("cartList/setCartList", this.cartList);
       });
-    }
+    },
   },
   computed: {
     isLogin() {

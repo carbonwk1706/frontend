@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <Navbar v-if="showNavbar && !this.isNotFoundRoute && !this.CoinNavbar" />
+    <Navbar v-if="showNavbar && !this.isNotFoundRoute" />
     <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
     <CoinNavbar v-if="showNavbarCoin && !this.isNotFoundRoute" />
     <v-main>
@@ -16,7 +16,7 @@
 import Footer from "./components/Footer.vue";
 import Navbar from "./components/Navbar.vue";
 import Sidebar from "./components/Sidebar.vue";
-import CoinNavbar from "./components/Coin/Navbar.vue"
+import CoinNavbar from "./components/Coin/Navbar.vue";
 export default {
   name: "App",
   components: {
@@ -30,7 +30,7 @@ export default {
   },
   methods: {
     handleStorageChange(event) {
-      if (event.key === "user" || event.key === "token" && !event.newValue) {
+      if (event.key === "user" || (event.key === "token" && !event.newValue)) {
         this.$store.dispatch("auth/logout");
         this.$router.push("/");
         this.showAlert();
@@ -63,14 +63,15 @@ export default {
     showNavbar() {
       if (!this.isLogin) {
         return ![
+          "/wishlist",
+          "/profile",
+          "/registersell",
+          "/coin",
           "/login",
           "/register",
           "/login",
           "/admin",
           "/usertable",
-          "/wishlist",
-          "/profile",
-          "/registersell",
         ].includes(this.$route.path);
       } else {
         return ![
@@ -86,14 +87,15 @@ export default {
     showFooter() {
       if (!this.isLogin) {
         return ![
+          "/wishlist",
+          "/profile",
+          "/registersell",
+          "/coin",
           "/login",
           "/register",
           "/login",
           "/admin",
           "/usertable",
-          "/wishlist",
-          "/profile",
-          "/registersell",
         ].includes(this.$route.path);
       } else {
         return ![
@@ -102,7 +104,7 @@ export default {
           "/login",
           "/admin",
           "/usertable",
-          "/coin",
+          "/coin"
         ].includes(this.$route.path);
       }
     },
@@ -110,8 +112,8 @@ export default {
       return ["/admin", "/usertable", "/admintable"].includes(this.$route.path);
     },
     showNavbarCoin() {
-      return ["/coin"].includes(this.$route.path)
-    }
+      return ["/coin"].includes(this.$route.path);
+    },
   },
 };
 </script>
