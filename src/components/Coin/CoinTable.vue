@@ -40,15 +40,15 @@
         </v-col>
       </v-row>
       <div class="d-flex justify-center ma-10">
-        <v-btn  color="primary" @click="addCoin(item)">ยืนยัน</v-btn>
+        <v-btn color="primary" @click="addCoin(item)">ยืนยัน</v-btn>
       </div>
-      
     </div>
   </v-container>
 </template>
 
 <script>
 import api from "@/services/api";
+
 export default {
   name: "CoinTable",
   data() {
@@ -130,7 +130,10 @@ export default {
       this.listBankAccout.forEach((c) => (c.isClicked = false));
       item.isClicked = true;
       this.firstDivClicked = true;
-      window.scrollTo(0, document.body.scrollHeight);
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
     },
     selectCoin(item) {
       this.coin.forEach((c) => (c.isClicked = false));
