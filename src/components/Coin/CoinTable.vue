@@ -39,46 +39,26 @@
           </v-card>
         </v-col>
       </v-row>
-      <div class="d-flex justify-center ma-10">
-        <v-btn  color="primary" @click="addCoin(item)">ยืนยัน</v-btn>
+      <div
+        class="d-flex justify-center ma-10"
+        v-if="bankIsClicked && coinIsClicked"
+      >
+        <v-btn class="button" @click="addCoin(item.coin)">ยืนยัน</v-btn>
       </div>
-      
+      <div class="d-flex justify-center ma-10" v-else>
+        <v-btn class="buttonDis" disabled>ยืนยัน</v-btn>
+      </div>
     </div>
   </v-container>
 </template>
 
 <script>
 import api from "@/services/api";
+
 export default {
   name: "CoinTable",
   data() {
     return {
-      coin: [
-        {
-          coin: "20",
-          isClicked: false,
-        },
-        {
-          coin: "50",
-          isClicked: false,
-        },
-        {
-          coin: "100",
-          isClicked: false,
-        },
-        {
-          coin: "250",
-          isClicked: false,
-        },
-        {
-          coin: "500",
-          isClicked: false,
-        },
-        {
-          coin: "กำหนดเอง",
-          isClicked: false,
-        },
-      ],
       listBankAccout: [
         {
           initial: "BBL",
@@ -121,7 +101,35 @@ export default {
           isClicked: false,
         },
       ],
+      coin: [
+        {
+          coin: 20,
+          isClicked: false,
+        },
+        {
+          coin: 50,
+          isClicked: false,
+        },
+        {
+          coin: 100,
+          isClicked: false,
+        },
+        {
+          coin: 250,
+          isClicked: false,
+        },
+        {
+          coin: 500,
+          isClicked: false,
+        },
+        {
+          coin: "กำหนดเอง",
+          isClicked: false,
+        },
+      ],
       firstDivClicked: false,
+      bankIsClicked: false,
+      coinIsClicked: false,
       user: [],
     };
   },
@@ -130,15 +138,24 @@ export default {
       this.listBankAccout.forEach((c) => (c.isClicked = false));
       item.isClicked = true;
       this.firstDivClicked = true;
-      window.scrollTo(0, document.body.scrollHeight);
+      this.bankIsClicked = true;
+      window.scrollTo({
+        top: document.body.scrollHeight,
+        behavior: "smooth",
+      });
     },
     selectCoin(item) {
       this.coin.forEach((c) => (c.isClicked = false));
       item.isClicked = true;
       this.firstDivClicked = true;
+      this.coinIsClicked = true;
     },
     getId() {
       return this.$store.getters["auth/getId"];
+    },
+    addCoin(coin) {
+      console.log(coin);
+      // alert(coin)
     },
     async fetchApi() {
       const res = await api.get("/profile/" + this.getId());
@@ -154,18 +171,18 @@ export default {
 
 <style scoped>
 .highlight {
-  box-shadow: 0 0 15px #ffa500;
+  box-shadow: 0 0 15px #37c13d;
   transition: box-shadow 0.2s ease-in-out;
 }
 
 .highlight:hover {
-  box-shadow: 0 0 30px #ffa500;
+  box-shadow: 0 0 30px #37c13d;
 }
 .headborder {
   display: flex;
   justify-content: center;
   width: 300px;
-  border: 1px solid #ff5733;
+  border: 1px solid #00af70;
   padding: 10px;
 }
 .v-card-text {
@@ -173,5 +190,16 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+.button{
+  background-color: #37c13d;
+  color: white;
+  width: 200px;
+  text-align: center;
+}
+.buttonDis{
+  color: gray;
+  width: 200px;
+  text-align: center;
 }
 </style>

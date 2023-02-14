@@ -1,7 +1,8 @@
 <template>
   <v-app>
-    <Navbar v-if="showNavbar && !this.isNotFoundRoute" />
+    <Navbar v-if="showNavbar && !this.isNotFoundRoute && !this.CoinNavbar" />
     <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
+    <CoinNavbar v-if="showNavbarCoin && !this.isNotFoundRoute" />
     <v-main>
       <v-container class="container-size">
         <router-view />
@@ -15,12 +16,14 @@
 import Footer from "./components/Footer.vue";
 import Navbar from "./components/Navbar.vue";
 import Sidebar from "./components/Sidebar.vue";
+import CoinNavbar from "./components/Coin/Navbar.vue"
 export default {
   name: "App",
   components: {
     Navbar,
     Sidebar,
     Footer,
+    CoinNavbar,
   },
   created() {
     window.addEventListener("storage", this.handleStorageChange);
@@ -76,6 +79,7 @@ export default {
           "/login",
           "/admin",
           "/usertable",
+          "/coin",
         ].includes(this.$route.path);
       }
     },
@@ -98,12 +102,16 @@ export default {
           "/login",
           "/admin",
           "/usertable",
+          "/coin",
         ].includes(this.$route.path);
       }
     },
     showSidebar() {
       return ["/admin", "/usertable", "/admintable"].includes(this.$route.path);
     },
+    showNavbarCoin() {
+      return ["/coin"].includes(this.$route.path)
+    }
   },
 };
 </script>
