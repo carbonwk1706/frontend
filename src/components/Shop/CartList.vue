@@ -61,7 +61,6 @@ export default {
     getCartList() {
       api.get("/cart/" + this.getId()).then((result) => {
         this.cartList = result.data.items;
-        console.log(this.cartList);
         this.$store.dispatch("cartList/setCartList", this.cartList);
       });
     },
