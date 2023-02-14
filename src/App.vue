@@ -1,14 +1,13 @@
 <template>
   <v-app>
-    <Navbar v-if="showNavbar" />
-    <Sidebar v-if="showSidebar" />
-    <CoinNavbar v-if="showNavbarCoin" />
+    <Navbar v-if="showNavbar && !this.isNotFoundRoute" />
+    <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
     <v-main>
       <v-container class="container-size">
         <router-view />
       </v-container>
     </v-main>
-    <Footer v-if="showFooter" />
+    <Footer v-if="showFooter && !this.isNotFoundRoute" />
   </v-app>
 </template>
 
@@ -25,9 +24,40 @@ export default {
     Footer,
     CoinNavbar,
   },
+  created() {
+    window.addEventListener("storage", this.handleStorageChange);
+  },
+  methods: {
+    handleStorageChange(event) {
+      if (event.key === "user" || event.key === "token" && !event.newValue) {
+        this.$store.dispatch("auth/logout");
+        this.$router.push("/");
+        this.showAlert();
+      }
+    },
+    showAlert() {
+      this.$swal({
+        scrollbarPadding: false,
+        allowOutsideClick: false,
+        confirmButtonColor: "#00af70",
+        text: "Token ของคุณหมดอายุโปรดเข้าสู่ระบบอีกครั้ง",
+        icon: "warning",
+        confirmButtonText: "OK",
+      }).then((result) => {
+        if (result.value) {
+          window.location.reload();
+        }
+      });
+    },
+  },
   computed: {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
+    },
+    isNotFoundRoute() {
+      return this.$route.matched.some(
+        (record) => record.path === "/:pathMatch(.*)*"
+      );
     },
     showNavbar() {
       if (!this.isLogin) {

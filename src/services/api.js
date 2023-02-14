@@ -11,11 +11,11 @@ const api = axios.create({
 api.interceptors.request.use(
   (req) => {
     const token = localStorage.getItem("token");
-    const tokenAdmin = localStorage.getItem("tokenAdmin")
+    const tokenAdmin = localStorage.getItem("tokenAdmin");
     if (token) {
       req.headers["Authorization"] = "Bearer " + token;
     }
-    if(tokenAdmin){
+    if (tokenAdmin) {
       req.headers["Authorization"] = "Bearer " + tokenAdmin;
     }
     return req;
@@ -45,17 +45,18 @@ api.interceptors.response.use(
           });
           break;
         case 403:
-          setTimeout(() => {
-            router.replace({
-              path: "/",
-              query: {
-                redirect: router.currentRoute.fullPath,
-              },
-            });
-          }, 2000);
+          store.dispatch("auth/logout");
+          router.replace({
+            path: "/",
+            query: { redirect: router.currentRoute.fullPath },
+          });
           break;
         case 404:
-          console.log("page not exist");
+          store.dispatch("auth/logout");
+          router.replace({
+            path: "/",
+            query: { redirect: router.currentRoute.fullPath },
+          });
           break;
         case 502:
           setTimeout(() => {

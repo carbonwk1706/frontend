@@ -1,7 +1,9 @@
 <template>
   <div class="herdName">ตะกร้า</div>
   <hr />
-  <div class="noBook" v-if="cartList.length == 0 || cartList === null">ไม่พบสิ้นค้าในตะกร้า</div>
+  <div class="noBook" v-if="cartList.length == 0 || cartList === null">
+    ไม่พบสิ้นค้าในตะกร้า
+  </div>
   <div v-else>
     <v-card class="pa-3">
       <v-container>
@@ -23,7 +25,7 @@
             </div>
 
             <v-spacer></v-spacer>
-            <v-btn @click="delProduct(item._id)" color="error">ลบ</v-btn>
+            <v-btn @click="delProduct(item.product._id)" color="error">ลบ</v-btn>
           </v-col>
         </v-row>
       </v-container>
@@ -40,7 +42,7 @@
               ยอดชำระ ฿{{ getTotalPrice }}
             </div>
             <div class="d-flex flex-row align-center justify-center">
-              <v-btn color="success" rounded width="200">ชำระเงิน</v-btn>
+              <v-btn color="success" rounded width="200" @click="checkout">ชำระเงิน</v-btn>
             </div>
           </v-col>
         </v-row>
@@ -58,14 +60,30 @@ export default {
     };
   },
   methods: {
+    async checkout(){
+      const res = await api.post("/checkout/",{
+        userId: this.getId(),
+        items: this.cartList
+      })
+      if(res.status === 201 && res.data.message === "not enough money"){
+        console.log("เงินไม่พอจ้า")
+      }else{
+        console.log("ซื้อได้แล้วจ้า")
+      }
+    },
     getCartList() {
       api.get("/cart/" + this.getId()).then((result) => {
         this.cartList = result.data.items;
         this.$store.dispatch("cartList/setCartList", this.cartList);
       });
     },
-    delProduct(item) {
-      console.log(item);
+    async delProduct(item) {
+        try {
+          await api.delete("/cart/" + this.getId() + "/books/" + item);
+          this.getCartList();
+        } catch (error) {
+          console.log(error);
+        }
     },
     getId() {
       return this.$store.getters["auth/getId"];
@@ -74,13 +92,13 @@ export default {
   computed: {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
-    },  
+    },
     getTotalPrice() {
       return this.cartList.reduce((acc, item) => acc + item.product.price, 0);
     },
   },
   mounted() {
-    if(this.isLogin){
+    if (this.isLogin) {
       this.getCartList();
     }
   },
