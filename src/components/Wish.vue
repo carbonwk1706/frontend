@@ -71,8 +71,7 @@ export default {
         userId: this.getId(),
         bookId: item._id,
       });
-      this.getWishList()
-
+      this.getWishList();
     },
     addItem(item) {
       console.log(item);
@@ -84,9 +83,15 @@ export default {
       return this.$store.getters["auth/getId"];
     },
   },
-  computed: {},
+  computed: {
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
+    },
+  },
   mounted() {
-    this.getWishList();
+    if (this.isLogin) {
+      this.getWishList();
+    }
   },
 };
 </script>

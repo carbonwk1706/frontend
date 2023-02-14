@@ -11,9 +11,11 @@ const api = axios.create({
 api.interceptors.request.use(
   (req) => {
     const token = localStorage.getItem("token");
-    const tokenAdmin = localStorage.getItem("tokenAdmin");
-    if (token|| tokenAdmin) {
+    const tokenAdmin = localStorage.getItem("tokenAdmin")
+    if (token) {
       req.headers["Authorization"] = "Bearer " + token;
+    }
+    if(tokenAdmin){
       req.headers["Authorization"] = "Bearer " + tokenAdmin;
     }
     return req;

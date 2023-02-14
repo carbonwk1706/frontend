@@ -1,7 +1,7 @@
 <template>
   <div class="herdName">ตะกร้า</div>
   <hr />
-  <div class="noBook" v-if="cartList.length == 0">ไม่พบสิ้นค้าในตะกร้า</div>
+  <div class="noBook" v-if="cartList.length == 0 || cartList === null">ไม่พบสิ้นค้าในตะกร้า</div>
   <div v-else>
     <v-card class="pa-3">
       <v-container>
@@ -12,14 +12,14 @@
         >
           <v-col cols="12" class="d-flex flex-row align-center pa-0 mb-3">
             <v-img
-              :src="item.imageBook"
+              :src="item.product.imageBook"
               max-height="100"
               max-width="100"
             ></v-img>
             <div>
-              <span>{{ item.name }}</span>
+              <span>{{ item.product.name }}</span>
               <br />
-              <div>฿ {{ item.price }}</div>
+              <div>฿ {{ item.product.price }}</div>
             </div>
 
             <v-spacer></v-spacer>
@@ -71,8 +71,15 @@ export default {
       return this.$store.getters["auth/getId"];
     },
   },
+  computed: {
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
+    },
+  },
   mounted() {
-    this.getCartList();
+    if(this.isLogin){
+      this.getCartList();
+    }
   },
 };
 </script>
