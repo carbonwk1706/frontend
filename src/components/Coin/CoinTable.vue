@@ -1,6 +1,8 @@
 <template>
   <v-container class="pa-5">
-    <div class="d-flex justify-center">My coin: {{ getCoin }}</div>
+    <div class="d-flex justify-center">
+      <div class="headborder">My coin: {{ user.coin }}</div>
+    </div>
     <div>
       <div class="ma-10">กรุณาเลือกช่องทางการเติม coin</div>
       <v-row row justify="space-around">
@@ -37,11 +39,16 @@
           </v-card>
         </v-col>
       </v-row>
+      <div class="d-flex justify-center ma-10">
+        <v-btn  color="primary" @click="addCoin(item)">ยืนยัน</v-btn>
+      </div>
+      
     </div>
   </v-container>
 </template>
 
 <script>
+import api from "@/services/api";
 export default {
   name: "CoinTable",
   data() {
@@ -115,24 +122,32 @@ export default {
         },
       ],
       firstDivClicked: false,
+      user: [],
     };
   },
   methods: {
+    selectBank(item) {
+      this.listBankAccout.forEach((c) => (c.isClicked = false));
+      item.isClicked = true;
+      this.firstDivClicked = true;
+      window.scrollTo(0, document.body.scrollHeight);
+    },
     selectCoin(item) {
       this.coin.forEach((c) => (c.isClicked = false));
       item.isClicked = true;
       this.firstDivClicked = true;
     },
-    selectBank(item) {
-      this.listBankAccout.forEach((c) => (c.isClicked = false));
-      item.isClicked = true;
-      this.firstDivClicked = true;
+    getId() {
+      return this.$store.getters["auth/getId"];
+    },
+    async fetchApi() {
+      const res = await api.get("/profile/" + this.getId());
+      this.user = res.data.user;
     },
   },
-  computed: {
-    getCoin() {
-      return this.$store.getters["auth/getCoin"];
-    },
+  computed: {},
+  mounted() {
+    this.fetchApi();
   },
 };
 </script>
@@ -147,8 +162,10 @@ export default {
   box-shadow: 0 0 30px #ffa500;
 }
 .headborder {
+  display: flex;
+  justify-content: center;
   width: 300px;
-  border: 5px solid #ff5733;
+  border: 1px solid #ff5733;
   padding: 10px;
 }
 .v-card-text {
