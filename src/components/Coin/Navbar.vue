@@ -42,7 +42,7 @@ export default {
 
 <style scoped>
 .app_bar {
-  background-image: linear-gradient(#ff5733, #ffa500);
+  background-image: linear-gradient(#00af70, #37c13d);
   color: #ffff;
   position: sticky;
   top: 0;

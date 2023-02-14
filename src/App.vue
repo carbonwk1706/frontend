@@ -1,7 +1,8 @@
 <template>
   <v-app>
-    <Navbar v-if="showNavbar && !this.isNotFoundRoute" />
+    <Navbar v-if="showNavbar && !this.isNotFoundRoute && !this.CoinNavbar" />
     <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
+    <CoinNavbar v-if="showNavbarCoin && !this.isNotFoundRoute" />
     <v-main>
       <v-container class="container-size">
         <router-view />
