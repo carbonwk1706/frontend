@@ -27,8 +27,10 @@ export default {
   },
   methods: {
     handleStorageChange(event) {
-      if (event.key === "user" && !event.newValue) {
+      if (event.key === "user" || event.key === "token" && !event.newValue) {
         this.$store.dispatch("auth/logout");
+        this.$router.push("/");
+        this.showAlert();
       }
     },
     showAlert() {
@@ -44,18 +46,6 @@ export default {
           window.location.reload();
         }
       });
-    },
-  },
-  watch: {
-    "$store.state.auth.user": {
-      handler(newValue) {
-        if (!newValue) {
-          this.$store.dispatch("auth/logout");
-          this.$router.push("/");
-          this.showAlert();
-        }
-      },
-      deep: true,
     },
   },
   computed: {

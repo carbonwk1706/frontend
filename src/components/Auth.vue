@@ -62,9 +62,10 @@ export default {
   justify-content: center;
   align-items: center;
 }
-
 .img-size{
   width: 100px;
 }
+
+
 
 </style>

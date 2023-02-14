@@ -1,11 +1,5 @@
 <template>
-  <v-dialog
-    v-model="isVisible"
-    style="z-index: 900"
-    class="pa-0"
-    width="500px"
-    persistent
-  >
+  <v-dialog v-model="isVisible" style="z-index: 900" width="500px" persistent>
     <v-sheet>
       <v-card class="mx-auto px-6 py-8">
         <v-form @submit.prevent="login">
@@ -154,13 +148,13 @@ export default {
               this.hideLogin();
             }, 2000);
             setTimeout(() => {
-              window.location.reload()
-            },2000)
+              window.location.reload();
+            }, 2000);
           } else {
             this.alertLogin();
           }
         } catch (error) {
-            this.alertLogin();
+          this.alertLogin();
         }
       }
     },
@@ -173,6 +167,7 @@ export default {
     },
     alertLogin() {
       this.$swal({
+        scrollbarPadding: false,
         confirmButtonColor: "#00af70",
         allowOutsideClick: false,
         width: "500",
