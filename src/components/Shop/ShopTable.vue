@@ -5,8 +5,8 @@
     </div>
     <hr class="mb-6" />
     <v-row>
-      <v-col v-for="(item, index) in books" :key="index">
-        <v-card class="mx-auto" max-width="180" @click="showDetail(item)">
+      <v-col v-for="(item, index) in books" :key="index" >
+        <v-card class="mx-auto cardHover" max-width="180" @click="showDetail(item)">
           <v-img :src="item.imageBook" height="250px"></v-img>
           <v-card-title> {{ item.name }} </v-card-title>
           <v-card-subtitle>
@@ -106,5 +106,9 @@ export default {
 <style scoped>
 .v-btn.success:hover {
   background-color: gray !important;
+}
+.cardHover:hover {
+  border: 1px solid #00af70;
+  cursor: pointer;
 }
 </style>

@@ -60,7 +60,7 @@ export default {
   methods: {
     getCartList() {
       api.get("/cart/" + this.getId()).then((result) => {
-        this.cartList = result.data.items
+        this.cartList = result.data.items;
         this.$store.dispatch("cartList/setCartList", this.cartList);
       });
     },
@@ -74,6 +74,9 @@ export default {
   computed: {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
+    },  
+    getTotalPrice() {
+      return this.cartList.reduce((acc, item) => acc + item.product.price, 0);
     },
   },
   mounted() {
