@@ -9,25 +9,25 @@
         <th class="text-left"></th>
       </tr>
     </thead>
-    <tbody >
+    <tbody>
       <tr v-for="(item, index) in userItems" :key="index">
-        <td class="mt-2" >{{ item.name }}</td>
-        <td class="mt-2" >{{ item.username }}</td>
-        <td class="mt-2" >{{ item.email }}</td>
-        <td class="mt-2" >{{ item.gender }}</td>
+        <td class="mt-2">{{ item.name }}</td>
+        <td class="mt-2">{{ item.username }}</td>
+        <td class="mt-2">{{ item.email }}</td>
+        <td class="mt-2">{{ item.gender }}</td>
 
-        <td class="d-flex justify-center mt-2  ">
+        <td class="d-flex justify-center mt-2">
           <v-btn
             variant="flat"
             color="success"
-            class="mr-3 "
+            class="mr-3"
             @click="editUser(item)"
             >แก้ไข</v-btn
           >
           <v-btn
             variant="flat"
             color="error"
-            class="mr-3 "
+            class="mr-3"
             @click="deleteUser(item)"
             >ลบ</v-btn
           >
@@ -71,7 +71,6 @@ export default {
         for (let i = 0; i < result.data.length; i++) {
           let isAdmin = false;
           for (let j = 0; j < result.data[i].roles.length; j++) {
-            console.log(result.data[i].roles[j]);
             if (
               result.data[i].roles[j] === "ADMIN" ||
               result.data[i].roles[j] === "LOCAL_ADMIN"
