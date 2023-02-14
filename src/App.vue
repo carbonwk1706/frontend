@@ -22,6 +22,42 @@ export default {
     Sidebar,
     Footer,
   },
+  created() {
+    window.addEventListener("storage", this.handleStorageChange);
+  },
+  methods: {
+    handleStorageChange(event) {
+      if (event.key === "user" && !event.newValue) {
+        this.$store.dispatch("auth/logout");
+      }
+    },
+    showAlert() {
+      this.$swal({
+        scrollbarPadding: false,
+        allowOutsideClick: false,
+        confirmButtonColor: "#00af70",
+        text: "Token ของคุณหมดอายุโปรดเข้าสู่ระบบอีกครั้ง",
+        icon: "warning",
+        confirmButtonText: "OK",
+      }).then((result) => {
+        if (result.value) {
+          window.location.reload();
+        }
+      });
+    },
+  },
+  watch: {
+    "$store.state.auth.user": {
+      handler(newValue) {
+        if (!newValue) {
+          this.$store.dispatch("auth/logout");
+          this.$router.push("/");
+          this.showAlert();
+        }
+      },
+      deep: true,
+    },
+  },
   computed: {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
