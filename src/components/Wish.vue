@@ -73,14 +73,59 @@ export default {
       });
       this.getWishList();
     },
-    addItem(item) {
-      console.log(item);
+    async addItem(item) {
+      if (this.isLogin) {
+        const res = await api.post(
+          "/cart/" + this.getId() + "/books/" + item._id
+        );
+        if (
+          res.status === 200 &&
+          res.data.message === "You have this product in your cart"
+        ) {
+          this.$swal({
+            scrollbarPadding: false,
+            confirmButtonColor: "#00af70",
+            allowOutsideClick: false,
+            width: "500",
+            text: "คุณมีสินค้านี้ในตะกร้าแล้ว",
+            icon: "warning",
+            button: "OK",
+          });
+        } else {
+          this.$swal({
+            scrollbarPadding: false,
+            confirmButtonColor: "#00af70",
+            allowOutsideClick: false,
+            width: "500",
+            text: "เพิ่มสินค้านี้ในตะกร้าสำเร็จ",
+            icon: "success",
+            button: "OK",
+          });
+          this.getCartList();
+        }
+      } else {
+        this.$swal({
+          scrollbarPadding: false,
+          confirmButtonColor: "#00af70",
+          allowOutsideClick: false,
+          width: "500",
+          text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
+          icon: "warning",
+          button: "OK",
+        });
+      }
     },
     showDetail(item) {
       this.$router.push(`/book/${item._id}`);
     },
     getId() {
       return this.$store.getters["auth/getId"];
+    },
+    getCartList() {
+      api.get("/cart/" + this.getId()).then((result) => {
+        this.cartList = result.data.items;
+        this.$store.dispatch("cartList/setCartList", this.cartList);
+      });
     },
   },
   computed: {

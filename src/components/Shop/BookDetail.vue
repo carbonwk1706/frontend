@@ -154,7 +154,6 @@ export default {
       const res = await api.get("/wishlist/" + this.getId());
       this.wishList = res.data;
       this.$store.dispatch("wishlist/setWishList", this.wishList);
-      console.log(this.wishList);
     },
     getCartList() {
       api.get("/cart/" + this.getId()).then((result) => {
