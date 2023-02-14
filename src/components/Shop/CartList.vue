@@ -1,7 +1,7 @@
 <template>
   <div class="herdName">ตะกร้า</div>
   <hr />
-  <div class="noBook" v-if="cartList.length == 0">ไม่พบสิ้นค้าในตะกร้า</div>
+  <div class="noBook" v-if="cartList.length == 0 || cartList === null">ไม่พบสิ้นค้าในตะกร้า</div>
   <div v-else>
     <v-card class="pa-3">
       <v-container>
@@ -72,12 +72,16 @@ export default {
     },
   },
   computed: {
-    getTotalPrice() {
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
       return this.cartList.reduce((acc, item) => acc + item.product.price, 0);
+    getTotalPrice() {
     },
   },
   mounted() {
-    this.getCartList();
+    if(this.isLogin){
+      this.getCartList();
+    }
   },
 };
 </script>
