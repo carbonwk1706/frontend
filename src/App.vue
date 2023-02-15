@@ -129,7 +129,6 @@ export default {
           "/register",
           "/login",
           "/admin",
-          "/usertable/",
           "/usertable",
           "/admintable",
           "/approvetable",
