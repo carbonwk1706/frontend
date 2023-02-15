@@ -38,6 +38,11 @@ export default {
         this.$router.push("/");
         this.showAlert();
       }
+      else if (event.key === "admin" || (event.key === "tokenAdmin" && !event.newValue)) {
+        this.$store.dispatch("authAdmin/logout");
+        this.$router.push("/");
+        this.showAlert();
+      }
     },
     showAlert() {
       this.$swal({
