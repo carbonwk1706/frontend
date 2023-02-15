@@ -1,5 +1,11 @@
 <template>
-  <div class="herdName">ตะกร้า</div>
+  <div class="herdName">
+    <span>ตะกร้า</span>
+  </div>
+  <div>
+    <p class="text-center mb-6">เลือกหนังสือที่ต้องการชำระเงิน</p>
+  </div>
+  
   <hr />
   <div class="noBook" v-if="cartList.length == 0 || cartList === null">
     ไม่พบสิ้นค้าในตะกร้า
@@ -109,7 +115,6 @@ export default {
 .herdName {
   display: flex;
   justify-content: center;
-  margin-bottom: 30px;
   font-size: 36px;
   font-weight: bold;
 }
@@ -119,6 +124,6 @@ export default {
   align-items: center;
   color: red;
   font-size: 18px;
-  margin-top: 20px;
+  margin-top: 24px;
 }
 </style>

@@ -1,9 +1,14 @@
 <template>
   <v-container class="grey lighten-5">
+    <div>
+      <span class="menu-link" @click="goToProfile">จัดการบัญชี</span>
+      <v-icon>mdi-chevron-right</v-icon>
+      <span class="menu-link-current">รายการที่อยากได้</span>
+    </div>
     <div class="mb-5 d-flex justify-center">
       <h1>รายการที่อยากได้</h1>
     </div>
-    <div v-if="wishList.length === 0">
+    <div v-if="wishList.length === 0 || wishList === null">
       <div class="d-flex justify-center">
         <img
           src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
@@ -12,11 +17,19 @@
           height="200"
         />
       </div>
-      <div class="noWish">ยังไม่มีรายการที่อยากได้</div>
+      <div class="noWish">
+        <p>ยังไม่มีรายการที่อยากได้</p>
+      </div>
+      <div>
+        <p class="text-center" style="color:#5a5a5a;">
+          คุณสามารถบันทึกหนังสือเล่มที่อยากได้แต่ยังไม่พร้อมซื้อ โดยกดปุ่ม
+          “อยากได้” ในหน้าดูรายละเอียดหนังสือ
+        </p>
+      </div>
     </div>
     <div v-else>
       <div class="mb-5 d-flex justify-start">
-        <h2>รายการที่อยากได้</h2>
+        <h3>รายการที่อยากได้</h3>
       </div>
       <hr class="mb-5" />
       <v-row>
@@ -52,6 +65,7 @@
 
 <script>
 import api from "@/services/api";
+import router from "@/router";
 
 export default {
   name: "Wish",
@@ -61,6 +75,9 @@ export default {
     };
   },
   methods: {
+    goToProfile(){
+      router.push("/profile")
+    },
     async getWishList() {
       const res = await api.get("/wishlist/" + this.getId());
       this.wishList = res.data;
@@ -162,5 +179,14 @@ export default {
 }
 .v-btn.success:hover {
   background-color: gray !important;
+}
+.menu-link{
+  color: #5a5a5a;
+  font-size: 14px;
+  cursor: pointer;
+}
+.menu-link-current{
+  color: #5a5a5a;
+  font-size: 14px;
 }
 </style>
