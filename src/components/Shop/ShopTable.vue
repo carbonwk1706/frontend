@@ -140,8 +140,6 @@ export default {
             button: "OK",
           });
         } else {
-          document.body.style.setProperty('--v-body-scroll-y', '0px');
-          document.body.style.setProperty('--v-scrollbar-offset', '0px');
           this.showModal = true;
           this.getCartList();
         }
@@ -184,6 +182,15 @@ export default {
       return (item) => {
         return this.myBook.some((book) => book._id === item._id);
       };
+    },
+  },
+  watch: {
+    showModal(newValue) {
+      if (newValue) {
+        document.body.classList.add('dialog-open');
+      } else {
+        document.body.classList.remove('dialog-open');
+      }
     },
   },
   mounted() {

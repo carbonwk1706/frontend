@@ -540,10 +540,14 @@ export default {
       this.getWishList();
       this.getCartList();
     }
+
     window.addEventListener("scroll", function () {
       const toolbar2 = document.getElementById("bottom-nav");
+      const isDialogOpen = document.body.classList.contains("dialog-open");
       if (toolbar2) {
-        if (window.scrollY > 50) {
+        if (isDialogOpen) {
+          toolbar2.classList.add("hide-nav");
+        } else if (window.scrollY > 50) {
           toolbar2.classList.add("hide-nav");
         } else {
           toolbar2.classList.remove("hide-nav");
