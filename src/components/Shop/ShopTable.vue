@@ -3,7 +3,7 @@
     <div class="mb-5 d-flex justify-center">
       <h1>ร้านค้า</h1>
     </div>
-    <hr class="mb-6" />
+    <v-divider class="mb-6"></v-divider>
     <v-row>
       <v-col v-for="(item, index) in books" :key="index">
         <v-card
@@ -17,10 +17,21 @@
             {{ item.author }}/{{ item.publisher }}
           </v-card-subtitle>
           <v-row class="d-flex justify-end ma-3">
-            <v-btn  v-if="!checkHaveBook(item)" color="success" class="success" @click.stop="addItem(item)">
+            <v-btn
+              v-if="!checkHaveBook(item)"
+              color="success"
+              class="success"
+              @click.stop="addItem(item)"
+            >
               ฿ {{ item.price }}
             </v-btn>
-            <v-btn v-else disabled color="success" class="success" @click.stop="addItem(item)">
+            <v-btn
+              v-else
+              disabled
+              color="success"
+              class="success"
+              @click.stop="addItem(item)"
+            >
               มีแล้ว
             </v-btn>
           </v-row>
@@ -129,6 +140,8 @@ export default {
             button: "OK",
           });
         } else {
+          document.body.style.setProperty('--v-body-scroll-y', '0px');
+          document.body.style.setProperty('--v-scrollbar-offset', '0px');
           this.showModal = true;
           this.getCartList();
         }
@@ -168,10 +181,10 @@ export default {
       return this.$store.getters["auth/isLogin"];
     },
     checkHaveBook() {
-    return (item) => {
-      return this.myBook.some((book) => book._id === item._id);
-    };
-  },
+      return (item) => {
+        return this.myBook.some((book) => book._id === item._id);
+      };
+    },
   },
   mounted() {
     this.fetchApi();

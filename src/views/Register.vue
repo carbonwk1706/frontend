@@ -117,7 +117,7 @@
       </v-card-actions>
     </v-card>
 
-    <v-dialog v-model="loading" max-width="500" persistent>
+    <v-dialog class="pa-0" v-model="loading" max-width="500" persistent>
       <v-card>
         <v-card-title class="center">
           <div class="img-size">
@@ -140,7 +140,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="loginModal" max-width="500" persistent>
+    <v-dialog class="pa-0" v-model="loginModal" max-width="500" persistent>
       <v-card>
         <v-card-title class="center">
           <div class="img-size">
@@ -163,7 +163,7 @@
       </v-card>
     </v-dialog>
 
-    <v-dialog v-model="dialog" width="500" persistent>
+    <v-dialog class="pa-0" v-model="dialog" width="500" persistent>
       <v-card>
         <v-card-title class="text-center">
           <span class="text-h5">ข้อตกลงในการให้บริการ</span>

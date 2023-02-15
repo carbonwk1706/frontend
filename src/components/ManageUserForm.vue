@@ -81,6 +81,7 @@
   </v-dialog>
 
   <v-dialog
+    class="pa-0"
     v-model="showConfirm"
     max-width="500"
     persistent

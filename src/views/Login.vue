@@ -1,5 +1,5 @@
 <template>
-  <v-dialog v-model="isVisible" style="z-index: 900" width="500px" persistent>
+  <v-dialog class="pa-0" v-model="isVisible" style="z-index: 900" width="500px" persistent>
     <v-sheet>
       <v-card class="mx-auto px-6 py-8">
         <v-form @submit.prevent="login">
@@ -69,7 +69,7 @@
     @update:isVisible="registerModal = $event"
   />
 
-  <v-dialog v-model="loading" max-width="500" persistent>
+  <v-dialog class="pa-0" v-model="loading" max-width="500" persistent>
     <v-card>
       <v-card-title class="center">
         <div class="img-size">
