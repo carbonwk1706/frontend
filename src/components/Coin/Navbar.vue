@@ -44,7 +44,6 @@ export default {
 .app_bar {
   background-image: linear-gradient(#00af70, #37c13d);
   color: #ffff;
-  position: sticky;
   top: 0;
   z-index: 1;
 }

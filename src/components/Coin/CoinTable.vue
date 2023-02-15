@@ -7,6 +7,10 @@
       <div class="ma-10">กรุณาเลือกช่องทางการเติม coin</div>
       <v-row row justify="space-around">
         <v-col
+          xs12
+          sm6
+          md4
+          lg3
           cols="3"
           v-for="item in listBankAccout"
           :key="item.listBankAccout"
@@ -43,7 +47,7 @@
         class="d-flex justify-center ma-10"
         v-if="bankIsClicked && coinIsClicked"
       >
-        <v-btn class="button" @click="addCoin(item.coin)">ยืนยัน</v-btn>
+        <v-btn class="button" @click="addCoin">ยืนยัน</v-btn>
       </div>
       <div class="d-flex justify-center ma-10" v-else>
         <v-btn class="buttonDis" disabled>ยืนยัน</v-btn>
@@ -130,7 +134,10 @@ export default {
       firstDivClicked: false,
       bankIsClicked: false,
       coinIsClicked: false,
+      selectedBankAccount: null,
+      selectedCoin: null,
       user: [],
+      result: null
     };
   },
   methods: {
@@ -139,6 +146,7 @@ export default {
       item.isClicked = true;
       this.firstDivClicked = true;
       this.bankIsClicked = true;
+      this.selectedBankAccount = item.initial;
       window.scrollTo({
         top: document.body.scrollHeight,
         behavior: "smooth",
@@ -149,13 +157,14 @@ export default {
       item.isClicked = true;
       this.firstDivClicked = true;
       this.coinIsClicked = true;
+      this.selectedCoin = item.coin;
     },
     getId() {
       return this.$store.getters["auth/getId"];
     },
-    addCoin(coin) {
-      console.log(coin);
-      // alert(coin)
+    addCoin() {
+      console.log(this.selectedBankAccount);
+      console.log(this.selectedCoin);
     },
     async fetchApi() {
       const res = await api.get("/profile/" + this.getId());
@@ -191,15 +200,17 @@ export default {
   align-items: center;
   height: 100%;
 }
-.button{
+.button {
   background-color: #37c13d;
   color: white;
-  width: 200px;
+  height: 50px;
+  width: 300px;
   text-align: center;
 }
-.buttonDis{
+.buttonDis {
   color: gray;
-  width: 200px;
+  height: 50px;
+  width: 300px;
   text-align: center;
 }
 </style>
