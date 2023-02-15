@@ -1,6 +1,6 @@
 <template>
   <v-toolbar class="app_bar">
-    <v-btn icon @click="$router.go(-1)">
+    <v-btn icon @click="goToHome">
       <v-icon>mdi-chevron-left</v-icon>
     </v-btn>
     <v-spacer></v-spacer>
@@ -90,6 +90,9 @@ export default {
     },
     goToHistory() {
       console.log("history");
+    },
+    goToHome() {
+      router.push("/");
     },
   },
   mounted() {
