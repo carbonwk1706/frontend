@@ -267,6 +267,7 @@ export default {
   background-color: #f0a04b;
   width: 100%;
   padding: 5px;
+  margin-bottom: 16px;
   max-width: 120px;
 }
 </style>
