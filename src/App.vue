@@ -18,7 +18,7 @@ import Footer from "./components/Footer.vue";
 import Navbar from "./components/Navbar.vue";
 import Sidebar from "./components/Sidebar.vue";
 import CoinNavbar from "./components/Coin/Navbar.vue";
-import FooterCoin from "./components/Coin/Footer.vue"
+import FooterCoin from "./components/Coin/Footer.vue";
 export default {
   name: "App",
   components: {
@@ -33,10 +33,24 @@ export default {
   },
   methods: {
     handleStorageChange(event) {
-      if (event.key === "user" || (event.key === "token" && !event.newValue)) {
-        this.$store.dispatch("auth/logout");
-        this.$router.push("/");
-        this.showAlert();
+      if (this.isLogin) {
+        if (
+          event.key === "user" ||
+          (event.key === "token" && !event.newValue)
+        ) {
+          this.$store.dispatch("auth/logout");
+          this.$router.push("/");
+          this.showAlert();
+        }
+      } else if (this.isLoginAdmin) {
+        if (
+          event.key === "admin" ||
+          (event.key === "tokenAdmin" && !event.newValue)
+        ) {
+          this.$store.dispatch("authAdmin/logout");
+          this.$router.push("/login");
+          this.showAlert();
+        }
       }
     },
     showAlert() {
@@ -78,6 +92,12 @@ export default {
           "/login",
           "/admin",
           "/usertable",
+          "/wishlist",
+          "/profile",
+          "/registersell",
+          "/admintable",
+          "/approvetable",
+          "/historyadmin",
         ].includes(this.$route.path);
       } else {
         return ![
@@ -86,42 +106,60 @@ export default {
           "/login",
           "/admin",
           "/usertable",
+          "/approvetable",
+          "/admintable",
+          "/approvetable",
+          "/historyadmin",
           "/coin",
         ].includes(this.$route.path);
       }
     },
     showFooter() {
-      const currenRoute = this.$route
-      if(currenRoute.meta.hideFooter){
-        return false
-      }else{
-        if (!this.isLogin) {
-        return ![
-          "/wishlist",
-          "/profile",
-          "/registersell",
-          "/coin",
-          "/login",
-          "/register",
-          "/login",
-          "/admin",
-          "/usertable",
-        ].includes(this.$route.path);
+      const currenRoute = this.$route;
+      if (currenRoute.meta.hideFooter) {
+        return false;
       } else {
-        return ![
-          "/login",
-          "/register",
-          "/login",
-          "/admin",
-          "/usertable/",
-          "/usertable",
-          "/coin",
-        ].includes(this.$route.path);
-      }
+        if (!this.isLogin) {
+          return ![
+            "/wishlist",
+            "/profile",
+            "/registersell",
+            "/coin",
+            "/login",
+            "/register",
+            "/login",
+            "/admin",
+            "/usertable",
+            "/wishlist",
+            "/profile",
+            "/registersell",
+            "/admintable",
+            "/approvetable",
+            "/historyadmin",
+          ].includes(this.$route.path);
+        } else {
+          return ![
+            "/login",
+            "/register",
+            "/login",
+            "/admin",
+            "/usertable",
+            "/admintable",
+            "/approvetable",
+            "/historyadmin",
+            "/coin",
+          ].includes(this.$route.path);
+        }
       }
     },
     showSidebar() {
-      return ["/admin", "/usertable", "/admintable"].includes(this.$route.path);
+      return [
+        "/admin",
+        "/usertable",
+        "/admintable",
+        "/approvetable",
+        "/historyadmin",
+      ].includes(this.$route.path);
     },
     showNavbarCoin() {
       return ["/coin"].includes(this.$route.path);
