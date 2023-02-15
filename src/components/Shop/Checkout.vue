@@ -30,7 +30,7 @@
             <span class="text-total-price"> ฿{{ getTotalPrice }} </span>
           </div>
           <div class="d-flex flex-row align-center justify-center">
-            <v-btn class="btn-bg" rounded width="200" @click="goToCheckout"
+            <v-btn class="btn-bg" rounded width="200"
               ><span style="font-size: 18px">ชำระเงิน</span></v-btn
             >
           </div>
