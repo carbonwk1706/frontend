@@ -37,12 +37,12 @@
         value="approve"
         @click="goToApproveTable()"
       ></v-list-item>
-      <!-- <v-list-item
-        prepend-icon="mdi-account-group-outline"
+      <v-list-item
+        prepend-icon="mdi-history"
         title="ประวัติ"
-        value="users"
-        @click="goToUserTable()"
-      ></v-list-item> -->
+        value="history"
+        @click="goToHistoryTable()"
+      ></v-list-item>
       <v-list-item
         prepend-icon="mdi-exit-to-app"
         title="ออกจากระบบ"
@@ -90,6 +90,9 @@ export default {
     },
     goToApproveTable(){
       router.push("/approvetable");
+    },
+    goToHistoryTable(){
+      router.push("/historyadmin");
     },
     logout() {
       this.loading = true;

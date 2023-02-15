@@ -37,6 +37,9 @@ export default {
           "/wishlist",
           "/profile",
           "/registersell",
+          "/admintable",
+          "/approvetable",
+          "/historyadmin",
         ].includes(this.$route.path);
       } else {
         return ![
@@ -45,6 +48,11 @@ export default {
           "/login",
           "/admin",
           "/usertable",
+          "/approvetable",
+          "/admintable",
+          "/approvetable",
+          "/historyadmin",
+
         ].includes(this.$route.path);
       }
     },
@@ -59,6 +67,9 @@ export default {
           "/wishlist",
           "/profile",
           "/registersell",
+          "/admintable",
+          "/approvetable",
+          "/historyadmin",
         ].includes(this.$route.path);
       } else {
         return ![
@@ -67,11 +78,14 @@ export default {
           "/login",
           "/admin",
           "/usertable",
+          "/admintable",
+          "/approvetable",
+          "/historyadmin",
         ].includes(this.$route.path);
       }
     },
     showSidebar() {
-      return ["/admin", "/usertable", "/admintable"].includes(this.$route.path);
+      return ["/admin", "/usertable", "/admintable","/approvetable","/historyadmin"].includes(this.$route.path);
     },
   },
 };
