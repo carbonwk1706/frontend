@@ -541,10 +541,12 @@ export default {
     if (this.$route.path !== "/coin") {
       window.addEventListener("scroll", function () {
         const toolbar2 = document.getElementById("bottom-nav");
-        if (window.scrollY > 50) {
-          toolbar2.classList.add("hide-nav");
-        } else {
-          toolbar2.classList.remove("hide-nav");
+        if (toolbar2) {
+          if (window.scrollY > 50) {
+            toolbar2.classList.add("hide-nav");
+          } else {
+            toolbar2.classList.remove("hide-nav");
+          }
         }
       });
     }
