@@ -9,6 +9,7 @@
       </v-container>
     </v-main>
     <Footer v-if="showFooter && !this.isNotFoundRoute" />
+    <FooterCoin v-if="showFooterCoin && !this.isNotFoundRoute" />
   </v-app>
 </template>
 
@@ -17,6 +18,7 @@ import Footer from "./components/Footer.vue";
 import Navbar from "./components/Navbar.vue";
 import Sidebar from "./components/Sidebar.vue";
 import CoinNavbar from "./components/Coin/Navbar.vue";
+import FooterCoin from "./components/Coin/Footer.vue"
 export default {
   name: "App",
   components: {
@@ -24,6 +26,7 @@ export default {
     Sidebar,
     Footer,
     CoinNavbar,
+    FooterCoin,
   },
   created() {
     window.addEventListener("storage", this.handleStorageChange);
@@ -112,6 +115,9 @@ export default {
       return ["/admin", "/usertable", "/admintable"].includes(this.$route.path);
     },
     showNavbarCoin() {
+      return ["/coin"].includes(this.$route.path);
+    },
+    showFooterCoin() {
       return ["/coin"].includes(this.$route.path);
     },
   },
