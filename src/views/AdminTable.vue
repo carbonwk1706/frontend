@@ -28,7 +28,10 @@
             variant="flat"
             color="error"
             class="mr-3"
-            @click="showConfirm = true; selectedUser = item"
+            @click="
+              showConfirm = true;
+              selectedUser = item;
+            "
             >ลบ</v-btn
           >
         </td>
@@ -44,10 +47,15 @@
       </v-card-text>
       <v-card-actions>
         <v-spacer />
-        <v-btn color="Grey" text @click="showConfirm = false">
-          ยกเลิก
-        </v-btn>
-        <v-btn color="red darken-1" text @click="deleteUser(selectedUser); showConfirm = false">
+        <v-btn color="Grey" text @click="showConfirm = false"> ยกเลิก </v-btn>
+        <v-btn
+          color="red darken-1"
+          text
+          @click="
+            deleteUser(selectedUser);
+            showConfirm = false;
+          "
+        >
           ลบ
         </v-btn>
       </v-card-actions>
@@ -57,8 +65,6 @@
 
 <script>
 import api from "@/services/api";
-
-
 
 export default {
   components: {},
@@ -72,48 +78,35 @@ export default {
   },
   methods: {
     deleteUser(user) {
-      api
-        .delete("/users/" + user._id, user)
-        .then((result) => {
-          this.userItems = result.data;
-          this.fetchApi();
-        });
+      api.delete("/users/" + user._id, user).then((result) => {
+        this.userItems = result.data;
+        this.fetchApi();
+      });
     },
     editUser(user) {
       this.$router.push(`/usertable/${user._id}`);
     },
     updateUser(updatedUser) {
-      api
-        .put("/users/" + updatedUser._id, updatedUser)
-        .then((result) => {
-          this.userItems = result.data;
-          this.fetchApi();
-        });
+      api.put("/users/" + updatedUser._id, updatedUser).then((result) => {
+        this.userItems = result.data;
+        this.fetchApi();
+      });
       this.showForm = false;
     },
     async fetchApi() {
-      api
-        .get("/users/")
-        .then((result) => {
-
-          for(let i = 0 ;i<result.data.length; i++ ){
-            console.log(result.data[i].roles.length)
-            for(let j = 0 ; j<result.data[i].roles.length;j++){
-
-              console.log(result.data[i].roles[j])
-              if(result.data[i].roles[j] === "ADMIN" ||result.data[i].roles[j] === "LOCAL_ADMIN" )
-              {
-                this.userItems.push(result.data[i])
-                break;
-              }
-
+      api.get("/users/").then((result) => {
+        for (let i = 0; i < result.data.length; i++) {
+          for (let j = 0; j < result.data[i].roles.length; j++) {
+            if (
+              result.data[i].roles[j] === "ADMIN" ||
+              result.data[i].roles[j] === "LOCAL_ADMIN"
+            ) {
+              this.userItems.push(result.data[i]);
+              break;
             }
-
-
           }
-
-        });
-
+        }
+      });
     },
   },
   mounted() {
