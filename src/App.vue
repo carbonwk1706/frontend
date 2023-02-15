@@ -48,7 +48,7 @@ export default {
           (event.key === "tokenAdmin" && !event.newValue)
         ) {
           this.$store.dispatch("authAdmin/logout");
-          this.$router.push("/");
+          this.$router.push("/login");
           this.showAlert();
         }
       }
