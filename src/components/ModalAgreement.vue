@@ -1,5 +1,5 @@
 <template>
-  <v-dialog class="pa-0" v-model="newUser" width="600px" persistent>
+  <v-dialog v-model="newUser" width="600px" persistent>
     <v-card>
       <v-card-title class="text-center">
         <span class="text-h5">ข้อตกลงในการให้บริการ</span>

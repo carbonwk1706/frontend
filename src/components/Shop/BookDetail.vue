@@ -65,7 +65,7 @@
     </v-row>
   </v-container>
 
-  <v-dialog v-model="showModal" class="pa-0" max-width="500px">
+  <v-dialog v-model="showModal" max-width="500px">
     <v-card max-width="400px" class="pa-4">
       <div class="d-flex justify-end pa-0">
         <v-icon @click="hideModal">mdi-close</v-icon>

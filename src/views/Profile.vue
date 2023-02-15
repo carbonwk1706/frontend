@@ -33,7 +33,6 @@
             เปลี่ยนรูปโปรไฟล์
           </v-btn>
           <v-dialog
-            class="pa-0"
             v-model="loading"
             width="600"
             persistent

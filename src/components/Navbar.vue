@@ -377,7 +377,7 @@
     @update:isVisible="visibleModal = $event"
   />
 
-  <v-dialog class="pa-0" v-model="loading" max-width="500" persistent>
+  <v-dialog v-model="loading" max-width="500" persistent>
     <v-card>
       <v-card-title class="center">
         <div class="img-size">
@@ -538,7 +538,6 @@ export default {
       this.getWishList();
       this.getCartList();
     }
-    if (this.$route.path !== "/coin") {
       window.addEventListener("scroll", function () {
         const toolbar2 = document.getElementById("bottom-nav");
         if (toolbar2) {
@@ -549,7 +548,6 @@ export default {
           }
         }
       });
-    }
   },
 };
 </script>

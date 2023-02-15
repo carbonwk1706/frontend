@@ -117,8 +117,11 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 .container-size {
   max-width: 1100px;
+}
+:root{
+  --v-scrollbar-offset: 0px !important;
 }
 </style>
