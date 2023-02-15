@@ -183,7 +183,7 @@ export default {
         allowOutsideClick: false,
         width: "500",
         text: text,
-        icon: "error",
+        icon: "warning",
         button: "OK",
       });
     },
@@ -201,32 +201,7 @@ export default {
     resetForm(){
       this.formEdit.username = "",
       this.formEdit.email= ""
-
     },
-    // alertUsername() {
-    //   this.showConfirmDialog =false ;
-    //   this.$swal({
-    //     confirmButtonColor: "#00af70",
-    //     allowOutsideClick: false,
-    //     width: "500",
-    //     text: "Username and Email already exists ",
-    //     icon: "error",
-    //     button: "OK",
-    //   }
-    //   );
-    // },
-    // alertEmail() {
-    //   this.showConfirmDialog =false ;
-    //   this.$swal({
-    //     confirmButtonColor: "#00af70",
-    //     allowOutsideClick: false,
-    //     width: "500",
-    //     text: "Username and Email already exists ",
-    //     icon: "error",
-    //     button: "OK",
-    //   }
-    //   );
-    // },
     hideDialog() {
       this.resetForm();
       this.$emit("update:showConfirmDialog", false);
