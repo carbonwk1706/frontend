@@ -137,7 +137,7 @@ export default {
       selectedBankAccount: null,
       selectedCoin: null,
       user: [],
-      result: null
+      resultSelect: null,
     };
   },
   methods: {
@@ -163,8 +163,16 @@ export default {
       return this.$store.getters["auth/getId"];
     },
     addCoin() {
-      console.log(this.selectedBankAccount);
-      console.log(this.selectedCoin);
+      if(this.selectedCoin === "กำหนดเอง"){
+        console.log("OK")
+        return
+      }else{
+        this.resultSelect = {
+        bankAccount: this.selectedBankAccount,
+        coin: this.selectedCoin,
+      };
+      console.log(this.resultSelect)
+      }
     },
     async fetchApi() {
       const res = await api.get("/profile/" + this.getId());
@@ -180,18 +188,18 @@ export default {
 
 <style scoped>
 .highlight {
-  box-shadow: 0 0 15px #37c13d;
+  box-shadow: 0 0 15px #ffea20;
   transition: box-shadow 0.2s ease-in-out;
 }
 
 .highlight:hover {
-  box-shadow: 0 0 30px #37c13d;
+  box-shadow: 0 0 30px #ffea20;
 }
 .headborder {
   display: flex;
   justify-content: center;
   width: 300px;
-  border: 1px solid #00af70;
+  border: 1px solid #ffb100;
   padding: 10px;
 }
 .v-card-text {
@@ -201,7 +209,7 @@ export default {
   height: 100%;
 }
 .button {
-  background-color: #37c13d;
+  background-color: #f0a04b;
   color: white;
   height: 50px;
   width: 300px;
