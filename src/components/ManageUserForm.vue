@@ -3,7 +3,6 @@
     transition="dialog-top-transition"
     v-model="isVisible"
     style="z-index: 900"
-    class="pa-0"
     max-width="500px"
     persistent
   >

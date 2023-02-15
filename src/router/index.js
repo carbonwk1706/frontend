@@ -113,6 +113,11 @@ const routes = [
     path: '/usertable/:id',
     name: 'edituser',
     component: () => import('../views/EditUserForm.vue')
+  },
+  {
+    path: '/checkout',
+    name: 'checkout',
+    component: () => import('../components/Shop/Checkout.vue')
   }
 ]
 

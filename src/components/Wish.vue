@@ -5,7 +5,7 @@
       <v-icon>mdi-chevron-right</v-icon>
       <span class="menu-link-current">รายการที่อยากได้</span>
     </div>
-    <div class="mb-5 d-flex justify-center">
+    <div class="mt-6 mb-5 d-flex justify-center">
       <h1>รายการที่อยากได้</h1>
     </div>
     <div v-if="wishList.length === 0 || wishList === null">
@@ -31,7 +31,7 @@
       <div class="mb-5 d-flex justify-start">
         <h3>รายการที่อยากได้</h3>
       </div>
-      <hr class="mb-5" />
+      <v-divider class="mb-5" ></v-divider>
       <v-row>
         <v-col v-for="(item, index) in wishList" :key="index">
           <v-card
@@ -61,7 +61,7 @@
                 ฿ {{ item.price }}
               </v-btn>
               <v-btn v-else color="success" class="success" disabled>
-                ฿ {{ item.price }}
+                มีแล้ว
               </v-btn>
             </v-row>
           </v-card>
@@ -70,7 +70,7 @@
     </div>
   </v-container>
 
-  <v-dialog v-model="showModal" class="pa-0" max-width="500px">
+  <v-dialog v-model="showModal" max-width="500px">
     <v-card max-width="400px" class="pa-4">
       <div class="d-flex justify-end pa-0">
         <v-icon @click="hideModal">mdi-close</v-icon>
@@ -177,7 +177,7 @@ export default {
             confirmButtonColor: "#00af70",
             allowOutsideClick: false,
             width: "500",
-            text: "คุณมีสินค้านี้ในตะกร้าแล้ว",
+            text: "คุณมีหนังสือนี้ในตะกร้าแล้ว",
             icon: "warning",
             button: "OK",
           });
@@ -185,16 +185,6 @@ export default {
           this.showModal = true;
           this.getCartList();
         }
-      } else {
-        this.$swal({
-          scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
-          allowOutsideClick: false,
-          width: "500",
-          text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
-          icon: "warning",
-          button: "OK",
-        });
       }
     },
     async getMyBook() {
