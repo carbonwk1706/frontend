@@ -1,25 +1,33 @@
 <template>
-  <h1 class="text-center ma-8">ชำระเงิน</h1>
-  <span>สรุปรายการสั่งซื้ออีบุ๊ค {{ cartList.length }} รายการ</span>
+  <h1 class="text-center mt-6 mb-6">ชำระเงิน</h1>
   <v-container>
-    <v-row
-      class="d-flex flex-row align-center mt-3"
-      v-for="(item, index) in cartList"
-      :key="index"
-    >
-      <v-divider v-if="index === 0"></v-divider>
-      <v-col cols="12" class="d-flex flex-row align-center pa-0 mb-3 mt-3">
-        <span>{{ index + 1 }}. {{ item.product.name }}</span>
-        <v-spacer></v-spacer>
-        <span class="text-price">฿ {{ item.product.price }}</span>
-      </v-col>
-      <v-divider></v-divider>
-    </v-row>
+    <span>สรุปรายการสั่งซื้ออีบุ๊ค {{ cartList.length }} รายการ</span>
+    <v-divider class="mt-3 mb-6"></v-divider>
+
+    <v-card class="card px-12 py-6">
+      <v-row
+        class="d-flex flex-row align-center"
+        v-for="(item, index) in cartList"
+        :key="index"
+      >
+        <v-col cols="12" class="d-flex flex-row align-center pa-0 mb-3 mt-3">
+          <v-row>
+            <v-col cols="6" class="d-flex justify-start"
+            ><span>{{ index + 1 }}. {{ item.product.name }}</span></v-col
+          >
+          <v-col cols="6" class="d-flex justify-end"
+            ><span class="text-price">฿ {{ item.product.price }}</span></v-col
+          >
+          </v-row>
+          
+        </v-col>
+      </v-row>
+    </v-card>
   </v-container>
-  <p class="back-choose-book text-center mt-6" @click="goToCartList">
+  <p class="back-cart text-center mt-6" @click="goToCartList">
     กลับไปแก้ไขรายการ
   </p>
-  <v-card class="mt-6 card-bg">
+  <v-card class="mt-6 card">
     <v-container>
       <v-row>
         <v-col>
@@ -61,8 +69,8 @@ export default {
         console.log("ซื้อได้แล้วจ้า");
       }
     },
-    goToCartList(){
-      router.push("/cart")
+    goToCartList() {
+      router.push("/cart");
     },
     getCartList() {
       api.get("/cart/" + this.getId()).then((result) => {
@@ -97,9 +105,12 @@ export default {
   color: white;
   background-color: #00af70;
 }
-.back-choose-book {
+.back-cart {
   font-size: 14px;
   color: #5a5a5a;
   cursor: pointer;
+}
+.card {
+  background-color: #f6f6f6;
 }
 </style>
