@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="herdName">{{ book.name }}</div>
-    <v-row>
+    <v-row v-if="checkBook">
       <v-col class="d-flex justify-end">
         <v-img :src="book.imageBook" max-height="360" max-width="360" />
       </v-col>
@@ -32,6 +32,32 @@
               @click="addWishlist(book)"
             >
               เพิ่มรายการอยากได้
+            </v-btn>
+          </v-row>
+        </v-col>
+      </v-col>
+    </v-row>
+
+    <v-row v-else>
+      <v-col class="d-flex justify-end">
+        <v-img :src="book.imageBook" max-height="360" max-width="360" />
+      </v-col>
+      <v-col class="description">
+        <v-col>
+          <v-row>โดย {{ book.author }}</v-row>
+          <br />
+          <v-row>สำนักพิมพ์ {{ book.publisher }}</v-row>
+          <br />
+          <v-row>หมวดหมู่ {{ book.category }}</v-row>
+          <br />
+          <v-row>
+            <v-btn
+              color="success"
+              rounded
+              width="160"
+              @click="readBook"
+            >
+              อ่าน
             </v-btn>
           </v-row>
         </v-col>
@@ -99,6 +125,7 @@ export default {
       book: [],
       wishStutas: true,
       showModal: false,
+      checkBook: true
     };
   },
   methods: {
@@ -220,6 +247,17 @@ export default {
         this.$store.dispatch("cartList/setCartList", this.cartList);
       });
     },
+    async hasBook(){
+      const res = await api.post("/checkBook/" + this.getId() + "/books/" + this.$route.params.id) 
+      if(res.status === 200 && res.data.message === "User has this book"){
+        this.checkBook = false
+      }else if(res.status === 200 && res.data.message === "User does not have this book"){
+        this.checkBook = true
+      }
+    },
+    readBook(){
+      alert("อ่านหนังสือ")
+    }
   },
   computed: {
     isLogin() {
@@ -228,6 +266,9 @@ export default {
   },
   mounted() {
     this.getBookDetail();
+    if(this.isLogin){
+      this.hasBook();
+    }
   },
 };
 </script>
