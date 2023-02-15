@@ -54,6 +54,34 @@
       </div>
     </div>
   </v-container>
+
+  <v-dialog
+    v-model="showConfirm"
+    max-width="500"
+    persistent
+    style="z-index: 900"
+  >
+    <v-card>
+      <div class="d-flex justify-end pa-1">
+        <v-icon @click="toggleShowModalConfirm">mdi-close</v-icon>
+      </div>
+      <v-card-title class="text-center font-text">
+        ระบุจำนวน Coin ที่ต้องการ
+      </v-card-title>
+      <div class="pa-3 center-loading">
+        <v-text-field
+          label="ระบุจำนวน Coin ที่ต้องการ"
+          v-model="selectedCoin"
+          variant="outlined"
+        ></v-text-field>
+      </div>
+      <v-card-actions class="center">
+        <v-btn color="white" class="btn-bg" text @click="addCoin">
+          ยืนยัน
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -138,6 +166,7 @@ export default {
       selectedCoin: null,
       user: [],
       resultSelect: null,
+      showConfirm: false,
     };
   },
   methods: {
@@ -153,30 +182,36 @@ export default {
       });
     },
     selectCoin(item) {
+      if (item.coin === "กำหนดเอง" && this.showConfirm === false) {
+        this.selectedCoin = null;
+        this.showConfirm = !this.showConfirm;
+        return;
+      }else{
       this.coin.forEach((c) => (c.isClicked = false));
       item.isClicked = true;
       this.firstDivClicked = true;
       this.coinIsClicked = true;
       this.selectedCoin = item.coin;
+      }
+      
     },
     getId() {
       return this.$store.getters["auth/getId"];
     },
     addCoin() {
-      if(this.selectedCoin === "กำหนดเอง"){
-        console.log("OK")
-        return
-      }else{
-        this.resultSelect = {
+      this.resultSelect = {
         bankAccount: this.selectedBankAccount,
-        coin: this.selectedCoin,
+        coin: parseInt(this.selectedCoin),
       };
-      console.log(this.resultSelect)
-      }
+      this.showConfirm = false
+      console.log(this.resultSelect);
     },
     async fetchApi() {
       const res = await api.get("/profile/" + this.getId());
       this.user = res.data.user;
+    },
+    toggleShowModalConfirm() {
+      this.showConfirm = !this.showConfirm;
     },
   },
   computed: {},
@@ -220,5 +255,17 @@ export default {
   height: 50px;
   width: 300px;
   text-align: center;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-bg {
+  background-color: #f0a04b;
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 10px;
+  max-width: 120px;
 }
 </style>
