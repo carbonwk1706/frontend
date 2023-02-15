@@ -108,6 +108,16 @@ const routes = [
     name: 'edituser',
     component: () => import('../views/EditUserForm.vue')
   }
+  ,
+  {
+    path: '/admintable/:id',
+    name: 'editadmin',
+    component: () => import('../views/EditAdminForm.vue')
+  },{
+    path: '/historyadmin',
+    name: 'historyadmin',
+    component: () => import('../views/HistoryAdmin.vue')
+  },
 ]
 
 const router = createRouter({

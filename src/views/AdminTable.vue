@@ -84,7 +84,7 @@ export default {
       });
     },
     editUser(user) {
-      this.$router.push(`/usertable/${user._id}`);
+      this.$router.push(`/admintable/${user._id}`);
     },
     updateUser(updatedUser) {
       api.put("/users/" + updatedUser._id, updatedUser).then((result) => {
