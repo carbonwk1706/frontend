@@ -9,7 +9,7 @@
   <div v-if="cartList.length == 0 || cartList === null">
     <v-divider></v-divider>
     <div class="noBook" v-if="cartList.length == 0 || cartList === null">
-      ไม่พบสิ้นค้าในตะกร้า
+      <span>ไม่พบสิ้นค้าในตะกร้า</span>
     </div>
   </div>
   <div v-else>
