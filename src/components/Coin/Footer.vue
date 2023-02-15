@@ -1,6 +1,6 @@
 <template>
-  <v-footer class="footer-bg d-flex flex-row pa-10 mt-12" max-width="auto">
-    <v-container class="container-max-width">
+  <v-footer class="footer-bg d-flex flex-row" max-width="auto">
+    <v-container class="container-max-width pa-0">
       <div class="center">Copyright 2023 Ebook coin . All rights reserved.</div>
     </v-container>
   </v-footer>

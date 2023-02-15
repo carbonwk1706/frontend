@@ -3,7 +3,6 @@
     <v-btn icon @click="goToHome">
       <v-icon>mdi-chevron-left</v-icon>
     </v-btn>
-    <v-spacer></v-spacer>
 
     <v-toolbar-title class="text-start font-text">EBOOK-COIN</v-toolbar-title>
     <v-spacer></v-spacer>
@@ -51,7 +50,6 @@
         </v-card-text>
       </v-card>
     </v-menu>
-    <v-spacer></v-spacer>
   </v-toolbar>
 </template>
 

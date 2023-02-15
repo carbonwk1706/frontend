@@ -252,7 +252,8 @@ export default {
   text-align: center;
 }
 .buttonDis {
-  color: gray;
+  background-color: #CCCCCC;
+  color: white;
   height: 50px;
   width: 300px;
   text-align: center;
@@ -266,7 +267,6 @@ export default {
   background-color: #f0a04b;
   width: 100%;
   padding: 5px;
-  margin-bottom: 10px;
   max-width: 120px;
 }
 </style>
