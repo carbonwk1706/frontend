@@ -53,21 +53,16 @@
             </v-card-subtitle>
             <v-row class="d-flex justify-end ma-3">
               <v-btn
-                v-if="checkHaveBook"
+                v-if="!checkHaveBook(item)"
                 color="success"
                 class="success"
                 @click.stop="addItem(item)"
               >
                 ฿ {{ item.price }}
               </v-btn>
-              <v-btn
-              v-else
-              color="success"
-              class="success"
-              disabled
-            >
-              ฿ {{ item.price }}
-            </v-btn>
+              <v-btn v-else color="success" class="success" disabled>
+                ฿ {{ item.price }}
+              </v-btn>
             </v-row>
           </v-card>
         </v-col>
@@ -218,15 +213,16 @@ export default {
         this.$store.dispatch("cartList/setCartList", this.cartList);
       });
     },
-
   },
   computed: {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
     },
     checkHaveBook() {
-    return this.myBook.some(book => book._id === this.wishList._id)
-  }
+    return (item) => {
+      return this.myBook.some((book) => book._id === item._id);
+    };
+  },
   },
   mounted() {
     if (this.isLogin) {
