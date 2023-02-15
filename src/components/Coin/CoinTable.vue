@@ -176,24 +176,25 @@ export default {
       this.firstDivClicked = true;
       this.bankIsClicked = true;
       this.selectedBankAccount = item.initial;
-      window.scrollTo({
-        top: document.body.scrollHeight,
-        behavior: "smooth",
-      });
+      setTimeout(() => {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth",
+        });
+      }, 100);
     },
     selectCoin(item) {
       if (item.coin === "กำหนดเอง" && this.showConfirm === false) {
         this.selectedCoin = null;
         this.showConfirm = !this.showConfirm;
         return;
-      }else{
-      this.coin.forEach((c) => (c.isClicked = false));
-      item.isClicked = true;
-      this.firstDivClicked = true;
-      this.coinIsClicked = true;
-      this.selectedCoin = item.coin;
+      } else {
+        this.coin.forEach((c) => (c.isClicked = false));
+        item.isClicked = true;
+        this.firstDivClicked = true;
+        this.coinIsClicked = true;
+        this.selectedCoin = item.coin;
       }
-      
     },
     getId() {
       return this.$store.getters["auth/getId"];
@@ -203,7 +204,7 @@ export default {
         bankAccount: this.selectedBankAccount,
         coin: parseInt(this.selectedCoin),
       };
-      this.showConfirm = false
+      this.showConfirm = false;
       console.log(this.resultSelect);
     },
     async fetchApi() {
