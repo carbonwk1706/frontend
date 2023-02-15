@@ -161,7 +161,7 @@ export default {
             confirmButtonColor: "#00af70",
             allowOutsideClick: false,
             width: "500",
-            text: "คุณมีสินค้านี้ในตะกร้าแล้ว",
+            text: "คุณมีหนังสือนี้ในตะกร้าแล้ว",
             icon: "warning",
             button: "OK",
           });

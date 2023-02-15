@@ -61,7 +61,7 @@
                 ฿ {{ item.price }}
               </v-btn>
               <v-btn v-else color="success" class="success" disabled>
-                ฿ {{ item.price }}
+                มีแล้ว
               </v-btn>
             </v-row>
           </v-card>
@@ -177,7 +177,7 @@ export default {
             confirmButtonColor: "#00af70",
             allowOutsideClick: false,
             width: "500",
-            text: "คุณมีสินค้านี้ในตะกร้าแล้ว",
+            text: "คุณมีหนังสือนี้ในตะกร้าแล้ว",
             icon: "warning",
             button: "OK",
           });
@@ -185,16 +185,6 @@ export default {
           this.showModal = true;
           this.getCartList();
         }
-      } else {
-        this.$swal({
-          scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
-          allowOutsideClick: false,
-          width: "500",
-          text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
-          icon: "warning",
-          button: "OK",
-        });
       }
     },
     async getMyBook() {
