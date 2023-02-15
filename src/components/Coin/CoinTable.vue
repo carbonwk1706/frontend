@@ -1,10 +1,16 @@
 <template>
   <v-container class="pa-5">
-    <div class="d-flex justify-center">My coin: {{ getCoin }}</div>
+    <div class="d-flex justify-center">
+      <div class="headborder">My coin: {{ user.coin }}</div>
+    </div>
     <div>
       <div class="ma-10">กรุณาเลือกช่องทางการเติม coin</div>
       <v-row row justify="space-around">
         <v-col
+          xs12
+          sm6
+          md4
+          lg3
           cols="3"
           v-for="item in listBankAccout"
           :key="item.listBankAccout"
@@ -37,41 +43,54 @@
           </v-card>
         </v-col>
       </v-row>
+      <div
+        class="d-flex justify-center ma-10"
+        v-if="bankIsClicked && coinIsClicked"
+      >
+        <v-btn class="button" @click="addCoin">ยืนยัน</v-btn>
+      </div>
+      <div class="d-flex justify-center ma-10" v-else>
+        <v-btn class="buttonDis" disabled>ยืนยัน</v-btn>
+      </div>
     </div>
   </v-container>
+
+  <v-dialog
+    v-model="showConfirm"
+    max-width="500"
+    persistent
+    style="z-index: 900"
+  >
+    <v-card>
+      <div class="d-flex justify-end pa-1">
+        <v-icon @click="toggleShowModalConfirm">mdi-close</v-icon>
+      </div>
+      <v-card-title class="text-center font-text">
+        ระบุจำนวน Coin ที่ต้องการ
+      </v-card-title>
+      <div class="pa-3 center-loading">
+        <v-text-field
+          label="ระบุจำนวน Coin ที่ต้องการ"
+          v-model="selectedCoin"
+          variant="outlined"
+        ></v-text-field>
+      </div>
+      <v-card-actions class="center">
+        <v-btn color="white" class="btn-bg" text @click="addCoin">
+          ยืนยัน
+        </v-btn>
+      </v-card-actions>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
+import api from "@/services/api";
+
 export default {
   name: "CoinTable",
   data() {
     return {
-      coin: [
-        {
-          coin: "20",
-          isClicked: false,
-        },
-        {
-          coin: "50",
-          isClicked: false,
-        },
-        {
-          coin: "100",
-          isClicked: false,
-        },
-        {
-          coin: "250",
-          isClicked: false,
-        },
-        {
-          coin: "500",
-          isClicked: false,
-        },
-        {
-          coin: "กำหนดเอง",
-          isClicked: false,
-        },
-      ],
       listBankAccout: [
         {
           initial: "BBL",
@@ -114,41 +133,109 @@ export default {
           isClicked: false,
         },
       ],
+      coin: [
+        {
+          coin: 20,
+          isClicked: false,
+        },
+        {
+          coin: 50,
+          isClicked: false,
+        },
+        {
+          coin: 100,
+          isClicked: false,
+        },
+        {
+          coin: 250,
+          isClicked: false,
+        },
+        {
+          coin: 500,
+          isClicked: false,
+        },
+        {
+          coin: "กำหนดเอง",
+          isClicked: false,
+        },
+      ],
       firstDivClicked: false,
+      bankIsClicked: false,
+      coinIsClicked: false,
+      selectedBankAccount: null,
+      selectedCoin: null,
+      user: [],
+      resultSelect: null,
+      showConfirm: false,
     };
   },
   methods: {
-    selectCoin(item) {
-      this.coin.forEach((c) => (c.isClicked = false));
-      item.isClicked = true;
-      this.firstDivClicked = true;
-    },
     selectBank(item) {
       this.listBankAccout.forEach((c) => (c.isClicked = false));
       item.isClicked = true;
       this.firstDivClicked = true;
+      this.bankIsClicked = true;
+      this.selectedBankAccount = item.initial;
+      setTimeout(() => {
+        window.scrollTo({
+          top: document.body.scrollHeight,
+          behavior: "smooth",
+        });
+      }, 100);
+    },
+    selectCoin(item) {
+      if (item.coin === "กำหนดเอง" && this.showConfirm === false) {
+        this.selectedCoin = null;
+        this.showConfirm = !this.showConfirm;
+        return;
+      } else {
+        this.coin.forEach((c) => (c.isClicked = false));
+        item.isClicked = true;
+        this.firstDivClicked = true;
+        this.coinIsClicked = true;
+        this.selectedCoin = item.coin;
+      }
+    },
+    getId() {
+      return this.$store.getters["auth/getId"];
+    },
+    addCoin() {
+      this.resultSelect = {
+        bankAccount: this.selectedBankAccount,
+        coin: parseInt(this.selectedCoin),
+      };
+      this.showConfirm = false;
+      console.log(this.resultSelect);
+    },
+    async fetchApi() {
+      const res = await api.get("/profile/" + this.getId());
+      this.user = res.data.user;
+    },
+    toggleShowModalConfirm() {
+      this.showConfirm = !this.showConfirm;
     },
   },
-  computed: {
-    getCoin() {
-      return this.$store.getters["auth/getCoin"];
-    },
+  computed: {},
+  mounted() {
+    this.fetchApi();
   },
 };
 </script>
 
 <style scoped>
 .highlight {
-  box-shadow: 0 0 15px #ffa500;
+  box-shadow: 0 0 15px #ffea20;
   transition: box-shadow 0.2s ease-in-out;
 }
 
 .highlight:hover {
-  box-shadow: 0 0 30px #ffa500;
+  box-shadow: 0 0 30px #ffea20;
 }
 .headborder {
+  display: flex;
+  justify-content: center;
   width: 300px;
-  border: 5px solid #ff5733;
+  border: 1px solid #ffb100;
   padding: 10px;
 }
 .v-card-text {
@@ -156,5 +243,31 @@ export default {
   justify-content: center;
   align-items: center;
   height: 100%;
+}
+.button {
+  background-color: #f0a04b;
+  color: white;
+  height: 50px;
+  width: 300px;
+  text-align: center;
+}
+.buttonDis {
+  background-color: #CCCCCC;
+  color: white;
+  height: 50px;
+  width: 300px;
+  text-align: center;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.btn-bg {
+  background-color: #f0a04b;
+  width: 100%;
+  padding: 5px;
+  margin-bottom: 16px;
+  max-width: 120px;
 }
 </style>

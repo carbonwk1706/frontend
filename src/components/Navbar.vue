@@ -146,7 +146,7 @@
       class="header_action px-2 mx-2 v-btn--outline"
       color="white"
       @click="goToWishlist"
-      v-if="getWishListCount === 0"
+      v-if="getWishListCount === 0 || !isLogin"
     >
       <v-icon class="mr-2">mdi-heart</v-icon>
       <span class="font-text">รายการโปรด</span>
@@ -167,7 +167,7 @@
       class="header_action px-2 mx-2 v-btn--outline"
       color="white"
       @click="goToCart"
-      v-if="getCartListCount === 0"
+      v-if="getCartListCount === 0 || !isLogin"
     >
       <v-icon class="mr-2">mdi-cart</v-icon>
       <span class="font-text">ตะกร้าสินค้า</span>
@@ -403,15 +403,6 @@ import api from "@/services/api";
 import router from "../router";
 import Login from "../views/Login.vue";
 
-window.addEventListener("scroll", function () {
-  const toolbar2 = document.getElementById("bottom-nav");
-  if (window.scrollY > 50) {
-    toolbar2.classList.add("hide-nav");
-  } else {
-    toolbar2.classList.remove("hide-nav");
-  }
-});
-
 export default {
   components: {
     Login,
@@ -495,10 +486,10 @@ export default {
     },
     getCartList() {
       api.get("/cart/" + this.getId()).then((result) => {
-        this.cartList = result.data.items
+        this.cartList = result.data.items;
         this.$store.dispatch("cartList/setCartList", this.cartList);
       });
-    }
+    },
   },
   computed: {
     isLogin() {
@@ -547,6 +538,16 @@ export default {
       this.getWishList();
       this.getCartList();
     }
+      window.addEventListener("scroll", function () {
+        const toolbar2 = document.getElementById("bottom-nav");
+        if (toolbar2) {
+          if (window.scrollY > 50) {
+            toolbar2.classList.add("hide-nav");
+          } else {
+            toolbar2.classList.remove("hide-nav");
+          }
+        }
+      });
   },
 };
 </script>
