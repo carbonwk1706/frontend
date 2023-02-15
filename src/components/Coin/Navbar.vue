@@ -10,7 +10,7 @@
 
     <v-menu offset-y>
       <template v-slot:activator="{ props }">
-        <v-btn class="header_action" v-bind="props">
+        <v-btn v-bind="props">
           <v-icon class="mr-2">mdi-account</v-icon>
           <span class="font-text"> {{ user._id }}</span>
           <v-icon>mdi-menu-down</v-icon>
@@ -105,4 +105,5 @@ export default {
   top: 0;
   z-index: 1;
 }
+
 </style>
