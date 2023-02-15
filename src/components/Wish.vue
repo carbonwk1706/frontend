@@ -21,7 +21,7 @@
         <p>ยังไม่มีรายการที่อยากได้</p>
       </div>
       <div>
-        <p class="text-center" style="color:#5a5a5a;">
+        <p class="text-center" style="color: #5a5a5a">
           คุณสามารถบันทึกหนังสือเล่มที่อยากได้แต่ยังไม่พร้อมซื้อ โดยกดปุ่ม
           “อยากได้” ในหน้าดูรายละเอียดหนังสือ
         </p>
@@ -34,7 +34,11 @@
       <hr class="mb-5" />
       <v-row>
         <v-col v-for="(item, index) in wishList" :key="index">
-          <v-card class="mx-auto" max-width="180" @click="showDetail(item)">
+          <v-card
+            class="mx-auto cardHover"
+            max-width="180"
+            @click="showDetail(item)"
+          >
             <v-img :src="item.imageBook" height="250px"
               ><v-icon
                 size="40"
@@ -49,12 +53,21 @@
             </v-card-subtitle>
             <v-row class="d-flex justify-end ma-3">
               <v-btn
+                v-if="checkHaveBook"
                 color="success"
                 class="success"
                 @click.stop="addItem(item)"
               >
                 ฿ {{ item.price }}
               </v-btn>
+              <v-btn
+              v-else
+              color="success"
+              class="success"
+              disabled
+            >
+              ฿ {{ item.price }}
+            </v-btn>
             </v-row>
           </v-card>
         </v-col>
@@ -62,7 +75,6 @@
     </div>
   </v-container>
 
-  
   <v-dialog v-model="showModal" class="pa-0" max-width="500px">
     <v-card max-width="400px" class="pa-4">
       <div class="d-flex justify-end pa-0">
@@ -121,27 +133,28 @@ export default {
   data() {
     return {
       wishList: [],
-      showModal: false
+      myBook: [],
+      showModal: false,
     };
   },
   methods: {
-    goToProfile(){
-      router.push("/profile")
+    goToProfile() {
+      router.push("/profile");
     },
-    goToHome(){
-      this.showModal = false
-      router.push("/")
+    goToHome() {
+      this.showModal = false;
+      router.push("/");
     },
-    goToCart(){
-      this.showModal = false
-      router.push("/cart")
+    goToCart() {
+      this.showModal = false;
+      router.push("/cart");
     },
-    goToCoin(){
-      this.showModal = false
-      router.push("/coin")
+    goToCoin() {
+      this.showModal = false;
+      router.push("/coin");
     },
-    hideModal(){
-      this.showModal = !this.showModal
+    hideModal() {
+      this.showModal = !this.showModal;
     },
     async getWishList() {
       const res = await api.get("/wishlist/" + this.getId());
@@ -174,7 +187,7 @@ export default {
             button: "OK",
           });
         } else {
-          this.showModal = true
+          this.showModal = true;
           this.getCartList();
         }
       } else {
@@ -189,6 +202,10 @@ export default {
         });
       }
     },
+    async getMyBook() {
+      const res = await api.get("/inventory/" + this.getId());
+      this.myBook = res.data;
+    },
     showDetail(item) {
       this.$router.push(`/book/${item._id}`);
     },
@@ -201,21 +218,30 @@ export default {
         this.$store.dispatch("cartList/setCartList", this.cartList);
       });
     },
+
   },
   computed: {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
     },
+    checkHaveBook() {
+    return this.myBook.some(book => book._id === this.wishList._id)
+  }
   },
   mounted() {
     if (this.isLogin) {
       this.getWishList();
+      this.getMyBook();
     }
   },
 };
 </script>
 
 <style scoped>
+.cardHover:hover {
+  border: 1px solid #00af70;
+  cursor: pointer;
+}
 .noWish {
   display: flex;
   justify-content: center;
@@ -237,12 +263,12 @@ export default {
 .v-btn.success:hover {
   background-color: gray !important;
 }
-.menu-link{
+.menu-link {
   color: #5a5a5a;
   font-size: 14px;
   cursor: pointer;
 }
-.menu-link-current{
+.menu-link-current {
   color: #5a5a5a;
   font-size: 14px;
 }

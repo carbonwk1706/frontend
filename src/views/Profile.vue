@@ -254,7 +254,9 @@ export default {
     goToWishlist() {
       router.push("/wishlist");
     },
-    goToBookcase() {},
+    goToBookcase() {
+      router.push("/mybook")
+    },
     goToHistoryBuy() {},
     firstName() {
       return this.user.firstName ? this.user.firstName : "ไม่ระบุ";
