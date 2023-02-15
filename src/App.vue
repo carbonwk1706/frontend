@@ -55,6 +55,9 @@ export default {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
     },
+    isLoginAdmin() {
+      return this.$store.getters["authAdmin/isLogin"];
+    },
     isNotFoundRoute() {
       return this.$route.matched.some(
         (record) => record.path === "/:pathMatch(.*)*"
@@ -85,7 +88,11 @@ export default {
       }
     },
     showFooter() {
-      if (!this.isLogin) {
+      const currenRoute = this.$route
+      if(currenRoute.meta.hideFooter){
+        return false
+      }else{
+        if (!this.isLogin) {
         return ![
           "/wishlist",
           "/profile",
@@ -103,9 +110,11 @@ export default {
           "/register",
           "/login",
           "/admin",
+          "/usertable/",
           "/usertable",
-          "/coin"
+          "/coin",
         ].includes(this.$route.path);
+      }
       }
     },
     showSidebar() {
@@ -121,7 +130,7 @@ export default {
 .container-size {
   max-width: 1100px;
 }
-:root{
+:root {
   --v-scrollbar-offset: 0px !important;
 }
 </style>

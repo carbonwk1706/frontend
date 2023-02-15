@@ -112,7 +112,10 @@ const routes = [
   {
     path: '/usertable/:id',
     name: 'edituser',
-    component: () => import('../views/EditUserForm.vue')
+    component: () => import('../views/EditUserForm.vue'),
+    meta: {
+      hideFooter: true
+    }
   },
   {
     path: '/checkout',
