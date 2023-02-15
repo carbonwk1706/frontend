@@ -403,17 +403,6 @@ import api from "@/services/api";
 import router from "../router";
 import Login from "../views/Login.vue";
 
-if (window.location.pathname !== "/coin") {
-  window.addEventListener("scroll", function () {
-    const toolbar2 = document.getElementById("bottom-nav");
-    if (window.scrollY > 50) {
-      toolbar2.classList.add("hide-nav");
-    } else {
-      toolbar2.classList.remove("hide-nav");
-    }
-  });
-}
-
 export default {
   components: {
     Login,
@@ -548,6 +537,16 @@ export default {
       this.fetchApi();
       this.getWishList();
       this.getCartList();
+    }
+    if (this.$route.path !== "/coin") {
+      window.addEventListener("scroll", function () {
+        const toolbar2 = document.getElementById("bottom-nav");
+        if (window.scrollY > 50) {
+          toolbar2.classList.add("hide-nav");
+        } else {
+          toolbar2.classList.remove("hide-nav");
+        }
+      });
     }
   },
 };
