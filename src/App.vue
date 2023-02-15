@@ -78,6 +78,12 @@ export default {
           "/login",
           "/admin",
           "/usertable",
+          "/wishlist",
+          "/profile",
+          "/registersell",
+          "/admintable",
+          "/approvetable",
+          "/historyadmin",
         ].includes(this.$route.path);
       } else {
         return ![
@@ -86,6 +92,10 @@ export default {
           "/login",
           "/admin",
           "/usertable",
+          "/approvetable",
+          "/admintable",
+          "/approvetable",
+          "/historyadmin",
           "/coin",
         ].includes(this.$route.path);
       }
@@ -106,6 +116,12 @@ export default {
           "/login",
           "/admin",
           "/usertable",
+          "/wishlist",
+          "/profile",
+          "/registersell",
+          "/admintable",
+          "/approvetable",
+          "/historyadmin",
         ].includes(this.$route.path);
       } else {
         return ![
@@ -115,13 +131,16 @@ export default {
           "/admin",
           "/usertable/",
           "/usertable",
+          "/admintable",
+          "/approvetable",
+          "/historyadmin",
           "/coin",
         ].includes(this.$route.path);
       }
       }
     },
     showSidebar() {
-      return ["/admin", "/usertable", "/admintable"].includes(this.$route.path);
+      return ["/admin", "/usertable", "/admintable","/approvetable","/historyadmin"].includes(this.$route.path);
     },
     showNavbarCoin() {
       return ["/coin"].includes(this.$route.path);
