@@ -486,8 +486,10 @@ export default {
     },
     getCartList() {
       api.get("/cart/" + this.getId()).then((result) => {
-        this.cartList = result.data.items;
-        this.$store.dispatch("cartList/setCartList", this.cartList);
+        if (result.data !== null) {
+          this.cartList = result.data.items;
+          this.$store.dispatch("cartList/setCartList", this.cartList);
+        }
       });
     },
   },
@@ -538,16 +540,16 @@ export default {
       this.getWishList();
       this.getCartList();
     }
-      window.addEventListener("scroll", function () {
-        const toolbar2 = document.getElementById("bottom-nav");
-        if (toolbar2) {
-          if (window.scrollY > 50) {
-            toolbar2.classList.add("hide-nav");
-          } else {
-            toolbar2.classList.remove("hide-nav");
-          }
+    window.addEventListener("scroll", function () {
+      const toolbar2 = document.getElementById("bottom-nav");
+      if (toolbar2) {
+        if (window.scrollY > 50) {
+          toolbar2.classList.add("hide-nav");
+        } else {
+          toolbar2.classList.remove("hide-nav");
         }
-      });
+      }
+    });
   },
 };
 </script>
