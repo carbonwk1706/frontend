@@ -5,7 +5,7 @@
       <v-icon>mdi-chevron-right</v-icon>
       <span class="menu-link-current">รายการที่อยากได้</span>
     </div>
-    <div class="mb-5 d-flex justify-center">
+    <div class="mt-6 mb-5 d-flex justify-center">
       <h1>รายการที่อยากได้</h1>
     </div>
     <div v-if="wishList.length === 0 || wishList === null">
@@ -31,7 +31,7 @@
       <div class="mb-5 d-flex justify-start">
         <h3>รายการที่อยากได้</h3>
       </div>
-      <hr class="mb-5" />
+      <v-divider class="mb-5" ></v-divider>
       <v-row>
         <v-col v-for="(item, index) in wishList" :key="index">
           <v-card

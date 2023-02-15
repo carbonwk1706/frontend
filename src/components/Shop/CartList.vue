@@ -1,5 +1,5 @@
 <template>
-  <div class="herdName">
+  <div class="herdName mt-6">
     <span>ตะกร้า</span>
   </div>
   <div>
@@ -27,9 +27,8 @@
             max-width="100"
           ></v-img>
           <div>
-            <span>{{ item.product.name }}</span>
-            <br />
-            <div>฿ {{ item.product.price }}</div>
+            <p>{{ item.product.name }}</p>
+            <p class="text-price">฿ {{ item.product.price }}</p>
           </div>
 
           <v-spacer></v-spacer>
@@ -49,11 +48,14 @@
         <v-row>
           <v-col>
             <div class="d-flex flex-row align-center justify-center mb-5">
-              ยอดชำระ ฿{{ getTotalPrice }}
+              <span style="font-size: 18px;" class="mr-2">ยอดชำระ</span>
+              <span class="text-total-price">
+                ฿{{ getTotalPrice }}
+              </span>
             </div>
             <div class="d-flex flex-row align-center justify-center">
-              <v-btn color="success" rounded width="200" @click="checkout"
-                >ชำระเงิน</v-btn
+              <v-btn class="btn-bg" rounded width="200" @click="goToCheckout"
+                ><span style="font-size: 18px;">ไปหน้าชำระเงิน</span></v-btn
               >
             </div>
           </v-col>
@@ -73,16 +75,8 @@ export default {
     };
   },
   methods: {
-    async checkout() {
-      const res = await api.post("/checkout/", {
-        userId: this.getId(),
-        items: this.cartList,
-      });
-      if (res.status === 201 && res.data.message === "not enough money") {
-        console.log("เงินไม่พอจ้า");
-      } else {
-        console.log("ซื้อได้แล้วจ้า");
-      }
+    goToCheckout(){
+      router.push("/checkout")
     },
     getCartList() {
       api.get("/cart/" + this.getId()).then((result) => {
@@ -141,7 +135,19 @@ export default {
   color: #00bf6c;
   cursor: pointer;
 }
+.text-price{
+  color: #5a5a5a;
+  font-size: 12px;
+}
+.text-total-price{
+  font-size: 20px;
+  font-weight: 700;
+}
 .card-bg {
   background-color: #f6f6f6;
+}
+.btn-bg {
+  color: white;
+  background-color: #00af70;
 }
 </style>
