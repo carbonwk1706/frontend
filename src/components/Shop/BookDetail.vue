@@ -38,10 +38,59 @@
       </v-col>
     </v-row>
   </v-container>
+
+  <v-dialog v-model="showModal" class="pa-0" max-width="500px">
+    <v-card max-width="400px" class="pa-4">
+      <div class="d-flex justify-end pa-0">
+        <v-icon @click="hideModal">mdi-close</v-icon>
+      </div>
+      <v-card-title primary-title class="text-center pa-1">
+        เพิ่มหนังสือลงตะกร้าแล้ว
+      </v-card-title>
+      <v-divider></v-divider>
+      <v-container class="pa-2">
+        <v-card-actions>
+          <v-btn
+            class="btn-bg"
+            color="success"
+            type="submit"
+            block
+            variant="outlined"
+            @click="goToHome"
+            >เลือกซื้อหนังสือเล่มอื่นต่อ
+          </v-btn>
+        </v-card-actions>
+        <v-card-actions>
+          <v-btn
+            class="btn-bg1"
+            type="submit"
+            block
+            variant="elevated"
+            @click="goToCart"
+            >ชำระเงิน
+          </v-btn>
+        </v-card-actions>
+      </v-container>
+      <v-divider></v-divider>
+      <v-container class="pa-2">
+        <v-card-actions>
+          <v-btn
+            class="btn-bg2"
+            type="submit"
+            block
+            variant="elevated"
+            @click="goToCoin"
+            >เติม COIN
+          </v-btn>
+        </v-card-actions>
+      </v-container>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
 import api from "@/services/api";
+import router from "@/router";
 
 export default {
   name: "BookDetail",
@@ -49,42 +98,52 @@ export default {
     return {
       book: [],
       wishStutas: true,
+      showModal: false,
     };
   },
   methods: {
+    goToHome(){
+      this.showModal = false
+      router.push("/")
+    },
+    goToCart(){
+      this.showModal = false
+      router.push("/cart")
+    },
+    goToCoin(){
+      this.showModal = false
+      router.push("/coin")
+    },
+    hideModal(){
+      this.showModal = !this.showModal
+    },
     wishProcess() {
       this.wishStutas = !this.wishStutas;
     },
     async addProduct(item) {
-      if(this.isLogin){
-        const res = await api.post("/cart/" + this.getId() + "/books/" + item._id);
-      if (
-        res.status === 200 &&
-        res.data.message === "You have this product in your cart"
-      ) {
-        this.$swal({
-          scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
-          allowOutsideClick: false,
-          width: "500",
-          text: "คุณมีสินค้านี้ในตะกร้าแล้ว",
-          icon: "warning",
-          button: "OK",
-        });
+      if (this.isLogin) {
+        const res = await api.post(
+          "/cart/" + this.getId() + "/books/" + item._id
+        );
+        if (
+          res.status === 200 &&
+          res.data.message === "You have this product in your cart"
+        ) {
+          this.$swal({
+            scrollbarPadding: false,
+            confirmButtonColor: "#00af70",
+            allowOutsideClick: false,
+            width: "500",
+            text: "คุณมีสินค้านี้ในตะกร้าแล้ว",
+            icon: "warning",
+            button: "OK",
+          });
+        } else {
+          this.showModal = true
+          this.getCartList();
+        }
       } else {
         this.$swal({
-          scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
-          allowOutsideClick: false,
-          width: "500",
-          text: "เพิ่มสินค้านี้ในตะกร้าสำเร็จ",
-          icon: "success",
-          button: "OK",
-        });
-        this.getCartList()
-      }
-    } else{
-      this.$swal({
           scrollbarPadding: false,
           confirmButtonColor: "#00af70",
           allowOutsideClick: false,
@@ -93,7 +152,7 @@ export default {
           icon: "warning",
           button: "OK",
         });
-    }
+      }
     },
     async addWishlist(item) {
       if (this.isLogin) {
@@ -130,7 +189,7 @@ export default {
         } catch (error) {
           console.log(error);
         }
-      }else{
+      } else {
         this.$swal({
           scrollbarPadding: false,
           confirmButtonColor: "#00af70",
@@ -157,10 +216,10 @@ export default {
     },
     getCartList() {
       api.get("/cart/" + this.getId()).then((result) => {
-        this.cartList = result.data.items
+        this.cartList = result.data.items;
         this.$store.dispatch("cartList/setCartList", this.cartList);
       });
-    }
+    },
   },
   computed: {
     isLogin() {
@@ -186,5 +245,21 @@ export default {
   font-size: 20px;
   font-weight: 500;
   margin-bottom: 30px;
+}
+.btn-bg {
+  border-radius: 40px;
+  font-size: 16px;
+}
+.btn-bg1 {
+  color: #fff;
+  background-color: #00af70;
+  border-radius: 40px;
+  font-size: 16px;
+}
+.btn-bg2 {
+  color: #fff;
+  background-color: #f58b1b;
+  border-radius: 40px;
+  font-size: 16px;
 }
 </style>

@@ -21,9 +21,62 @@
       </v-col>
     </v-row>
   </v-container>
+
+  <v-dialog
+    v-model="showModal"
+    class="pa-0"
+    max-width="500px"
+  >
+    <v-card max-width="400px" class="pa-4">
+      <div class="d-flex justify-end pa-0">
+        <v-icon @click="hideModal">mdi-close</v-icon>
+      </div>
+      <v-card-title primary-title class="text-center pa-1">
+        เพิ่มหนังสือลงตะกร้าแล้ว
+      </v-card-title>
+      <v-divider></v-divider>
+      <v-container class="pa-2">
+        <v-card-actions>
+          <v-btn
+            class="btn-bg"
+            color="success"
+            type="submit"
+            block
+            variant="outlined"
+            @click="goToHome"
+            >เลือกซื้อหนังสือเล่มอื่นต่อ
+          </v-btn>
+        </v-card-actions>
+        <v-card-actions>
+          <v-btn
+          class="btn-bg1"
+            type="submit"
+            block
+            variant="elevated"
+            @click="goToCart"
+            >ชำระเงิน
+          </v-btn>
+        </v-card-actions>
+      </v-container>
+      <v-divider></v-divider>
+      <v-container class="pa-2">
+        <v-card-actions>
+          <v-btn
+            class="btn-bg2"
+            type="submit"
+            block
+            variant="elevated"
+            @click="goToCoin"
+            >เติม COIN
+          </v-btn>
+        </v-card-actions>
+      </v-container>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
+import router from "@/router";
 import api from "@/services/api";
 
 export default {
@@ -31,9 +84,25 @@ export default {
   data() {
     return {
       books: [],
+      showModal: false
     };
   },
   methods: {
+    goToHome(){
+      this.showModal = false
+      router.push("/")
+    },
+    goToCart(){
+      this.showModal = false
+      router.push("/cart")
+    },
+    goToCoin(){
+      this.showModal = false
+      router.push("/coin")
+    },
+    hideModal(){
+      this.showModal = !this.showModal
+    },
     showDetail(item) {
       this.$router.push(`/book/${item._id}`);
     },
@@ -54,15 +123,7 @@ export default {
           button: "OK",
         });
       } else {
-        this.$swal({
-          scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
-          allowOutsideClick: false,
-          width: "500",
-          text: "เพิ่มสินค้านี้ในตะกร้าสำเร็จ",
-          icon: "success",
-          button: "OK",
-        });
+        this.showModal = true
         this.getCartList()
       }
     } else{
@@ -110,5 +171,22 @@ export default {
 .cardHover:hover {
   border: 1px solid #00af70;
   cursor: pointer;
+}
+
+.btn-bg {
+  border-radius: 40px;
+  font-size: 16px;
+}
+.btn-bg1 {
+  color: #fff;
+  background-color: #00af70;
+  border-radius: 40px;
+  font-size: 16px;
+}
+.btn-bg2 {
+  color: #fff;
+  background-color: #f58b1b;
+  border-radius: 40px;
+  font-size: 16px;
 }
 </style>
