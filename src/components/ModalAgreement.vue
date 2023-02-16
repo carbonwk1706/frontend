@@ -31,6 +31,7 @@
   </v-dialog>
 </template>
 <script>
+import router from '@/router';
 export default {
   methods: {
     noNewUser() {
@@ -48,7 +49,7 @@ export default {
         confirmButtonText: 'OK'
       }).then((result) => {
         if (result.value) {
-          window.location.reload();
+          router.push("/")
         }
       });
     },

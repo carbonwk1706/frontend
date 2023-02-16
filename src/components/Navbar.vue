@@ -575,19 +575,16 @@ export default {
   color: #ffff;
   position: fixed;
   top: 0px;
-  z-index: 1;
   width: 100%;
 }
 .middle-nav {
   position: fixed;
   top: 64px;
-  z-index: 1;
   width: 100%;
 }
 .bottom-nav-2 {
   position: fixed;
   top: 64px;
-  z-index: 1;
   width: 100%;
   transition: all 0s;
   transform: translateY(0%);
@@ -596,7 +593,6 @@ export default {
   position: fixed;
   top: 114px;
   width: 100%;
-  z-index: 1;
 }
 .center-loading {
   display: flex;

@@ -1,6 +1,6 @@
 <template>
   <v-app>
-    <v-app-bar :height="navHeight" elevation="0" v-if="showNavbar && !this.isNotFoundRoute">
+    <v-app-bar :height="navHeight" elevation="0" v-if="showNavbar && !this.isNotFoundRoute" style="z-index: 1;">
       <Navbar />
     </v-app-bar>
     <CoinNavbar v-if="showNavbarCoin && !this.isNotFoundRoute" />

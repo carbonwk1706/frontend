@@ -95,6 +95,8 @@
 <script>
 import api from "@/services/api";
 import Register from "./Register.vue";
+import router from "@/router";
+
 export default {
   components: {
     Register,
@@ -148,7 +150,7 @@ export default {
               this.hideLogin();
             }, 2000);
             setTimeout(() => {
-              window.location.reload();
+              router.push("/")
             }, 2000);
           } else {
             this.alertLogin();

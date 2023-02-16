@@ -51,6 +51,28 @@
       </v-card>
     </v-menu>
   </v-toolbar>
+
+  <v-dialog v-model="loading" max-width="500" persistent>
+    <v-card>
+      <v-card-title class="center">
+        <div class="img-size">
+          <v-img src="https://media.tenor.com/oGpz_hpmmTQAAAAi/cute.gif">
+          </v-img>
+        </div>
+      </v-card-title>
+      <div class="center-loading">
+        <v-progress-circular
+          v-if="loading"
+          :size="50"
+          :width="5"
+          indeterminate
+          color="#f58b1b"
+        ></v-progress-circular>
+      </div>
+      <v-card-text class="text-center">กำลังออกจากระบบ</v-card-text>
+    </v-card>
+  </v-dialog>
+
 </template>
 
 <script>
@@ -62,6 +84,7 @@ export default {
   data() {
     return {
       user: [],
+      loading: false,
     };
   },
   methods: {
@@ -78,9 +101,8 @@ export default {
         this.$store.dispatch("auth/logout");
         this.loading = false;
       }, 2000);
-      router.push("/");
       setTimeout(() => {
-        window.location.reload();
+        router.push("/");
       }, 2000);
     },
     goToAddCoin() {
@@ -103,8 +125,23 @@ export default {
 .app_bar {
   background-color: #f58b1b;
   color: #ffff;
-  top: 0;
-  z-index: 1;
 }
 
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.img-size {
+  width: 100px;
+}
+
+.font-text {
+  font-family: Prompt, sans-serif;
+}
+.center-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 </style>
