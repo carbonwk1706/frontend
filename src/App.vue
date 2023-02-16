@@ -1,8 +1,10 @@
 <template>
   <v-app>
-    <Navbar v-if="showNavbar && !this.isNotFoundRoute" />
-    <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
+    <v-app-bar :height="navHeight" elevation="0" v-if="showNavbar && !this.isNotFoundRoute">
+      <Navbar />
+    </v-app-bar>
     <CoinNavbar v-if="showNavbarCoin && !this.isNotFoundRoute" />
+    <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
     <v-main>
       <v-container class="container-size">
         <router-view />
@@ -28,10 +30,19 @@ export default {
     CoinNavbar,
     FooterCoin,
   },
+  data() {
+    return {
+      navHeight: 164,
+    };
+  },
   created() {
     window.addEventListener("storage", this.handleStorageChange);
+    window.addEventListener("scroll", this.handleScroll);
   },
   methods: {
+    handleScroll() {
+      this.navHeight = window.scrollY > 50 ? 114 : 164;
+    },
     handleStorageChange(event) {
       if (this.isLogin) {
         if (
