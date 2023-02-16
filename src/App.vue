@@ -41,7 +41,8 @@ export default {
   },
   methods: {
     handleScroll() {
-      this.navHeight = window.scrollY > 50 ? 114 : 164;
+      const isDialogOpen = document.body.classList.contains("dialog-open");
+      this.navHeight = isDialogOpen ? 114 : window.scrollY > 50 ? 114 : 164;
     },
     handleStorageChange(event) {
       if (this.isLogin) {
