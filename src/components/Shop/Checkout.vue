@@ -13,13 +13,12 @@
         <v-col cols="12" class="d-flex flex-row align-center pa-0 mb-3 mt-3">
           <v-row>
             <v-col cols="6" class="d-flex justify-start"
-            ><span>{{ index + 1 }}. {{ item.product.name }}</span></v-col
-          >
-          <v-col cols="6" class="d-flex justify-end"
-            ><span class="text-price">฿ {{ item.product.price }}</span></v-col
-          >
+              ><span>{{ index + 1 }}. {{ item.product.name }}</span></v-col
+            >
+            <v-col cols="6" class="d-flex justify-end"
+              ><span class="text-price">฿ {{ item.product.price }}</span></v-col
+            >
           </v-row>
-          
         </v-col>
       </v-row>
     </v-card>
@@ -38,8 +37,8 @@
             <span class="text-total-price"> ฿{{ getTotalPrice }} </span>
           </div>
           <div class="d-flex flex-row align-center justify-center">
-            <v-btn class="btn-bg" rounded width="200"
-              ><span style="font-size: 18px">ชำระเงิน</span></v-btn
+            <v-btn class="btn-bg" rounded width="200" @click="checkout"
+              ><span style="font-size: 18px" >ชำระเงิน</span></v-btn
             >
           </div>
         </v-col>
@@ -64,9 +63,34 @@ export default {
         items: this.cartList,
       });
       if (res.status === 201 && res.data.message === "not enough money") {
-        console.log("เงินไม่พอจ้า");
+        this.$swal({
+          scrollbarPadding: false,
+          confirmButtonColor: "#00af70",
+          cancelButtonColor: '#999999',
+          showCancelButton: true,
+          allowOutsideClick: false,
+          width: "500",
+          text: "จำนวน coin ของคุณไม่พอสำหรับชำระสินค้า",
+          icon: "warning",
+          confirmButtonText: "เติม COIN",
+          cancelButtonText: "ปิด",
+        }).then((result) => {
+          if (result.value) {
+            router.push("/coin")
+          }
+        });
       } else {
-        console.log("ซื้อได้แล้วจ้า");
+        this.$store.dispatch("cartList/setCartList", this.getCartList);
+        router.push("/mybook")
+        this.$swal({
+          scrollbarPadding: false,
+          confirmButtonColor: "#00af70",
+          allowOutsideClick: false,
+          width: "500",
+          text: "ซื้อสินค้าสำเร็จ",
+          icon: "success",
+          confirmButtonText: "ยืนยัน",
+        });
       }
     },
     goToCartList() {
