@@ -6,7 +6,7 @@
         <v-icon>mdi-chevron-right</v-icon>
         <span class="menu-link-current">ชั้นหนังสือของฉัน</span>
       </div>
-      <div class="mb-5 d-flex justify-center">
+      <div class="mt-6 mb-5 d-flex justify-center">
         <h1>ชั้นหนังสือของฉัน</h1>
       </div>
       <div v-if="myBook.length === 0 || myBook === null">
