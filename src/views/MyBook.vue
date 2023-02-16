@@ -1,5 +1,5 @@
 <template>
-  <Auth>
+  <Auth v-if="isLogin">
     <v-container class="grey lighten-5">
       <div>
         <span class="menu-link" @click="goToProfile">จัดการบัญชี</span>
