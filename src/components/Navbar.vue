@@ -549,7 +549,7 @@ export default {
           toolbar2.classList.add("hide-nav");
         } else if (window.scrollY > 50) {
           toolbar2.classList.add("hide-nav");
-        } else {
+        } else {  
           toolbar2.classList.remove("hide-nav");
         }
       }
@@ -573,25 +573,29 @@ export default {
 .app_bar {
   background-image: linear-gradient(#00af70, #37c13d);
   color: #ffff;
-  position: sticky;
-  top: 0;
+  position: fixed;
+  top: 0px;
   z-index: 1;
+  width: 100%;
 }
 .middle-nav {
-  position: sticky;
+  position: fixed;
   top: 64px;
   z-index: 1;
+  width: 100%;
 }
 .bottom-nav-2 {
-  position: sticky;
+  position: fixed;
   top: 64px;
   z-index: 1;
+  width: 100%;
   transition: all 0s;
   transform: translateY(0%);
 }
 .bottom-nav {
-  position: sticky;
+  position: fixed;
   top: 114px;
+  width: 100%;
   z-index: 1;
 }
 .center-loading {
@@ -621,4 +625,5 @@ export default {
   cursor: pointer;
   border-bottom: 3px solid #00af70;
 }
+
 </style>
