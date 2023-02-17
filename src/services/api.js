@@ -52,11 +52,7 @@ api.interceptors.response.use(
           });
           break;
         case 404:
-          store.dispatch("auth/logout");
-          router.replace({
-            path: "/",
-            query: { redirect: router.currentRoute.fullPath },
-          });
+          console.log("error")
           break;
         case 502:
           setTimeout(() => {

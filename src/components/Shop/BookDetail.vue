@@ -14,6 +14,9 @@
           <v-row>หมวดหมู่ {{ book.category }}</v-row>
           <br />
           <v-row>
+            <span v-if="book.ratingsCount > 0" class="text-rating-left">
+              {{ book.ratingsCount }}
+            </span>
             <v-rating
               v-model="book.rating"
               color="#5a5a5a"
@@ -24,9 +27,7 @@
               hover
               size="26"
             ></v-rating>
-            <span class="text-grey-lighten-1 text-caption">
-              ({{ book.rating }} Rating)
-            </span>
+            <span class="text-rating-right"> ({{ book.rating }} Rating) </span>
           </v-row>
           <br />
           <v-row class="mt-1">
@@ -67,6 +68,9 @@
           <v-row>หมวดหมู่ {{ book.category }}</v-row>
           <br />
           <v-row>
+            <span v-if="book.ratingsCount > 0" class="text-rating-left">
+              {{ book.rating }}
+            </span>
             <v-rating
               v-model="book.rating"
               color="#5a5a5a"
@@ -77,8 +81,8 @@
               hover
               size="26"
             ></v-rating>
-            <span class="text-grey-lighten-1 text-caption">
-              ({{ book.rating }} Rating)
+            <span class="text-rating-right">
+              ({{ book.ratingsCount }} Rating)
             </span>
           </v-row>
           <br />
@@ -314,23 +318,23 @@ export default {
     },
     async giveRating() {
       if (this.checkBook) {
-        if(this.rating > 0){
+        if (this.rating > 0) {
           await api.post("/rating", {
-          userId: this.getId(),
-          bookId: this.$route.params.id,
-          rating: this.rating,
-        });
-        console.log("ส่งสำเร็จ")
-        }else{
+            userId: this.getId(),
+            bookId: this.$route.params.id,
+            rating: this.rating,
+          });
+          console.log("ส่งสำเร็จ");
+        } else {
           this.$swal({
-          scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
-          allowOutsideClick: false,
-          width: "500",
-          text: "กรุณาระบุ Rate หรือแสดงความเห็นก่อนนะจ๊ะ",
-          icon: "warning",
-          button: "OK",
-        });
+            scrollbarPadding: false,
+            confirmButtonColor: "#00af70",
+            allowOutsideClick: false,
+            width: "500",
+            text: "กรุณาระบุ Rate หรือแสดงความเห็นก่อนนะจ๊ะ",
+            icon: "warning",
+            button: "OK",
+          });
         }
       }
     },
@@ -353,6 +357,16 @@ export default {
 </script>
 
 <style scoped>
+.text-rating-left {
+  margin-top: 2px;
+  margin-right: 8px;
+  color: #e83e8c;
+}
+.text-rating-right {
+  margin-top: 2px;
+  margin-left: 8px;
+  color: #5a5a5a;
+}
 .bg-card {
   background-color: #f6f6f6;
 }

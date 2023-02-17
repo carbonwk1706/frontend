@@ -144,7 +144,7 @@ export default {
   mounted() {
     if (this.selectedItems.length === 0 || this.selectedItems === null) {
       router.push("/cart");
-    }
+    } 
   },
 };
 </script>

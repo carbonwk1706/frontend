@@ -17,35 +17,7 @@
             {{ item.author }}/{{ item.publisher }}
           </v-card-subtitle>
           <v-row class="d-flex ma-3">
-            <v-col v-if="!checkHaveBook(item)" cols="12">
-              <v-row> 
-                <v-col class="pa-1" cols="7">
-                  <v-rating
-                    v-model="item.rating"
-                    color="#5a5a5a"
-                    active-color="#e83e8c"
-                    empty-icon="mdi-cards-heart"
-                    full-icon="mdi-cards-heart"
-                    readonly
-                    hover
-                    size="20"
-                  ></v-rating>
-                  <span class="text-grey-lighten-1 text-caption">
-                    ({{ item.rating }} Rating)
-                  </span>
-                </v-col>
-                <v-col cols="5">
-                  <v-btn
-                  color="success"
-                  class="success"
-                  @click.stop="addItem(item)"
-                >
-                  ฿ {{ item.price }}
-                </v-btn>
-                </v-col>
-              </v-row>
-            </v-col>
-            <v-col v-else cols="12">
+            <v-col cols="12">
               <v-row>
                 <v-col class="pa-1" cols="7">
                   <v-rating
@@ -59,18 +31,20 @@
                     size="20"
                   ></v-rating>
                   <span class="text-grey-lighten-1 text-caption">
-                    ({{ item.rating }} Rating)
+                    ({{ item.ratingsCount }} Rating)
                   </span>
                 </v-col>
                 <v-col cols="5">
                   <v-btn
-                  disabled
-                  color="success"
-                  class="success"
-                  @click.stop="addItem(item)"
-                >
-                  มีแล้ว
-                </v-btn>
+                    v-if="!checkHaveBook(item)"
+                    class="success btn-color"
+                    @click.stop="addItem(item)"
+                  >
+                    ฿ {{ item.price }}
+                  </v-btn>
+                  <v-btn v-else disabled  class="btn-color">
+                    มีแล้ว
+                  </v-btn>
                 </v-col>
               </v-row>
             </v-col>
@@ -244,6 +218,10 @@ export default {
 </script>
 
 <style scoped>
+.btn-color {
+  color: #fff;
+  background-color: #00af70;
+}
 .v-btn.success:hover {
   background-color: gray !important;
 }

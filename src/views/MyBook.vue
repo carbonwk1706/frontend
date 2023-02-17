@@ -31,23 +31,40 @@
         <div class="mb-5 d-flex justify-start">
           <h3>ชั้นหนังสือของฉัน</h3>
         </div>
-        <hr class="mb-5" />
+        <v-divider class="mb-5"></v-divider>
         <v-row>
           <v-col v-for="(item, index) in myBook" :key="index">
-            <v-card class="mx-auto" max-width="180" @click="showDetail(item)">
-              <v-img :src="item.imageBook" height="250px"></v-img>
+            <v-card class="mx-auto" max-width="200" @click="showDetail(item)">
+              <v-img :src="item.imageBook" cover></v-img>
               <v-card-title> {{ item.name }} </v-card-title>
               <v-card-subtitle>
                 {{ item.author }}/{{ item.publisher }}
               </v-card-subtitle>
-              <v-row class="d-flex justify-end ma-3">
-                <v-btn
-                  color="success"
-                  class="success"
-                  disabled
-                >
-                  มีแล้ว
-                </v-btn>
+              <v-row class="d-flex ma-3">
+                <v-col cols="12">
+                  <v-row>
+                    <v-col class="pa-1" cols="7">
+                      <v-rating
+                        v-model="item.rating"
+                        color="#5a5a5a"
+                        active-color="#e83e8c"
+                        empty-icon="mdi-cards-heart"
+                        full-icon="mdi-cards-heart"
+                        readonly
+                        hover
+                        size="20"
+                      ></v-rating>
+                      <span class="text-grey-lighten-1 text-caption">
+                        ({{ item.ratingsCount }} Rating)
+                      </span>
+                    </v-col>
+                    <v-col cols="5">
+                      <v-btn disabled class="btn-color">
+                        มีแล้ว
+                      </v-btn>
+                    </v-col>
+                  </v-row>
+                </v-col>
               </v-row>
             </v-card>
           </v-col>
@@ -111,6 +128,10 @@ export default {
 </script>
 
 <style scoped>
+.btn-color {
+  color: #fff;
+  background-color: #00af70;
+}
 .noBook {
   display: flex;
   justify-content: center;

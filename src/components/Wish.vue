@@ -31,15 +31,15 @@
       <div class="mb-5 d-flex justify-start">
         <h3>รายการที่อยากได้</h3>
       </div>
-      <v-divider class="mb-5" ></v-divider>
+      <v-divider class="mb-5"></v-divider>
       <v-row>
         <v-col v-for="(item, index) in wishList" :key="index">
           <v-card
             class="mx-auto cardHover"
-            max-width="180"
+            max-width="200"
             @click="showDetail(item)"
           >
-            <v-img :src="item.imageBook" height="250px"
+            <v-img :src="item.imageBook" cover
               ><v-icon
                 size="40"
                 @click.stop="delWish(item)"
@@ -51,18 +51,38 @@
             <v-card-subtitle>
               {{ item.author }}/{{ item.publisher }}
             </v-card-subtitle>
-            <v-row class="d-flex justify-end ma-3">
-              <v-btn
-                v-if="!checkHaveBook(item)"
-                color="success"
-                class="success"
-                @click.stop="addItem(item)"
-              >
-                ฿ {{ item.price }}
-              </v-btn>
-              <v-btn v-else color="success" class="success" disabled>
-                มีแล้ว
-              </v-btn>
+            <v-row class="d-flex ma-3">
+              <v-col cols="12">
+                <v-row>
+                  <v-col class="pa-1" cols="7">
+                    <v-rating
+                      v-model="item.rating"
+                      color="#5a5a5a"
+                      active-color="#e83e8c"
+                      empty-icon="mdi-cards-heart"
+                      full-icon="mdi-cards-heart"
+                      readonly
+                      hover
+                      size="20"
+                    ></v-rating>
+                    <span class="text-grey-lighten-1 text-caption">
+                      ({{ item.ratingsCount }} Rating)
+                    </span>
+                  </v-col>
+                  <v-col cols="5">
+                    <v-btn
+                      v-if="!checkHaveBook(item)"
+                      class="success btn-color"
+                      @click.stop="addItem(item)"
+                    >
+                      ฿ {{ item.price }}
+                    </v-btn>
+                    <v-btn v-else disabled class="btn-color">
+                      มีแล้ว
+                    </v-btn>
+                  </v-col>
+                </v-row>
+              </v-col>
             </v-row>
           </v-card>
         </v-col>
@@ -209,10 +229,10 @@ export default {
       return this.$store.getters["auth/isLogin"];
     },
     checkHaveBook() {
-    return (item) => {
-      return this.myBook.some((book) => book._id === item._id);
-    };
-  },
+      return (item) => {
+        return this.myBook.some((book) => book._id === item._id);
+      };
+    },
   },
   mounted() {
     if (this.isLogin) {
@@ -224,6 +244,10 @@ export default {
 </script>
 
 <style scoped>
+.btn-color {
+  color: #fff;
+  background-color: #00af70;
+}
 .cardHover:hover {
   border: 1px solid #00af70;
   cursor: pointer;
