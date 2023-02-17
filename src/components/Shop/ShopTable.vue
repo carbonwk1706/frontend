@@ -46,14 +46,33 @@
               </v-row>
             </v-col>
             <v-col v-else cols="12">
-              <v-btn
-                disabled
-                color="success"
-                class="success"
-                @click.stop="addItem(item)"
-              >
-                มีแล้ว
-              </v-btn>
+              <v-row>
+                <v-col class="pa-1" cols="7">
+                  <v-rating
+                    v-model="item.rating"
+                    color="#5a5a5a"
+                    active-color="#e83e8c"
+                    empty-icon="mdi-cards-heart"
+                    full-icon="mdi-cards-heart"
+                    readonly
+                    hover
+                    size="20"
+                  ></v-rating>
+                  <span class="text-grey-lighten-1 text-caption">
+                    ({{ item.rating }} Rating)
+                  </span>
+                </v-col>
+                <v-col cols="5">
+                  <v-btn
+                  disabled
+                  color="success"
+                  class="success"
+                  @click.stop="addItem(item)"
+                >
+                  มีแล้ว
+                </v-btn>
+                </v-col>
+              </v-row>
             </v-col>
           </v-row>
         </v-card>
