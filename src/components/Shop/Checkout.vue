@@ -85,43 +85,49 @@ export default {
         selectedItems: this.selectedItems,
       });
       if (res.status === 201 && res.data.message === "not enough money") {
-        this.$swal({
-          scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
-          cancelButtonColor: "#999999",
-          showCancelButton: true,
-          allowOutsideClick: false,
-          width: "500",
-          text: "จำนวน coin ของคุณไม่พอสำหรับชำระสินค้า",
-          icon: "warning",
-          confirmButtonText: "เติม COIN",
-          cancelButtonText: "ปิด",
-        }).then((result) => {
-          if (result.value) {
-            router.push("/coin");
-          }
-        });
+        this.alertWarning();
       } else {
         this.loading = true;
         setTimeout(() => {
           this.loading = false;
           this.$store.dispatch("selectItem/setSelectedItems", []);
           router.push("/mybook");
-          this.$swal({
-            scrollbarPadding: false,
-            confirmButtonColor: "#00af70",
-            allowOutsideClick: false,
-            width: "500",
-            text: "ซื้อสินค้าสำเร็จ",
-            icon: "success",
-            confirmButtonText: "ยืนยัน",
-          }).then((result) => {
-            if (result.value) {
-              window.location.reload();
-            }
-          });
+          this.alertSuccess();
         }, 2000);
       }
+    },
+    alertSuccess() {
+      this.$swal({
+        scrollbarPadding: false,
+        confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
+        width: "500",
+        text: "ซื้อสินค้าสำเร็จ",
+        icon: "success",
+        confirmButtonText: "ยืนยัน",
+      }).then((result) => {
+        if (result.value) {
+          window.location.reload();
+        }
+      });
+    },
+    alertWarning() {
+      this.$swal({
+        scrollbarPadding: false,
+        confirmButtonColor: "#00af70",
+        cancelButtonColor: "#999999",
+        showCancelButton: true,
+        allowOutsideClick: false,
+        width: "500",
+        text: "จำนวน coin ของคุณไม่พอสำหรับชำระสินค้า",
+        icon: "warning",
+        confirmButtonText: "เติม COIN",
+        cancelButtonText: "ปิด",
+      }).then((result) => {
+        if (result.value) {
+          router.push("/coin");
+        }
+      });
     },
     goToCartList() {
       router.push("/cart");
@@ -144,7 +150,7 @@ export default {
   mounted() {
     if (this.selectedItems.length === 0 || this.selectedItems === null) {
       router.push("/cart");
-    } 
+    }
   },
 };
 </script>
