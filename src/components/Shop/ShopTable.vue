@@ -111,7 +111,6 @@ export default {
   name: "ShopTable",
   data() {
     return {
-      rating: 3,
       books: [],
       myBook: [],
       showModal: false,

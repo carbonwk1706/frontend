@@ -93,7 +93,7 @@
           </v-row>
         </v-col>
       </v-col>
-      <v-col class="mt-15 pa-16" cols="12">
+      <v-col v-if="!noRating" class="mt-15 pa-16" cols="12">
         <v-card class="bg-card">
           <v-container>
             <h3 class="text-center">ให้เรตติ้ง</h3>
@@ -178,10 +178,11 @@ export default {
   data() {
     return {
       book: [],
-      wishStutas: true,
+      myRating: [],
       showModal: false,
       checkBook: false,
       rating: 0,
+      noRating: false,
     };
   },
   methods: {
@@ -200,8 +201,27 @@ export default {
     hideModal() {
       this.showModal = !this.showModal;
     },
-    wishProcess() {
-      this.wishStutas = !this.wishStutas;
+    alertWarning(text) {
+      this.$swal({
+        scrollbarPadding: false,
+        confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
+        width: "500",
+        text: text,
+        icon: "warning",
+        button: "OK",
+      });
+    },
+    alertSuccess(text) {
+      this.$swal({
+        scrollbarPadding: false,
+        confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
+        width: "500",
+        text: text,
+        icon: "success",
+        button: "OK",
+      });
     },
     async addProduct(item) {
       if (this.isLogin) {
@@ -212,29 +232,13 @@ export default {
           res.status === 200 &&
           res.data.message === "You have this product in your cart"
         ) {
-          this.$swal({
-            scrollbarPadding: false,
-            confirmButtonColor: "#00af70",
-            allowOutsideClick: false,
-            width: "500",
-            text: "คุณมีหนังสือนี้ในตะกร้าแล้ว",
-            icon: "warning",
-            button: "OK",
-          });
+          this.alertWarning("คุณมีหนังสือนี้ในตะกร้าแล้ว");
         } else {
           this.showModal = true;
           this.getCartList();
         }
       } else {
-        this.$swal({
-          scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
-          allowOutsideClick: false,
-          width: "500",
-          text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
-          icon: "warning",
-          button: "OK",
-        });
+        this.alertWarning("กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า");
       }
     },
     async addWishlist(item) {
@@ -248,40 +252,16 @@ export default {
             res.status === 200 &&
             res.data.message === "Book already exists in wishlist"
           ) {
-            this.$swal({
-              scrollbarPadding: false,
-              confirmButtonColor: "#00af70",
-              allowOutsideClick: false,
-              width: "500",
-              text: "คุณมีสินค้านี้ในรายการโปรดแล้ว",
-              icon: "warning",
-              button: "OK",
-            });
+            this.alertWarning("คุณมีสินค้านี้ในรายการโปรดแล้ว");
           } else {
-            this.$swal({
-              scrollbarPadding: false,
-              confirmButtonColor: "#00af70",
-              allowOutsideClick: false,
-              width: "500",
-              text: "เพิ่มสินค้านี้ในรายการโปรดสำเร็จ",
-              icon: "success",
-              button: "OK",
-            });
+            this.alertSuccess("เพิ่มสินค้านี้ในรายการโปรดสำเร็จ")
             this.getWishList();
           }
         } catch (error) {
           console.log(error);
         }
       } else {
-        this.$swal({
-          scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
-          allowOutsideClick: false,
-          width: "500",
-          text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้ารายการโปรดด้วยจ้า",
-          icon: "warning",
-          button: "OK",
-        });
+        this.alertWarning("กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้ารายการโปรดด้วยจ้า")
       }
     },
     getId() {
@@ -324,33 +304,40 @@ export default {
             bookId: this.$route.params.id,
             rating: this.rating,
           });
-          console.log("ส่งสำเร็จ");
+          this.alertSuccess("ส่งข้อมูลสำเร็จ ขอบคุณสำหรับการรีวิว")
+          this.checkRating();
+          this.getBookDetail();
         } else {
-          this.$swal({
-            scrollbarPadding: false,
-            confirmButtonColor: "#00af70",
-            allowOutsideClick: false,
-            width: "500",
-            text: "กรุณาระบุ Rate หรือแสดงความเห็นก่อนนะจ๊ะ",
-            icon: "warning",
-            button: "OK",
-          });
+          this.alertWarning("กรุณาระบุ Rate หรือแสดงความเห็นก่อนนะจ๊ะ")
         }
       }
     },
     readBook() {
       alert("อ่านหนังสือ");
     },
+    async checkRating() {
+      const res = await api.get("/ratingUserBooks/" + this.getId());
+      this.myRating = res.data.ratedBooks;
+      if (this.checkHaveRating) {
+        this.noRating = true;
+      } else {
+        this.noRating = false;
+      }
+    },
   },
   computed: {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
+    },
+    checkHaveRating() {
+      return this.myRating.some((book) => book._id === this.$route.params.id);
     },
   },
   mounted() {
     this.getBookDetail();
     if (this.isLogin) {
       this.hasBook();
+      this.checkRating();
     }
   },
 };
