@@ -1,12 +1,12 @@
 <template>
-  <Auth>
+  <Auth v-if="isLogin">
     <v-container class="grey lighten-5">
       <div>
         <span class="menu-link" @click="goToProfile">จัดการบัญชี</span>
         <v-icon>mdi-chevron-right</v-icon>
         <span class="menu-link-current">ชั้นหนังสือของฉัน</span>
       </div>
-      <div class="mb-5 d-flex justify-center">
+      <div class="mt-6 mb-5 d-flex justify-center">
         <h1>ชั้นหนังสือของฉัน</h1>
       </div>
       <div v-if="myBook.length === 0 || myBook === null">
@@ -71,6 +71,7 @@ export default {
   data() {
     return {
       myBook: [],
+      cartList: [],
     };
   },
   methods: {
@@ -87,6 +88,13 @@ export default {
     getId() {
       return this.$store.getters["auth/getId"];
     },
+    getCartList() {
+      api.get("/cart/" + this.getId()).then((result) => {
+        this.cartList = result.data.items;
+        this.$store.dispatch("cartList/setCartList", this.cartList);
+      });
+    },
+    
   },
   computed: {
     isLogin() {
@@ -96,6 +104,7 @@ export default {
   mounted() {
     if (this.isLogin) {
       this.getMyBook();
+      this.getCartList();
     }
   },
 };

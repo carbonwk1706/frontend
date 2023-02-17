@@ -1,13 +1,13 @@
 <template>
   <h1 class="text-center mt-6 mb-6">ชำระเงิน</h1>
   <v-container>
-    <span>สรุปรายการสั่งซื้ออีบุ๊ค {{ cartList.length }} รายการ</span>
+    <span>สรุปรายการสั่งซื้ออีบุ๊ค {{ selectedItems.length }} รายการ</span>
     <v-divider class="mt-3 mb-6"></v-divider>
 
     <v-card class="card px-12 py-6">
       <v-row
         class="d-flex flex-row align-center"
-        v-for="(item, index) in cartList"
+        v-for="(item, index) in selectedItems"
         :key="index"
       >
         <v-col cols="12" class="d-flex flex-row align-center pa-0 mb-3 mt-3">
@@ -23,11 +23,11 @@
       </v-row>
     </v-card>
   </v-container>
-  <p class="back-cart text-center mt-6" @click="goToCartList">
+  <p class="back-cart text-center mt-3" @click="goToCartList">
     กลับไปแก้ไขรายการ
   </p>
-  <v-card class="mt-6 card">
-    <v-container>
+  <v-container class="mt-3">
+    <v-card class="card pa-10">
       <v-row>
         <v-col>
           <div class="d-flex flex-row align-center justify-center mb-5">
@@ -38,14 +38,36 @@
           </div>
           <div class="d-flex flex-row align-center justify-center">
             <v-btn class="btn-bg" rounded width="200" @click="checkout"
-              ><span style="font-size: 18px" >ชำระเงิน</span></v-btn
+              ><span style="font-size: 18px">ชำระเงิน</span></v-btn
             >
           </div>
         </v-col>
       </v-row>
-    </v-container>
-  </v-card>
+    </v-card>
+  </v-container>
+
+  <v-dialog v-model="loading" max-width="500" persistent>
+    <v-card>
+      <v-card-title class="center">
+        <div class="img-size">
+          <v-img src="https://media.tenor.com/9XCr9dBEygwAAAAi/peach-cat.gif">
+          </v-img>
+        </div>
+      </v-card-title>
+      <div class="center-loading">
+        <v-progress-circular
+          v-if="loading"
+          :size="50"
+          :width="5"
+          indeterminate
+          color="success"
+        ></v-progress-circular>
+      </div>
+      <v-card-text class="text-center">กำลังทำการสั่งซื้อ</v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
+
 <script>
 import api from "@/services/api";
 import router from "@/router";
@@ -53,20 +75,20 @@ import router from "@/router";
 export default {
   data() {
     return {
-      cartList: [],
+      loading: false,
     };
   },
   methods: {
     async checkout() {
       const res = await api.post("/checkout/", {
         userId: this.getId(),
-        items: this.cartList,
+        selectedItems: this.selectedItems,
       });
       if (res.status === 201 && res.data.message === "not enough money") {
         this.$swal({
           scrollbarPadding: false,
           confirmButtonColor: "#00af70",
-          cancelButtonColor: '#999999',
+          cancelButtonColor: "#999999",
           showCancelButton: true,
           allowOutsideClick: false,
           width: "500",
@@ -76,30 +98,33 @@ export default {
           cancelButtonText: "ปิด",
         }).then((result) => {
           if (result.value) {
-            router.push("/coin")
+            router.push("/coin");
           }
         });
       } else {
-        this.$store.dispatch("cartList/setCartList", this.getCartList);
-        router.push("/mybook")
-        this.$swal({
-          scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
-          allowOutsideClick: false,
-          width: "500",
-          text: "ซื้อสินค้าสำเร็จ",
-          icon: "success",
-          confirmButtonText: "ยืนยัน",
-        });
+        this.loading = true;
+        setTimeout(() => {
+          this.loading = false;
+          this.$store.dispatch("selectItem/setSelectedItems", []);
+          router.push("/mybook");
+          this.$swal({
+            scrollbarPadding: false,
+            confirmButtonColor: "#00af70",
+            allowOutsideClick: false,
+            width: "500",
+            text: "ซื้อสินค้าสำเร็จ",
+            icon: "success",
+            confirmButtonText: "ยืนยัน",
+          }).then((result) => {
+            if (result.value) {
+              window.location.reload();
+            }
+          });
+        }, 2000);
       }
     },
     goToCartList() {
       router.push("/cart");
-    },
-    getCartList() {
-      api.get("/cart/" + this.getId()).then((result) => {
-        this.cartList = result.data.items;
-      });
     },
     getId() {
       return this.$store.getters["auth/getId"];
@@ -107,11 +132,19 @@ export default {
   },
   computed: {
     getTotalPrice() {
-      return this.cartList.reduce((acc, item) => acc + item.product.price, 0);
+      return this.selectedItems.reduce(
+        (acc, item) => acc + item.product.price,
+        0
+      );
+    },
+    selectedItems() {
+      return this.$store.getters["selectItem/selectedItem"];
     },
   },
   mounted() {
-    this.getCartList();
+    if (this.selectedItems.length === 0 || this.selectedItems === null) {
+      router.push("/cart");
+    }
   },
 };
 </script>
@@ -136,5 +169,18 @@ export default {
 }
 .card {
   background-color: #f6f6f6;
+}
+.center-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.img-size {
+  width: 100px;
 }
 </style>

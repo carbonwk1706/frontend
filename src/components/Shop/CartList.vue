@@ -21,6 +21,7 @@
       >
         <v-divider v-if="index === 0"></v-divider>
         <v-col cols="12" class="d-flex flex-row align-center pa-0 mb-3 mt-3">
+          <input type="checkbox" name="selectedItems" v-model="selectItem" :value="item">
           <v-img
             :src="item.product.imageBook"
             max-height="100"
@@ -40,11 +41,12 @@
         <v-divider></v-divider>
       </v-row>
     </v-container>
-    <p class="choose-book text-center mt-6" @click="goToHome">
+    <p class="choose-book text-center mt-3" @click="goToHome">
       เลือกซื้อหนังสือเล่มอื่นต่อ
     </p>
-    <v-card class="mt-6 card-bg">
-      <v-container>
+    <v-container class="mt-3">
+    <v-card class="pa-10 card-bg">
+
         <v-row>
           <v-col>
             <div class="d-flex flex-row align-center justify-center mb-5">
@@ -60,8 +62,8 @@
             </div>
           </v-col>
         </v-row>
-      </v-container>
     </v-card>
+  </v-container>
   </div>
 </template>
 <script>
@@ -72,10 +74,12 @@ export default {
   data() {
     return {
       cartList: [],
+      selectItem: []
     };
   },
   methods: {
     goToCheckout(){
+      this.$store.dispatch("selectItem/setSelectedItems", this.selectItem);
       router.push("/checkout")
     },
     getCartList() {
@@ -104,7 +108,7 @@ export default {
       return this.$store.getters["auth/isLogin"];
     },
     getTotalPrice() {
-      return this.cartList.reduce((acc, item) => acc + item.product.price, 0);
+      return this.selectItem.reduce((acc, item) => acc + item.product.price, 0);
     },
   },
   mounted() {

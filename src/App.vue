@@ -1,6 +1,11 @@
 <template>
   <v-app>
-    <v-app-bar :height="navHeight" elevation="0" v-if="showNavbar && !this.isNotFoundRoute" style="z-index: 1;">
+    <v-app-bar
+      :height="navHeight"
+      elevation="0"
+      v-if="showNavbar && !this.isNotFoundRoute"
+      style="z-index: 1"
+    >
       <Navbar />
     </v-app-bar>
     <CoinNavbar v-if="showNavbarCoin && !this.isNotFoundRoute" />
@@ -99,22 +104,17 @@ export default {
           "/profile",
           "/registersell",
           "/coin",
-          "/login",
-          "/register",
+          "/mybook",
+          "/profile",
           "/login",
           "/admin",
           "/usertable",
-          "/wishlist",
-          "/profile",
-          "/registersell",
           "/admintable",
           "/approvetable",
           "/historyadmin",
         ].includes(this.$route.path);
       } else {
         return ![
-          "/login",
-          "/register",
           "/login",
           "/admin",
           "/usertable",
@@ -138,22 +138,18 @@ export default {
             "/profile",
             "/registersell",
             "/coin",
-            "/login",
-            "/register",
+            "/mybook",
+            "/wishlist",
+            "/profile",
             "/login",
             "/admin",
             "/usertable",
-            "/wishlist",
-            "/profile",
-            "/registersell",
             "/admintable",
             "/approvetable",
             "/historyadmin",
           ].includes(this.$route.path);
         } else {
           return ![
-            "/login",
-            "/register",
             "/login",
             "/admin",
             "/usertable",
@@ -182,6 +178,7 @@ export default {
       return ["/coin", "/checkoutcoin"].includes(this.$route.path);
     },
   },
+  
 };
 </script>
 <style>
