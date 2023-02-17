@@ -94,42 +94,34 @@ export default {
     return {
       listBankAccout: [
         {
-          initial: "BBL",
           name: "ธนาคารกรุงเทพ จำกัด (มหาชน)",
           isClicked: false,
         },
         {
-          initial: "KBANK",
           name: "ธนาคารกสิกร จำกัด (มหาชน)",
           isClicked: false,
         },
         {
-          initial: "SCB",
           name: "ธนาคารไทยพาณิชย์ จำกัด (มหาชน)",
           isClicked: false,
         },
         {
-          initial: "BAY",
           name: "ธนาคารกรุงศรีอยุธยา จำกัด (มหาชน)",
           isClicked: false,
         },
         {
-          initial: "KTB",
           name: "ธนาคารกรุงไทย จำกัด (มหาชน)",
           isClicked: false,
         },
         {
-          initial: "TTB",
           name: "ธนาคารทหารไทยธนชาต จำกัด (มหาชน)",
           isClicked: false,
         },
         {
-          initial: "UOB",
           name: "ธนาคารยูโอบี จำกัด (มหาชน)",
           isClicked: false,
         },
         {
-          initial: "CIMB",
           name: "ธนาคาร ซีไอเอ็มบี ไทย จำกัด (มหาชน)",
           isClicked: false,
         },
@@ -176,7 +168,7 @@ export default {
       item.isClicked = true;
       this.firstDivClicked = true;
       this.bankIsClicked = true;
-      this.selectedBankAccount = item.initial;
+      this.selectedBankAccount = item.name;
       setTimeout(() => {
         window.scrollTo({
           top: document.body.scrollHeight,
