@@ -99,16 +99,31 @@ export default {
     selectAllItems() {
       this.selectItem = this.selectAll ? this.cartList : [];
     },
+    showWarning(text) {
+      this.$swal({
+        scrollbarPadding: false,
+        confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
+        width: "500",
+        text: text,
+        icon: "warning",
+        button: "OK",
+      });
+    },
     goToCheckout() {
-      this.$store.dispatch("selectItem/setSelectedItems", this.selectItem);
-      router.push("/checkout");
+      if (this.selectItem.length === 0) {
+        this.showWarning("กรุณาเลือกสินค้าก่อนชำระสินค้า");
+      } else {
+        this.$store.dispatch("selectItem/setSelectedItems", this.selectItem);
+        router.push("/checkout");
+      }
     },
     getCartList() {
       api.get("/cart/" + this.getId()).then((result) => {
         this.cartList = result.data.items;
         this.$store.dispatch("cartList/setCartList", this.cartList);
-        this.selectAll = true
-        this.selectAllItems()
+        this.selectAll = true;
+        this.selectAllItems();
       });
     },
     async delProduct(item) {
