@@ -6,9 +6,9 @@
     <p class="text-center mb-6">เลือกหนังสือที่ต้องการชำระเงิน</p>
   </div>
 
-  <div v-if="cartList.length == 0 || cartList === null">
+  <div v-if="cartList.length === 0 || cartList === null">
     <v-divider></v-divider>
-    <div class="noBook" v-if="cartList.length == 0 || cartList === null">
+    <div class="noBook" v-if="cartList.length === 0 || cartList === null">
       <span>ไม่พบสิ้นค้าในตะกร้า</span>
     </div>
   </div>
@@ -21,7 +21,12 @@
       >
         <v-divider v-if="index === 0"></v-divider>
         <v-col cols="12" class="d-flex flex-row align-center pa-0 mb-3 mt-3">
-          <input type="checkbox" name="selectedItems" v-model="selectItem" :value="item">
+          <input
+            type="checkbox"
+            name="selectedItems"
+            v-model="selectItem"
+            :value="item"
+          />
           <v-img
             :src="item.product.imageBook"
             max-height="100"
@@ -41,29 +46,41 @@
         <v-divider></v-divider>
       </v-row>
     </v-container>
+    <v-container>
+      <v-row>
+        <v-col cols="12" class="pa-0">
+          <input
+            class="mt-3"
+            type="checkbox"
+            name="selectedItems"
+            v-model="selectAll"
+            @change="selectAllItems"
+            id="select-all"
+          />
+          <label class="ml-1" for="select-all">เลือกทั้งหมด</label>
+        </v-col>
+      </v-row>
+    </v-container>
     <p class="choose-book text-center mt-3" @click="goToHome">
       เลือกซื้อหนังสือเล่มอื่นต่อ
     </p>
     <v-container class="mt-3">
-    <v-card class="pa-10 card-bg">
-
+      <v-card class="pa-10 card-bg">
         <v-row>
           <v-col>
             <div class="d-flex flex-row align-center justify-center mb-5">
-              <span style="font-size: 18px;" class="mr-2">ยอดชำระ</span>
-              <span class="text-total-price">
-                ฿{{ getTotalPrice }}
-              </span>
+              <span style="font-size: 18px" class="mr-2">ยอดชำระ</span>
+              <span class="text-total-price"> ฿{{ getTotalPrice }} </span>
             </div>
             <div class="d-flex flex-row align-center justify-center">
               <v-btn class="btn-bg" rounded width="200" @click="goToCheckout"
-                ><span style="font-size: 18px;">ไปหน้าชำระเงิน</span></v-btn
+                ><span style="font-size: 18px">ไปหน้าชำระเงิน</span></v-btn
               >
             </div>
           </v-col>
         </v-row>
-    </v-card>
-  </v-container>
+      </v-card>
+    </v-container>
   </div>
 </template>
 <script>
@@ -74,18 +91,24 @@ export default {
   data() {
     return {
       cartList: [],
-      selectItem: []
+      selectItem: [],
+      selectAll: false,
     };
   },
   methods: {
-    goToCheckout(){
+    selectAllItems() {
+      this.selectItem = this.selectAll ? this.cartList : [];
+    },
+    goToCheckout() {
       this.$store.dispatch("selectItem/setSelectedItems", this.selectItem);
-      router.push("/checkout")
+      router.push("/checkout");
     },
     getCartList() {
       api.get("/cart/" + this.getId()).then((result) => {
         this.cartList = result.data.items;
         this.$store.dispatch("cartList/setCartList", this.cartList);
+        this.selectAll = true
+        this.selectAllItems()
       });
     },
     async delProduct(item) {
@@ -109,6 +132,17 @@ export default {
     },
     getTotalPrice() {
       return this.selectItem.reduce((acc, item) => acc + item.product.price, 0);
+    },
+    isAllSelected() {
+      return (
+        this.cartList.length > 0 &&
+        this.selectItem.length === this.cartList.length
+      );
+    },
+  },
+  watch: {
+    isAllSelected(newValue) {
+      this.selectAll = newValue;
     },
   },
   mounted() {
@@ -139,11 +173,11 @@ export default {
   color: #00bf6c;
   cursor: pointer;
 }
-.text-price{
+.text-price {
   color: #5a5a5a;
   font-size: 12px;
 }
-.text-total-price{
+.text-total-price {
   font-size: 20px;
   font-weight: 700;
 }

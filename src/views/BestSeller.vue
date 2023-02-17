@@ -4,7 +4,7 @@
       <h1>ขายดี</h1>
     </div>
     <v-divider class="mb-6"></v-divider>
-    <v-row>
+    <v-row v-if="books.length > 0">
       <v-col v-for="(item, index) in books" :key="index">
         <v-card
           class="mx-auto cardHover"
@@ -31,6 +31,41 @@
               color="success"
               class="success"
               @click.stop="addItem(item.product)"
+            >
+              มีแล้ว
+            </v-btn>
+          </v-row>
+        </v-card>
+      </v-col>
+    </v-row>
+
+    <v-row v-else>
+      <v-col v-for="(item, index) in allBooks" :key="index">
+        <v-card
+          class="mx-auto cardHover"
+          max-width="180"
+          @click="showDetail(item)"
+        >
+          <v-img :src="item.imageBook" height="250px"></v-img>
+          <v-card-title> {{ item.name }} </v-card-title>
+          <v-card-subtitle>
+            {{ item.author }}/{{ item.publisher }}
+          </v-card-subtitle>
+          <v-row class="d-flex justify-end ma-3">
+            <v-btn
+              v-if="!checkHaveBook(item)"
+              color="success"
+              class="success"
+              @click.stop="addItem(item)"
+            >
+              ฿ {{ item.price }}
+            </v-btn>
+            <v-btn
+              v-else
+              disabled
+              color="success"
+              class="success"
+              @click.stop="addItem(item)"
             >
               มีแล้ว
             </v-btn>
@@ -98,6 +133,7 @@ export default {
   data() {
     return {
       books: [],
+      allBooks: [],
       myBook: [],
       showModal: false,
     };
@@ -155,6 +191,11 @@ export default {
         });
       }
     },
+    getAllBook() {
+      api.get("/books/").then((result) => {
+        this.allBooks = result.data;
+      });
+    },
     fetchApi() {
       api.get("/bestseller/").then(async(result) => {
         for(const bestseller of result.data){
@@ -200,11 +241,11 @@ export default {
     },
   },
   mounted() {
-    this.fetchApi();
-
     if (this.isLogin) {
       this.getMyBook();
     }
+      this.fetchApi();
+      this.getAllBook();
   },
 };
 </script>
