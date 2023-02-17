@@ -86,6 +86,7 @@
 
 <script>
 import api from "@/services/api";
+import router from '@/router';
 
 export default {
   name: "CoinTable",
@@ -206,6 +207,7 @@ export default {
       };
       this.showConfirm = false;
       console.log(this.resultSelect);
+      router.push('/checkoutcoin')
     },
     async fetchApi() {
       const res = await api.get("/profile/" + this.getId());

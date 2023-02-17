@@ -132,6 +132,11 @@ const routes = [
     name: 'historyadmin',
     component: () => import('../views/HistoryAdmin.vue')
   },
+  {
+    path: '/checkoutcoin',
+    name: 'checkoutcoin',
+    component: () => import('../components/Coin/Checkout.vue')
+  }
 ]
 
 const router = createRouter({
