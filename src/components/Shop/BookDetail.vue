@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="herdName">{{ book.name }}</div>
-    <v-row v-if="checkBook">
+    <v-row v-if="!checkBook">
       <v-col class="d-flex justify-end">
         <v-img :src="book.imageBook" max-height="360" max-width="360" />
       </v-col>
@@ -14,8 +14,24 @@
           <v-row>หมวดหมู่ {{ book.category }}</v-row>
           <br />
           <v-row>
+            <v-rating
+              v-model="book.rating"
+              color="#5a5a5a"
+              active-color="#e83e8c"
+              empty-icon="mdi-cards-heart"
+              full-icon="mdi-cards-heart"
+              readonly
+              hover
+              size="26"
+            ></v-rating>
+            <span class="text-grey-lighten-1 text-caption">
+              ({{ book.rating }} Rating)
+            </span>
+          </v-row>
+          <br />
+          <v-row class="mt-1">
             <v-btn
-              color="success"
+              class="btn-color"
               rounded
               width="160"
               @click="addProduct(book)"
@@ -26,7 +42,7 @@
           <br />
           <v-row>
             <v-btn
-              color="success"
+              class="btn-color"
               rounded
               width="160"
               @click="addWishlist(book)"
@@ -39,10 +55,10 @@
     </v-row>
 
     <v-row v-else>
-      <v-col class="d-flex justify-end">
+      <v-col class="d-flex justify-end" cols="6">
         <v-img :src="book.imageBook" max-height="360" max-width="360" />
       </v-col>
-      <v-col class="description">
+      <v-col class="description" cols="6">
         <v-col>
           <v-row>โดย {{ book.author }}</v-row>
           <br />
@@ -51,16 +67,51 @@
           <v-row>หมวดหมู่ {{ book.category }}</v-row>
           <br />
           <v-row>
-            <v-btn
-              color="success"
-              rounded
-              width="160"
-              @click="readBook"
-            >
+            <v-rating
+              v-model="book.rating"
+              color="#5a5a5a"
+              active-color="#e83e8c"
+              empty-icon="mdi-cards-heart"
+              full-icon="mdi-cards-heart"
+              readonly
+              hover
+              size="26"
+            ></v-rating>
+            <span class="text-grey-lighten-1 text-caption">
+              ({{ book.rating }} Rating)
+            </span>
+          </v-row>
+          <br />
+          <v-row class="mt-1">
+            <v-btn class="btn-color" rounded width="160" @click="readBook">
               อ่าน
             </v-btn>
           </v-row>
         </v-col>
+      </v-col>
+      <v-col class="mt-15 pa-16" cols="12">
+        <v-card class="bg-card">
+          <v-container>
+            <h3 class="text-center">ให้เรตติ้ง</h3>
+            <div class="text-center mt-4">
+              <v-rating
+                v-model="rating"
+                color="#00bf6c"
+                active-color="#e83e8c"
+                empty-icon="mdi-heart-outline"
+                full-icon="mdi-cards-heart"
+                hover
+                size="32"
+              ></v-rating>
+              <pre>{{ rating }}</pre>
+            </div>
+            <div class="center-btn mt-4">
+              <v-btn class="btn-color" rounded width="160" @click="giveRating">
+                ส่งคะแนน
+              </v-btn>
+            </div>
+          </v-container>
+        </v-card>
       </v-col>
     </v-row>
   </v-container>
@@ -125,24 +176,25 @@ export default {
       book: [],
       wishStutas: true,
       showModal: false,
-      checkBook: true
+      checkBook: false,
+      rating: 0,
     };
   },
   methods: {
-    goToHome(){
-      this.showModal = false
-      router.push("/")
+    goToHome() {
+      this.showModal = false;
+      router.push("/");
     },
-    goToCart(){
-      this.showModal = false
-      router.push("/cart")
+    goToCart() {
+      this.showModal = false;
+      router.push("/cart");
     },
-    goToCoin(){
-      this.showModal = false
-      router.push("/coin")
+    goToCoin() {
+      this.showModal = false;
+      router.push("/coin");
     },
-    hideModal(){
-      this.showModal = !this.showModal
+    hideModal() {
+      this.showModal = !this.showModal;
     },
     wishProcess() {
       this.wishStutas = !this.wishStutas;
@@ -166,7 +218,7 @@ export default {
             button: "OK",
           });
         } else {
-          this.showModal = true
+          this.showModal = true;
           this.getCartList();
         }
       } else {
@@ -247,17 +299,44 @@ export default {
         this.$store.dispatch("cartList/setCartList", this.cartList);
       });
     },
-    async hasBook(){
-      const res = await api.post("/checkBook/" + this.getId() + "/books/" + this.$route.params.id) 
-      if(res.status === 200 && res.data.message === "User has this book"){
-        this.checkBook = false
-      }else if(res.status === 200 && res.data.message === "User does not have this book"){
-        this.checkBook = true
+    async hasBook() {
+      const res = await api.post(
+        "/checkBook/" + this.getId() + "/books/" + this.$route.params.id
+      );
+      if (res.status === 200 && res.data.message === "User has this book") {
+        this.checkBook = true;
+      } else if (
+        res.status === 200 &&
+        res.data.message === "User does not have this book"
+      ) {
+        this.checkBook = false;
       }
     },
-    readBook(){
-      alert("อ่านหนังสือ")
-    }
+    async giveRating() {
+      if (this.checkBook) {
+        if(this.rating > 0){
+          await api.post("/rating", {
+          userId: this.getId(),
+          bookId: this.$route.params.id,
+          rating: this.rating,
+        });
+        console.log("ส่งสำเร็จ")
+        }else{
+          this.$swal({
+          scrollbarPadding: false,
+          confirmButtonColor: "#00af70",
+          allowOutsideClick: false,
+          width: "500",
+          text: "กรุณาระบุ Rate หรือแสดงความเห็นก่อนนะจ๊ะ",
+          icon: "warning",
+          button: "OK",
+        });
+        }
+      }
+    },
+    readBook() {
+      alert("อ่านหนังสือ");
+    },
   },
   computed: {
     isLogin() {
@@ -266,7 +345,7 @@ export default {
   },
   mounted() {
     this.getBookDetail();
-    if(this.isLogin){
+    if (this.isLogin) {
       this.hasBook();
     }
   },
@@ -274,12 +353,23 @@ export default {
 </script>
 
 <style scoped>
+.bg-card {
+  background-color: #f6f6f6;
+}
+.btn-color {
+  color: #fff;
+  background-color: #00af70;
+}
 .herdName {
   display: flex;
   justify-content: center;
   margin-bottom: 30px;
   font-size: 36px;
   font-weight: bold;
+}
+.center-btn {
+  display: flex;
+  justify-content: center;
 }
 
 .description {
