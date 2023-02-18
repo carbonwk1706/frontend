@@ -69,7 +69,7 @@
         <v-btn
           type="submit"
           block
-          color="success"
+          class="btn-color"
           size="large"
           variant="elevated"
           @click="showModalConfirm"
@@ -273,6 +273,11 @@ export default {
 };
 </script>
 <style scoped>
+
+.btn-color {
+  color: #ffff;
+  background-color: #00af70;
+}
 .center-loading {
   display: flex;
   justify-content: center;

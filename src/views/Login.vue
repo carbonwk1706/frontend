@@ -33,19 +33,9 @@
               :rules="passwordRules"
             ></v-text-field>
             <div class="center">
-              <v-hover>
-                <template v-slot:default="{ isHovering, props }">
-                  <v-btn
-                    v-bind="props"
-                    class="rounded-pill"
-                    type="submit"
-                    color="success"
-                    size="large"
-                    :variant="isHovering ? 'outlined' : 'elevated'"
-                    >ล็อกอินเข้าระบบ</v-btn
-                  >
-                </template>
-              </v-hover>
+              <v-btn class="rounded-pill btn-color" type="submit" size="large"
+                >ล็อกอินเข้าระบบ</v-btn
+              >
             </div>
           </v-container>
           <v-card-actions class="center">
@@ -223,6 +213,17 @@ export default {
 };
 </script>
 <style scoped>
+
+.btn-color {
+  color: #00af70;
+  border: 1px solid #00af70;
+  box-shadow: none;
+}
+.btn-color:hover {
+  color: #ffff;
+  background-color: #00af70;
+  box-shadow: none;
+}
 .center-loading {
   display: flex;
   justify-content: center;
@@ -236,5 +237,4 @@ export default {
 .img-size {
   width: 100px;
 }
-
 </style>

@@ -78,18 +78,11 @@
       <v-col>
         <div class="mt-3 d-flex justify-end">
           <div>
-            <v-hover>
-              <template v-slot:default="{ isHovering, props }">
-                <v-btn
-                  v-bind="props"
-                  class="rounded-pill px-8 font-text"
-                  color="success"
-                  @click="toggleModal"
-                  :variant="isHovering ? 'elevated' : 'outlined'"
-                  >แก้ไขข้อมูลส่วนตัว</v-btn
-                >
-              </template>
-            </v-hover>
+            <v-btn
+              class="rounded-pill px-8 font-text btn-color"
+              @click="toggleModal"
+              >แก้ไขข้อมูลส่วนตัว</v-btn
+            >
           </div>
         </div>
       </v-col>
@@ -255,7 +248,7 @@ export default {
       router.push("/wishlist");
     },
     goToBookcase() {
-      router.push("/mybook")
+      router.push("/mybook");
     },
     goToHistoryBuy() {},
     firstName() {
@@ -364,6 +357,16 @@ export default {
 };
 </script>
 <style scoped>
+.btn-color {
+  color: #00af70;
+  border: 1px solid #00af70;
+  box-shadow: none;
+}
+.btn-color:hover {
+  color: #ffff;
+  background-color: #00af70;
+  box-shadow: none;
+}
 .font-size-content {
   font-size: 16px;
 }
