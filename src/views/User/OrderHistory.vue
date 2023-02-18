@@ -1,9 +1,14 @@
 <template>
   <Auth v-if="isLogin">
+    <div class="mb-5">
+      <span class="menu-link" @click="goToProfile">จัดการบัญชี</span>
+      <v-icon>mdi-chevron-right</v-icon>
+      <span class="menu-link-current">ประวัติการสั่งซื้อของฉัน</span>
+    </div>
     <div class="mb-5 d-flex justify-center">
       <h1>ประวัติการสั่งซื้อของฉัน</h1>
     </div>
-    <v-divider class="mb-6"></v-divider>
+    <v-divider class="mb-10"></v-divider>
     <v-table>
       <thead>
         <tr>
@@ -39,6 +44,7 @@
 </template>
 <script>
 import Auth from "@/components/Auth.vue";
+import router from "@/router";
 import api from "@/services/api";
 import moment from "moment";
 
@@ -66,6 +72,9 @@ export default {
       this.history = res.data
       console.log(this.history)
     },
+    goToProfile() {
+      router.push("/profile");
+    },
   },
   computed:{
     isLogin() {
@@ -79,4 +88,14 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+.menu-link {
+  color: #5a5a5a;
+  font-size: 14px;
+  cursor: pointer;
+}
+.menu-link-current {
+  color: #5a5a5a;
+  font-size: 14px;
+}
+</style>
