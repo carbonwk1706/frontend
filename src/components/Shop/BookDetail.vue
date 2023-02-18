@@ -1,7 +1,7 @@
 <template>
   <v-container>
     <div class="herdName">{{ book.name }}</div>
-    <v-row v-if="!checkBook">
+    <v-row>
       <v-col class="d-flex justify-end">
         <v-img :src="book.imageBook" max-height="360" max-width="360" />
       </v-col>
@@ -30,82 +30,46 @@
             <span class="text-rating-right"> ({{ book.rating }} Rating) </span>
           </v-row>
           <br />
-          <v-row class="mt-1">
-            <v-btn
-              class="btn-color"
-              rounded
-              width="160"
-              @click="addProduct(book)"
-            >
-              ฿ {{ book.price }} บาท
-            </v-btn>
-          </v-row>
-          <br />
-          <v-row>
-            <v-btn
-              class="btn-color"
-              rounded
-              width="160"
-              @click="addWishlist(book)"
-            >
-              เพิ่มรายการอยากได้
-            </v-btn>
-          </v-row>
-        </v-col>
-      </v-col>
-    </v-row>
-
-    <v-row v-else>
-      <v-col class="d-flex justify-end" cols="6">
-        <v-img :src="book.imageBook" max-height="360" max-width="360" />
-      </v-col>
-      <v-col class="description" cols="6">
-        <v-col>
-          <v-row>โดย {{ book.author }}</v-row>
-          <br />
-          <v-row>สำนักพิมพ์ {{ book.publisher }}</v-row>
-          <br />
-          <v-row>หมวดหมู่ {{ book.category }}</v-row>
-          <br />
-          <v-row>
-            <span v-if="book.ratingsCount > 0" class="text-rating-left">
-              {{ book.rating }}
-            </span>
-            <v-rating
-              v-model="book.rating"
-              color="#5a5a5a"
-              active-color="#e83e8c"
-              empty-icon="mdi-cards-heart"
-              full-icon="mdi-cards-heart"
-              readonly
-              hover
-              size="26"
-            ></v-rating>
-            <span class="text-rating-right">
-              ({{ book.ratingsCount }} Rating)
-            </span>
-          </v-row>
-          <br />
-          <v-row class="mt-1">
+          <div v-if="!checkBook">
+            <v-row class="mt-1">
+              <v-btn
+                class="btn-color"
+                rounded
+                width="160"
+                @click="addProduct(book)"
+              >
+                ฿ {{ book.price }} บาท
+              </v-btn>
+            </v-row>
+            <br />
+            <v-row>
+              <v-btn
+                class="btn-color"
+                rounded
+                width="160"
+                @click="addWishlist(book)"
+              >
+                เพิ่มรายการอยากได้
+              </v-btn>
+            </v-row>
+          </div>
+          <v-row v-else>
             <v-btn class="btn-color" rounded width="160" @click="readBook">
               อ่าน
             </v-btn>
           </v-row>
         </v-col>
       </v-col>
-      <v-col v-if="!noRating" class="mt-15 pa-16" cols="12">
+      <v-col class="mt-15 pa-16" cols="12">
         <h3 class="mb-4">เขียนรีวิวและให้เรตติ้ง</h3>
         <v-divider class="mb-4"></v-divider>
         <v-card class="bg-card">
           <v-container>
             <v-row>
               <v-col class="mt-4" cols="12">
-                <v-row>
+                <v-row v-if="isLogin">
                   <v-avatar class="ml-3" size="x-large">
-                    <v-img
-                      :src="user.imageUrl"
-                      cover
-                    ></v-img>
+                    <v-img :src="user.imageUrl" cover></v-img>
                   </v-avatar>
                   <div class="mt-1">
                     <v-col class="pa-0 ml-3" col="12">
@@ -116,6 +80,9 @@
                     </v-col>
                   </div>
                 </v-row>
+                <div v-else class="div-custom">
+                  <h3 @click="goToLogin()" class="text-center text-login text-login-2">คุณสามารถล็อกอินเพื่อแสดงความคิดเห็นได้จ้า</h3>
+                </div>
               </v-col>
               <v-col cols="12">
                 <div class="text-center">
@@ -128,10 +95,16 @@
                     hover
                     size="40"
                   ></v-rating>
-                  <v-textarea variant="solo"></v-textarea>
+                  <v-textarea
+                    v-model="comment"
+                    variant="solo"
+                    auto-grow
+                    shaped
+                    clearable
+                  ></v-textarea>
                 </div>
               </v-col>
-              <v-col cols="12">
+              <v-col cols="12" v-if="isLogin">
                 <div class="center-btn">
                   <v-btn
                     class="btn-color"
@@ -146,6 +119,41 @@
             </v-row>
           </v-container>
         </v-card>
+      </v-col>
+      <v-col cols="12" class="pa-16">
+        <h3 class="mb-4">รีวิวทั้งหมด</h3>
+        <v-divider class="mb-4"></v-divider>
+        <v-container class="container-border">
+          <v-list lines="two">
+            <v-list-item
+              v-for="item in allRating.slice(
+                (page - 1) * itemsPerPage,
+                page * itemsPerPage
+              )"
+              :key="item._id"
+              :subtitle="item.comment"
+              :title="item.name"
+              :prepend-avatar="item.imageUrl"
+            >
+              <template v-slot:default>
+                <v-rating
+                  v-model="item.rating"
+                  color="#5a5a5a"
+                  active-color="#e83e8c"
+                  empty-icon="mdi-cards-heart"
+                  full-icon="mdi-cards-heart"
+                  readonly
+                  hover
+                  size="22"
+                ></v-rating>
+                <p class="text-caption">
+                  เมื่อ-{{ formatTime(item.createAt) }}
+                </p>
+              </template>
+            </v-list-item>
+          </v-list>
+        </v-container>
+        <v-pagination class="mt-5" v-model="page" :length="pages" circle></v-pagination>
       </v-col>
     </v-row>
   </v-container>
@@ -202,6 +210,7 @@
 <script>
 import api from "@/services/api";
 import router from "@/router";
+import moment from "moment";
 
 export default {
   name: "BookDetail",
@@ -210,10 +219,16 @@ export default {
       book: [],
       myRating: [],
       user: [],
+      allUser: [],
+      allRating: [],
+      comment: "",
       showModal: false,
       checkBook: false,
       rating: 0,
       noRating: false,
+      page: 1,
+      itemsPerPage: 2,
+      isHovered: false
     };
   },
   methods: {
@@ -328,19 +343,29 @@ export default {
       }
     },
     async giveRating() {
-      if (this.checkBook) {
-        if (this.rating > 0) {
-          await api.post("/rating", {
-            userId: this.getId(),
-            bookId: this.$route.params.id,
-            rating: this.rating,
-          });
-          this.alertSuccess("ส่งข้อมูลสำเร็จ ขอบคุณสำหรับการรีวิว");
-          this.checkRating();
-          this.getBookDetail();
+      if (!this.noRating) {
+        if (this.checkBook) {
+          if (this.rating > 0) {
+            await api.post("/rating", {
+              userId: this.getId(),
+              bookId: this.$route.params.id,
+              rating: this.rating,
+              comment: this.comment,
+            });
+            this.alertSuccess("ส่งข้อมูลสำเร็จ ขอบคุณสำหรับการรีวิว");
+            this.checkRating();
+            this.getBookDetail();
+            this.getRatingBook();
+          } else {
+            this.alertWarning("กรุณาระบุ Rate หรือแสดงความเห็นก่อนนะจ๊ะ");
+          }
         } else {
-          this.alertWarning("กรุณาระบุ Rate หรือแสดงความเห็นก่อนนะจ๊ะ");
+          this.alertWarning("คุณยังไม่ได้ซื้อหนังสือเล่มนี้");
         }
+      } else {
+        this.alertWarning("คุณรีวิวหนังสือเล่มนี้ไปแล้ว");
+        this.rating = 0;
+        this.comment = "";
       }
     },
     readBook() {
@@ -359,6 +384,14 @@ export default {
       const res = await api.get("/profile/" + this.getId());
       this.user = res.data.user;
     },
+    async getRatingBook() {
+      const res = await api.get("/ratingBook/" + this.$route.params.id);
+      this.allRating = res.data;
+      console.log(this.allRating);
+    },
+    formatTime(item) {
+      return moment(item).format("MM/DD/YYYY, h:mm:ss a");
+    },
   },
   computed: {
     isLogin() {
@@ -367,9 +400,13 @@ export default {
     checkHaveRating() {
       return this.myRating.some((book) => book._id === this.$route.params.id);
     },
+    pages() {
+      return Math.ceil(this.allRating.length / this.itemsPerPage);
+    },
   },
   mounted() {
     this.getBookDetail();
+    this.getRatingBook();
     if (this.isLogin) {
       this.hasBook();
       this.checkRating();
@@ -380,6 +417,23 @@ export default {
 </script>
 
 <style scoped>
+.div-custom{
+  border-radius: 10px;
+  border: 1px solid rgb(230, 230, 230);
+  padding: 16px;
+}
+.text-login{
+  color: #5a5a5a;
+  cursor: pointer;
+}
+.text-login-2:hover{
+  color: #00af70;
+  cursor: pointer;
+}
+.container-border {
+  border-radius: 10px;
+  border: 1px solid rgb(230, 230, 230);
+}
 .text-rating-left {
   margin-top: 2px;
   margin-right: 8px;
