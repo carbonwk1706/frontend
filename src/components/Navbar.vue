@@ -448,7 +448,6 @@ export default {
       }, 2000);
       router.push("/");
       setTimeout(() => {
-        window.location.reload();
       }, 2000);
     },
     goToHome() {
