@@ -1,44 +1,51 @@
 <template>
-  <div class="mb-5 d-flex justify-center">
-    <h1>ประวัติการสั่งซื้อของฉัน</h1>
-  </div>
-  <v-divider class="mb-6"></v-divider>
-  <v-table>
-    <thead>
-      <tr>
-        <th class="text-left">ลำดับ</th>
-        <th class="text-left">วันที่</th>
-        <th class="text-left">จำนวน</th>
-        <th class="text-left">ราคารวม</th>
-        <th class="text-left"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(index, item) in history" :key="index">
-        <td>{{ item + 1 }}</td>
-        <td>{{ formatTime(history[item].createdAt) }}</td>
-        <td>{{ history[item].count }} เล่ม</td>
-        <td>{{ history[item].totalCost }} บาท</td>
-        <td>
-          <v-btn
-            variant="flat"
-            color="grey"
-            class="mr-3"
-            @click="showDetail(history[item]._id)"
-          >
-            ดูรายละเอียด
-          </v-btn>
-        </td>
-      </tr>
-    </tbody>
-  </v-table>
-  <div></div>
+  <Auth v-if="isLogin">
+    <div class="mb-5 d-flex justify-center">
+      <h1>ประวัติการสั่งซื้อของฉัน</h1>
+    </div>
+    <v-divider class="mb-6"></v-divider>
+    <v-table>
+      <thead>
+        <tr>
+          <th class="text-left">ลำดับ</th>
+          <th class="text-left">วันที่</th>
+          <th class="text-left">จำนวน</th>
+          <th class="text-left">ราคารวม</th>
+          <th class="text-left"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr v-for="(index, item) in history" :key="index">
+          <td>{{ item + 1 }}</td>
+          <td>{{ formatTime(history[item].createdAt) }}</td>
+          <td>{{ history[item].count }} เล่ม</td>
+          <td>{{ history[item].totalCost }} บาท</td>
+          <td>
+            <v-btn
+              variant="flat"
+              color="grey"
+              class="mr-3"
+              @click="showDetail(history[item]._id)"
+            >
+              ดูรายละเอียด
+            </v-btn>
+          </td>
+        </tr>
+      </tbody>
+    </v-table>
+  </Auth>
+  <Auth v-else>
+  </Auth>
 </template>
 <script>
+import Auth from "@/components/Auth.vue";
 import api from "@/services/api";
 import moment from "moment";
 
 export default {
+  components:{
+    Auth
+  },
   data() {
     return {
       history: [],
@@ -60,8 +67,15 @@ export default {
       console.log(this.history)
     },
   },
+  computed:{
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
+    },
+  },
   mounted() {
-    this.fetchApi();
+    if(this.isLogin){
+      this.fetchApi();
+    }
   },
 };
 </script>
