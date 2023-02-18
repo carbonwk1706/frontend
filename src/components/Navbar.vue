@@ -190,10 +190,12 @@
         density="compact"
         variant="solo"
         label="ค้นหาหนังสือ"
+        v-model="searchTerm"
         prepend-inner-icon="mdi-magnify"
         single-line
         hide-details
-        @click:prepend-inner="onClick"
+        @click:prepend-inner="handleSearch"
+        @keyup.enter="handleSearch"
       ></v-text-field>
     </v-card-text>
   </v-toolbar>
@@ -412,14 +414,30 @@ export default {
     loadingSearch: false,
     loading: false,
     visibleModal: false,
+    searchTerm: "",
     user: [],
   }),
   methods: {
-    onClick() {
+    handleSearch() {
       this.loadingSearch = true;
-
       setTimeout(() => {
-        this.loadingSearch = false;
+        if (this.searchTerm) {
+          this.loadingSearch = false
+          router.push({
+            name: "search",
+            params: {
+              searchTerm: this.searchTerm,
+            },
+          });
+        } else {
+          this.loadingSearch = false
+          router.push({
+            name: "search",
+            params: {
+              searchTerm: "",
+            },
+          });
+        }
       }, 2000);
     },
     logout() {
@@ -556,7 +574,7 @@ export default {
           toolbar2.classList.add("hide-nav");
         } else if (window.scrollY > 50) {
           toolbar2.classList.add("hide-nav");
-        } else {  
+        } else {
           toolbar2.classList.remove("hide-nav");
         }
       }
@@ -632,5 +650,4 @@ export default {
   cursor: pointer;
   border-bottom: 3px solid #00af70;
 }
-
 </style>

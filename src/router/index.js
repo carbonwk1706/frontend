@@ -132,6 +132,11 @@ const routes = [
     name: 'historyadmin',
     component: () => import('../views/HistoryAdmin.vue')
   },
+  {
+    path: '/search/:searchTerm?',
+    name: 'search',
+    component: () => import('../views/SearchBooks.vue')
+  }
 ]
 
 const router = createRouter({

@@ -66,8 +66,7 @@
         <v-card class="bg-card">
           <v-container>
             <v-row>
-              <div v-if="isLogin">
-                <v-col class="mt-4" cols="12">
+                <v-col v-if="isLogin" class="mt-4" cols="12">
                   <v-row>
                     <v-avatar class="ml-3" size="x-large">
                       <v-img :src="user.imageUrl" cover></v-img>
@@ -82,7 +81,7 @@
                     </div>
                   </v-row>
                 </v-col>
-                <v-col cols="12">
+                <v-col v-if="isLogin" cols="12">
                   <div class="text-center">
                     <v-rating
                       v-model="rating"
@@ -102,7 +101,7 @@
                     ></v-textarea>
                   </div>
                 </v-col>
-                <v-col cols="12">
+                <v-col v-if="isLogin" cols="12">
                   <div class="center-btn">
                     <v-btn
                       class="btn-color"
@@ -114,8 +113,7 @@
                     </v-btn>
                   </div>
                 </v-col>
-              </div>
-                <v-col v-else cols="12">
+                <v-col v-if="!isLogin"  cols="12">
                     <h3 @click="goToLogin()" class="text-center text-login text-login-2">คุณสามารถล็อกอินเพื่อแสดงความคิดเห็นได้จ้า</h3>
                 </v-col>
             </v-row>
