@@ -16,17 +16,17 @@ const routes = [
   {
     path: '/cart',
     name: 'cart',
-    component: () => import('../views/Cart.vue')
+    component: () => import('../views/User/Cart.vue')
   },
   {
     path: '/wishlist',
     name: 'wishlist',
-    component: () => import('../views/Wishlist.vue')
+    component: () => import('../views/User/Wishlist.vue')
   },
   {
     path: '/profile',
     name: 'profile',
-    component: () => import('../views/Profile.vue')
+    component: () => import('../views/User/Profile.vue')
   },
   {
     path: '/book/:id',
@@ -55,17 +55,22 @@ const routes = [
   {
     path: '/mybook',
     name: 'mybook',
-    component: () => import('../views/MyBook.vue')
+    component: () => import('../views/User/MyBook.vue')
   },
   {
     path: '/orderhistory',
     name: 'orderhistory',
-    component: () => import('../views/OrderHistory.vue')
+    component: () => import('../views/User/OrderHistory.vue')
+  },
+  {
+    path: '/receiptbook/:id',
+    name: 'receiptbook',
+    component: () => import('../views/User/DetailOrder.vue')
   },
   {
     path: '/registersell',
     name: 'registersell',
-    component: () => import('../views/RegisterSell.vue')
+    component: () => import('../views/User/RegisterSell.vue')
 
   },
   {
@@ -136,7 +141,7 @@ const routes = [
     path: '/search/:searchTerm?',
     name: 'search',
     component: () => import('../views/SearchBooks.vue')
-  }
+  },
 ]
 
 const router = createRouter({
