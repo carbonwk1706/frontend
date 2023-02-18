@@ -57,6 +57,7 @@
   </v-card>
 </template>
 <script>
+import router from "@/router";
 import api from "@/services/api";
 import moment from "moment";
 export default {
@@ -89,9 +90,16 @@ export default {
     pages() {
       return Math.ceil(this.books.length / this.itemsPerPage);
     },
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
+    },
   },
   mounted() {
-    this.getDetailOrder();
+    if(this.isLogin){
+      this.getDetailOrder();
+    }else{
+      router.push("/orderhistory")
+    }
   },
 };
 </script>
