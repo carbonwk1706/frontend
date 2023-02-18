@@ -1,16 +1,9 @@
 <template>
   <v-app>
-    <v-app-bar
-      :height="navHeight"
-      elevation="0"
-      v-if="showNavbar && !this.isNotFoundRoute"
-      style="z-index: 1"
-    >
-      <Navbar />
-    </v-app-bar>
+    <Navbar v-if="showNavbar && !this.isNotFoundRoute" />
     <CoinNavbar v-if="showNavbarCoin && !this.isNotFoundRoute" />
     <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
-    <v-main>
+    <v-main class="padding-main">
       <v-container class="container-size">
         <router-view />
       </v-container>
@@ -35,20 +28,11 @@ export default {
     CoinNavbar,
     FooterCoin,
   },
-  data() {
-    return {
-      navHeight: 164,
-    };
-  },
+
   created() {
     window.addEventListener("storage", this.handleStorageChange);
-    window.addEventListener("scroll", this.handleScroll);
   },
   methods: {
-    handleScroll() {
-      const isDialogOpen = document.body.classList.contains("dialog-open");
-      this.navHeight = isDialogOpen ? 114 : window.scrollY > 50 ? 114 : 164;
-    },
     handleStorageChange(event) {
       if (this.isLogin) {
         if (
@@ -185,5 +169,8 @@ export default {
 }
 :root {
   --v-scrollbar-offset: 0px !important;
+}
+.padding-main{
+  padding-top: 164px;
 }
 </style>

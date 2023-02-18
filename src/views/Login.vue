@@ -202,6 +202,20 @@ export default {
     visibleModal() {
       this.isVisible = this.$props.visibleModal;
     },
+    loading(newValue) {
+      if (newValue) {
+        document.body.classList.add("dialog-open");
+      } else {
+        document.body.classList.remove("dialog-open");
+      }
+    },
+    isVisible(newValue) {
+      if (newValue) {
+        document.body.classList.add("dialog-open");
+      } else {
+        document.body.classList.remove("dialog-open");
+      }
+    },
   },
   mounted() {
     this.$emit("update:isVisible", false);

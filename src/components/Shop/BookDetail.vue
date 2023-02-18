@@ -229,8 +229,7 @@ export default {
       rating: 0,
       noRating: false,
       page: 1,
-      itemsPerPage: 2,
-      isHovered: false
+      itemsPerPage: 2
     };
   },
   methods: {

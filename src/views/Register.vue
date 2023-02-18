@@ -199,6 +199,34 @@ export default {
     registerModal() {
       this.isVisible = this.$props.registerModal;
     },
+    loading(newValue) {
+      if (newValue) {
+        document.body.classList.add("dialog-open");
+      } else {
+        document.body.classList.remove("dialog-open");
+      }
+    },
+    isVisible(newValue) {
+      if (newValue) {
+        document.body.classList.add("dialog-open");
+      } else {
+        document.body.classList.remove("dialog-open");
+      }
+    },
+    dialog(newValue) {
+      if (newValue) {
+        document.body.classList.add("dialog-open");
+      } else {
+        document.body.classList.remove("dialog-open");
+      }
+    },
+    loginModal(newValue) {
+      if (newValue) {
+        document.body.classList.add("dialog-open");
+      } else {
+        document.body.classList.remove("dialog-open");
+      }
+    },
   },
   data() {
     return {
@@ -365,7 +393,7 @@ export default {
   },
   mounted() {
     this.$emit("update:isVisible", false);
-  },
+  }
 };
 </script>
 <style scoped>
