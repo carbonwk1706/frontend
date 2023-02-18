@@ -96,6 +96,7 @@ export default {
           "/admintable",
           "/approvetable",
           "/historyadmin",
+          "/orderhistory"
         ].includes(this.$route.path);
       } else {
         return ![
@@ -124,6 +125,7 @@ export default {
             "/mybook",
             "/wishlist",
             "/profile",
+            "/orderhistory",
             "/login",
             "/admin",
             "/usertable",
