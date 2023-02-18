@@ -96,24 +96,52 @@
       <v-col v-if="!noRating" class="mt-15 pa-16" cols="12">
         <v-card class="bg-card">
           <v-container>
-            <h3 class="text-center">ให้เรตติ้ง</h3>
-            <div class="text-center mt-4">
-              <v-rating
-                v-model="rating"
-                color="#00bf6c"
-                active-color="#e83e8c"
-                empty-icon="mdi-heart-outline"
-                full-icon="mdi-cards-heart"
-                hover
-                size="32"
-              ></v-rating>
-              <pre>{{ rating }}</pre>
-            </div>
-            <div class="center-btn mt-4">
-              <v-btn class="btn-color" rounded width="160" @click="giveRating">
-                ส่งคะแนน
-              </v-btn>
-            </div>
+            <v-row>
+              <v-col cols="12">
+                <h3>เขียนรีวิวและให้เรตติ้ง</h3>
+              </v-col>
+              <v-col cols="12">
+                <v-row>
+                    <v-avatar class="ml-3" size="x-large">
+                      <v-img
+                        src="https://cdn.vuetifyjs.com/images/john.jpg"
+                        alt="John"
+                      ></v-img>
+                    </v-avatar>
+                    <div class="mt-1">
+                      <v-col class="pa-0 ml-3" col="12">
+                        <span class="text-caption">ชื่อที่แสดงเมื่อคุณรีวิว</span>
+                      </v-col>
+                      <v-col class="pa-0 ml-3" col="12">
+                        <span>ชื่อที่แสดงเมื่อคุณรีวิว</span>
+                      </v-col>
+                    </div>
+                </v-row>
+              </v-col>
+              <v-col cols="12">
+                <div class="text-center">
+                  <v-rating
+                    v-model="rating"
+                    color="#00bf6c"
+                    active-color="#e83e8c"
+                    empty-icon="mdi-heart-outline"
+                    full-icon="mdi-cards-heart"
+                    hover
+                    size="40"
+                  ></v-rating>
+                  <v-textarea
+                  variant="solo"
+                ></v-textarea>
+                </div>
+              </v-col>
+              <v-col cols="12">
+                <div class="center-btn">
+                  <v-btn class="btn-color" rounded width="200" @click="giveRating">
+                    ส่งรีวิว
+                  </v-btn>
+                </div>
+              </v-col>
+            </v-row>
           </v-container>
         </v-card>
       </v-col>
