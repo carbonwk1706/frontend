@@ -66,61 +66,63 @@
         <v-card class="bg-card">
           <v-container>
             <v-row>
-              <v-col class="mt-4" cols="12">
-                <v-row v-if="isLogin">
-                  <v-avatar class="ml-3" size="x-large">
-                    <v-img :src="user.imageUrl" cover></v-img>
-                  </v-avatar>
-                  <div class="mt-1">
-                    <v-col class="pa-0 ml-3" col="12">
-                      <span class="text-caption">ชื่อที่แสดงเมื่อคุณรีวิว</span>
-                    </v-col>
-                    <v-col class="pa-0 ml-3" col="12">
-                      <span>{{ user.name }}</span>
-                    </v-col>
+              <div v-if="isLogin">
+                <v-col class="mt-4" cols="12">
+                  <v-row>
+                    <v-avatar class="ml-3" size="x-large">
+                      <v-img :src="user.imageUrl" cover></v-img>
+                    </v-avatar>
+                    <div class="mt-1">
+                      <v-col class="pa-0 ml-3" col="12">
+                        <span class="text-caption">ชื่อที่แสดงเมื่อคุณรีวิว</span>
+                      </v-col>
+                      <v-col class="pa-0 ml-3" col="12">
+                        <span>{{ user.name }}</span>
+                      </v-col>
+                    </div>
+                  </v-row>
+                </v-col>
+                <v-col cols="12">
+                  <div class="text-center">
+                    <v-rating
+                      v-model="rating"
+                      color="#00bf6c"
+                      active-color="#e83e8c"
+                      empty-icon="mdi-heart-outline"
+                      full-icon="mdi-cards-heart"
+                      hover
+                      size="40"
+                    ></v-rating>
+                    <v-textarea
+                      v-model="comment"
+                      variant="solo"
+                      auto-grow
+                      shaped
+                      clearable
+                    ></v-textarea>
                   </div>
-                </v-row>
-                <div v-else class="div-custom">
-                  <h3 @click="goToLogin()" class="text-center text-login text-login-2">คุณสามารถล็อกอินเพื่อแสดงความคิดเห็นได้จ้า</h3>
-                </div>
-              </v-col>
-              <v-col cols="12">
-                <div class="text-center">
-                  <v-rating
-                    v-model="rating"
-                    color="#00bf6c"
-                    active-color="#e83e8c"
-                    empty-icon="mdi-heart-outline"
-                    full-icon="mdi-cards-heart"
-                    hover
-                    size="40"
-                  ></v-rating>
-                  <v-textarea
-                    v-model="comment"
-                    variant="solo"
-                    auto-grow
-                    shaped
-                    clearable
-                  ></v-textarea>
-                </div>
-              </v-col>
-              <v-col cols="12" v-if="isLogin">
-                <div class="center-btn">
-                  <v-btn
-                    class="btn-color"
-                    rounded
-                    width="200"
-                    @click="giveRating"
-                  >
-                    ส่งรีวิว
-                  </v-btn>
-                </div>
-              </v-col>
+                </v-col>
+                <v-col cols="12">
+                  <div class="center-btn">
+                    <v-btn
+                      class="btn-color"
+                      rounded
+                      width="200"
+                      @click="giveRating"
+                    >
+                      ส่งรีวิว
+                    </v-btn>
+                  </div>
+                </v-col>
+              </div>
+                <v-col v-else cols="12">
+                    <h3 @click="goToLogin()" class="text-center text-login text-login-2">คุณสามารถล็อกอินเพื่อแสดงความคิดเห็นได้จ้า</h3>
+                </v-col>
             </v-row>
           </v-container>
         </v-card>
       </v-col>
-      <v-col cols="12" class="pa-16">
+      <v-col v-if="allRating.length > 0" cols="12" class="pa-16">
         <h3 class="mb-4">รีวิวทั้งหมด</h3>
         <v-divider class="mb-4"></v-divider>
         <v-container class="container-border">
