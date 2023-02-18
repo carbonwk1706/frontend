@@ -1,6 +1,13 @@
 <template>
+  <div class="mb-5">
+    <span class="menu-link" @click="goToProfile">จัดการบัญชี</span>
+    <v-icon>mdi-chevron-right</v-icon>
+    <span class="menu-link" @click="goToOrderHistory">ประวัติการสั่งซื้อของฉัน</span>
+    <v-icon>mdi-chevron-right</v-icon>
+    <span class="menu-link-current">รายละเอียดการสั่งซื้อ</span>
+  </div>
   <div class="mb-5 d-flex justify-center">
-    <h1>รายละเอียดการสั่งซื้อ</h1>
+    <h1 class="mt-8">รายละเอียดการสั่งซื้อ</h1>
   </div>
   <v-divider class="mb-6"></v-divider>
   <v-card class="mx-auto mt-5">
@@ -85,6 +92,12 @@ export default {
         this.books.push(res.data.books[i]);
       }
     },
+    goToProfile() {
+      router.push("/profile");
+    },
+    goToOrderHistory() {
+      router.push("/orderhistory");
+    },
   },
   computed: {
     pages() {
@@ -103,4 +116,14 @@ export default {
   },
 };
 </script>
-<style></style>
+<style scoped>
+.menu-link {
+  color: #5a5a5a;
+  font-size: 14px;
+  cursor: pointer;
+}
+.menu-link-current {
+  color: #5a5a5a;
+  font-size: 14px;
+}
+</style>
