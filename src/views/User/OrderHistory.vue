@@ -20,17 +20,23 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(index, item) in history" :key="index">
-          <td>{{ item + 1 }}</td>
-          <td>{{ formatTime(history[item].createdAt) }}</td>
-          <td>{{ history[item].count }} เล่ม</td>
-          <td>{{ history[item].totalCost }} บาท</td>
+        <tr
+          v-for="(item, index) in history.slice(
+            (page - 1) * itemsPerPage,
+            page * itemsPerPage
+          )"
+          :key="index"
+        >
+          <td>{{ index+1 }}</td>
+          <td>{{ formatTime(item.createdAt) }}</td>
+          <td>{{ item.count }} เล่ม</td>
+          <td>{{ item.totalCost }} บาท</td>
           <td>
             <v-btn
               variant="flat"
               color="grey"
               class="mr-3"
-              @click="showDetail(history[item]._id)"
+              @click="showDetail(item._id)"
             >
               ดูรายละเอียด
             </v-btn>
@@ -38,7 +44,15 @@
         </tr>
       </tbody>
     </v-table>
-    <div v-else>
+    <div v-if="history.length > 0" class="pt-8 center-pagination">
+      <v-pagination
+        class="mt-5"
+        v-model="page"
+        :length="pages"
+        circle
+      ></v-pagination>
+    </div>
+    <div v-if="history.length === 0">
       <div class="d-flex justify-center">
         <img
           src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
@@ -47,18 +61,13 @@
           height="200"
         />
       </div>
-      <h3 class="text-center">
-        ขออภัยด้วยนะครับ
-      </h3>
+      <h3 class="text-center">ขออภัยด้วยนะครับ</h3>
       <div>
-        <p class="text-center" style="color: #5a5a5a">
-          ไม่พบรายการที่คุณค้นหา
-        </p>
+        <p class="text-center" style="color: #5a5a5a">ไม่พบรายการที่คุณค้นหา</p>
       </div>
     </div>
   </Auth>
-  <Auth v-else>
-  </Auth>
+  <Auth v-else> </Auth>
 </template>
 <script>
 import Auth from "@/components/Auth.vue";
@@ -67,12 +76,14 @@ import api from "@/services/api";
 import moment from "moment";
 
 export default {
-  components:{
-    Auth
+  components: {
+    Auth,
   },
   data() {
     return {
       history: [],
+      page: 1,
+      itemsPerPage: 5,
     };
   },
   methods: {
@@ -80,33 +91,39 @@ export default {
       return this.$store.getters["auth/getId"];
     },
     showDetail(id) {
-      this.$router.push(`/receiptbook/${id}`)
+      this.$router.push(`/receiptbook/${id}`);
     },
-    formatTime(item){
-      return moment(item).format('MM/DD/YYYY, h:mm:ss a');
+    formatTime(item) {
+      return moment(item).format("MM/DD/YYYY, h:mm:ss a");
     },
     async fetchApi() {
       const res = await api.get("/receiptbook/" + this.getId());
-      this.history = res.data
-      console.log(this.history)
+      this.history = res.data;
     },
     goToProfile() {
       router.push("/profile");
     },
   },
-  computed:{
+  computed: {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
     },
+    pages() {
+      return Math.ceil(this.history.length / this.itemsPerPage);
+    },
   },
   mounted() {
-    if(this.isLogin){
+    if (this.isLogin) {
       this.fetchApi();
     }
   },
 };
 </script>
 <style scoped>
+.center-pagination {
+  display: flex;
+  justify-content: center;
+}
 .menu-link {
   color: #5a5a5a;
   font-size: 14px;
