@@ -250,7 +250,9 @@ export default {
     goToBookcase() {
       router.push("/mybook");
     },
-    goToHistoryBuy() {},
+    goToHistoryBuy() {
+      router.push("/orderhistory")
+    },
     firstName() {
       return this.user.firstName ? this.user.firstName : "ไม่ระบุ";
     },
@@ -335,7 +337,6 @@ export default {
       return this.$store.getters["auth/getId"];
     },
     callback() {
-      console.log("hello");
       this.fetchApi();
     },
     async fetchApi() {

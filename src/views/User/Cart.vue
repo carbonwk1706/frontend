@@ -4,7 +4,7 @@
   </AuthCart>
 </template>
 <script>
-import AuthCart from "../components/AuthCart.vue";
+import AuthCart from "../../components/AuthCart.vue";
 import CartList from "@/components/Shop/CartList.vue";
 
 export default {
