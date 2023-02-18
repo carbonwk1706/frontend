@@ -66,56 +66,61 @@
         <v-card class="bg-card">
           <v-container>
             <v-row>
-                <v-col v-if="isLogin" class="mt-4" cols="12">
-                  <v-row>
-                    <v-avatar class="ml-3" size="x-large">
-                      <v-img :src="user.imageUrl" cover></v-img>
-                    </v-avatar>
-                    <div class="mt-1">
-                      <v-col class="pa-0 ml-3" col="12">
-                        <span class="text-caption">ชื่อที่แสดงเมื่อคุณรีวิว</span>
-                      </v-col>
-                      <v-col class="pa-0 ml-3" col="12">
-                        <span>{{ user.name }}</span>
-                      </v-col>
-                    </div>
-                  </v-row>
-                </v-col>
-                <v-col v-if="isLogin" cols="12">
-                  <div class="text-center">
-                    <v-rating
-                      v-model="rating"
-                      color="#00bf6c"
-                      active-color="#e83e8c"
-                      empty-icon="mdi-heart-outline"
-                      full-icon="mdi-cards-heart"
-                      hover
-                      size="40"
-                    ></v-rating>
-                    <v-textarea
-                      v-model="comment"
-                      variant="solo"
-                      auto-grow
-                      shaped
-                      clearable
-                    ></v-textarea>
+              <v-col v-if="isLogin" class="mt-4" cols="12">
+                <v-row>
+                  <v-avatar class="ml-3" size="x-large">
+                    <v-img :src="user.imageUrl" cover></v-img>
+                  </v-avatar>
+                  <div class="mt-1">
+                    <v-col class="pa-0 ml-3" col="12">
+                      <span class="text-caption">ชื่อที่แสดงเมื่อคุณรีวิว</span>
+                    </v-col>
+                    <v-col class="pa-0 ml-3" col="12">
+                      <span>{{ user.name }}</span>
+                    </v-col>
                   </div>
-                </v-col>
-                <v-col v-if="isLogin" cols="12">
-                  <div class="center-btn">
-                    <v-btn
-                      class="btn-color"
-                      rounded
-                      width="200"
-                      @click="giveRating"
-                    >
-                      ส่งรีวิว
-                    </v-btn>
-                  </div>
-                </v-col>
-                <v-col v-if="!isLogin"  cols="12">
-                    <h3 @click="goToLogin()" class="text-center text-login text-login-2">คุณสามารถล็อกอินเพื่อแสดงความคิดเห็นได้จ้า</h3>
-                </v-col>
+                </v-row>
+              </v-col>
+              <v-col v-if="isLogin" cols="12">
+                <div class="text-center">
+                  <v-rating
+                    v-model="rating"
+                    color="#00bf6c"
+                    active-color="#e83e8c"
+                    empty-icon="mdi-heart-outline"
+                    full-icon="mdi-cards-heart"
+                    hover
+                    size="40"
+                  ></v-rating>
+                  <v-textarea
+                    v-model="comment"
+                    variant="solo"
+                    auto-grow
+                    shaped
+                    clearable
+                  ></v-textarea>
+                </div>
+              </v-col>
+              <v-col v-if="isLogin" cols="12">
+                <div class="center-btn">
+                  <v-btn
+                    class="btn-color"
+                    rounded
+                    width="200"
+                    @click="giveRating"
+                  >
+                    ส่งรีวิว
+                  </v-btn>
+                </div>
+              </v-col>
+              <v-col v-if="!isLogin" cols="12">
+                <h3
+                  @click="goToLogin()"
+                  class="text-center text-login text-login-2"
+                >
+                  คุณสามารถล็อกอินเพื่อแสดงความคิดเห็นได้จ้า
+                </h3>
+              </v-col>
             </v-row>
           </v-container>
         </v-card>
@@ -153,7 +158,12 @@
             </v-list-item>
           </v-list>
         </v-container>
-        <v-pagination class="mt-5" v-model="page" :length="pages" circle></v-pagination>
+        <v-pagination
+          class="mt-5"
+          v-model="page"
+          :length="pages"
+          circle
+        ></v-pagination>
       </v-col>
     </v-row>
   </v-container>
@@ -227,7 +237,7 @@ export default {
       rating: 0,
       noRating: false,
       page: 1,
-      itemsPerPage: 2
+      itemsPerPage: 2,
     };
   },
   methods: {
@@ -360,6 +370,8 @@ export default {
           }
         } else {
           this.alertWarning("คุณยังไม่ได้ซื้อหนังสือเล่มนี้");
+          this.rating = 0;
+          this.comment = "";
         }
       } else {
         this.alertWarning("คุณรีวิวหนังสือเล่มนี้ไปแล้ว");
@@ -416,16 +428,16 @@ export default {
 </script>
 
 <style scoped>
-.div-custom{
+.div-custom {
   border-radius: 10px;
   border: 1px solid rgb(230, 230, 230);
   padding: 16px;
 }
-.text-login{
+.text-login {
   color: #5a5a5a;
   cursor: pointer;
 }
-.text-login-2:hover{
+.text-login-2:hover {
   color: #00af70;
   cursor: pointer;
 }

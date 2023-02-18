@@ -1,0 +1,98 @@
+<template>
+  <div class="mb-5 d-flex justify-center">
+    <h1>รายละเอียดการสั่งซื้อ</h1>
+  </div>
+  <v-divider class="mb-6"></v-divider>
+  <v-card class="mx-auto mt-5">
+    <v-card-title class="headline">ใบเสร็จ</v-card-title>
+    <v-card-subtitle class="subtitle-2 text-uppercase"
+      >Order #{{ detail._id }}</v-card-subtitle
+    >
+    <v-card-text>
+      <v-row>
+        <v-col cols="12">
+          <span>วันเวลาที่สั่งซื้อ : </span>
+          <span>{{ formatTime(detail.createAt) }}</span>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <span>ราคารวม : </span>
+          <span> {{ detail.totalCost }} บาท</span>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <span>จำนวนสินค้า : </span>
+          <span> {{ detail.count }} เล่ม</span>
+        </v-col>
+      </v-row>
+      <v-row
+        v-for="(book, index) in books.slice(
+          (page - 1) * itemsPerPage,
+          page * itemsPerPage
+        )"
+        :key="index"
+      >
+        <v-divider class="my-3"></v-divider>
+        <v-col cols="4">
+          <v-img :src="book.imageBook" aspect-ratio="1"></v-img>
+        </v-col>
+        <v-col cols="8">
+          <h3 class="mb-3">{{ book.name }}</h3>
+          <p class="mb-2">โดย {{ book.author }}</p>
+          <p class="mb-2">สำนักพิมพ์ {{ book.publisher }}</p>
+          <p class="mb-2">หมวดหมู่ {{ book.category }}</p>
+          <p class="mb-2">ราคา {{ book.price }} บาท</p>
+        </v-col>
+        <v-divider class="my-3"></v-divider>
+      </v-row>
+      <v-pagination
+        class="mt-5"
+        v-model="page"
+        :length="pages"
+        circle
+      ></v-pagination>
+    </v-card-text>
+  </v-card>
+</template>
+<script>
+import api from "@/services/api";
+import moment from "moment";
+export default {
+  data() {
+    return {
+      detail: [],
+      books: [],
+      page: 1,
+      itemsPerPage: 2,
+    };
+  },
+  methods: {
+    getId() {
+      return this.$store.getters["auth/getId"];
+    },
+    formatTime(item) {
+      return moment(item).format("MM/DD/YYYY, h:mm:ss a");
+    },
+    async getDetailOrder() {
+      const res = await api.get(
+        "/receiptbook/" + this.$route.params.id + "/" + this.getId()
+      );
+      this.detail = res.data;
+      for (let i = 0; i < res.data.books.length; i++) {
+        this.books.push(res.data.books[i]);
+      }
+    },
+  },
+  computed: {
+    pages() {
+      return Math.ceil(this.books.length / this.itemsPerPage);
+    },
+  },
+  mounted() {
+    this.getDetailOrder();
+  },
+};
+</script>
+<style></style>
