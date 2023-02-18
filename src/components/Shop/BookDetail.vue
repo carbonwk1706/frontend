@@ -94,28 +94,27 @@
         </v-col>
       </v-col>
       <v-col v-if="!noRating" class="mt-15 pa-16" cols="12">
+        <h3 class="mb-4">เขียนรีวิวและให้เรตติ้ง</h3>
+        <v-divider class="mb-4"></v-divider>
         <v-card class="bg-card">
           <v-container>
             <v-row>
-              <v-col cols="12">
-                <h3>เขียนรีวิวและให้เรตติ้ง</h3>
-              </v-col>
-              <v-col cols="12">
+              <v-col class="mt-4" cols="12">
                 <v-row>
-                    <v-avatar class="ml-3" size="x-large">
-                      <v-img
-                        src="https://cdn.vuetifyjs.com/images/john.jpg"
-                        alt="John"
-                      ></v-img>
-                    </v-avatar>
-                    <div class="mt-1">
-                      <v-col class="pa-0 ml-3" col="12">
-                        <span class="text-caption">ชื่อที่แสดงเมื่อคุณรีวิว</span>
-                      </v-col>
-                      <v-col class="pa-0 ml-3" col="12">
-                        <span>ชื่อที่แสดงเมื่อคุณรีวิว</span>
-                      </v-col>
-                    </div>
+                  <v-avatar class="ml-3" size="x-large">
+                    <v-img
+                      :src="user.imageUrl"
+                      cover
+                    ></v-img>
+                  </v-avatar>
+                  <div class="mt-1">
+                    <v-col class="pa-0 ml-3" col="12">
+                      <span class="text-caption">ชื่อที่แสดงเมื่อคุณรีวิว</span>
+                    </v-col>
+                    <v-col class="pa-0 ml-3" col="12">
+                      <span>{{ user.name }}</span>
+                    </v-col>
+                  </div>
                 </v-row>
               </v-col>
               <v-col cols="12">
@@ -129,14 +128,17 @@
                     hover
                     size="40"
                   ></v-rating>
-                  <v-textarea
-                  variant="solo"
-                ></v-textarea>
+                  <v-textarea variant="solo"></v-textarea>
                 </div>
               </v-col>
               <v-col cols="12">
                 <div class="center-btn">
-                  <v-btn class="btn-color" rounded width="200" @click="giveRating">
+                  <v-btn
+                    class="btn-color"
+                    rounded
+                    width="200"
+                    @click="giveRating"
+                  >
                     ส่งรีวิว
                   </v-btn>
                 </div>
@@ -207,6 +209,7 @@ export default {
     return {
       book: [],
       myRating: [],
+      user: [],
       showModal: false,
       checkBook: false,
       rating: 0,
@@ -282,14 +285,14 @@ export default {
           ) {
             this.alertWarning("คุณมีสินค้านี้ในรายการโปรดแล้ว");
           } else {
-            this.alertSuccess("เพิ่มสินค้านี้ในรายการโปรดสำเร็จ")
+            this.alertSuccess("เพิ่มสินค้านี้ในรายการโปรดสำเร็จ");
             this.getWishList();
           }
         } catch (error) {
           console.log(error);
         }
       } else {
-        this.alertWarning("กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้ารายการโปรดด้วยจ้า")
+        this.alertWarning("กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้ารายการโปรดด้วยจ้า");
       }
     },
     getId() {
@@ -332,11 +335,11 @@ export default {
             bookId: this.$route.params.id,
             rating: this.rating,
           });
-          this.alertSuccess("ส่งข้อมูลสำเร็จ ขอบคุณสำหรับการรีวิว")
+          this.alertSuccess("ส่งข้อมูลสำเร็จ ขอบคุณสำหรับการรีวิว");
           this.checkRating();
           this.getBookDetail();
         } else {
-          this.alertWarning("กรุณาระบุ Rate หรือแสดงความเห็นก่อนนะจ๊ะ")
+          this.alertWarning("กรุณาระบุ Rate หรือแสดงความเห็นก่อนนะจ๊ะ");
         }
       }
     },
@@ -352,6 +355,10 @@ export default {
         this.noRating = false;
       }
     },
+    async getProfile() {
+      const res = await api.get("/profile/" + this.getId());
+      this.user = res.data.user;
+    },
   },
   computed: {
     isLogin() {
@@ -366,6 +373,7 @@ export default {
     if (this.isLogin) {
       this.hasBook();
       this.checkRating();
+      this.getProfile();
     }
   },
 };
