@@ -9,7 +9,7 @@
       <h1>ประวัติการสั่งซื้อของฉัน</h1>
     </div>
     <v-divider class="mb-10"></v-divider>
-    <v-table>
+    <v-table v-if="history.length > 0">
       <thead>
         <tr>
           <th class="text-left">ลำดับ</th>
@@ -38,6 +38,24 @@
         </tr>
       </tbody>
     </v-table>
+    <div v-else>
+      <div class="d-flex justify-center">
+        <img
+          src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
+          alt=""
+          width="200"
+          height="200"
+        />
+      </div>
+      <h3 class="text-center">
+        ขออภัยด้วยนะครับ
+      </h3>
+      <div>
+        <p class="text-center" style="color: #5a5a5a">
+          ไม่พบรายการที่คุณค้นหา
+        </p>
+      </div>
+    </div>
   </Auth>
   <Auth v-else>
   </Auth>
