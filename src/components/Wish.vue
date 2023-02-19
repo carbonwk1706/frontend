@@ -1,122 +1,142 @@
 <template>
-  <v-container class="grey lighten-5">
-    <div>
+  <v-container fluid>
+    <div class="d-flex align-center">
       <span class="menu-link" @click="goToProfile">จัดการบัญชี</span>
       <v-icon>mdi-chevron-right</v-icon>
       <span class="menu-link-current">รายการที่อยากได้</span>
     </div>
-    <div class="mt-6 mb-5 d-flex justify-center">
+    <div class="mt-6 mb-5 text-center">
       <h1>รายการที่อยากได้</h1>
     </div>
-    <div v-if="wishList.length === 0 || wishList === null">
+    <template v-if="wishList.length === 0 || wishList === null">
       <div class="d-flex justify-center">
         <img
           src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
-          alt=""
           width="200"
           height="200"
         />
       </div>
-      <div class="noWish">
+      <div class="text-noWish text-center">
         <p>ยังไม่มีรายการที่อยากได้</p>
       </div>
-      <div>
-        <p class="text-center" style="color: #5a5a5a">
+      <div class="text-center mt-3">
+        <p class="text-muted">
           คุณสามารถบันทึกหนังสือเล่มที่อยากได้แต่ยังไม่พร้อมซื้อ โดยกดปุ่ม
           “อยากได้” ในหน้าดูรายละเอียดหนังสือ
         </p>
       </div>
-    </div>
-    <div v-else>
-      <div class="mb-5 d-flex justify-start">
-        <h3>รายการที่อยากได้</h3>
-      </div>
-      <v-divider class="mb-5" ></v-divider>
+    </template>
+    <template v-else>
+      <v-row class="mb-3">
+        <v-col class="text-text-start">
+          <h3 class="display-1 font-weight-bold">รายการที่อยากได้</h3>
+        </v-col>
+      </v-row>
+      <v-divider class="mb-6"></v-divider>
       <v-row>
-        <v-col v-for="(item, index) in wishList" :key="index">
+        <v-col
+          v-for="(item, index) in wishList"
+          :key="index"
+          cols="12"
+          sm="6"
+          md="4"
+          class="mb-5"
+        >
           <v-card
-            class="mx-auto cardHover"
-            max-width="180"
+            class="cardHover"
+            max-width="200"
             @click="showDetail(item)"
           >
-            <v-img :src="item.imageBook" height="250px"
-              ><v-icon
+            <v-img :src="item.imageBook" cover>
+              <v-icon
                 size="40"
                 @click.stop="delWish(item)"
                 class="ml-auto mt-auto close-button"
                 >mdi-close-circle</v-icon
-              ></v-img
-            >
-            <v-card-title> {{ item.name }} </v-card-title>
-            <v-card-subtitle>
-              {{ item.author }}/{{ item.publisher }}
+              >
+            </v-img>
+            <v-card-title class="text-center">{{ item.name }}</v-card-title>
+            <v-card-subtitle class="text-center grey--text">
+              {{ item.author }} / {{ item.publisher }}
             </v-card-subtitle>
-            <v-row class="d-flex justify-end ma-3">
+            <v-divider></v-divider>
+            <v-card-text class="text-center">
+              <v-rating
+                v-model="item.rating"
+                color="#5a5a5a"
+                active-color="#e83e8c"
+                empty-icon="mdi-cards-heart"
+                full-icon="mdi-cards-heart"
+                readonly
+                hover
+                size="20"
+              ></v-rating>
+              <span class="text-grey-lighten-1 text-caption">
+                ({{ item.ratingsCount }} Rating)
+              </span>
+            </v-card-text>
+            <v-card-actions class="justify-center">
               <v-btn
                 v-if="!checkHaveBook(item)"
-                color="success"
-                class="success"
+                class="btn-color"
                 @click.stop="addItem(item)"
               >
-                ฿ {{ item.price }}
+                ซื้อ {{ item.price }} THB
               </v-btn>
-              <v-btn v-else color="success" class="success" disabled>
-                มีแล้ว
-              </v-btn>
-            </v-row>
+              <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
+            </v-card-actions>
           </v-card>
         </v-col>
       </v-row>
-    </div>
-  </v-container>
+    </template>
 
-  <v-dialog v-model="showModal" max-width="500px">
-    <v-card max-width="400px" class="pa-4">
-      <div class="d-flex justify-end pa-0">
-        <v-icon @click="hideModal">mdi-close</v-icon>
-      </div>
-      <v-card-title primary-title class="text-center pa-1">
-        เพิ่มหนังสือลงตะกร้าแล้ว
-      </v-card-title>
-      <v-divider></v-divider>
-      <v-container class="pa-2">
-        <v-card-actions>
-          <v-btn
-            class="btn-bg"
-            color="success"
-            type="submit"
-            block
-            variant="outlined"
-            @click="goToHome"
-            >เลือกซื้อหนังสือเล่มอื่นต่อ
-          </v-btn>
-        </v-card-actions>
-        <v-card-actions>
-          <v-btn
-            class="btn-bg1"
-            type="submit"
-            block
-            variant="elevated"
-            @click="goToCart"
-            >ชำระเงิน
-          </v-btn>
-        </v-card-actions>
-      </v-container>
-      <v-divider></v-divider>
-      <v-container class="pa-2">
-        <v-card-actions>
-          <v-btn
-            class="btn-bg2"
-            type="submit"
-            block
-            variant="elevated"
-            @click="goToCoin"
-            >เติม COIN
-          </v-btn>
-        </v-card-actions>
-      </v-container>
-    </v-card>
-  </v-dialog>
+    <v-dialog v-model="showModal" max-width="500px">
+      <v-card max-width="400px" class="pa-4">
+        <div class="d-flex justify-end pa-0">
+          <v-icon @click="hideModal">mdi-close</v-icon>
+        </div>
+        <v-card-title primary-title class="text-center pa-1">
+          เพิ่มหนังสือลงตะกร้าแล้ว
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-container class="pa-2">
+          <v-card-actions>
+            <v-btn
+              class="btn-bg"
+              type="submit"
+              block
+              variant="outlined"
+              @click="goToHome"
+              >เลือกซื้อหนังสือเล่มอื่นต่อ
+            </v-btn>
+          </v-card-actions>
+          <v-card-actions>
+            <v-btn
+              class="btn-bg1"
+              type="submit"
+              block
+              variant="elevated"
+              @click="goToCart"
+              >ชำระเงิน
+            </v-btn>
+          </v-card-actions>
+        </v-container>
+        <v-divider></v-divider>
+        <v-container class="pa-2">
+          <v-card-actions>
+            <v-btn
+              class="btn-bg2"
+              type="submit"
+              block
+              variant="elevated"
+              @click="goToCoin"
+              >เติม COIN
+            </v-btn>
+          </v-card-actions>
+        </v-container>
+      </v-card>
+    </v-dialog>
+  </v-container>
 </template>
 
 <script>
@@ -209,10 +229,10 @@ export default {
       return this.$store.getters["auth/isLogin"];
     },
     checkHaveBook() {
-    return (item) => {
-      return this.myBook.some((book) => book._id === item._id);
-    };
-  },
+      return (item) => {
+        return this.myBook.some((book) => book._id === item._id);
+      };
+    },
   },
   mounted() {
     if (this.isLogin) {
@@ -224,18 +244,17 @@ export default {
 </script>
 
 <style scoped>
+.btn-color {
+  color: #fff;
+  background-color: #00af70;
+}
 .cardHover:hover {
   border: 1px solid #00af70;
   cursor: pointer;
 }
-.noWish {
-  display: flex;
-  justify-content: center;
-  align-items: center;
+.text-noWish {
   font-size: 18px;
   font-weight: bold;
-  margin-top: 10px;
-  margin-bottom: 20px;
 }
 .close-button {
   display: flex;
@@ -246,7 +265,7 @@ export default {
   right: 0px;
   top: 0px;
 }
-.v-btn.success:hover {
+.btn-color:hover {
   background-color: gray !important;
 }
 .menu-link {

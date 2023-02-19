@@ -15,7 +15,6 @@
         <v-card-text class="text-center">กรุณา Log in ก่อนใช้งานหน้านี้ค่ะ</v-card-text>
       </v-card>
     </v-dialog>
-
   </div>
 </template>
 <script>

@@ -8,32 +8,46 @@
       <v-col v-for="(item, index) in books" :key="index">
         <v-card
           class="mx-auto cardHover"
-          max-width="180"
+          max-width="200"
           @click="showDetail(item.product)"
         >
-          <v-img :src="item.product.imageBook" height="250px"></v-img>
+          <v-img :src="item.product.imageBook" cover></v-img>
           <v-card-title> {{ item.product.name }} </v-card-title>
           <v-card-subtitle>
             {{ item.product.author }}/{{ item.product.publisher }}
           </v-card-subtitle>
-          <v-row class="d-flex justify-end ma-3">
-            <v-btn
-              v-if="!checkHaveBook(item.product)"
-              color="success"
-              class="success"
-              @click.stop="addItem(item.product)"
-            >
-              ฿ {{ item.product.price }}
-            </v-btn>
-            <v-btn
-              v-else
-              disabled
-              color="success"
-              class="success"
-              @click.stop="addItem(item.product)"
-            >
-              มีแล้ว
-            </v-btn>
+          <v-row class="d-flex ma-3">
+            <v-col cols="12">
+              <v-row>
+                <v-col class="pa-1" cols="7">
+                  <v-rating
+                    v-model="item.product.rating"
+                    color="#5a5a5a"
+                    active-color="#e83e8c"
+                    empty-icon="mdi-cards-heart"
+                    full-icon="mdi-cards-heart"
+                    readonly
+                    hover
+                    size="20"
+                  ></v-rating>
+                  <span class="text-grey-lighten-1 text-caption">
+                    ({{ item.product.ratingsCount }} Rating)
+                  </span>
+                </v-col>
+                <v-col cols="5">
+                  <v-btn
+                    v-if="!checkHaveBook(item.product)"
+                    class="success btn-color"
+                    @click.stop="addItem(item.product)"
+                  >
+                    ฿ {{ item.product.price }}
+                  </v-btn>
+                  <v-btn v-else disabled class="btn-color">
+                    มีแล้ว
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-col>
           </v-row>
         </v-card>
       </v-col>
@@ -43,32 +57,46 @@
       <v-col v-for="(item, index) in allBooks" :key="index">
         <v-card
           class="mx-auto cardHover"
-          max-width="180"
+          max-width="200"
           @click="showDetail(item)"
         >
-          <v-img :src="item.imageBook" height="250px"></v-img>
+          <v-img :src="item.imageBook" cover></v-img>
           <v-card-title> {{ item.name }} </v-card-title>
           <v-card-subtitle>
             {{ item.author }}/{{ item.publisher }}
           </v-card-subtitle>
-          <v-row class="d-flex justify-end ma-3">
-            <v-btn
-              v-if="!checkHaveBook(item)"
-              color="success"
-              class="success"
-              @click.stop="addItem(item)"
-            >
-              ฿ {{ item.price }}
-            </v-btn>
-            <v-btn
-              v-else
-              disabled
-              color="success"
-              class="success"
-              @click.stop="addItem(item)"
-            >
-              มีแล้ว
-            </v-btn>
+          <v-row class="d-flex ma-3">
+            <v-col cols="12">
+              <v-row>
+                <v-col class="pa-1" cols="7">
+                  <v-rating
+                    v-model="item.rating"
+                    color="#5a5a5a"
+                    active-color="#e83e8c"
+                    empty-icon="mdi-cards-heart"
+                    full-icon="mdi-cards-heart"
+                    readonly
+                    hover
+                    size="20"
+                  ></v-rating>
+                  <span class="text-grey-lighten-1 text-caption">
+                    ({{ item.ratingsCount }} Rating)
+                  </span>
+                </v-col>
+                <v-col cols="5">
+                  <v-btn
+                    v-if="!checkHaveBook(item)"
+                    class="success btn-color"
+                    @click.stop="addItem(item)"
+                  >
+                    ฿ {{ item.price }}
+                  </v-btn>
+                  <v-btn v-else disabled class="btn-color">
+                    มีแล้ว
+                  </v-btn>
+                </v-col>
+              </v-row>
+            </v-col>
           </v-row>
         </v-card>
       </v-col>
@@ -197,15 +225,18 @@ export default {
       });
     },
     fetchApi() {
-      api.get("/bestseller/").then(async(result) => {
-        for(const bestseller of result.data){
-          const product = await api.get(`/books/${bestseller.product}`)
-          bestseller.product = product.data
-        }
-        this.books = result.data
-      }).catch(error => {
-        console.log(error)
-      })
+      api
+        .get("/bestseller/")
+        .then(async (result) => {
+          for (const bestseller of result.data) {
+            const product = await api.get(`/books/${bestseller.product}`);
+            bestseller.product = product.data;
+          }
+          this.books = result.data;
+        })
+        .catch((error) => {
+          console.log(error);
+        });
     },
     getId() {
       return this.$store.getters["auth/getId"];
@@ -234,9 +265,9 @@ export default {
   watch: {
     showModal(newValue) {
       if (newValue) {
-        document.body.classList.add('dialog-open');
+        document.body.classList.add("dialog-open");
       } else {
-        document.body.classList.remove('dialog-open');
+        document.body.classList.remove("dialog-open");
       }
     },
   },
@@ -244,13 +275,17 @@ export default {
     if (this.isLogin) {
       this.getMyBook();
     }
-      this.fetchApi();
-      this.getAllBook();
+    this.fetchApi();
+    this.getAllBook();
   },
 };
 </script>
 
 <style scoped>
+.btn-color {
+  color: #fff;
+  background-color: #00af70;
+}
 .v-btn.success:hover {
   background-color: gray !important;
 }

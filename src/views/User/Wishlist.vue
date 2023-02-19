@@ -7,7 +7,7 @@
   </Auth>
 </template>
 <script>
-import Auth from "../components/Auth.vue";
+import Auth from "../../components/Auth.vue";
 import Wish from "@/components/Wish.vue";
 
 export default {

@@ -33,19 +33,9 @@
               :rules="passwordRules"
             ></v-text-field>
             <div class="center">
-              <v-hover>
-                <template v-slot:default="{ isHovering, props }">
-                  <v-btn
-                    v-bind="props"
-                    class="rounded-pill"
-                    type="submit"
-                    color="success"
-                    size="large"
-                    :variant="isHovering ? 'outlined' : 'elevated'"
-                    >ล็อกอินเข้าระบบ</v-btn
-                  >
-                </template>
-              </v-hover>
+              <v-btn class="rounded-pill btn-color" type="submit" size="large"
+                >ล็อกอินเข้าระบบ</v-btn
+              >
             </div>
           </v-container>
           <v-card-actions class="center">
@@ -148,7 +138,6 @@ export default {
               this.hideLogin();
             }, 2000);
             setTimeout(() => {
-              window.location.reload();
             }, 2000);
           } else {
             this.alertLogin();
@@ -202,6 +191,20 @@ export default {
     visibleModal() {
       this.isVisible = this.$props.visibleModal;
     },
+    loading(newValue) {
+      if (newValue) {
+        document.body.classList.add("dialog-open");
+      } else {
+        document.body.classList.remove("dialog-open");
+      }
+    },
+    isVisible(newValue) {
+      if (newValue) {
+        document.body.classList.add("dialog-open");
+      } else {
+        document.body.classList.remove("dialog-open");
+      }
+    },
   },
   mounted() {
     this.$emit("update:isVisible", false);
@@ -209,6 +212,17 @@ export default {
 };
 </script>
 <style scoped>
+
+.btn-color {
+  color: #00af70;
+  border: 1px solid #00af70;
+  box-shadow: none;
+}
+.btn-color:hover {
+  color: #ffff;
+  background-color: #00af70;
+  box-shadow: none;
+}
 .center-loading {
   display: flex;
   justify-content: center;
@@ -222,5 +236,4 @@ export default {
 .img-size {
   width: 100px;
 }
-
 </style>

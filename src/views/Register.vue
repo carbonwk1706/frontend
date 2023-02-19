@@ -107,7 +107,7 @@
         <v-btn
           type="submit"
           block
-          color="success"
+          class="btn-color"
           size="large"
           variant="elevated"
           @click="checkDuplicate"
@@ -198,6 +198,34 @@ export default {
   watch: {
     registerModal() {
       this.isVisible = this.$props.registerModal;
+    },
+    loading(newValue) {
+      if (newValue) {
+        document.body.classList.add("dialog-open");
+      } else {
+        document.body.classList.remove("dialog-open");
+      }
+    },
+    isVisible(newValue) {
+      if (newValue) {
+        document.body.classList.add("dialog-open");
+      } else {
+        document.body.classList.remove("dialog-open");
+      }
+    },
+    dialog(newValue) {
+      if (newValue) {
+        document.body.classList.add("dialog-open");
+      } else {
+        document.body.classList.remove("dialog-open");
+      }
+    },
+    loginModal(newValue) {
+      if (newValue) {
+        document.body.classList.add("dialog-open");
+      } else {
+        document.body.classList.remove("dialog-open");
+      }
     },
   },
   data() {
@@ -365,10 +393,14 @@ export default {
   },
   mounted() {
     this.$emit("update:isVisible", false);
-  },
+  }
 };
 </script>
 <style scoped>
+.btn-color {
+  color: #ffff;
+  background-color: #00af70;
+}
 .center-loading {
   display: flex;
   justify-content: center;
