@@ -1,5 +1,5 @@
 <template>
-  <v-footer class="footer-bg py-5 d-flex flex-column align-center" max-width="auto">
+  <v-footer class="footer-bg py-5 d-flex flex-column align-center mt-12" max-width="auto">
     <v-container class="container-max-width">
       <v-row class="d-flex justify-center">
         <v-col class="text-xs-center mb-5" cols="12" md="3">
