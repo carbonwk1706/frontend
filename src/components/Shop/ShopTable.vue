@@ -1,106 +1,105 @@
 <template>
-  <v-container class="grey lighten-5">
-    <div class="mb-5 d-flex justify-center">
-      <h1>ร้านค้า</h1>
-    </div>
-    <v-divider class="mb-6"></v-divider>
+  <v-container fluid>
+    <v-row class="mb-5">
+      <v-col class="text-center">
+        <h1 class="display-1 font-weight-bold">ร้านค้า</h1>
+      </v-col>
+    </v-row>
     <v-row>
-      <v-col v-for="(item, index) in books" :key="index">
+      <v-col
+        v-for="(item, index) in books"
+        :key="index"
+        cols="12"
+        sm="6" md="4"
+        class="mb-5"
+      >
         <v-card
           class="mx-auto cardHover"
           max-width="200"
           @click="showDetail(item)"
         >
-          <v-img :src="item.imageBook" cover></v-img>
-          <v-card-title> {{ item.name }} </v-card-title>
-          <v-card-subtitle>
-            {{ item.author }}/{{ item.publisher }}
+          <v-img :src="item.imageBook" cover=""></v-img>
+          <v-card-title class="text-center">{{ item.name }}</v-card-title>
+          <v-card-subtitle class="text-center grey--text">
+            {{ item.author }} / {{ item.publisher }}
           </v-card-subtitle>
-          <v-row class="d-flex ma-3">
-            <v-col cols="12">
-              <v-row>
-                <v-col class="pa-1" cols="7">
-                  <v-rating
-                    v-model="item.rating"
-                    color="#5a5a5a"
-                    active-color="#e83e8c"
-                    empty-icon="mdi-cards-heart"
-                    full-icon="mdi-cards-heart"
-                    readonly
-                    hover
-                    size="20"
-                  ></v-rating>
-                  <span class="text-grey-lighten-1 text-caption">
-                    ({{ item.ratingsCount }} Rating)
-                  </span>
-                </v-col>
-                <v-col cols="5">
-                  <v-btn
-                    v-if="!checkHaveBook(item)"
-                    class="success btn-color"
-                    @click.stop="addItem(item)"
-                  >
-                    ฿ {{ item.price }}
-                  </v-btn>
-                  <v-btn v-else disabled  class="btn-color">
-                    มีแล้ว
-                  </v-btn>
-                </v-col>
-              </v-row>
-            </v-col>
-          </v-row>
+          <v-divider></v-divider>
+          <v-card-text class="text-center">
+            <v-rating
+              v-model="item.rating"
+              color="#5a5a5a"
+              active-color="#e83e8c"
+              empty-icon="mdi-cards-heart"
+              full-icon="mdi-cards-heart"
+              readonly
+              hover
+              size="20"
+            ></v-rating>
+            <span class="text-grey-lighten-1 text-caption">
+              ({{ item.ratingsCount }} Rating)
+            </span>
+          </v-card-text>
+          <v-card-actions class="justify-center">
+            <v-btn
+              v-if="!checkHaveBook(item)"
+              class="btn-color"
+              @click.stop="addItem(item)"
+            >
+              ซื้อ {{ item.price }} THB
+            </v-btn>
+            <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
+          </v-card-actions>
         </v-card>
       </v-col>
     </v-row>
-  </v-container>
 
-  <v-dialog v-model="showModal" max-width="500px">
-    <v-card max-width="400px" class="pa-4">
-      <div class="d-flex justify-end pa-0">
-        <v-icon @click="hideModal">mdi-close</v-icon>
-      </div>
-      <v-card-title primary-title class="text-center pa-1">
-        เพิ่มหนังสือลงตะกร้าแล้ว
-      </v-card-title>
-      <v-divider></v-divider>
-      <v-container class="pa-2">
-        <v-card-actions>
-          <v-btn
-            class="btn-bg"
-            color="success"
-            type="submit"
-            block
-            variant="outlined"
-            @click="goToHome"
-            >เลือกซื้อหนังสือเล่มอื่นต่อ
-          </v-btn>
-        </v-card-actions>
-        <v-card-actions>
-          <v-btn
-            class="btn-bg1"
-            type="submit"
-            block
-            variant="elevated"
-            @click="goToCart"
-            >ชำระเงิน
-          </v-btn>
-        </v-card-actions>
-      </v-container>
-      <v-divider></v-divider>
-      <v-container class="pa-2">
-        <v-card-actions>
-          <v-btn
-            class="btn-bg2"
-            type="submit"
-            block
-            variant="elevated"
-            @click="goToCoin"
-            >เติม COIN
-          </v-btn>
-        </v-card-actions>
-      </v-container>
-    </v-card>
-  </v-dialog>
+    <v-dialog v-model="showModal" max-width="500px">
+      <v-card max-width="400px" class="pa-4">
+        <div class="d-flex justify-end pa-0">
+          <v-icon @click="hideModal">mdi-close</v-icon>
+        </div>
+        <v-card-title primary-title class="text-center pa-1">
+          เพิ่มหนังสือลงตะกร้าแล้ว
+        </v-card-title>
+        <v-divider></v-divider>
+        <v-container class="pa-2">
+          <v-card-actions>
+            <v-btn
+              class="btn-bg"
+              type="submit"
+              block
+              variant="outlined"
+              @click="goToHome"
+              >เลือกซื้อหนังสือเล่มอื่นต่อ
+            </v-btn>
+          </v-card-actions>
+          <v-card-actions>
+            <v-btn
+              class="btn-bg1"
+              type="submit"
+              block
+              variant="elevated"
+              @click="goToCart"
+              >ชำระเงิน
+            </v-btn>
+          </v-card-actions>
+        </v-container>
+        <v-divider></v-divider>
+        <v-container class="pa-2">
+          <v-card-actions>
+            <v-btn
+              class="btn-bg2"
+              type="submit"
+              block
+              variant="elevated"
+              @click="goToCoin"
+              >เติม COIN
+            </v-btn>
+          </v-card-actions>
+        </v-container>
+      </v-card>
+    </v-dialog>
+  </v-container>
 </template>
 
 <script>
@@ -135,27 +134,27 @@ export default {
     showDetail(item) {
       this.$router.push(`/book/${item._id}`);
     },
-    alertWarning(){
+    alertWarning() {
       this.$swal({
-          scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
-          allowOutsideClick: false,
-          width: "500",
-          text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
-          icon: "warning",
-          button: "OK",
-        });
+        scrollbarPadding: false,
+        confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
+        width: "500",
+        text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
+        icon: "warning",
+        button: "OK",
+      });
     },
-    alertSuccess(){
+    alertSuccess() {
       this.$swal({
-            scrollbarPadding: false,
-            confirmButtonColor: "#00af70",
-            allowOutsideClick: false,
-            width: "500",
-            text: "คุณมีหนังสือนี้ในตะกร้าแล้ว",
-            icon: "warning",
-            button: "OK",
-          });
+        scrollbarPadding: false,
+        confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
+        width: "500",
+        text: "คุณมีหนังสือนี้ในตะกร้าแล้ว",
+        icon: "warning",
+        button: "OK",
+      });
     },
     async addItem(item) {
       if (this.isLogin) {
@@ -166,13 +165,13 @@ export default {
           res.status === 200 &&
           res.data.message === "You have this product in your cart"
         ) {
-          this.alertSuccess()
+          this.alertSuccess();
         } else {
           this.showModal = true;
           this.getCartList();
         }
       } else {
-        this.alertWarning()
+        this.alertWarning();
       }
     },
     fetchApi() {
@@ -227,7 +226,7 @@ export default {
   color: #fff;
   background-color: #00af70;
 }
-.v-btn.success:hover {
+.btn-color:hover {
   background-color: gray !important;
 }
 .cardHover:hover {
