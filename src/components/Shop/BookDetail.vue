@@ -398,7 +398,6 @@ export default {
     async getRatingBook() {
       const res = await api.get("/ratingBook/" + this.$route.params.id);
       this.allRating = res.data;
-      console.log(this.allRating);
     },
     formatTime(item) {
       return moment(item).format("MM/DD/YYYY, h:mm:ss a");
