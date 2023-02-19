@@ -76,17 +76,17 @@ const routes = [
   {
     path: '/bestseller',
     name: 'bestseller',
-    component: () => import('../views/BestSeller.vue')
+    component: () => import('../views/Sell/BestSeller.vue')
   },
   {
     path: '/newentry',
     name: 'newentry',
-    component: () => import('../views/NewEntry.vue')
+    component: () => import('../views/Sell/NewEntry.vue')
   },
   {
     path: '/recommend',
     name: 'recommend',
-    component: () => import('../views/Recommend.vue')
+    component: () => import('../views/Sell/Recommend.vue')
   },
   {
     path: '/admintable',
