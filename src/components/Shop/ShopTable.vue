@@ -75,7 +75,7 @@
           <h2 class="display-1 font-weight-bold">ขายดี</h2>
         </v-col>
         <v-col class="text-end mt-3">
-          <h4 class="display-1 text-go">ดูทั้งหมด</h4>
+          <h4 class="display-1 text-go" @click="goToBestSeller">ดูทั้งหมด</h4>
         </v-col>
       </v-row>
       <v-divider class="mb-6"></v-divider>
@@ -287,6 +287,9 @@ export default {
     },
     goToRecommend(){
       router.push("/recommend")
+    },
+    goToBestSeller(){
+      router.push("/bestseller")
     },
     hideModal() {
       this.showModal = !this.showModal;

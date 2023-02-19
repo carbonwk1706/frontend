@@ -1,90 +1,89 @@
 <template>
   <v-container fluid>
-      <v-row class="mb-1">
-        <v-col cols="6" class="text-start">
-          <h2 class="font-weight-bold">แนะนำ</h2>
-        </v-col>
-        <v-col cols="6" class="pa-0 d-flex justify-end">
-          <v-pagination
-            class="text-pagination"
-            v-model="page"
-            :length="pages"
-            circle
-          ></v-pagination>
-        </v-col>
-      </v-row>
-      <v-divider class="mb-6"></v-divider>
-      <v-row>
-        <v-col
-          v-for="(item, index) in books.slice(
-            (page - 1) * itemsPerPage,
-            page * itemsPerPage
-          )"
-          :key="index"
-          class="mb-5"
-          md="3"
-          sm="4"
-          xs="6"
+    <v-row class="mb-1">
+      <v-col cols="6" class="text-start">
+        <h2 class="font-weight-bold">ขายดี</h2>
+      </v-col>
+      <v-col cols="6" class="pa-0 d-flex justify-end">
+        <v-pagination
+          class="text-pagination"
+          v-model="page"
+          :length="pages"
+          circle
+        ></v-pagination>
+      </v-col>
+    </v-row>
+    <v-divider class="mb-6"></v-divider>
+    <v-row>
+      <v-col
+        v-for="(item, index) in books.slice(
+          (page - 1) * itemsPerPage,
+          page * itemsPerPage
+        )"
+        :key="index"
+        md="3"
+        sm="4"
+        xs="6"
+      >
+        <v-card
+          max-width="200"
+          class="mx-auto cardHover"
+          @click="showDetail(item)"
         >
-          <v-card
-            max-width="200"
-            class="mx-auto cardHover"
-            @click="showDetail(item)"
+          <v-img :src="item.imageBook" height="280px" cover />
+          <v-card-title class="text-center pb-0" style="font-size: 15px">{{
+            item.name
+          }}</v-card-title>
+          <v-card-subtitle
+            class="text-center grey--text"
+            style="font-size: 12px"
           >
-            <v-img :src="item.imageBook" height="280px" cover />
-            <v-card-title class="text-center pb-0" style="font-size: 15px">{{
-              item.name
-            }}</v-card-title>
-            <v-card-subtitle
-              class="text-center grey--text"
-              style="font-size: 12px"
+            {{ item.author }} / {{ item.publisher }}
+          </v-card-subtitle>
+          <v-card-text class="text-center pb-0 pt-0" style="font-size: 13px">
+            <div style="display: inline-block; vertical-align: middle">
+              <v-rating
+                v-model="item.rating"
+                color="#5a5a5a"
+                active-color="#e83e8c"
+                empty-icon="mdi-cards-heart"
+                full-icon="mdi-cards-heart"
+                readonly
+                hover
+                size="16"
+              />
+            </div>
+            <span
+              class="ml-2 text-grey-lighten-1 text-caption"
+              style="display: inline-block; vertical-align: middle"
             >
-              {{ item.author }} / {{ item.publisher }}
-            </v-card-subtitle>
-            <v-card-text class="text-center pb-0 pt-0" style="font-size: 13px">
-              <div style="display: inline-block; vertical-align: middle">
-                <v-rating
-                  v-model="item.rating"
-                  color="#5a5a5a"
-                  active-color="#e83e8c"
-                  empty-icon="mdi-cards-heart"
-                  full-icon="mdi-cards-heart"
-                  readonly
-                  hover
-                  size="16"
-                />
-              </div>
-              <span
-                class="ml-2 text-grey-lighten-1 text-caption"
-                style="display: inline-block; vertical-align: middle"
-              >
-                ({{ item.ratingsCount }} Rating)
-              </span>
-            </v-card-text>
-            <v-card-actions class="justify-center">
-              <v-btn
-                v-if="!checkHaveBook(item)"
-                class="btn-color success"
-                @click.stop="addItem(item)"
-              >
-                ฿ {{ item.price }}
-              </v-btn>
-              <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
+              ({{ item.ratingsCount }} Rating)
+            </span>
+          </v-card-text>
+          <v-card-actions class="justify-center">
+            <v-btn
+              v-if="!checkHaveBook(item)"
+              class="btn-color success"
+              @click.stop="addItem(item)"
+            >
+              ฿ {{ item.price }}
+            </v-btn>
+            <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
 
-      <v-row class="mt-12">
-        <v-col cols="12" class="pa-0 d-flex justify-center">
-          <v-pagination
-            class="text-pagination"
-            v-model="page"
-            :length="pages"
-            circle
-          ></v-pagination>
-        </v-col>
-      </v-row>
+    <v-row class="mt-12">
+      <v-col cols="12" class="pa-0 d-flex justify-center">
+        <v-pagination
+          class="text-pagination"
+          v-model="page"
+          :length="pages"
+          circle
+        ></v-pagination>
+      </v-col>
+    </v-row>
 
     <v-dialog v-model="showModal" max-width="500px">
       <v-card max-width="400px" class="pa-4">
@@ -135,10 +134,13 @@
     </v-dialog>
   </v-container>
 </template>
+
 <script>
 import router from "@/router";
 import api from "@/services/api";
+
 export default {
+  name: "ShopTable",
   data() {
     return {
       books: [],
@@ -202,7 +204,7 @@ export default {
       }
     },
     fetchApi() {
-      api.get("/recommended/").then((result) => {
+      api.get("/bestseller/").then((result) => {
         this.books = result.data;
       });
     },
@@ -252,13 +254,14 @@ export default {
     },
   },
   mounted() {
-    this.fetchApi();
     if (this.isLogin) {
       this.getMyBook();
     }
+    this.fetchApi();
   },
 };
 </script>
+
 <style scoped>
 .btn-color {
   color: #fff;

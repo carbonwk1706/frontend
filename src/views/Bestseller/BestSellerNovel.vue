@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row class="mb-1">
       <v-col cols="6" class="text-start">
-        <h2 class="font-weight-bold">ขายดี</h2>
+        <h2 class="font-weight-bold">ขายดีในหมวดหมู่ นิยาย</h2>
       </v-col>
       <v-col cols="6" class="pa-0 d-flex justify-end">
         <v-pagination
@@ -14,7 +14,7 @@
       </v-col>
     </v-row>
     <v-divider class="mb-6"></v-divider>
-    <v-row v-if="books.length > 0">
+    <v-row>
       <v-col
         v-for="(item, index) in books.slice(
           (page - 1) * itemsPerPage,
@@ -63,7 +63,7 @@
           <v-card-actions class="justify-center">
             <v-btn
               v-if="!checkHaveBook(item)"
-              class="btn-color"
+              class="btn-color success"
               @click.stop="addItem(item)"
             >
               ฿ {{ item.price }}
@@ -204,7 +204,7 @@ export default {
       }
     },
     fetchApi() {
-      api.get("/bestseller/").then((result) => {
+      api.get("/bestseller/category/novel").then((result) => {
         this.books = result.data;
       });
     },

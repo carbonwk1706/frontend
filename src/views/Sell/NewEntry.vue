@@ -63,7 +63,7 @@
           <v-card-actions class="justify-center">
             <v-btn
               v-if="!checkHaveBook(item)"
-              class="btn-color"
+              class="btn-color success"
               @click.stop="addItem(item)"
             >
               ฿ {{ item.price }}

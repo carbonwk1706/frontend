@@ -76,7 +76,22 @@ const routes = [
   {
     path: '/bestseller',
     name: 'bestseller',
-    component: () => import('../views/Sell/BestSeller.vue')
+    component: () => import('../views/Bestseller/BestSeller.vue')
+  },
+  {
+    path: '/bestsellerall',
+    name: 'bestsellerall',
+    component: () => import('../views/Bestseller/BestSellerAll.vue')
+  },
+  {
+    path: '/bestsellercartoon',
+    name: 'bestsellercartoon',
+    component: () => import('../views/Bestseller/BestSellerCartoon.vue')
+  },
+  {
+    path: '/bestsellernovel',
+    name: 'bestsellernovel',
+    component: () => import('../views/Bestseller/BestSellerNovel.vue')
   },
   {
     path: '/newentry',
