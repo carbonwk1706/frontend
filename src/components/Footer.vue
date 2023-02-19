@@ -1,51 +1,49 @@
 <template>
-  <v-footer class="footer-bg d-flex flex-row pa-10 mt-12" max-width="auto">
+  <v-footer class="footer-bg py-5 d-flex flex-column align-center" max-width="auto">
     <v-container class="container-max-width">
-      <v-row class="d-flex">
-        <v-col  cols="3">
-          <div class="text-header">
-            <span>เลือกหมวดหมู่</span>
-          </div>
-          <div class="text-list pt-3 pb-1">
+      <v-row class="d-flex justify-center">
+        <v-col class="text-xs-center mb-5" cols="12" md="3">
+          <h3 class="text-header mb-3">เลือกหมวดหมู่</h3>
+          <div class="text-list mb-3">
             <span class="text-cursor">นิยาย</span>
           </div>
-          <div class="text-list pb-1">
+          <div class="text-list mb-3">
             <span class="text-cursor">การ์ตูน</span>
           </div>
         </v-col>
-        <v-col class="align-center text-xs-center" cols="3">
-          <div class="text-header">บริการช่วยเหลือ</div>
-          <div class="text-list pt-3 pb-1">
+        <v-col class="text-xs-center mb-5" cols="12" md="3">
+          <h3 class="text-header mb-3">บริการช่วยเหลือ</h3>
+          <div class="text-list mb-3">
             <span class="text-cursor">วิธีการใช้งาน</span>
           </div>
-          <div class="text-list pb-1">
+          <div class="text-list mb-3">
             <span class="text-cursor" @click="goToRegisterSell">ขายอีบุ๊กกับเรา</span>
           </div>
-          <div class="text-list pb-1">
+          <div class="text-list mb-3">
             <span class="text-cursor">เงื่อนไขในการใช้บริการ</span>
           </div>
-          <div class="text-list pb-1"> 
+          <div class="text-list mb-3">
             <span class="text-cursor">นโยบายความเป็นส่วนตัว</span>
           </div>
         </v-col>
-        <v-col  class="align-center text-xs-center" cols="3">
-          <div class="text-header">เกี่ยวกับเรา</div>
-          <div class="text-list pt-3 pb-1">
+        <v-col class="text-xs-center mb-5" cols="12" md="3">
+          <h3 class="text-header mb-3">เกี่ยวกับเรา</h3>
+          <div class="text-list mb-3">
             <span class="text-cursor">ข่าวสารและกิจกรรม</span>
           </div>
-          <div class="text-list pb-1">
+          <div class="text-list mb-3">
             <span class="text-cursor">ติดต่อเรา</span>
           </div>
         </v-col>
-        <v-col class="align-center text-xs-center" cols="3">
-          <div class="text-header">Social</div>
-          <div class="text-list pt-3 pb-2">
+        <v-col class="text-xs-center mb-5" cols="12" md="3">
+          <h3 class="text-header mb-3">Social</h3>
+          <div class="text-list mb-3">
             <v-icon class="text-cursor">mdi-facebook</v-icon>
           </div>
-          <div class="text-list pb-2">
+          <div class="text-list mb-3">
             <v-icon class="text-cursor">mdi-twitter</v-icon>
           </div>
-          <div class="text-list pb-2">
+          <div class="text-list mb-3">
             <v-icon class="text-cursor">mdi-instagram</v-icon>
           </div>
         </v-col>
