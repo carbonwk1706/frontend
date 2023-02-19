@@ -6,7 +6,7 @@
           <h2 class="display-1 font-weight-bold">มาใหม่</h2>
         </v-col>
         <v-col class="text-end mt-3">
-          <h4 class="display-1 text-go">ดูทั้งหมด</h4>
+          <h4 class="display-1 text-go" @click="goToNewEntry">ดูทั้งหมด</h4>
         </v-col>
       </v-row>
       <v-divider class="mb-6"></v-divider>
@@ -290,6 +290,9 @@ export default {
     },
     goToBestSeller(){
       router.push("/bestseller")
+    },
+    goToNewEntry(){
+      router.push("/newentry")
     },
     hideModal() {
       this.showModal = !this.showModal;

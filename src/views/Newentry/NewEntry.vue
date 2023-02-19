@@ -1,12 +1,12 @@
 <template>
   <v-container fluid>
-    <div id="bestseller">
+    <div id="newentry">
       <v-row class="mb-1">
         <v-col class="text-start">
-          <h2 class="display-1 font-weight-bold">ขายดี</h2>
+          <h2 class="display-1 font-weight-bold">มาใหม่</h2>
         </v-col>
         <v-col class="text-end mt-3">
-          <h4 class="display-1 text-go" @click="goToBestSellerAll">
+          <h4 class="display-1 text-go" @click="goToNewEntryAll">
             ดูทั้งหมด
           </h4>
         </v-col>
@@ -69,15 +69,15 @@
       </v-slide-group>
     </div>
 
-    <div id="bestsellerCartoon">
+    <div id="newentryCartoon">
       <v-row class="mb-1 mt-6">
         <v-col class="text-start">
           <h2 class="display-1 font-weight-bold">
-            ขายดีในหมวดหมู่ การ์ตูนทั่วไป
+            มาใหม่ในหมวดหมู่ การ์ตูนทั่วไป
           </h2>
         </v-col>
         <v-col class="text-end mt-3">
-          <h4 class="display-1 text-go" @click="goToBestSellerCartoon">
+          <h4 class="display-1 text-go" @click="goToNewEntryCartoon">
             ดูทั้งหมด
           </h4>
         </v-col>
@@ -140,13 +140,13 @@
       </v-slide-group>
     </div>
 
-    <div id="bestsellerNovel">
+    <div id="newentryNovel">
       <v-row class="mb-1 mt-6">
         <v-col class="text-start">
-          <h2 class="display-1 font-weight-bold">ขายดีในหมวดหมู่ นิยาย</h2>
+          <h2 class="display-1 font-weight-bold">มาใหม่ในหมวดหมู่ นิยาย</h2>
         </v-col>
         <v-col class="text-end mt-3">
-          <h4 class="display-1 text-go" @click="goToBestSellerNovel">
+          <h4 class="display-1 text-go" @click="goToNewEntryNovel">
             ดูทั้งหมด
           </h4>
         </v-col>
@@ -287,14 +287,14 @@ export default {
       this.showModal = false;
       router.push("/coin");
     },
-    goToBestSellerAll() {
-      router.push("/bestseller/all");
+    goToNewEntryAll() {
+      router.push("/newentry/all");
     },
-    goToBestSellerCartoon() {
-      router.push("/bestseller/cartoon");
+    goToNewEntryCartoon() {
+      router.push("/newentry/cartoon");
     },
-    goToBestSellerNovel() {
-      router.push("/bestseller/novel");
+    goToNewEntryNovel() {
+      router.push("/newentry/novel");
     },
     hideModal() {
       this.showModal = !this.showModal;
@@ -337,17 +337,17 @@ export default {
       }
     },
     fetchApi() {
-      api.get("/bestseller/").then((result) => {
+      api.get("/newentry/").then((result) => {
         this.books = result.data;
       });
     },
-    bestsellerCartoon() {
-      api.get("/bestseller/category/cartoon").then((result) => {
+    newEntryCartoon() {
+      api.get("/newentry/category/cartoon").then((result) => {
         this.cartoon = result.data;
       });
     },
-    bestsellerNovel() {
-      api.get("/bestseller/category/novel").then((result) => {
+    newEntryNovel() {
+      api.get("/newentry/category/novel").then((result) => {
         this.novel = result.data;
       });
     },
@@ -387,12 +387,12 @@ export default {
       if (!newValue) {
         this.myBook = [];
         this.fetchApi();
-        this.bestsellerCartoon();
-        this.bestsellerNovel();
+        this.newEntryCartoon();
+        this.newEntryNovel();
       } else {
         this.fetchApi();
-        this.bestsellerCartoon();
-        this.bestsellerNovel();
+        this.newEntryCartoon();
+        this.newEntryNovel();
         this.getMyBook();
       }
     },
@@ -402,8 +402,8 @@ export default {
       this.getMyBook();
     }
     this.fetchApi();
-    this.bestsellerCartoon();
-    this.bestsellerNovel();
+    this.newEntryCartoon();
+    this.newEntryNovel();
   },
 };
 </script>

@@ -73,7 +73,7 @@ export default {
       detail: [],
       books: [],
       page: 1,
-      itemsPerPage: 3,
+      itemsPerPage: 2,
     };
   },
   methods: {
