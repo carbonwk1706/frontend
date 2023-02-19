@@ -1,5 +1,5 @@
 <template>
-  <v-container fluid="">
+  <v-container fluid>
     <v-row class="mb-1">
       <v-col cols="6" class="text-start">
         <h2 class="font-weight-bold">มาใหม่</h2>
