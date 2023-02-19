@@ -7,11 +7,8 @@
     </v-row>
     <v-row>
       <v-col
-        v-for="(item, index) in books"
+        v-for="(item, index) in filteredBooks"
         :key="index"
-        cols="12"
-        sm="6"
-        md="4"
         class="mb-5"
       >
         <v-card
@@ -19,7 +16,7 @@
           max-width="200"
           @click="showDetail(item)"
         >
-          <v-img :src="item.imageBook" cover=""></v-img>
+          <v-img :src="item.imageBook" height="300" cover></v-img>
           <v-card-title class="text-center">{{ item.name }}</v-card-title>
           <v-card-subtitle class="text-center grey--text">
             {{ item.author }} / {{ item.publisher }}
@@ -114,6 +111,7 @@ export default {
       books: [],
       myBook: [],
       showModal: false,
+      screenWidth: 0
     };
   },
   methods: {
@@ -193,6 +191,9 @@ export default {
       const res = await api.get("/inventory/" + this.getId());
       this.myBook = res.data;
     },
+    handleResize () {
+      this.screenWidth = window.innerWidth
+    }
   },
   computed: {
     isLogin() {
@@ -203,6 +204,17 @@ export default {
         return this.myBook.some((book) => book._id === item._id);
       };
     },
+    filteredBooks () {
+      if (this.screenWidth >= 1200) {
+        return this.books.slice(0, 5)
+      } else if (this.screenWidth >= 991) {
+        return this.books.slice(0, 4)
+      } else if (this.screenWidth >= 768) {
+        return this.books.slice(0, 3)
+      } else {
+        return this.books.slice(0, 2)
+      }
+    }
   },
   watch: {
     showModal(newValue) {
@@ -223,6 +235,8 @@ export default {
     },
   },
   mounted() {
+    this.screenWidth = window.innerWidth
+    window.addEventListener('resize', this.handleResize)
     this.fetchApi();
     if (this.isLogin) {
       this.getMyBook();
