@@ -48,7 +48,7 @@
             @click="showDetail(item)"
           >
             <v-img :src="item.imageBook" cover>
-              ><v-icon
+              <v-icon
                 size="40"
                 @click.stop="delWish(item)"
                 class="ml-auto mt-auto close-button"

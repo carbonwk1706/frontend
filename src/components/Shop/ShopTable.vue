@@ -10,7 +10,8 @@
         v-for="(item, index) in books"
         :key="index"
         cols="12"
-        sm="6" md="4"
+        sm="6"
+        md="4"
         class="mb-5"
       >
         <v-card
@@ -209,6 +210,15 @@ export default {
         document.body.classList.add("dialog-open");
       } else {
         document.body.classList.remove("dialog-open");
+      }
+    },
+    isLogin(newValue) {
+      if (!newValue) {
+        this.myBook = []
+        this.fetchApi();
+      }else{
+        this.fetchApi();
+        this.getMyBook()
       }
     },
   },
