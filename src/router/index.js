@@ -76,17 +76,47 @@ const routes = [
   {
     path: '/bestseller',
     name: 'bestseller',
-    component: () => import('../views/BestSeller.vue')
+    component: () => import('../views/Bestseller/BestSeller.vue')
+  },
+  {
+    path: '/bestseller/all',
+    name: 'bestsellerall',
+    component: () => import('../views/Bestseller/BestSellerAll.vue')
+  },
+  {
+    path: '/bestseller/cartoon',
+    name: 'bestsellercartoon',
+    component: () => import('../views/Bestseller/BestSellerCartoon.vue')
+  },
+  {
+    path: '/bestseller/novel',
+    name: 'bestsellernovel',
+    component: () => import('../views/Bestseller/BestSellerNovel.vue')
   },
   {
     path: '/newentry',
     name: 'newentry',
-    component: () => import('../views/NewEntry.vue')
+    component: () => import('../views/Newentry/NewEntry.vue')
+  },
+  {
+    path: '/newentry/all',
+    name: 'newentryall',
+    component: () => import('../views/Newentry/NewEntryAll.vue')
+  },
+  {
+    path: '/newentry/cartoon',
+    name: 'newentrycartoon',
+    component: () => import('../views/Newentry/NewEntryCartoon.vue')
+  },
+  {
+    path: '/newentry/novel',
+    name: 'newentrynovel',
+    component: () => import('../views/Newentry/NewEntryNovel.vue')
   },
   {
     path: '/recommend',
     name: 'recommend',
-    component: () => import('../views/Recommend.vue')
+    component: () => import('../views/Sell/Recommend.vue')
   },
   {
     path: '/admintable',

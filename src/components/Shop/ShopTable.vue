@@ -6,7 +6,7 @@
           <h2 class="display-1 font-weight-bold">มาใหม่</h2>
         </v-col>
         <v-col class="text-end mt-3">
-          <h4 class="display-1" style="color:#00bf6c">ดูทั้งหมด</h4>
+          <h4 class="display-1 text-go" @click="goToNewEntry">ดูทั้งหมด</h4>
         </v-col>
       </v-row>
       <v-divider class="mb-6"></v-divider>
@@ -15,30 +15,42 @@
           v-for="(item, index) in filteredNewEntry"
           :key="index"
           class="mb-5"
+          md="3"
+          sm="4"
+          xs="6"
         >
           <v-card
-            class="mx-auto cardHover"
             max-width="200"
+            class="mx-auto cardHover"
             @click="showDetail(item)"
           >
-            <v-img :src="item.imageBook" height="300" cover></v-img>
-            <v-card-title class="text-center">{{ item.name }}</v-card-title>
-            <v-card-subtitle class="text-center grey--text">
+            <v-img :src="item.imageBook" height="280px" cover />
+            <v-card-title class="text-center pb-0" style="font-size: 15px">{{
+              item.name
+            }}</v-card-title>
+            <v-card-subtitle
+              class="text-center grey--text"
+              style="font-size: 12px"
+            >
               {{ item.author }} / {{ item.publisher }}
             </v-card-subtitle>
-            <v-divider></v-divider>
-            <v-card-text class="text-center">
-              <v-rating
-                v-model="item.rating"
-                color="#5a5a5a"
-                active-color="#e83e8c"
-                empty-icon="mdi-cards-heart"
-                full-icon="mdi-cards-heart"
-                readonly
-                hover
-                size="20"
-              ></v-rating>
-              <span class="text-grey-lighten-1 text-caption">
+            <v-card-text class="text-center pb-0 pt-0" style="font-size: 13px">
+              <div style="display: inline-block; vertical-align: middle">
+                <v-rating
+                  v-model="item.rating"
+                  color="#5a5a5a"
+                  active-color="#e83e8c"
+                  empty-icon="mdi-cards-heart"
+                  full-icon="mdi-cards-heart"
+                  readonly
+                  hover
+                  size="16"
+                />
+              </div>
+              <span
+                class="ml-2 text-grey-lighten-1 text-caption"
+                style="display: inline-block; vertical-align: middle"
+              >
                 ({{ item.ratingsCount }} Rating)
               </span>
             </v-card-text>
@@ -48,7 +60,7 @@
                 class="btn-color"
                 @click.stop="addItem(item)"
               >
-                ซื้อ {{ item.price }} THB
+                ฿ {{ item.price }}
               </v-btn>
               <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
             </v-card-actions>
@@ -63,39 +75,51 @@
           <h2 class="display-1 font-weight-bold">ขายดี</h2>
         </v-col>
         <v-col class="text-end mt-3">
-          <h4 class="display-1" style="color:#00bf6c">ดูทั้งหมด</h4>
+          <h4 class="display-1 text-go" @click="goToBestSeller">ดูทั้งหมด</h4>
         </v-col>
       </v-row>
       <v-divider class="mb-6"></v-divider>
-      <v-row v-if="this.bestseller.length > 0">
+      <v-row>
         <v-col
           v-for="(item, index) in filteredBestSell"
           :key="index"
           class="mb-5"
+          md="3"
+          sm="4"
+          xs="6"
         >
           <v-card
-            class="mx-auto cardHover"
             max-width="200"
+            class="mx-auto cardHover"
             @click="showDetail(item)"
           >
-            <v-img :src="item.imageBook" height="300" cover></v-img>
-            <v-card-title class="text-center">{{ item.name }}</v-card-title>
-            <v-card-subtitle class="text-center grey--text">
+            <v-img :src="item.imageBook" height="280px" cover />
+            <v-card-title class="text-center pb-0" style="font-size: 15px">{{
+              item.name
+            }}</v-card-title>
+            <v-card-subtitle
+              class="text-center grey--text"
+              style="font-size: 12px"
+            >
               {{ item.author }} / {{ item.publisher }}
             </v-card-subtitle>
-            <v-divider></v-divider>
-            <v-card-text class="text-center">
-              <v-rating
-                v-model="item.rating"
-                color="#5a5a5a"
-                active-color="#e83e8c"
-                empty-icon="mdi-cards-heart"
-                full-icon="mdi-cards-heart"
-                readonly
-                hover
-                size="20"
-              ></v-rating>
-              <span class="text-grey-lighten-1 text-caption">
+            <v-card-text class="text-center pb-0 pt-0" style="font-size: 13px">
+              <div style="display: inline-block; vertical-align: middle">
+                <v-rating
+                  v-model="item.rating"
+                  color="#5a5a5a"
+                  active-color="#e83e8c"
+                  empty-icon="mdi-cards-heart"
+                  full-icon="mdi-cards-heart"
+                  readonly
+                  hover
+                  size="16"
+                />
+              </div>
+              <span
+                class="ml-2 text-grey-lighten-1 text-caption"
+                style="display: inline-block; vertical-align: middle"
+              >
                 ({{ item.ratingsCount }} Rating)
               </span>
             </v-card-text>
@@ -105,52 +129,7 @@
                 class="btn-color"
                 @click.stop="addItem(item)"
               >
-                ซื้อ {{ item.price }} THB
-              </v-btn>
-              <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
-      <v-row v-else>
-        <v-col
-          v-for="(item, index) in filteredBooks"
-          :key="index"
-          class="mb-5"
-        >
-          <v-card
-            class="mx-auto cardHover"
-            max-width="200"
-            @click="showDetail(item)"
-          >
-            <v-img :src="item.imageBook" height="300" cover></v-img>
-            <v-card-title class="text-center">{{ item.name }}</v-card-title>
-            <v-card-subtitle class="text-center grey--text">
-              {{ item.author }} / {{ item.publisher }}
-            </v-card-subtitle>
-            <v-divider></v-divider>
-            <v-card-text class="text-center">
-              <v-rating
-                v-model="item.rating"
-                color="#5a5a5a"
-                active-color="#e83e8c"
-                empty-icon="mdi-cards-heart"
-                full-icon="mdi-cards-heart"
-                readonly
-                hover
-                size="20"
-              ></v-rating>
-              <span class="text-grey-lighten-1 text-caption">
-                ({{ item.ratingsCount }} Rating)
-              </span>
-            </v-card-text>
-            <v-card-actions class="justify-center">
-              <v-btn
-                v-if="!checkHaveBook(item)"
-                class="btn-color"
-                @click.stop="addItem(item)"
-              >
-                ซื้อ {{ item.price }} THB
+                ฿ {{ item.price }}
               </v-btn>
               <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
             </v-card-actions>
@@ -165,39 +144,51 @@
           <h2 class="display-1 font-weight-bold">แนะนำ</h2>
         </v-col>
         <v-col class="text-end mt-3">
-          <h4 class="display-1" style="color:#00bf6c">ดูทั้งหมด</h4>
+          <h4 class="display-1 text-go" @click="goToRecommend">ดูทั้งหมด</h4>
         </v-col>
       </v-row>
       <v-divider class="mb-6"></v-divider>
-      <v-row>
+      <v-row justify="start" align="start">
         <v-col
           v-for="(item, index) in filteredRecommend"
           :key="index"
           class="mb-5"
+          md="3"
+          sm="4"
+          xs="6"
         >
           <v-card
-            class="mx-auto cardHover"
             max-width="200"
+            class="mx-auto cardHover"
             @click="showDetail(item)"
           >
-            <v-img :src="item.imageBook" height="300" cover></v-img>
-            <v-card-title class="text-center">{{ item.name }}</v-card-title>
-            <v-card-subtitle class="text-center grey--text">
+            <v-img :src="item.imageBook" height="280px" cover />
+            <v-card-title class="text-center pb-0" style="font-size: 15px">{{
+              item.name
+            }}</v-card-title>
+            <v-card-subtitle
+              class="text-center grey--text"
+              style="font-size: 12px"
+            >
               {{ item.author }} / {{ item.publisher }}
             </v-card-subtitle>
-            <v-divider></v-divider>
-            <v-card-text class="text-center">
-              <v-rating
-                v-model="item.rating"
-                color="#5a5a5a"
-                active-color="#e83e8c"
-                empty-icon="mdi-cards-heart"
-                full-icon="mdi-cards-heart"
-                readonly
-                hover
-                size="20"
-              ></v-rating>
-              <span class="text-grey-lighten-1 text-caption">
+            <v-card-text class="text-center pb-0 pt-0" style="font-size: 13px">
+              <div style="display: inline-block; vertical-align: middle">
+                <v-rating
+                  v-model="item.rating"
+                  color="#5a5a5a"
+                  active-color="#e83e8c"
+                  empty-icon="mdi-cards-heart"
+                  full-icon="mdi-cards-heart"
+                  readonly
+                  hover
+                  size="16"
+                />
+              </div>
+              <span
+                class="ml-2 text-grey-lighten-1 text-caption"
+                style="display: inline-block; vertical-align: middle"
+              >
                 ({{ item.ratingsCount }} Rating)
               </span>
             </v-card-text>
@@ -207,7 +198,7 @@
                 class="btn-color"
                 @click.stop="addItem(item)"
               >
-                ซื้อ {{ item.price }} THB
+                ฿ {{ item.price }}
               </v-btn>
               <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
             </v-card-actions>
@@ -215,7 +206,6 @@
         </v-col>
       </v-row>
     </div>
-
 
     <v-dialog v-model="showModal" max-width="500px">
       <v-card max-width="400px" class="pa-4">
@@ -274,13 +264,12 @@ export default {
   name: "ShopTable",
   data() {
     return {
-      books: [],
       bestseller: [],
       newentry: [],
       recommend: [],
       myBook: [],
       showModal: false,
-      screenWidth: 0
+      screenWidth: 0,
     };
   },
   methods: {
@@ -295,6 +284,15 @@ export default {
     goToCoin() {
       this.showModal = false;
       router.push("/coin");
+    },
+    goToRecommend(){
+      router.push("/recommend")
+    },
+    goToBestSeller(){
+      router.push("/bestseller")
+    },
+    goToNewEntry(){
+      router.push("/newentry")
     },
     hideModal() {
       this.showModal = !this.showModal;
@@ -342,29 +340,15 @@ export default {
         this.alertWarning();
       }
     },
-    fetchApi() {
-      api.get("/books/").then((result) => {
-        this.books = result.data;
-      });
-    },
     getNewEntry() {
       api.get("/newentry/").then((result) => {
         this.newentry = result.data;
       });
     },
     getBestseller() {
-      api
-        .get("/bestseller/")
-        .then(async (result) => {
-          for (const bestseller of result.data) {
-            const product = await api.get(`/books/${bestseller.product}`);
-            bestseller.product = product.data;
-          }
-          this.bestseller = result.data;
-        })
-        .catch((error) => {
-          console.log(error);
-        });
+      api.get("/bestseller/").then((result) => {
+        this.bestseller = result.data;
+      });
     },
     getRecommend() {
       api.get("/recommended/").then((result) => {
@@ -384,10 +368,9 @@ export default {
       const res = await api.get("/inventory/" + this.getId());
       this.myBook = res.data;
     },
-    handleResize () {
-      this.screenWidth = window.innerWidth
+    handleResize() {
+      this.screenWidth = window.innerWidth;
     },
-
   },
   computed: {
     isLogin() {
@@ -398,50 +381,39 @@ export default {
         return this.myBook.some((book) => book._id === item._id);
       };
     },
-    filteredNewEntry () {
-      if (this.screenWidth >= 1200) {
-        return this.newentry.slice(0, 5)
-      } else if (this.screenWidth >= 991) {
-        return this.newentry.slice(0, 4)
-      } else if (this.screenWidth >= 768) {
-        return this.newentry.slice(0, 3)
+    filteredNewEntry() {
+      if (this.screenWidth > 960) {
+        return this.newentry.slice(0, 4);
+      } else if (this.screenWidth > 600) {
+        return this.newentry.slice(0, 3);
+      } else if (this.screenWidth < 600) {
+        return this.newentry.slice(0, 2);
       } else {
-        return this.newentry.slice(0, 2)
+        return this.newentry.slice(0, 2);
       }
     },
-    filteredBestSell () {
-      if (this.screenWidth >= 1200) {
-        return this.bestseller.slice(0, 5)
-      } else if (this.screenWidth >= 991) {
-        return this.bestseller.slice(0, 4)
-      } else if (this.screenWidth >= 768) {
-        return this.bestseller.slice(0, 3)
+    filteredBestSell() {
+      if (this.screenWidth > 960) {
+        return this.bestseller.slice(0, 4);
+      } else if (this.screenWidth > 600) {
+        return this.bestseller.slice(0, 3);
+      } else if (this.screenWidth < 600) {
+        return this.bestseller.slice(0, 2);
       } else {
-        return this.bestseller.slice(0, 2)
+        return this.bestseller.slice(0, 2);
       }
     },
-    filteredRecommend () {
-      if (this.screenWidth >= 1200) {
-        return this.recommend.slice(0, 5)
-      } else if (this.screenWidth >= 991) {
-        return this.recommend.slice(0, 4)
-      } else if (this.screenWidth >= 768) {
-        return this.recommend.slice(0, 3)
+    filteredRecommend() {
+      if (this.screenWidth > 960) {
+        return this.recommend.slice(0, 4);
+      } else if (this.screenWidth > 600) {
+        return this.recommend.slice(0, 3);
+      } else if (this.screenWidth < 600) {
+        return this.recommend.slice(0, 2);
       } else {
-        return this.recommend.slice(0, 2)
+        return this.recommend.slice(0, 2);
       }
     },
-    filteredBooks () {
-      if (this.screenWidth >= 1200) {
-        return this.books.slice(0, 5)
-      } else if (this.screenWidth >= 991) {
-        return this.books.slice(0, 4)
-      } else if (this.screenWidth >= 768) {
-        return this.books.slice(0, 3)
-      } else {
-        return this.books.slice(0, 2)
-      }
-    }
   },
   watch: {
     showModal(newValue) {
@@ -453,18 +425,21 @@ export default {
     },
     isLogin(newValue) {
       if (!newValue) {
-        this.myBook = []
-        this.fetchApi();
-      }else{
-        this.fetchApi();
-        this.getMyBook()
+        this.myBook = [];
+        this.getBestseller();
+        this.getNewEntry();
+        this.getRecommend();
+      } else {
+        this.getBestseller();
+        this.getNewEntry();
+        this.getRecommend();
+        this.getMyBook();
       }
     },
   },
   mounted() {
-    this.screenWidth = window.innerWidth
-    window.addEventListener('resize', this.handleResize)
-    this.fetchApi();
+    this.screenWidth = window.innerWidth;
+    window.addEventListener("resize", this.handleResize);
     this.getBestseller();
     this.getNewEntry();
     this.getRecommend();
@@ -476,6 +451,10 @@ export default {
 </script>
 
 <style scoped>
+.text-go{
+  cursor: pointer;
+  color: #00af70;
+}
 .btn-color {
   color: #fff;
   background-color: #00af70;
