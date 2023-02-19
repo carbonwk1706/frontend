@@ -1,6 +1,6 @@
 <template>
   <Auth v-if="isLogin">
-    <v-container>
+    <v-container fluid>
       <div class="d-flex align-center">
         <span class="menu-link" @click="goToProfile">จัดการบัญชี</span>
         <v-icon>mdi-chevron-right</v-icon>
