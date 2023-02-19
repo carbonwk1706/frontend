@@ -38,24 +38,6 @@
             <v-col cols="6" class="d-flex justify-end"
               ><span class="text-price">12/12/2566 เวลา: 00.00</span></v-col
             >
-            <v-col cols="6" class="d-flex justify-start"
-              ><span>อัพโหลดสลิป: </span></v-col
-            >
-            <v-col cols="6" class="d-flex justify-end">
-              <div>
-                <v-file-input
-                  :rules="rules"
-                  label="File input"
-                  variant="solo"
-                  accept="image/png, image/jpeg, image/bmp"
-                  @change="onFileChange"
-                >
-                </v-file-input>
-                <div v-if="imageUrl">
-                  <img :src="imageUrl" alt="Selected image" />
-                </div>
-              </div>
-            </v-col>
           </v-row>
         </v-col>
       </v-row>
@@ -99,16 +81,7 @@ export default {
       imageUrl: null,
     };
   },
-  methods: {
-    onFileChange(event) {
-      const file = event.target.files[0];
-      const reader = new FileReader();
-      reader.onload = () => {
-        this.imageUrl = reader.result;
-      };
-      reader.readAsDataURL(file);
-    },
-  },
+  methods: {},
 };
 </script>
 
