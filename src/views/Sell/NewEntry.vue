@@ -74,7 +74,6 @@
       </v-col>
     </v-row>
 
-    
     <v-row class="mt-12">
       <v-col cols="12" class="pa-0 d-flex justify-center">
         <v-pagination
@@ -85,7 +84,6 @@
         ></v-pagination>
       </v-col>
     </v-row>
-
 
     <v-dialog v-model="showModal" max-width="500px">
       <v-card max-width="400px" class="pa-4">
@@ -135,8 +133,6 @@
       </v-card>
     </v-dialog>
   </v-container>
-
-
 </template>
 <script>
 import router from "@/router";
@@ -242,6 +238,15 @@ export default {
         document.body.classList.add("dialog-open");
       } else {
         document.body.classList.remove("dialog-open");
+      }
+    },
+    isLogin(newValue) {
+      if (!newValue) {
+        this.myBook = [];
+        this.fetchApi();
+      } else {
+        this.fetchApi();
+        this.getMyBook();
       }
     },
   },

@@ -241,6 +241,15 @@ export default {
         document.body.classList.remove("dialog-open");
       }
     },
+    isLogin(newValue) {
+      if (!newValue) {
+        this.myBook = [];
+        this.fetchApi();
+      } else {
+        this.fetchApi();
+        this.getMyBook();
+      }
+    },
   },
   mounted() {
     this.fetchApi();
