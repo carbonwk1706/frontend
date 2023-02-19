@@ -6,7 +6,7 @@
           <h2 class="display-1 font-weight-bold">มาใหม่</h2>
         </v-col>
         <v-col class="text-end mt-3">
-          <h4 class="display-1" style="color: #00bf6c">ดูทั้งหมด</h4>
+          <h4 class="display-1 text-go">ดูทั้งหมด</h4>
         </v-col>
       </v-row>
       <v-divider class="mb-6"></v-divider>
@@ -75,11 +75,11 @@
           <h2 class="display-1 font-weight-bold">ขายดี</h2>
         </v-col>
         <v-col class="text-end mt-3">
-          <h4 class="display-1" style="color: #00bf6c">ดูทั้งหมด</h4>
+          <h4 class="display-1 text-go">ดูทั้งหมด</h4>
         </v-col>
       </v-row>
       <v-divider class="mb-6"></v-divider>
-      <v-row justify="start" align="start">
+      <v-row>
         <v-col
           v-for="(item, index) in filteredBestSell"
           :key="index"
@@ -144,7 +144,7 @@
           <h2 class="display-1 font-weight-bold">แนะนำ</h2>
         </v-col>
         <v-col class="text-end mt-3">
-          <h4 class="display-1" style="color: #00bf6c">ดูทั้งหมด</h4>
+          <h4 class="display-1 text-go" @click="goToRecommend">ดูทั้งหมด</h4>
         </v-col>
       </v-row>
       <v-divider class="mb-6"></v-divider>
@@ -284,6 +284,9 @@ export default {
     goToCoin() {
       this.showModal = false;
       router.push("/coin");
+    },
+    goToRecommend(){
+      router.push("/recommend")
     },
     hideModal() {
       this.showModal = !this.showModal;
@@ -442,6 +445,10 @@ export default {
 </script>
 
 <style scoped>
+.text-go{
+  cursor: pointer;
+  color: #00af70;
+}
 .btn-color {
   color: #fff;
   background-color: #00af70;
