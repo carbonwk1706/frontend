@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-5">
+  <v-container>
     <div class="d-flex justify-center">
       <div class="headborder">My coin: {{ user.coin }}</div>
     </div>
@@ -7,11 +7,10 @@
       <div class="ma-10">กรุณาเลือกช่องทางการเติม coin</div>
       <v-row row justify="space-around">
         <v-col
-          xs12
-          sm6
-          md4
-          lg3
-          cols="3"
+          xs="12"
+          sm="6"
+          md="4"
+          lg="3"
           v-for="item in listBankAccout"
           :key="item.listBankAccout"
         >
@@ -198,7 +197,7 @@ export default {
         coin: parseInt(this.selectedCoin),
       };
       this.showConfirm = false;
-      console.log(this.resultSelect);
+      this.$store.dispatch("checkoutCoin/setReceipt", this.resultSelect);
       router.push('/checkoutcoin')
     },
     async fetchApi() {
