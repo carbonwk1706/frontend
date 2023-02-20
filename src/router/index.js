@@ -171,11 +171,18 @@ const routes = [
     path: '/search/:searchTerm?',
     name: 'search',
     component: () => import('../views/SearchBooks.vue')
+
   }
   ,{
     path: '/bookadmin',
     name: 'bookadmin',
     component: () => import('../views/BookLocalAdmin.vue')
+
+  },
+  {
+    path: '/checkoutcoin',
+    name: 'checkoutcoin',
+    component: () => import('../components/Coin/Checkout.vue')
   }
 ]
 

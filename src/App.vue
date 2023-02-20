@@ -109,6 +109,7 @@ export default {
           "/historyadmin",
           "/coin",
           "/bookadmin"
+          "/checkoutcoin",
         ].includes(this.$route.path);
       }
     },
@@ -145,6 +146,7 @@ export default {
             "/historyadmin",
             "/coin",
             "/bookadmin"
+            "/checkoutcoin",
           ].includes(this.$route.path);
         }
       }
@@ -160,10 +162,10 @@ export default {
       ].includes(this.$route.path);
     },
     showNavbarCoin() {
-      return ["/coin"].includes(this.$route.path);
+      return ["/coin", "/checkoutcoin"].includes(this.$route.path);
     },
     showFooterCoin() {
-      return ["/coin"].includes(this.$route.path);
+      return ["/coin", "/checkoutcoin"].includes(this.$route.path);
     },
   },
   
