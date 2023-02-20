@@ -25,40 +25,66 @@
         </div>
       </template>
       <template v-else>
-        <v-row class="mb-3">
-          <v-col class="text-text-start">
-            <h3 class="display-1 font-weight-bold">ชั้นหนังสือของฉัน</h3>
+        <v-row class="mb-1">
+          <v-col cols="6" class="text-start">
+            <h2 class="font-weight-bold">มาใหม่</h2>
+          </v-col>
+          <v-col cols="6" class="pa-0 d-flex justify-end">
+            <v-pagination
+              class="text-pagination"
+              v-model="page"
+              :length="pages"
+              circle
+            ></v-pagination>
           </v-col>
         </v-row>
         <v-divider class="mb-6"></v-divider>
         <v-row>
           <v-col
-            v-for="(item, index) in myBook"
+            v-for="(item, index) in myBook.slice(
+              (page - 1) * itemsPerPage,
+              page * itemsPerPage
+            )"
             :key="index"
-            cols="12"
-            sm="6"
-            md="4"
-            class="mb-5"
+            md="3"
+            sm="4"
+            xs="6"
           >
-            <v-card class="cardHover" max-width="200" @click="showDetail(item)">
-              <v-img :src="item.imageBook" cover></v-img>
-              <v-card-title class="text-center">{{ item.name }}</v-card-title>
-              <v-card-subtitle class="text-center grey--text">
+            <v-card
+              max-width="200"
+              class="mx-auto cardHover"
+              @click="showDetail(item)"
+            >
+              <v-img :src="item.imageBook" height="280px" cover />
+              <v-card-title class="text-center pb-0" style="font-size: 15px">{{
+                item.name
+              }}</v-card-title>
+              <v-card-subtitle
+                class="text-center grey--text"
+                style="font-size: 12px"
+              >
                 {{ item.author }} / {{ item.publisher }}
               </v-card-subtitle>
-              <v-divider></v-divider>
-              <v-card-text class="text-center">
-                <v-rating
-                  v-model="item.rating"
-                  color="#5a5a5a"
-                  active-color="#e83e8c"
-                  empty-icon="mdi-cards-heart"
-                  full-icon="mdi-cards-heart"
-                  readonly
-                  hover
-                  size="20"
-                ></v-rating>
-                <span class="text-grey-lighten-1 text-caption">
+              <v-card-text
+                class="text-center pb-0 pt-0"
+                style="font-size: 13px"
+              >
+                <div style="display: inline-block; vertical-align: middle">
+                  <v-rating
+                    v-model="item.rating"
+                    color="#5a5a5a"
+                    active-color="#e83e8c"
+                    empty-icon="mdi-cards-heart"
+                    full-icon="mdi-cards-heart"
+                    readonly
+                    hover
+                    size="16"
+                  />
+                </div>
+                <span
+                  class="ml-2 text-grey-lighten-1 text-caption"
+                  style="display: inline-block; vertical-align: middle"
+                >
                   ({{ item.ratingsCount }} Rating)
                 </span>
               </v-card-text>
@@ -66,6 +92,17 @@
                 <v-btn disabled class="btn-color">มีแล้ว</v-btn>
               </v-card-actions>
             </v-card>
+          </v-col>
+        </v-row>
+
+        <v-row class="mt-12">
+          <v-col cols="12" class="pa-0 d-flex justify-center">
+            <v-pagination
+              class="text-pagination"
+              v-model="page"
+              :length="pages"
+              circle
+            ></v-pagination>
           </v-col>
         </v-row>
       </template>
@@ -88,6 +125,8 @@ export default {
     return {
       myBook: [],
       cartList: [],
+      page: 1,
+      itemsPerPage: 40,
     };
   },
   methods: {
@@ -114,6 +153,9 @@ export default {
   computed: {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
+    },
+    pages() {
+      return Math.ceil(this.myBook.length / this.itemsPerPage);
     },
   },
   mounted() {
