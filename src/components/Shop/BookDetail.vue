@@ -361,6 +361,7 @@ export default {
               rating: this.rating,
               comment: this.comment,
             });
+            this.clearRating()
             this.alertSuccess("ส่งข้อมูลสำเร็จ ขอบคุณสำหรับการรีวิว");
             this.checkRating();
             this.getBookDetail();
@@ -370,14 +371,16 @@ export default {
           }
         } else {
           this.alertWarning("คุณยังไม่ได้ซื้อหนังสือเล่มนี้");
-          this.rating = 0;
-          this.comment = "";
+          this.clearRating()
         }
       } else {
         this.alertWarning("คุณรีวิวหนังสือเล่มนี้ไปแล้ว");
-        this.rating = 0;
-        this.comment = "";
+        this.clearRating()
       }
+    },
+    clearRating(){
+      this.rating = 0;
+      this.comment = "";
     },
     readBook() {
       alert("อ่านหนังสือ");
