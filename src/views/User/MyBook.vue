@@ -25,6 +25,33 @@
         </div>
       </template>
       <template v-else>
+        <v-row class="mt-3">
+          <v-col col="12" class="pl-0">
+            <span>กรุณากรอกคำที่คุณต้องการค้นหา</span>
+          </v-col>
+        </v-row>
+        <v-row>
+          <div class="select-width mr-2">
+            <v-select
+              density="compact"
+              v-model="search"
+              :items="searchItem"
+              variant="outlined"
+            ></v-select>
+          </div>
+          <div class="search-width">
+            <v-text-field
+              :loading="loadingSearch"
+              density="compact"
+              variant="outlined"
+              v-model="searchTerm"
+              single-line
+              append-inner-icon="mdi-magnify"
+              @click:append-inner="searchBook"
+              @keyup.enter="searchBook"
+            ></v-text-field>
+          </div>
+        </v-row>
         <v-row class="mb-1">
           <v-col cols="6" class="text-start">
             <h2 class="font-weight-bold">มาใหม่</h2>
@@ -125,11 +152,39 @@ export default {
     return {
       myBook: [],
       cartList: [],
+      searchItem: ["ค้นจากชื่อเรื่อง", "ค้นจากผู้แต่ง", "ค้นจากสำนักพิมพ์"],
+      search: "ค้นจากชื่อเรื่อง",
       page: 1,
       itemsPerPage: 40,
+      searchTerm: "",
+      loadingSearch: false,
     };
   },
   methods: {
+    async searchBook() {
+      this.loadingSearch = true;
+      if (!this.searchTerm) {
+        setTimeout(() => {
+          this.loadingSearch = false
+          this.getMyBook();
+        },2000)
+      } else {
+        setTimeout(() => {
+          this.loadingSearch = false
+          this.matchBooks()
+        },2000)
+      }
+    },
+    async matchBooks(){
+      const res = await api.get("/searchbook/inventory", {
+          params: {
+            searchTerm: this.searchTerm,
+            userId: this.getId(),
+          },
+        });
+
+        this.myBook = res.data;
+    },
     goToProfile() {
       router.push("/profile");
     },
@@ -162,12 +217,19 @@ export default {
     if (this.isLogin) {
       this.getMyBook();
       this.getCartList();
+      console.log(this.getId());
     }
   },
 };
 </script>
 
 <style scoped>
+.search-width {
+  width: 200px;
+}
+.select-width {
+  width: 190px;
+}
 .btn-color {
   color: #fff;
   background-color: #00af70;
