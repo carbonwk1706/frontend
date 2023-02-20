@@ -11,6 +11,13 @@
     <div class="noBook" v-if="cartList.length === 0 || cartList === null">
       <span>ไม่พบสิ้นค้าในตะกร้า</span>
     </div>
+    <div class="d-flex justify-center">
+      <img
+        src="https://shop.unicornstore.in/beam/themes/2019/assets/img/cart_empty.png"
+        width="400"
+        cover
+      />
+    </div>
   </div>
   <div v-else>
     <v-container>
