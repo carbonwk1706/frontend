@@ -1,5 +1,5 @@
 <template>
-  <v-container class="pa-5">
+  <v-container>
     <div class="d-flex justify-center">
       <div class="headborder">My coin: {{ user.coin }}</div>
     </div>
@@ -7,11 +7,10 @@
       <div class="ma-10">กรุณาเลือกช่องทางการเติม coin</div>
       <v-row row justify="space-around">
         <v-col
-          xs12
-          sm6
-          md4
-          lg3
-          cols="3"
+          xs="12"
+          sm="6"
+          md="4"
+          lg="3"
           v-for="item in listBankAccout"
           :key="item.listBankAccout"
         >
@@ -86,6 +85,7 @@
 
 <script>
 import api from "@/services/api";
+import router from '@/router';
 
 export default {
   name: "CoinTable",
@@ -93,42 +93,34 @@ export default {
     return {
       listBankAccout: [
         {
-          initial: "BBL",
           name: "ธนาคารกรุงเทพ จำกัด (มหาชน)",
           isClicked: false,
         },
         {
-          initial: "KBANK",
           name: "ธนาคารกสิกร จำกัด (มหาชน)",
           isClicked: false,
         },
         {
-          initial: "SCB",
           name: "ธนาคารไทยพาณิชย์ จำกัด (มหาชน)",
           isClicked: false,
         },
         {
-          initial: "BAY",
           name: "ธนาคารกรุงศรีอยุธยา จำกัด (มหาชน)",
           isClicked: false,
         },
         {
-          initial: "KTB",
           name: "ธนาคารกรุงไทย จำกัด (มหาชน)",
           isClicked: false,
         },
         {
-          initial: "TTB",
           name: "ธนาคารทหารไทยธนชาต จำกัด (มหาชน)",
           isClicked: false,
         },
         {
-          initial: "UOB",
           name: "ธนาคารยูโอบี จำกัด (มหาชน)",
           isClicked: false,
         },
         {
-          initial: "CIMB",
           name: "ธนาคาร ซีไอเอ็มบี ไทย จำกัด (มหาชน)",
           isClicked: false,
         },
@@ -175,7 +167,7 @@ export default {
       item.isClicked = true;
       this.firstDivClicked = true;
       this.bankIsClicked = true;
-      this.selectedBankAccount = item.initial;
+      this.selectedBankAccount = item.name;
       setTimeout(() => {
         window.scrollTo({
           top: document.body.scrollHeight,
@@ -205,7 +197,8 @@ export default {
         coin: parseInt(this.selectedCoin),
       };
       this.showConfirm = false;
-      console.log(this.resultSelect);
+      this.$store.dispatch("checkoutCoin/setReceipt", this.resultSelect);
+      router.push('/checkoutcoin')
     },
     async fetchApi() {
       const res = await api.get("/profile/" + this.getId());

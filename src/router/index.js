@@ -172,6 +172,11 @@ const routes = [
     name: 'search',
     component: () => import('../views/SearchBooks.vue')
   },
+  {
+    path: '/checkoutcoin',
+    name: 'checkoutcoin',
+    component: () => import('../components/Coin/Checkout.vue')
+  }
 ]
 
 const router = createRouter({
