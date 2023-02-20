@@ -4,6 +4,7 @@ import authAdmin from "./modules/authAdmin";
 import wishlist from "./modules/wishlist";
 import cartList from "./modules/cartList";
 import selectItem from "./modules/selectItem";
+import checkoutCoin from "./modules/checkoutCoin";
 export default createStore({
   state: {},
   getters: {},
@@ -14,6 +15,7 @@ export default createStore({
     authAdmin,
     wishlist,
     cartList,
-    selectItem
+    selectItem,
+    checkoutCoin
   },
 });
