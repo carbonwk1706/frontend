@@ -7,6 +7,7 @@
         <th class="text-left">Email</th>
         <th class="text-left">Gender</th>
         <th class="text-left">Role</th>
+        <th class="text-left"></th>
       </tr>
     </thead>
     <tbody>
@@ -16,7 +17,7 @@
         <td>{{ item.email }}</td>
         <td>{{ item.gender }}</td>
         <td>{{ item.roles }}</td>
-        <td>
+        <td class="d-flex justify-center mt-2">
           <v-btn
             variant="flat"
             color="success"
