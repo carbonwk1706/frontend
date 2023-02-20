@@ -171,7 +171,12 @@ const routes = [
     path: '/search/:searchTerm?',
     name: 'search',
     component: () => import('../views/SearchBooks.vue')
-  },
+  }
+  ,{
+    path: '/bookadmin',
+    name: 'bookadmin',
+    component: () => import('../views/BookLocalAdmin.vue')
+  }
 ]
 
 const router = createRouter({

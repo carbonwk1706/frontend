@@ -108,6 +108,7 @@ export default {
           "/approvetable",
           "/historyadmin",
           "/coin",
+          "/bookadmin"
         ].includes(this.$route.path);
       }
     },
@@ -132,6 +133,7 @@ export default {
             "/admintable",
             "/approvetable",
             "/historyadmin",
+            "/bookadmin"
           ].includes(this.$route.path);
         } else {
           return ![
@@ -142,6 +144,7 @@ export default {
             "/approvetable",
             "/historyadmin",
             "/coin",
+            "/bookadmin"
           ].includes(this.$route.path);
         }
       }
@@ -153,6 +156,7 @@ export default {
         "/admintable",
         "/approvetable",
         "/historyadmin",
+        "/bookadmin"
       ].includes(this.$route.path);
     },
     showNavbarCoin() {
