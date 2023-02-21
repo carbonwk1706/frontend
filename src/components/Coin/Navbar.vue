@@ -109,7 +109,7 @@ export default {
       router.push("/coin");
     },
     goToHistory() {
-      console.log("history");
+      router.push("/coinhistory")
     },
     goToHome() {
       router.push("/");

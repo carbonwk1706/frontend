@@ -85,7 +85,7 @@
 
 <script>
 import api from "@/services/api";
-import router from '@/router';
+import router from "@/router";
 
 export default {
   name: "CoinTable",
@@ -198,7 +198,7 @@ export default {
       };
       this.showConfirm = false;
       this.$store.dispatch("checkoutCoin/setReceipt", this.resultSelect);
-      router.push('/checkoutcoin')
+      router.push("/checkoutcoin");
     },
     async fetchApi() {
       const res = await api.get("/profile/" + this.getId());
@@ -208,9 +208,17 @@ export default {
       this.showConfirm = !this.showConfirm;
     },
   },
-  computed: {},
+  computed: {
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
+    },
+  },
   mounted() {
-    this.fetchApi();
+    if (this.isLogin) {
+      this.fetchApi();
+    } else {
+      router.push("/");
+    }
   },
 };
 </script>
@@ -245,7 +253,7 @@ export default {
   text-align: center;
 }
 .buttonDis {
-  background-color: #CCCCCC;
+  background-color: #cccccc;
   color: white;
   height: 50px;
   width: 300px;
