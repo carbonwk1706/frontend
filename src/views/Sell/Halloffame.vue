@@ -279,13 +279,10 @@ export default {
       if (newValue) {
         if (newValue === "ฮิตขึ้นหิ้งทั้งหมด") {
           this.fetchApi();
-          this.getMyBook();
         } else if (newValue === "ฮิตขึ้นหิ้งการ์ตูน") {
           this.fetchApiCartoon();
-          this.getMyBook();
         } else if (newValue === "ฮิตขึ้นหิ้งนิยาย") {
           this.fetchApiNovel();
-          this.getMyBook();
         }
       }
     },

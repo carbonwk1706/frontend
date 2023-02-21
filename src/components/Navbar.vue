@@ -220,7 +220,7 @@
               style="color: #00af70"
               rounded
               variant="text"
-              @click="goToWishlist"
+              @click="goToAllBooks"
             >
               <span class="font-text"> อีบุ๊คทั้งหมด </span>
             </v-btn>
@@ -231,7 +231,7 @@
               style="color: #000"
               rounded
               variant="text"
-              @click="goToWishlist"
+              @click="goToAllNovel"
             >
               <span class="font-text"> นิยายทั้งหมด </span>
             </v-btn>
@@ -241,30 +241,9 @@
               style="color: #000"
               rounded
               variant="text"
-              @click="goToMyBook"
+              @click="goToAllCartoon"
             >
               <span class="font-text">การ์ตูนทั้งหมด</span>
-            </v-btn>
-          </v-col>
-          <v-divider class="my-3"></v-divider>
-          <v-col class="px-0">
-            <v-btn
-              style="color: #5a5a5a"
-              rounded
-              variant="text"
-              @click="goToProfile"
-            >
-              <span class="font-text">หมวดหมู่ทั้งหมด</span>
-            </v-btn>
-          </v-col>
-          <v-col class="px-0">
-            <v-btn
-              style="color: #5a5a5a"
-              rounded
-              variant="text"
-              @click="goToProfile"
-            >
-              <span class="font-text">สำนักพิมพ์</span>
             </v-btn>
           </v-col>
         </v-card-text>
@@ -293,7 +272,7 @@
               style="color: #00af70"
               rounded
               variant="text"
-              @click="goToWishlist"
+              @click="goToAllBooks"
             >
               <span class="font-text"> อีบุ๊คทั้งหมด </span>
             </v-btn>
@@ -304,7 +283,7 @@
               style="color: #000"
               rounded
               variant="text"
-              @click="goToWishlist"
+              @click="goToAllNovel"
             >
               <span class="font-text"> นิยายทั้งหมด </span>
             </v-btn>
@@ -314,30 +293,9 @@
               style="color: #000"
               rounded
               variant="text"
-              @click="goToMyBook"
+              @click="goToAllCartoon"
             >
               <span class="font-text">การ์ตูนทั้งหมด</span>
-            </v-btn>
-          </v-col>
-          <v-divider class="my-3"></v-divider>
-          <v-col class="px-0">
-            <v-btn
-              style="color: #5a5a5a"
-              rounded
-              variant="text"
-              @click="goToProfile"
-            >
-              <span class="font-text">หมวดหมู่ทั้งหมด</span>
-            </v-btn>
-          </v-col>
-          <v-col class="px-0">
-            <v-btn
-              style="color: #5a5a5a"
-              rounded
-              variant="text"
-              @click="goToProfile"
-            >
-              <span class="font-text">สำนักพิมพ์</span>
             </v-btn>
           </v-col>
         </v-card-text>
@@ -436,6 +394,7 @@ export default {
               searchTerm: this.searchTerm,
             },
           });
+          this.searchTerm = ""
         } else {
           this.loadingSearch = false;
           router.push({
@@ -445,16 +404,16 @@ export default {
             },
           });
         }
-      }, 2000);
+      }, 1000);
     },
     logout() {
       this.loading = true;
+      router.push("/");
       setTimeout(() => {
         this.$store.dispatch("auth/logout");
         this.loading = false;
       }, 2000);
-      router.push("/");
-      setTimeout(() => {}, 2000);
+
     },
     goToHome() {
       router.push("/");
@@ -464,6 +423,15 @@ export default {
     },
     goToWishlist() {
       router.push("/wishlist");
+    },
+    goToAllBooks() {
+      router.push("/books/all");
+    },
+    goToAllCartoon() {
+      router.push("/books/cartoon/all");
+    },
+    goToAllNovel() {
+      router.push("/books/novel/all");
     },
     goToCart() {
       router.push("/cart");
@@ -491,9 +459,6 @@ export default {
     },
     goToHalloffame(){
       router.push("/halloffame");
-    },
-    goToMyShop() {
-      router.push("/myshop");
     },
     async fetchApi() {
       const res = await api.get("/profile/" + this.getId());

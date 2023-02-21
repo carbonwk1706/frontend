@@ -282,7 +282,64 @@
         </v-col>
       </v-row>
       <v-divider class="mb-6"></v-divider>
-      <v-row justify="start" align="start">
+      <v-row v-if="recommend7d.length > 0" justify="start" align="start">
+        <v-col
+          v-for="(item, index) in filteredRecommend7D"
+          :key="index"
+          class="mb-5"
+          md="3"
+          sm="4"
+          xs="6"
+        >
+          <v-card
+            max-width="200"
+            class="mx-auto cardHover"
+            @click="showDetail(item)"
+          >
+            <v-img :src="item.imageBook" height="280px" cover />
+            <v-card-title class="text-center pb-0" style="font-size: 15px">{{
+              item.name
+            }}</v-card-title>
+            <v-card-subtitle
+              class="text-center grey--text"
+              style="font-size: 12px"
+            >
+              {{ item.author }} / {{ item.publisher }}
+            </v-card-subtitle>
+            <v-card-text class="text-center pb-0 pt-0" style="font-size: 13px">
+              <div style="display: inline-block; vertical-align: middle">
+                <v-rating
+                  v-model="item.rating"
+                  color="#5a5a5a"
+                  active-color="#e83e8c"
+                  empty-icon="mdi-cards-heart"
+                  full-icon="mdi-cards-heart"
+                  readonly
+                  hover
+                  size="16"
+                />
+              </div>
+              <span
+                class="ml-2 text-grey-lighten-1 text-caption"
+                style="display: inline-block; vertical-align: middle"
+              >
+                ({{ item.ratingsCount }} Rating)
+              </span>
+            </v-card-text>
+            <v-card-actions class="justify-center">
+              <v-btn
+                v-if="!checkHaveBook(item)"
+                class="btn-color"
+                @click.stop="addItem(item)"
+              >
+                ฿ {{ item.price }}
+              </v-btn>
+              <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row v-else justify="start" align="start">
         <v-col
           v-for="(item, index) in filteredRecommend"
           :key="index"
@@ -402,6 +459,7 @@ export default {
       newentry: [],
       newentry7d: [],
       recommend: [],
+      recommend7d: [],
       halloffame: [],
       myBook: [],
       showModal: false,
@@ -432,9 +490,6 @@ export default {
     },
     goToHalloffame() {
       router.push("/halloffame");
-    },
-    goToNewEntry7D(){
-      router.push("/new/newentry");
     },
     hideModal() {
       this.showModal = !this.showModal;
@@ -500,6 +555,11 @@ export default {
     getRecommend() {
       api.get("/recommended/").then((result) => {
         this.recommend = result.data;
+      });
+    },
+    getRecommend7d() {
+      api.get("/recommended/new").then((result) => {
+        this.recommend7d = result.data;
       });
     },
     getHalloffame() {
@@ -588,6 +648,17 @@ export default {
         return this.recommend.slice(0, 2);
       }
     },
+    filteredRecommend7D() {
+      if (this.screenWidth > 960) {
+        return this.recommend7d.slice(0, 4);
+      } else if (this.screenWidth > 600) {
+        return this.recommend7d.slice(0, 3);
+      } else if (this.screenWidth < 600) {
+        return this.recommend7d.slice(0, 2);
+      } else {
+        return this.recommend7d.slice(0, 2);
+      }
+    },
 
   },
   watch: {
@@ -606,12 +677,14 @@ export default {
         this.getHalloffame();
         this.getRecommend();
         this.getNewEntry7D();
+        this.getRecommend7d();
       } else {
         this.getBestseller();
         this.getNewEntry();
         this.getHalloffame();
         this.getRecommend();
         this.getNewEntry7D();
+        this.getRecommend7d();
         this.getMyBook();
       }
     },
@@ -624,6 +697,7 @@ export default {
     this.getHalloffame();
     this.getRecommend();
     this.getNewEntry7D();
+    this.getRecommend7d();
     if (this.isLogin) {
       this.getMyBook();
     }

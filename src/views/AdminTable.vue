@@ -1,67 +1,71 @@
 <template>
-  <v-table density="compact">
-    <thead class="table">
-      <tr>
-        <th class="text-left">Name</th>
-        <th class="text-left">Userame</th>
-        <th class="text-left">Email</th>
-        <th class="text-left">Gender</th>
-        <th class="text-left">Role</th>
-        <th class="text-left"></th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr v-for="(item, index) in userItems" :key="index">
-        <td>{{ item.name }}</td>
-        <td>{{ item.username }}</td>
-        <td>{{ item.email }}</td>
-        <td>{{ item.gender }}</td>
-        <td>{{ item.roles }}</td>
-        <td class="d-flex justify-center mt-2">
-          <v-btn
-            variant="flat"
-            color="success"
-            class="mr-3"
-            @click="editUser(item)"
-            >แก้ไข</v-btn
-          >
-          <v-btn
-            variant="flat"
-            color="error"
-            class="mr-3"
-            @click="
-              showConfirm = true;
-              selectedUser = item;
-            "
-            >ลบ</v-btn
-          >
-        </td>
-      </tr>
-    </tbody>
-  </v-table>
+  <v-container fluid>
+    <v-row>
+      <v-col cols="12">
+        <v-table dense class="elevation-1">
+          <thead class="table">
+            <tr>
+              <th class="text-left">Name</th>
+              <th class="text-left">Userame</th>
+              <th class="text-left">Email</th>
+              <th class="text-left">Gender</th>        
+              <th class="text-left"></th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr v-for="(item, index) in userItems" :key="index">
+              <td>{{ item.name }}</td>
+              <td>{{ item.username }}</td>
+              <td>{{ item.email }}</td>
+              <td>{{ item.gender }}</td>
+              <td class="d-flex justify-center mt-2">
+                <v-btn
+                  variant="flat"
+                  color="success"
+                  class="mr-3"
+                  @click="editUser(item)"
+                  >แก้ไข</v-btn
+                >
+                <v-btn
+                  variant="flat"
+                  color="error"
+                  class="mr-3"
+                  @click="
+                    showConfirm = true;
+                    selectedUser = item;
+                  "
+                  >ลบ</v-btn
+                >
+              </td>
+            </tr>
+          </tbody>
+        </v-table>
+      </v-col>
+    </v-row>
 
-  <v-dialog v-model="showConfirm" max-width="290">
-    <v-card>
-      <v-card-title class="headline">ยืนยันการลบ</v-card-title>
-      <v-card-text>
-        คุณต้องการลบผู้ใช้ {{ selectedUser.name }} ใช่หรือไม่?
-      </v-card-text>
-      <v-card-actions>
-        <v-spacer />
-        <v-btn color="Grey" text @click="showConfirm = false"> ยกเลิก </v-btn>
-        <v-btn
-          color="red darken-1"
-          text
-          @click="
-            deleteUser(selectedUser);
-            showConfirm = false;
-          "
-        >
-          ลบ
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+    <v-dialog v-model="showConfirm" max-width="290">
+      <v-card>
+        <v-card-title class="headline">ยืนยันการลบ</v-card-title>
+        <v-card-text>
+          คุณต้องการลบผู้ใช้ {{ selectedUser.name }} ใช่หรือไม่?
+        </v-card-text>
+        <v-card-actions>
+          <v-spacer />
+          <v-btn color="Grey" text @click="showConfirm = false"> ยกเลิก </v-btn>
+          <v-btn
+            color="red darken-1"
+            text
+            @click="
+              deleteUser(selectedUser);
+              showConfirm = false;
+            "
+          >
+            ลบ
+          </v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
+  </v-container>
 </template>
 
 <script>
@@ -78,11 +82,15 @@ export default {
     };
   },
   methods: {
-    deleteUser(user) {
-      api.delete("/users/" + user._id, user).then((result) => {
-        this.userItems = result.data;
-        this.fetchApi();
-      });
+    async deleteUser(user) {
+      try {
+        await api.delete("/users/" + user._id, user);
+        this.showAlert();
+        this.userItems = this.userItems.filter((item) => item._id !== user._id); 
+      } catch (error) {
+        console.error(error);
+      }
+      this.fetchApi();
     },
     editUser(user) {
       this.$router.push(`/admintable/${user._id}`);
@@ -95,7 +103,8 @@ export default {
       this.showForm = false;
     },
     async fetchApi() {
-      api.get("/users/").then((result) => {
+       const result = await api.get("/users/");
+       this.userItems.splice(0, this.userItems.length); 
         for (let i = 0; i < result.data.length; i++) {
           for (let j = 0; j < result.data[i].roles.length; j++) {
             if (
@@ -107,6 +116,17 @@ export default {
             }
           }
         }
+
+    },
+    showAlert() {
+      this.$swal({
+        scrollbarPadding: false,
+        confirmButtonColor: "#00af70",
+        customClass: "show-modal",
+        text: "ลบผู้ใช้งานสำเร็จ",
+        icon: "success",
+        allowOutsideClick: false,
+        confirmButtonText: "OK",
       });
     },
   },
@@ -116,7 +136,7 @@ export default {
 };
 </script>
 
-<style >
+<style>
 .left {
   display: flex;
   justify-content: left;

@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row class="mb-1">
       <v-col cols="6" class="text-start">
-        <h2 class="font-weight-bold">มาใหม่ทั้งหมด</h2>
+        <h3>การ์ตูนทั้งหมด</h3>
       </v-col>
       <v-col cols="6" class="pa-0 d-flex justify-end">
         <v-pagination
@@ -201,7 +201,7 @@ export default {
       }
     },
     fetchApi() {
-      api.get("/newentry/").then((result) => {
+      api.get("/books/cartoon").then((result) => {
         this.books = result.data;
       });
     },
@@ -259,6 +259,9 @@ export default {
 };
 </script>
 <style scoped>
+.select-width {
+  width: 200px;
+}
 .btn-color {
   color: #fff;
   background-color: #00af70;

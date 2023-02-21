@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row class="mb-1">
       <v-col cols="6" class="text-start">
-        <h2 class="font-weight-bold">ขายดีในหมวดหมู่ การ์ตูนทั่วไป</h2>
+        <h3>นิยายทั้งหมด</h3>
       </v-col>
       <v-col cols="6" class="pa-0 d-flex justify-end">
         <v-pagination
@@ -134,13 +134,10 @@
     </v-dialog>
   </v-container>
 </template>
-
 <script>
 import router from "@/router";
 import api from "@/services/api";
-
 export default {
-  name: "ShopTable",
   data() {
     return {
       books: [],
@@ -204,7 +201,7 @@ export default {
       }
     },
     fetchApi() {
-      api.get("/bestseller/category/cartoon").then((result) => {
+      api.get("/books/novel").then((result) => {
         this.books = result.data;
       });
     },
@@ -254,15 +251,17 @@ export default {
     },
   },
   mounted() {
+    this.fetchApi();
     if (this.isLogin) {
       this.getMyBook();
     }
-    this.fetchApi();
   },
 };
 </script>
-
 <style scoped>
+.select-width {
+  width: 200px;
+}
 .btn-color {
   color: #fff;
   background-color: #00af70;
