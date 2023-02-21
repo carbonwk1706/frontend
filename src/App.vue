@@ -2,17 +2,23 @@
   <v-app>
     <Navbar v-if="showNavbar && !this.isNotFoundRoute" />
     <CoinNavbar
-      v-if="showNavbarCoin && !this.isNotFoundRoute && this.isLogin || showNavCoinDetail"
+      v-if="
+        (showNavbarCoin && !this.isNotFoundRoute && this.isLogin) ||
+        showNavCoinDetail
+      "
     />
     <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
-    <v-main :class="{ 'padding-main': !showNavbarCoin && !showNavCoinDetail}">
+    <v-main :class="{ 'padding-main': !showNavbarCoin && !showNavCoinDetail }">
       <v-container class="container-size">
         <router-view />
       </v-container>
     </v-main>
     <Footer v-if="showFooter && !this.isNotFoundRoute" />
     <FooterCoin
-      v-if="showFooterCoin && !this.isNotFoundRoute && this.isLogin || showFooterCoinDetail"
+      v-if="
+        (showFooterCoin && !this.isNotFoundRoute && this.isLogin) ||
+        showFooterCoinDetail
+      "
     />
   </v-app>
 </template>
@@ -191,7 +197,7 @@ export default {
     },
     showFooterCoinDetail() {
       const currenRoute = this.$route;
-      if (currenRoute.meta.hideFooter ) {
+      if (currenRoute.meta.hideFooter) {
         return true;
       }
       return false;
