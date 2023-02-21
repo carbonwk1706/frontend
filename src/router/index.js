@@ -74,6 +74,21 @@ const routes = [
 
   },
   {
+    path: '/books/all',
+    name: 'books',
+    component: () => import('../views/Sell/AllBooks.vue')
+  },
+  {
+    path: '/books/cartoon/all',
+    name: 'cartoon',
+    component: () => import('../views/Sell/AllCartoon.vue')
+  },
+  {
+    path: '/books/novel/all',
+    name: 'novel',
+    component: () => import('../views/Sell/AllNovel.vue')
+  },
+  {
     path: '/bestseller',
     name: 'bestseller',
     component: () => import('../views/Sell/BestSeller.vue')

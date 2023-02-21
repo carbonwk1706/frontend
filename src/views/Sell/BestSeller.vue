@@ -283,13 +283,10 @@ export default {
       if (newValue) {
         if (newValue === "ขายดีทั้งหมด") {
           this.fetchApi();
-          this.getMyBook();
         } else if (newValue === "ขายดีการ์ตูน") {
           this.fetchApiCartoon();
-          this.getMyBook();
         } else if (newValue === "ขายดีนิยาย") {
           this.fetchApiNovel();
-          this.getMyBook();
         }
       }
     },
