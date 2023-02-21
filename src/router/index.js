@@ -173,6 +173,20 @@ const routes = [
     path: '/checkoutcoin',
     name: 'checkoutcoin',
     component: () => import('../components/Coin/Checkout.vue')
+  },
+  {
+    path: '/coinhistory',
+    name: 'coinhistory',
+    component: () => import('../components/Coin/CoinHistory.vue')
+  },
+  {
+    path: '/coinhistorydetil/:userId',
+    name: 'coinhistorydetail',
+    component: () => import('../components/Coin/DetailHistory.vue'),
+    meta: {
+      hideFooter: true,
+      hideNavbar: true
+    }
   }
 ]
 
