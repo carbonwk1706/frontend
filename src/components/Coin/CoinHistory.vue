@@ -1,6 +1,11 @@
 <template>
+  <div class="mb-5 pt-16">
+    <span class="menu-link" @click="goToProfile">จัดการบัญชี</span>
+    <v-icon>mdi-chevron-right</v-icon>
+    <span class="menu-link-current">ประวัติการเติม Coin ของฉัน</span>
+  </div>
     <div class="mb-5 d-flex justify-center">
-      <h1>ประวัติการเติมของฉัน</h1>
+      <h1>ประวัติการ Coin ของฉัน</h1>
     </div>
     <v-divider class="mb-10"></v-divider>
     <v-table v-if="coinHistory.length > 0">
@@ -66,6 +71,7 @@
 <script>
 import api from "@/services/api";
 import moment from "moment";
+import router from "@/router";
 
 export default {
   data() {
@@ -76,6 +82,9 @@ export default {
     };
   },
   methods: {
+    goToProfile() {
+      router.push("/profile");
+    },
     getId() {
       return this.$store.getters["auth/getId"];
     },
@@ -106,4 +115,13 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+.menu-link {
+  color: #5a5a5a;
+  font-size: 14px;
+  cursor: pointer;
+}
+.menu-link-current {
+  color: #5a5a5a;
+  font-size: 14px;
+}</style>

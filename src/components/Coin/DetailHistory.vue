@@ -1,6 +1,13 @@
 <template>
+  <div class="mb-6 pt-16">
+    <span class="menu-link" @click="goToProfile">จัดการบัญชี</span>
+    <v-icon>mdi-chevron-right</v-icon>
+    <span class="menu-link" @click="goToCoinHistory">ประวัติการเติม Coin ของฉัน</span>
+    <v-icon>mdi-chevron-right</v-icon>
+    <span class="menu-link-current">รายละเอียดการเติม Coin</span>
+  </div>
   <div class="mb-5 d-flex justify-center">
-    <h1 class="mt-8">รายละเอียดการเติม</h1>
+    <h1 class="mt-8">รายละเอียดการเติม Coin</h1>
   </div>
   <v-divider class="mb-6"></v-divider>
   <v-card class="mx-auto mt-5">
@@ -50,6 +57,12 @@ export default {
     };
   },
   methods: {
+    goToProfile() {
+      router.push("/profile");
+    },
+    goToCoinHistory() {
+      router.push("/coinhistory");
+    },
     getId() {
       return this.$store.getters["auth/getId"];
     },
