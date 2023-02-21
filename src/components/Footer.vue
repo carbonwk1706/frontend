@@ -5,10 +5,10 @@
         <v-col class="text-xs-center mb-5" cols="12" md="3">
           <h3 class="text-header mb-3">เลือกหมวดหมู่</h3>
           <div class="text-list mb-3">
-            <span class="text-cursor">นิยาย</span>
+            <span class="text-cursor"  @click="goToAllNovel">นิยาย</span>
           </div>
           <div class="text-list mb-3">
-            <span class="text-cursor">การ์ตูน</span>
+            <span class="text-cursor" @click="goToAllCartoon">การ์ตูน</span>
           </div>
         </v-col>
         <v-col class="text-xs-center mb-5" cols="12" md="3">
@@ -61,6 +61,12 @@ export default {
   methods:{
     goToRegisterSell(){
       router.push("/registersell")
+    },
+    goToAllNovel(){
+      router.push("/books/novel/all")
+    },
+    goToAllCartoon(){
+      router.push("/books/cartoon/all")
     }
   }
 };
