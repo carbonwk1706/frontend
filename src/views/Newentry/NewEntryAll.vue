@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row class="mb-1">
       <v-col cols="6" class="text-start">
-        <h2 class="font-weight-bold">มาใหม่</h2>
+        <h2 class="font-weight-bold">มาใหม่ทั้งหมด</h2>
       </v-col>
       <v-col cols="6" class="pa-0 d-flex justify-end">
         <v-pagination
