@@ -1,21 +1,21 @@
 <template>
     <div class="mb-5 d-flex justify-center">
-      <h1>ประวัติการเติม Coin ของฉัน</h1>
+      <h1>ประวัติการเติมของฉัน</h1>
     </div>
     <v-divider class="mb-10"></v-divider>
-    <v-table v-if="history.length > 0">
+    <v-table v-if="coinHistory.length > 0">
       <thead>
         <tr>
           <th class="text-left">ลำดับ</th>
           <th class="text-left">วันที่</th>
-          <th class="text-left">จำนวน</th>
-          <th class="text-left">ราคารวม</th>
+          <th class="text-left">สถานะ</th>
+          <th class="text-left">จำนวน Coin</th>
           <th class="text-left"></th>
         </tr>
       </thead>
       <tbody>
         <tr
-          v-for="(item, index) in history.slice(
+          v-for="(item, index) in coinHistory.slice(
             (page - 1) * itemsPerPage,
             page * itemsPerPage
           )"
@@ -23,8 +23,8 @@
         >
           <td>{{ index + 1 }}</td>
           <td>{{ formatTime(item.createdAt) }}</td>
-          <td>{{ item.count }} เล่ม</td>
-          <td>{{ item.totalCost }} บาท</td>
+          <td>{{ item.status }} </td>
+          <td>{{ item.amount }} Coin</td>
           <td>
             <v-btn
               variant="flat"
@@ -38,7 +38,7 @@
         </tr>
       </tbody>
     </v-table>
-    <div v-if="history.length > 0" class="pt-8 center-pagination">
+    <div v-if="coinHistory.length > 0" class="pt-8 center-pagination">
       <v-pagination
         class="mt-5"
         v-model="page"
@@ -46,7 +46,7 @@
         circle
       ></v-pagination>
     </div>
-    <div v-if="history.length === 0">
+    <div v-if="coinHistory.length === 0">
       <div class="d-flex justify-center">
         <img
           src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
@@ -80,7 +80,7 @@ export default {
       return this.$store.getters["auth/getId"];
     },
     showDetail(id) {
-      this.$router.push(`/receiptbook/${id}`);
+      this.$router.push(`/coinhistorydetil/${id}`);
     },
     formatTime(item) {
       return moment(item).format("MM/DD/YYYY, h:mm:ss a");
@@ -95,8 +95,13 @@ export default {
       return this.$store.getters["auth/isLogin"];
     },
     pages() {
-      return Math.ceil(this.history.length / this.itemsPerPage);
+      return Math.ceil(this.coinHistory.length / this.itemsPerPage);
     },
+  },
+  mounted() {
+    if (this.isLogin) {
+      this.fetchApi();
+    }
   },
 };
 </script>

@@ -193,6 +193,15 @@ const routes = [
     path: '/coinhistory',
     name: 'coinhistory',
     component: () => import('../components/Coin/CoinHistory.vue')
+  },
+  {
+    path: '/coinhistorydetil/:userId',
+    name: 'coinhistorydetail',
+    component: () => import('../components/Coin/DetailHistory.vue'),
+    meta: {
+      hideFooter: true,
+      hideNavbar: true
+    }
   }
 ]
 

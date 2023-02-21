@@ -1,7 +1,9 @@
 <template>
   <v-app>
     <Navbar v-if="showNavbar && !this.isNotFoundRoute" />
-    <CoinNavbar v-if="showNavbarCoin && !this.isNotFoundRoute && this.isLogin" />
+    <CoinNavbar
+      v-if="showNavbarCoin && !this.isNotFoundRoute && this.isLogin || showNavCoinDetail"
+    />
     <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
     <v-main :class="{ 'padding-main': !showNavbarCoin }">
       <v-container class="container-size">
@@ -9,7 +11,9 @@
       </v-container>
     </v-main>
     <Footer v-if="showFooter && !this.isNotFoundRoute" />
-    <FooterCoin v-if="showFooterCoin && !this.isNotFoundRoute && this.isLogin"/>
+    <FooterCoin
+      v-if="showFooterCoin && !this.isNotFoundRoute && this.isLogin || showFooterCoinDetail"
+    />
   </v-app>
 </template>
 
@@ -82,36 +86,41 @@ export default {
       );
     },
     showNavbar() {
-      if (!this.isLogin) {
-        return ![
-          "/wishlist",
-          "/profile",
-          "/registersell",
-          "/coin",
-          "/mybook",
-          "/profile",
-          "/login",
-          "/admin",
-          "/usertable",
-          "/admintable",
-          "/approvetable",
-          "/historyadmin",
-          "/orderhistory"
-        ].includes(this.$route.path);
+      const currenRoute = this.$route;
+      if (currenRoute.meta.hideNavbar) {
+        return false;
       } else {
-        return ![
-          "/login",
-          "/admin",
-          "/usertable",
-          "/approvetable",
-          "/admintable",
-          "/approvetable",
-          "/historyadmin",
-          "/coin",
-          "/bookadmin",
-          "/checkoutcoin",
-          "/coinhistory",
-        ].includes(this.$route.path);
+        if (!this.isLogin) {
+          return ![
+            "/wishlist",
+            "/profile",
+            "/registersell",
+            "/coin",
+            "/mybook",
+            "/profile",
+            "/login",
+            "/admin",
+            "/usertable",
+            "/admintable",
+            "/approvetable",
+            "/historyadmin",
+            "/orderhistory",
+          ].includes(this.$route.path);
+        } else {
+          return ![
+            "/login",
+            "/admin",
+            "/usertable",
+            "/approvetable",
+            "/admintable",
+            "/approvetable",
+            "/historyadmin",
+            "/coin",
+            "/bookadmin",
+            "/checkoutcoin",
+            "/coinhistory",
+          ].includes(this.$route.path);
+        }
       }
     },
     showFooter() {
@@ -135,7 +144,7 @@ export default {
             "/admintable",
             "/approvetable",
             "/historyadmin",
-            "/bookadmin"
+            "/bookadmin",
           ].includes(this.$route.path);
         } else {
           return ![
@@ -160,17 +169,34 @@ export default {
         "/admintable",
         "/approvetable",
         "/historyadmin",
-        "/bookadmin"
+        "/bookadmin",
       ].includes(this.$route.path);
     },
     showNavbarCoin() {
-      return ["/coin", "/checkoutcoin","/coinhistory"].includes(this.$route.path);
+      return ["/coin", "/checkoutcoin", "/coinhistory"].includes(
+        this.$route.path
+      );
     },
     showFooterCoin() {
-      return ["/coin", "/checkoutcoin","/coinhistory"].includes(this.$route.path);
+      return ["/coin", "/checkoutcoin", "/coinhistory"].includes(
+        this.$route.path
+      );
+    },
+    showNavCoinDetail() {
+      const currenRoute = this.$route;
+      if (currenRoute.meta.hideNavbar) {
+        return true;
+      }
+      return false;
+    },
+    showFooterCoinDetail() {
+      const currenRoute = this.$route;
+      if (currenRoute.meta.hideFooter ) {
+        return true;
+      }
+      return false;
     },
   },
-  
 };
 </script>
 <style>
@@ -180,7 +206,7 @@ export default {
 :root {
   --v-scrollbar-offset: 0px !important;
 }
-.padding-main{
+.padding-main {
   padding-top: 164px;
 }
 </style>
