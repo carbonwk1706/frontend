@@ -60,7 +60,7 @@
             <v-col cols="3">
               <div class="float-right">
                 <v-btn rounded variant="text" @click="goToAddCoin">
-                  <span class="font-text" style="color: #5a5a5a">เติมเงิน</span>
+                  <span class="font-text" style="color: #5a5a5a">เติม Coin</span>
                 </v-btn>
               </div></v-col
             >
@@ -94,6 +94,16 @@
               @click="goToBuyHistory"
             >
               <span class="font-text">ประวัติการสั่งซื้อของฉัน</span>
+            </v-btn>
+          </v-col>
+          <v-col class="px-0">
+            <v-btn
+              style="color: #5a5a5a"
+              rounded
+              variant="text"
+              @click="goToCoinHistory"
+            >
+              <span class="font-text">ประวัติการเติม Coin</span>
             </v-btn>
           </v-col>
           <v-divider class="my-1"></v-divider>
@@ -444,6 +454,9 @@ export default {
     },
     goToBuyHistory() {
       router.push("/orderhistory");
+    },
+    goToCoinHistory() {
+      router.push("/coinhistory");
     },
     goToBestSeller() {
       router.push("/bestseller");
