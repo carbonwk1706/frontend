@@ -119,6 +119,11 @@ const routes = [
     component: () => import('../views/Sell/Recommend.vue')
   },
   {
+    path: '/halloffame',
+    name: 'halloffame',
+    component: () => import('../views/Sell/Halloffame.vue')
+  },
+  {
     path: '/admintable',
     name: 'admintable',
     component: () => import('../views/AdminTable.vue')
@@ -171,6 +176,13 @@ const routes = [
     path: '/search/:searchTerm?',
     name: 'search',
     component: () => import('../views/SearchBooks.vue')
+
+  }
+  ,{
+    path: '/bookadmin',
+    name: 'bookadmin',
+    component: () => import('../views/BookLocalAdmin.vue')
+
   },
   {
     path: '/checkoutcoin',

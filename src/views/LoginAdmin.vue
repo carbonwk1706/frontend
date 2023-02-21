@@ -1,59 +1,61 @@
 <template>
   <NoAuth>
-    <v-row class="justify-center">
-      <v-card style="width: 400px">
-        <v-container>
-          <v-toolbar dark color="green lighten-1">
-            <v-toolbar-title>ADMIN E-BOOK</v-toolbar-title>
-          </v-toolbar>
-          <v-form @submit.prevent="login">
-            <v-text-field
-              label="Username"
-              v-model="form.username"
-              type="email"
-            />
-            <v-text-field
-              label="Password"
-              v-model="form.password"
-              type="password"
-            />
-            <div class="center">
-              <v-hover>
-                <template v-slot:default="{ isHovering, props }">
-                  <v-btn
-                    v-bind="props"
-                    class="rounded-pill"
-                    type="submit"
-                    color="success"
-                    size="large"
-                    :variant="isHovering ? 'outlined' : 'elevated'"
-                    >ล็อกอินเข้าระบบ</v-btn
-                  >
-                </template>
-              </v-hover>
-            </div>
-          </v-form>
-
-          <v-dialog v-model="loading" max-width="500">
-            <v-card>
-              <div class="center-loading">
-                <v-progress-circular
-                  v-if="loading"
-                  :size="50"
-                  :width="5"
-                  indeterminate
-                  color="success"
-                ></v-progress-circular>
+    <v-row justify="space-around">
+      <v-col >
+        <v-card width="600">
+          <v-container>
+            <v-toolbar dark color="green lighten-1">
+              <v-toolbar-title>ADMIN E-BOOK</v-toolbar-title>
+            </v-toolbar>
+            <v-form @submit.prevent="login">
+              <v-text-field
+                label="Username"
+                v-model="form.username"
+                type="email"
+              />
+              <v-text-field
+                label="Password"
+                v-model="form.password"
+                type="password"
+              />
+              <div class="center">
+                <v-hover>
+                  <template v-slot:default="{ isHovering, props }">
+                    <v-btn
+                      v-bind="props"
+                      class="rounded-pill"
+                      type="submit"
+                      color="success"
+                      size="large"
+                      :variant="isHovering ? 'outlined' : 'elevated'"
+                      >ล็อกอินเข้าระบบ</v-btn
+                    >
+                  </template>
+                </v-hover>
               </div>
-              <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
-            </v-card>
-          </v-dialog>
-        </v-container>
-      </v-card>
+            </v-form>
+
+            <v-dialog v-model="loading" max-width="500">
+              <v-card>
+                <div class="center-loading">
+                  <v-progress-circular
+                    v-if="loading"
+                    :size="50"
+                    :width="5"
+                    indeterminate
+                    color="success"
+                  ></v-progress-circular>
+                </div>
+                <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
+              </v-card>
+            </v-dialog>
+          </v-container>
+        </v-card>
+      </v-col>
     </v-row>
   </NoAuth>
 </template>
-  <script>
+<script>
 import api from "@/services/api";
 import router from "../router";
 import NoAuth from "@/components/NoAuth.vue";
@@ -98,11 +100,14 @@ export default {
             const roles = admin.roles;
             let checkRole = "";
             for (let i = 0; i < roles.length; i++) {
-              if (admin.roles[i] === "ADMIN") {
+              if (
+                admin.roles[i] === "ADMIN" ||
+                admin.roles[i] === "LOCAL_ADMIN"
+              ) {
                 checkRole = admin.roles[i];
               }
             }
-            if (checkRole === "ADMIN") {
+            if (checkRole === "ADMIN" || checkRole === "LOCAL_ADMIN") {
               this.loading = true;
               localStorage.setItem("tokenAdmin", tokenadmin);
               localStorage.setItem("admin", JSON.stringify(admin));

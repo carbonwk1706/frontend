@@ -10,7 +10,64 @@
         </v-col>
       </v-row>
       <v-divider class="mb-6"></v-divider>
-      <v-row>
+      <v-row v-if="newentry7d.length > 0">
+        <v-col
+          v-for="(item, index) in filteredNewEntry7D"
+          :key="index"
+          class="mb-5"
+          md="3"
+          sm="4"
+          xs="6"
+        >
+          <v-card
+            max-width="200"
+            class="mx-auto cardHover"
+            @click="showDetail(item)"
+          >
+            <v-img :src="item.imageBook" height="280px" cover />
+            <v-card-title class="text-center pb-0" style="font-size: 15px">{{
+              item.name
+            }}</v-card-title>
+            <v-card-subtitle
+              class="text-center grey--text"
+              style="font-size: 12px"
+            >
+              {{ item.author }} / {{ item.publisher }}
+            </v-card-subtitle>
+            <v-card-text class="text-center pb-0 pt-0" style="font-size: 13px">
+              <div style="display: inline-block; vertical-align: middle">
+                <v-rating
+                  v-model="item.rating"
+                  color="#5a5a5a"
+                  active-color="#e83e8c"
+                  empty-icon="mdi-cards-heart"
+                  full-icon="mdi-cards-heart"
+                  readonly
+                  hover
+                  size="16"
+                />
+              </div>
+              <span
+                class="ml-2 text-grey-lighten-1 text-caption"
+                style="display: inline-block; vertical-align: middle"
+              >
+                ({{ item.ratingsCount }} Rating)
+              </span>
+            </v-card-text>
+            <v-card-actions class="justify-center">
+              <v-btn
+                v-if="!checkHaveBook(item)"
+                class="btn-color"
+                @click.stop="addItem(item)"
+              >
+                ฿ {{ item.price }}
+              </v-btn>
+              <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+      <v-row v-else>
         <v-col
           v-for="(item, index) in filteredNewEntry"
           :key="index"
@@ -82,6 +139,83 @@
       <v-row>
         <v-col
           v-for="(item, index) in filteredBestSell"
+          :key="index"
+          class="mb-5"
+          md="3"
+          sm="4"
+          xs="6"
+        >
+          <v-card
+            max-width="200"
+            class="mx-auto cardHover"
+            @click="showDetail(item)"
+          >
+            <v-img :src="item.imageBook" height="280px" cover>
+              <v-img
+                src="https://www.mebmarket.com/web/dist/assets/images/book-badge-B@2x.png"
+                width="35"
+                height="55"
+                class="position-absolute"
+                style="right: 0"
+              ></v-img>
+            </v-img>
+            <v-card-title class="text-center pb-0" style="font-size: 15px">{{
+              item.name
+            }}</v-card-title>
+            <v-card-subtitle
+              class="text-center grey--text"
+              style="font-size: 12px"
+            >
+              {{ item.author }} / {{ item.publisher }}
+            </v-card-subtitle>
+            <v-card-text class="text-center pb-0 pt-0" style="font-size: 13px">
+              <div style="display: inline-block; vertical-align: middle">
+                <v-rating
+                  v-model="item.rating"
+                  color="#5a5a5a"
+                  active-color="#e83e8c"
+                  empty-icon="mdi-cards-heart"
+                  full-icon="mdi-cards-heart"
+                  readonly
+                  hover
+                  size="16"
+                />
+              </div>
+              <span
+                class="ml-2 text-grey-lighten-1 text-caption"
+                style="display: inline-block; vertical-align: middle"
+              >
+                ({{ item.ratingsCount }} Rating)
+              </span>
+            </v-card-text>
+            <v-card-actions class="justify-center">
+              <v-btn
+                v-if="!checkHaveBook(item)"
+                class="btn-color"
+                @click.stop="addItem(item)"
+              >
+                ฿ {{ item.price }}
+              </v-btn>
+              <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
+            </v-card-actions>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
+
+    <div id="halloffame">
+      <v-row class="mb-1">
+        <v-col class="text-start">
+          <h2 class="display-1 font-weight-bold">ฮิตขึ้นหิ้ง</h2>
+        </v-col>
+        <v-col class="text-end mt-3">
+          <h4 class="display-1 text-go" @click="goToHalloffame">ดูทั้งหมด</h4>
+        </v-col>
+      </v-row>
+      <v-divider class="mb-6"></v-divider>
+      <v-row justify="start" align="start">
+        <v-col
+          v-for="(item, index) in filteredHalloffame"
           :key="index"
           class="mb-5"
           md="3"
@@ -266,7 +400,9 @@ export default {
     return {
       bestseller: [],
       newentry: [],
+      newentry7d: [],
       recommend: [],
+      halloffame: [],
       myBook: [],
       showModal: false,
       screenWidth: 0,
@@ -285,14 +421,20 @@ export default {
       this.showModal = false;
       router.push("/coin");
     },
-    goToRecommend(){
-      router.push("/recommend")
+    goToRecommend() {
+      router.push("/recommend");
     },
-    goToBestSeller(){
-      router.push("/bestseller")
+    goToBestSeller() {
+      router.push("/bestseller");
     },
-    goToNewEntry(){
-      router.push("/newentry")
+    goToNewEntry() {
+      router.push("/newentry");
+    },
+    goToHalloffame() {
+      router.push("/halloffame");
+    },
+    goToNewEntry7D(){
+      router.push("/new/newentry");
     },
     hideModal() {
       this.showModal = !this.showModal;
@@ -340,6 +482,11 @@ export default {
         this.alertWarning();
       }
     },
+    getNewEntry7D() {
+      api.get("/newentry/new/").then((result) => {
+        this.newentry7d = result.data;
+      });
+    },
     getNewEntry() {
       api.get("/newentry/").then((result) => {
         this.newentry = result.data;
@@ -353,6 +500,11 @@ export default {
     getRecommend() {
       api.get("/recommended/").then((result) => {
         this.recommend = result.data;
+      });
+    },
+    getHalloffame() {
+      api.get("/halloffame/").then((result) => {
+        this.halloffame = result.data;
       });
     },
     getId() {
@@ -392,6 +544,17 @@ export default {
         return this.newentry.slice(0, 2);
       }
     },
+    filteredNewEntry7D() {
+      if (this.screenWidth > 960) {
+        return this.newentry7d.slice(0, 4);
+      } else if (this.screenWidth > 600) {
+        return this.newentry7d.slice(0, 3);
+      } else if (this.screenWidth < 600) {
+        return this.newentry7d.slice(0, 2);
+      } else {
+        return this.newentry7d.slice(0, 2);
+      }
+    },
     filteredBestSell() {
       if (this.screenWidth > 960) {
         return this.bestseller.slice(0, 4);
@@ -401,6 +564,17 @@ export default {
         return this.bestseller.slice(0, 2);
       } else {
         return this.bestseller.slice(0, 2);
+      }
+    },
+    filteredHalloffame() {
+      if (this.screenWidth > 960) {
+        return this.halloffame.slice(0, 4);
+      } else if (this.screenWidth > 600) {
+        return this.halloffame.slice(0, 3);
+      } else if (this.screenWidth < 600) {
+        return this.halloffame.slice(0, 2);
+      } else {
+        return this.halloffame.slice(0, 2);
       }
     },
     filteredRecommend() {
@@ -414,6 +588,7 @@ export default {
         return this.recommend.slice(0, 2);
       }
     },
+
   },
   watch: {
     showModal(newValue) {
@@ -428,11 +603,15 @@ export default {
         this.myBook = [];
         this.getBestseller();
         this.getNewEntry();
+        this.getHalloffame();
         this.getRecommend();
+        this.getNewEntry7D();
       } else {
         this.getBestseller();
         this.getNewEntry();
+        this.getHalloffame();
         this.getRecommend();
+        this.getNewEntry7D();
         this.getMyBook();
       }
     },
@@ -442,7 +621,9 @@ export default {
     window.addEventListener("resize", this.handleResize);
     this.getBestseller();
     this.getNewEntry();
+    this.getHalloffame();
     this.getRecommend();
+    this.getNewEntry7D();
     if (this.isLogin) {
       this.getMyBook();
     }
@@ -451,7 +632,7 @@ export default {
 </script>
 
 <style scoped>
-.text-go{
+.text-go {
   cursor: pointer;
   color: #00af70;
 }
@@ -466,7 +647,9 @@ export default {
   border: 1px solid #00af70;
   cursor: pointer;
 }
-
+.position-absolute {
+  position: absolute;
+}
 .btn-bg {
   border-radius: 40px;
   font-size: 16px;

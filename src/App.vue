@@ -1,15 +1,15 @@
 <template>
   <v-app>
     <Navbar v-if="showNavbar && !this.isNotFoundRoute" />
-    <CoinNavbar v-if="showNavbarCoin && !this.isNotFoundRoute" />
+    <CoinNavbar v-if="showNavbarCoin && !this.isNotFoundRoute && this.isLogin" />
     <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
-    <v-main class="padding-main">
+    <v-main :class="{ 'padding-main': !showNavbarCoin }">
       <v-container class="container-size">
         <router-view />
       </v-container>
     </v-main>
     <Footer v-if="showFooter && !this.isNotFoundRoute" />
-    <FooterCoin v-if="showFooterCoin && !this.isNotFoundRoute" />
+    <FooterCoin v-if="showFooterCoin && !this.isNotFoundRoute && this.isLogin"/>
   </v-app>
 </template>
 
@@ -108,6 +108,7 @@ export default {
           "/approvetable",
           "/historyadmin",
           "/coin",
+          "/bookadmin",
           "/checkoutcoin",
           "/coinhistory",
         ].includes(this.$route.path);
@@ -134,6 +135,7 @@ export default {
             "/admintable",
             "/approvetable",
             "/historyadmin",
+            "/bookadmin"
           ].includes(this.$route.path);
         } else {
           return ![
@@ -144,6 +146,7 @@ export default {
             "/approvetable",
             "/historyadmin",
             "/coin",
+            "/bookadmin",
             "/checkoutcoin",
             "/coinhistory",
           ].includes(this.$route.path);
@@ -157,6 +160,7 @@ export default {
         "/admintable",
         "/approvetable",
         "/historyadmin",
+        "/bookadmin"
       ].includes(this.$route.path);
     },
     showNavbarCoin() {

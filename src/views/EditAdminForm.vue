@@ -54,7 +54,7 @@
               >
             </v-col>
             <v-col class="text-center">
-              <v-btn color="Grey" rounded @click="submit">Back</v-btn>
+              <v-btn color="Grey" rounded @click="back">Back</v-btn>
             </v-col>
           </v-row>
         </v-container>
@@ -70,14 +70,14 @@
       :padding="20"
     >
       <v-card>
-        <v-card-title class="headline">ยืนยันการแก้ไข</v-card-title>
+        <v-card-title class="headline text-center">ยืนยันการแก้ไข</v-card-title>
         <v-card-text class="text-center"
           >ต้องการยืนยันการแก้ไขหรือไม่</v-card-text
         >
         <v-card-actions class="text-center">
-          <v-btn color="success" @click="changeDuplicate">OK</v-btn>
+          <v-btn color="success" @click="changeDuplicate" class="mr-10">ยืนยัน</v-btn>
           <v-btn color="Grey" text @click="showConfirmDialog = false"
-            >Cancel</v-btn
+            >ยกเลิก</v-btn
           >
         </v-card-actions>
       </v-card>
@@ -208,6 +208,10 @@
       },
       resetFormApi() {
         this.fetchApi();
+
+      },
+      back(){
+        this.$router.push("/usertable");
       },
       fetchApi() {
         api.get("/users/" + this.$route.params.id).then((result) => {

@@ -6,13 +6,66 @@
           <h2 class="display-1 font-weight-bold">มาใหม่</h2>
         </v-col>
         <v-col class="text-end mt-3">
-          <h4 class="display-1 text-go" @click="goToNewEntryAll">
-            ดูทั้งหมด
-          </h4>
+          <h4 class="display-1 text-go" @click="goToNewEntryAll">ดูทั้งหมด</h4>
         </v-col>
       </v-row>
       <v-divider class="mb-6"></v-divider>
-      <v-slide-group>
+      <v-slide-group v-if="books7d.length > 0">
+        <v-slide-group-item v-for="(item, index) in books7d" :key="index">
+          <v-col md="3" sm="4" xs="6">
+            <v-card
+              max-width="200"
+              class="mx-auto cardHover"
+              @click="showDetail(item)"
+            >
+              <v-img :src="item.imageBook" height="280px" cover />
+              <v-card-title class="text-center pb-0" style="font-size: 15px">{{
+                item.name
+              }}</v-card-title>
+              <v-card-subtitle
+                class="text-center grey--text"
+                style="font-size: 12px"
+              >
+                {{ item.author }} / {{ item.publisher }}
+              </v-card-subtitle>
+              <v-card-text
+                class="text-center pb-0 pt-0"
+                style="font-size: 13px"
+              >
+                <div style="display: inline-block; vertical-align: middle">
+                  <v-rating
+                    v-model="item.rating"
+                    color="#5a5a5a"
+                    active-color="#e83e8c"
+                    empty-icon="mdi-cards-heart"
+                    full-icon="mdi-cards-heart"
+                    readonly
+                    hover
+                    size="16"
+                  />
+                </div>
+                <span
+                  class="ml-2 text-grey-lighten-1 text-caption"
+                  style="display: inline-block; vertical-align: middle"
+                >
+                  ({{ item.ratingsCount }} Rating)
+                </span>
+              </v-card-text>
+              <v-card-actions class="justify-center">
+                <v-btn
+                  v-if="!checkHaveBook(item)"
+                  class="btn-color success"
+                  @click.stop="addItem(item)"
+                >
+                  ฿ {{ item.price }}
+                </v-btn>
+                <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-slide-group-item>
+      </v-slide-group>
+      <v-slide-group v-else>
         <v-slide-group-item v-for="(item, index) in books" :key="index">
           <v-col md="3" sm="4" xs="6">
             <v-card
@@ -83,7 +136,62 @@
         </v-col>
       </v-row>
       <v-divider class="mb-6"></v-divider>
-      <v-slide-group>
+      <v-slide-group v-if="cartoon7d.length > 0">
+        <v-slide-group-item v-for="(item, index) in cartoon7d" :key="index">
+          <v-col md="3" sm="4" xs="6">
+            <v-card
+              max-width="200"
+              class="mx-auto cardHover"
+              @click="showDetail(item)"
+            >
+              <v-img :src="item.imageBook" height="280px" cover />
+              <v-card-title class="text-center pb-0" style="font-size: 15px">{{
+                item.name
+              }}</v-card-title>
+              <v-card-subtitle
+                class="text-center grey--text"
+                style="font-size: 12px"
+              >
+                {{ item.author }} / {{ item.publisher }}
+              </v-card-subtitle>
+              <v-card-text
+                class="text-center pb-0 pt-0"
+                style="font-size: 13px"
+              >
+                <div style="display: inline-block; vertical-align: middle">
+                  <v-rating
+                    v-model="item.rating"
+                    color="#5a5a5a"
+                    active-color="#e83e8c"
+                    empty-icon="mdi-cards-heart"
+                    full-icon="mdi-cards-heart"
+                    readonly
+                    hover
+                    size="16"
+                  />
+                </div>
+                <span
+                  class="ml-2 text-grey-lighten-1 text-caption"
+                  style="display: inline-block; vertical-align: middle"
+                >
+                  ({{ item.ratingsCount }} Rating)
+                </span>
+              </v-card-text>
+              <v-card-actions class="justify-center">
+                <v-btn
+                  v-if="!checkHaveBook(item)"
+                  class="btn-color success"
+                  @click.stop="addItem(item)"
+                >
+                  ฿ {{ item.price }}
+                </v-btn>
+                <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-slide-group-item>
+      </v-slide-group>
+      <v-slide-group v-else>
         <v-slide-group-item v-for="(item, index) in cartoon" :key="index">
           <v-col md="3" sm="4" xs="6">
             <v-card
@@ -152,7 +260,62 @@
         </v-col>
       </v-row>
       <v-divider class="mb-6"></v-divider>
-      <v-slide-group>
+      <v-slide-group v-if="novel7d.length > 0">
+        <v-slide-group-item v-for="(item, index) in novel7d" :key="index">
+          <v-col md="3" sm="4" xs="6">
+            <v-card
+              max-width="200"
+              class="mx-auto cardHover"
+              @click="showDetail(item)"
+            >
+              <v-img :src="item.imageBook" height="280px" cover />
+              <v-card-title class="text-center pb-0" style="font-size: 15px">{{
+                item.name
+              }}</v-card-title>
+              <v-card-subtitle
+                class="text-center grey--text"
+                style="font-size: 12px"
+              >
+                {{ item.author }} / {{ item.publisher }}
+              </v-card-subtitle>
+              <v-card-text
+                class="text-center pb-0 pt-0"
+                style="font-size: 13px"
+              >
+                <div style="display: inline-block; vertical-align: middle">
+                  <v-rating
+                    v-model="item.rating"
+                    color="#5a5a5a"
+                    active-color="#e83e8c"
+                    empty-icon="mdi-cards-heart"
+                    full-icon="mdi-cards-heart"
+                    readonly
+                    hover
+                    size="16"
+                  />
+                </div>
+                <span
+                  class="ml-2 text-grey-lighten-1 text-caption"
+                  style="display: inline-block; vertical-align: middle"
+                >
+                  ({{ item.ratingsCount }} Rating)
+                </span>
+              </v-card-text>
+              <v-card-actions class="justify-center">
+                <v-btn
+                  v-if="!checkHaveBook(item)"
+                  class="btn-color success"
+                  @click.stop="addItem(item)"
+                >
+                  ฿ {{ item.price }}
+                </v-btn>
+                <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
+              </v-card-actions>
+            </v-card>
+          </v-col>
+        </v-slide-group-item>
+      </v-slide-group>
+      <v-slide-group v-else>
         <v-slide-group-item v-for="(item, index) in novel" :key="index">
           <v-col md="3" sm="4" xs="6">
             <v-card
@@ -270,6 +433,9 @@ export default {
       books: [],
       cartoon: [],
       novel: [],
+      books7d: [],
+      cartoon7d: [],
+      novel7d: [],
       myBook: [],
       showModal: false,
     };
@@ -351,6 +517,21 @@ export default {
         this.novel = result.data;
       });
     },
+    fetchApi7d() {
+      api.get("/newentry/new").then((result) => {
+        this.books7d = result.data;
+      });
+    },
+    newEntryCartoon7d() {
+      api.get("/newentry/new/category/cartoon").then((result) => {
+        this.cartoon7d = result.data;
+      });
+    },
+    newEntryNovel7d() {
+      api.get("/newentry/new/category/novel").then((result) => {
+        this.novel7d = result.data;
+      });
+    },
     getId() {
       return this.$store.getters["auth/getId"];
     },
@@ -389,10 +570,16 @@ export default {
         this.fetchApi();
         this.newEntryCartoon();
         this.newEntryNovel();
+        this.fetchApi7d();
+        this.newEntryCartoon7d();
+        this.newEntryNovel7d();
       } else {
         this.fetchApi();
         this.newEntryCartoon();
         this.newEntryNovel();
+        this.fetchApi7d();
+        this.newEntryCartoon7d();
+        this.newEntryNovel7d();
         this.getMyBook();
       }
     },
@@ -404,6 +591,9 @@ export default {
     this.fetchApi();
     this.newEntryCartoon();
     this.newEntryNovel();
+    this.fetchApi7d();
+    this.newEntryCartoon7d();
+    this.newEntryNovel7d();
   },
 };
 </script>

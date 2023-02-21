@@ -2,7 +2,14 @@
   <v-container fluid>
     <v-row class="mb-1">
       <v-col cols="6" class="text-start">
-        <h2 class="font-weight-bold">มาใหม่ทั้งหมด</h2>
+        <div class="select-width">
+          <v-select
+            density="compact"
+            v-model="select"
+            :items="selectItem"
+            variant="outlined"
+          ></v-select>
+        </div>
       </v-col>
       <v-col cols="6" class="pa-0 d-flex justify-end">
         <v-pagination
@@ -21,6 +28,7 @@
           page * itemsPerPage
         )"
         :key="index"
+        class="mb-5"
         md="3"
         sm="4"
         xs="6"
@@ -141,10 +149,18 @@ export default {
   data() {
     return {
       books: [],
+      cartoon: [],
+      novel: [],
       myBook: [],
       showModal: false,
       page: 1,
       itemsPerPage: 40,
+      select: "ฮิตขึ้นหิ้งทั้งหมด",
+      selectItem: [
+        "ฮิตขึ้นหิ้งทั้งหมด",
+        "ฮิตขึ้นหิ้งการ์ตูน",
+        "ฮิตขึ้นหิ้งนิยาย",
+      ],
     };
   },
   methods: {
@@ -201,7 +217,17 @@ export default {
       }
     },
     fetchApi() {
-      api.get("/newentry/").then((result) => {
+      api.get("/halloffame/").then((result) => {
+        this.books = result.data;
+      });
+    },
+    fetchApiCartoon() {
+      api.get("/halloffame/cartoon").then((result) => {
+        this.books = result.data;
+      });
+    },
+    fetchApiNovel() {
+      api.get("/halloffame/novel").then((result) => {
         this.books = result.data;
       });
     },
@@ -249,6 +275,20 @@ export default {
         this.getMyBook();
       }
     },
+    select(newValue) {
+      if (newValue) {
+        if (newValue === "ฮิตขึ้นหิ้งทั้งหมด") {
+          this.fetchApi();
+          this.getMyBook();
+        } else if (newValue === "ฮิตขึ้นหิ้งการ์ตูน") {
+          this.fetchApiCartoon();
+          this.getMyBook();
+        } else if (newValue === "ฮิตขึ้นหิ้งนิยาย") {
+          this.fetchApiNovel();
+          this.getMyBook();
+        }
+      }
+    },
   },
   mounted() {
     this.fetchApi();
@@ -259,6 +299,9 @@ export default {
 };
 </script>
 <style scoped>
+.select-width {
+  width: 200px;
+}
 .btn-color {
   color: #fff;
   background-color: #00af70;
