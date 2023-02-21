@@ -4,7 +4,7 @@
       <v-col cols="6" class="text-start">
         <h3>ค้นหาในร้านหนังสือ</h3>
       </v-col>
-      <v-col cols="6" class="pa-0 d-flex justify-end">
+      <v-col v-if="books.length > 0" cols="6" class="pa-0 d-flex justify-end">
         <v-pagination
           class="text-pagination"
           v-model="page"
@@ -14,7 +14,35 @@
       </v-col>
     </v-row>
     <v-divider class="mb-6"></v-divider>
-    <div>
+    <div class="d-flex justify-center">
+      <div class="select-width mr-2">
+        <v-select
+          density="compact"
+          v-model="search"
+          :items="searchItem"
+          variant="outlined"
+        ></v-select>
+      </div>
+      <div class="search-width">
+        <v-text-field
+          density="compact"
+          variant="outlined"
+          v-model="inputSearch"
+          single-line
+          append-inner-icon="mdi-magnify"
+          @click:append-inner="searchAllBooks"
+          @keyup.enter="searchAllBooks"
+        ></v-text-field>
+      </div>
+    </div>
+    <div v-if="loadingSearch" class="d-flex justify-center">
+      <v-progress-circular
+      :width="4"
+      color="green"
+      indeterminate
+    ></v-progress-circular>
+    </div>
+    <div v-if="books.length === 0 && !loadingSearch">
       <div class="d-flex justify-center">
         <img
           src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
@@ -29,7 +57,7 @@
         <p class="text-muted">ไม่พบข้อมูลในหัวข้อที่คุณกำลังชมค่ะ</p>
       </div>
     </div>
-    <v-row>
+    <v-row class="mt-10" v-if="books.length > 0">
       <v-col
         v-for="(item, index) in books.slice(
           (page - 1) * itemsPerPage,
@@ -89,7 +117,7 @@
       </v-col>
     </v-row>
 
-    <v-row class="mt-12">
+    <v-row v-if="books.length > 0" class="mt-12">
       <v-col cols="12" class="pa-0 d-flex justify-center">
         <v-pagination
           class="text-pagination"
@@ -160,10 +188,19 @@ export default {
     return {
       books: [],
       myBook: [],
+      searchItem: [
+        "ค้นหาทั้งหมด",
+        "ค้นจากชื่อเรื่อง",
+        "ค้นจากผู้แต่ง",
+        "ค้นจากสำนักพิมพ์",
+      ],
+      search: "ค้นหาทั้งหมด",
       showModal: false,
       page: 1,
       itemsPerPage: 40,
+      inputSearch: "",
       searchTerm: "",
+      loadingSearch: false,
     };
   },
   methods: {
@@ -227,10 +264,8 @@ export default {
     },
     async fetchApi() {
       this.searchTerm = this.$route.params.searchTerm || "";
-      console.log(this.searchTerm);
       if (!this.searchTerm) {
-        const res = await api.get("/books");
-        this.books = res.data;
+        this.books = [];
       } else {
         const res = await api.get("/searchbook", {
           params: {
@@ -248,6 +283,31 @@ export default {
             book.author.match(new RegExp(this.searchTerm, "i")) ||
             book.publisher.match(new RegExp(this.searchTerm, "i"))
         );
+      }
+    },
+    async searchAllBooks() {
+      if (!this.inputSearch) {
+        this.alertWarning("กรุณาระบุคำที่ต้องการค้นหาด้วยครับ");
+      } else {
+        this.loadingSearch = true;
+        const res = await api.get("/searchbook", {
+          params: {
+            $or: [
+              { name: { $regex: this.inputSearch, $options: "i" } },
+              { author: { $regex: this.inputSearch, $options: "i" } },
+              { publisher: { $regex: this.inputSearch, $options: "i" } },
+            ],
+          },
+        });
+        setTimeout(() => {
+          this.loadingSearch = false;
+          this.books = res.data.filter(
+            (book) =>
+              book.name.match(new RegExp(this.inputSearch, "i")) ||
+              book.author.match(new RegExp(this.inputSearch, "i")) ||
+              book.publisher.match(new RegExp(this.inputSearch, "i"))
+          );
+        }, 1000);
       }
     },
     getId() {
@@ -285,11 +345,13 @@ export default {
         document.body.classList.remove("dialog-open");
       }
     },
-    "$route.params.searchTerm"(newValue){
-      if(newValue){
-        this.fetchApi()
+    "$route.params.searchTerm"(newValue) {
+      if (newValue) {
+        this.fetchApi();
+      } else if (newValue === "") {
+        this.books = [];
       }
-    }
+    },
   },
   mounted() {
     this.fetchApi();
@@ -301,6 +363,12 @@ export default {
 </script>
 
 <style scoped>
+.search-width {
+  width: 400px;
+}
+.select-width {
+  width: 190px;
+}
 .text-noBook {
   font-size: 18px;
   font-weight: bold;
