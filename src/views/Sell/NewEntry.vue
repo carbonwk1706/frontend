@@ -2,7 +2,14 @@
   <v-container fluid>
     <v-row class="mb-1">
       <v-col cols="6" class="text-start">
-        <h2 class="font-weight-bold">มาใหม่ทั้งหมด</h2>
+        <div class="select-width">
+          <v-select
+            density="compact"
+            v-model="select"
+            :items="selectItem"
+            variant="outlined"
+          ></v-select>
+        </div>
       </v-col>
       <v-col cols="6" class="pa-0 d-flex justify-end">
         <v-pagination
@@ -141,10 +148,18 @@ export default {
   data() {
     return {
       books: [],
+      cartoon: [],
+      novel: [],
       myBook: [],
       showModal: false,
       page: 1,
       itemsPerPage: 40,
+      select: "มาใหม่ทั้งหมด",
+      selectItem: [
+        "มาใหม่ทั้งหมด",
+        "มาใหม่การ์ตูน",
+        "มาใหม่นิยาย",
+      ],
     };
   },
   methods: {
@@ -205,6 +220,16 @@ export default {
         this.books = result.data;
       });
     },
+    fetchApiCartoon() {
+      api.get("/newentry/cartoon").then((result) => {
+        this.books = result.data;
+      });
+    },
+    fetchApiNovel() {
+      api.get("/newentry/novel").then((result) => {
+        this.books = result.data;
+      });
+    },
     getId() {
       return this.$store.getters["auth/getId"];
     },
@@ -249,6 +274,20 @@ export default {
         this.getMyBook();
       }
     },
+    select(newValue) {
+      if (newValue) {
+        if (newValue === "มาใหม่ทั้งหมด") {
+          this.fetchApi();
+          this.getMyBook();
+        } else if (newValue === "มาใหม่การ์ตูน") {
+          this.fetchApiCartoon();
+          this.getMyBook();
+        } else if (newValue === "มาใหม่นิยาย") {
+          this.fetchApiNovel();
+          this.getMyBook();
+        }
+      }
+    },
   },
   mounted() {
     this.fetchApi();
@@ -259,6 +298,9 @@ export default {
 };
 </script>
 <style scoped>
+.select-width {
+  width: 200px;
+}
 .btn-color {
   color: #fff;
   background-color: #00af70;

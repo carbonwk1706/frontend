@@ -2,7 +2,14 @@
   <v-container fluid>
       <v-row class="mb-1">
         <v-col cols="6" class="text-start">
-          <h2 class="font-weight-bold">แนะนำ</h2>
+          <div class="select-width">
+            <v-select
+              density="compact"
+              v-model="select"
+              :items="selectItem"
+              variant="outlined"
+            ></v-select>
+          </div>
         </v-col>
         <v-col cols="6" class="pa-0 d-flex justify-end">
           <v-pagination
@@ -146,6 +153,8 @@ export default {
       showModal: false,
       page: 1,
       itemsPerPage: 40,
+      select: "แนะนำทั้งหมด",
+      selectItem: ["แนะนำทั้งหมด", "แนะนำการ์ตูน", "แนะนำนิยาย"],
     };
   },
   methods: {
@@ -206,6 +215,16 @@ export default {
         this.books = result.data;
       });
     },
+    fetchApiCartoon() {
+      api.get("/recommended/cartoon").then((result) => {
+        this.books = result.data;
+      });
+    },
+    fetchApiNovel() {
+      api.get("/recommended/novel").then((result) => {
+        this.books = result.data;
+      });
+    },
     getId() {
       return this.$store.getters["auth/getId"];
     },
@@ -250,6 +269,20 @@ export default {
         this.getMyBook();
       }
     },
+    select(newValue) {
+      if (newValue) {
+        if (newValue === "แนะนำทั้งหมด") {
+          this.fetchApi();
+          this.getMyBook();
+        } else if (newValue === "แนะนำการ์ตูน") {
+          this.fetchApiCartoon();
+          this.getMyBook();
+        } else if (newValue === "แนะนำนิยาย") {
+          this.fetchApiNovel();
+          this.getMyBook();
+        }
+      }
+    },
   },
   mounted() {
     this.fetchApi();
@@ -260,6 +293,9 @@ export default {
 };
 </script>
 <style scoped>
+.select-width {
+  width: 200px;
+}
 .btn-color {
   color: #fff;
   background-color: #00af70;

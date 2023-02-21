@@ -2,7 +2,14 @@
   <v-container fluid>
     <v-row class="mb-1">
       <v-col cols="6" class="text-start">
-        <h2 class="font-weight-bold">ขายดีในหมวดหมู่ นิยาย</h2>
+        <div class="select-width">
+          <v-select
+            density="compact"
+            v-model="select"
+            :items="selectItem"
+            variant="outlined"
+          ></v-select>
+        </div>
       </v-col>
       <v-col cols="6" class="pa-0 d-flex justify-end">
         <v-pagination
@@ -30,7 +37,15 @@
           class="mx-auto cardHover"
           @click="showDetail(item)"
         >
-          <v-img :src="item.imageBook" height="280px" cover />
+          <v-img :src="item.imageBook" height="280px" cover>
+            <v-img
+              src="https://www.mebmarket.com/web/dist/assets/images/book-badge-B@2x.png"
+              width="35"
+              height="55"
+              class="position-absolute"
+              style="right: 0"
+            ></v-img>
+          </v-img>
           <v-card-title class="text-center pb-0" style="font-size: 15px">{{
             item.name
           }}</v-card-title>
@@ -148,6 +163,8 @@ export default {
       showModal: false,
       page: 1,
       itemsPerPage: 40,
+      select: "ขายดีทั้งหมด",
+      selectItem: ["ขายดีทั้งหมด", "ขายดีการ์ตูน", "ขายดีนิยาย"],
     };
   },
   methods: {
@@ -204,7 +221,17 @@ export default {
       }
     },
     fetchApi() {
-      api.get("/bestseller/category/novel").then((result) => {
+      api.get("/bestseller/").then((result) => {
+        this.books = result.data;
+      });
+    },
+    fetchApiCartoon() {
+      api.get("/bestseller/cartoon").then((result) => {
+        this.books = result.data;
+      });
+    },
+    fetchApiNovel() {
+      api.get("/bestseller/novel").then((result) => {
         this.books = result.data;
       });
     },
@@ -252,6 +279,20 @@ export default {
         this.getMyBook();
       }
     },
+    select(newValue) {
+      if (newValue) {
+        if (newValue === "ขายดีทั้งหมด") {
+          this.fetchApi();
+          this.getMyBook();
+        } else if (newValue === "ขายดีการ์ตูน") {
+          this.fetchApiCartoon();
+          this.getMyBook();
+        } else if (newValue === "ขายดีนิยาย") {
+          this.fetchApiNovel();
+          this.getMyBook();
+        }
+      }
+    },
   },
   mounted() {
     if (this.isLogin) {
@@ -263,6 +304,10 @@ export default {
 </script>
 
 <style scoped>
+.select-width {
+  width: 200px;
+}
+
 .btn-color {
   color: #fff;
   background-color: #00af70;
