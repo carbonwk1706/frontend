@@ -1,8 +1,9 @@
 <template>
   <NoAuth>
-    <v-row justify="space-around">
-      <v-col >
-        <v-card width="600">
+    <v-container>
+    <v-row  justify="center">
+      <v-col cols="12" sm="8" md="6" lg="4" >
+        <v-card>
           <v-container>
             <v-toolbar dark color="green lighten-1">
               <v-toolbar-title>ADMIN E-BOOK</v-toolbar-title>
@@ -53,6 +54,7 @@
         </v-card>
       </v-col>
     </v-row>
+  </v-container>
   </NoAuth>
 </template>
 <script>

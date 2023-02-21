@@ -65,7 +65,7 @@
         ></v-list-item>
         <v-divider inset></v-divider>
         <v-list-item
-          prepend-icon="mdi-history"
+          prepend-icon="mdi-book-multiple"
           title="book"
           value="books"
           @click="goToBookTable()"

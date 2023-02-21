@@ -1,8 +1,8 @@
 <template>
   <v-container fluid>
     <v-row>
-      <v-col cols="12" class="overflow-x-auto">
-        <v-table dense class="elevation-1" v-scroll-x style="max-width: 100%">
+      <v-col cols="12">
+        <v-table dense class="elevation-1">
           <thead class="table">
             <tr>
               <th class="text-left">Name</th>
@@ -13,34 +13,32 @@
             </tr>
           </thead>
           <tbody>
-           
-              <tr v-for="(item, index) in userItems" :key="index">
-                <td class="mt-2">{{ item.name }}</td>
-                <td class="mt-2">{{ item.username }}</td>
-                <td class="mt-2">{{ item.email }}</td>
-                <td class="mt-2">{{ item.gender }}</td>
+            <tr v-for="(item, index) in userItems" :key="index">
+              <td class="mt-2">{{ item.name }}</td>
+              <td class="mt-2">{{ item.username }}</td>
+              <td class="mt-2">{{ item.email }}</td>
+              <td class="mt-2">{{ item.gender }}</td>
 
-                <td class="d-flex justify-center mt-2">
-                  <v-btn
-                    variant="flat"
-                    color="success"
-                    class="mr-3"
-                    @click="editUser(item)"
-                    >แก้ไข</v-btn
-                  >
-                  <v-btn
-                    variant="flat"
-                    color="error"
-                    class="mr-3"
-                    @click="
-                      showConfirm = true;
-                      selectedUser = item;
-                    "
-                    >ลบ</v-btn
-                  >
-                </td>
-              </tr>
-            
+              <td class="d-flex justify-center mt-2">
+                <v-btn
+                  variant="flat"
+                  color="success"
+                  class="mr-3"
+                  @click="editUser(item)"
+                  >แก้ไข</v-btn
+                >
+                <v-btn
+                  variant="flat"
+                  color="error"
+                  class="mr-3"
+                  @click="
+                    showConfirm = true;
+                    selectedUser = item;
+                  "
+                  >ลบ</v-btn
+                >
+              </td>
+            </tr>
           </tbody>
         </v-table>
       </v-col>
@@ -95,10 +93,11 @@ export default {
       try {
         await api.delete("/users/" + user._id, user);
         this.showAlert();
-        this.fetchApi();
+        this.userItems = this.userItems.filter((item) => item._id !== user._id); 
       } catch (error) {
         console.error(error);
       }
+      this.fetchApi();
     },
     editUser(user) {
       this.$router.push(`/usertable/${user._id}`);
@@ -113,6 +112,7 @@ export default {
     async fetchApi() {
       try {
         const result = await api.get("/users/");
+        this.userItems.splice(0, this.userItems.length); 
         for (let i = 0; i < result.data.length; i++) {
           let isAdmin = false;
           for (let j = 0; j < result.data[i].roles.length; j++) {
@@ -128,7 +128,6 @@ export default {
             this.userItems.push(result.data[i]);
           }
         }
-        console.log(this.userItems);
       } catch (error) {
         console.error(error);
       }
