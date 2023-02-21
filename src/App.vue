@@ -5,7 +5,7 @@
       v-if="showNavbarCoin && !this.isNotFoundRoute && this.isLogin || showNavCoinDetail"
     />
     <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
-    <v-main :class="{ 'padding-main': !showNavbarCoin }">
+    <v-main :class="{ 'padding-main': !showNavbarCoin && !showNavCoinDetail}">
       <v-container class="container-size">
         <router-view />
       </v-container>
