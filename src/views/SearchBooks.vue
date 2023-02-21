@@ -30,17 +30,17 @@
           v-model="inputSearch"
           single-line
           append-inner-icon="mdi-magnify"
-          @click:append-inner="searchAllBooks"
-          @keyup.enter="searchAllBooks"
+          @click:append-inner="filterSearch"
+          @keyup.enter="filterSearch"
         ></v-text-field>
       </div>
     </div>
     <div v-if="loadingSearch" class="d-flex justify-center">
       <v-progress-circular
-      :width="4"
-      color="green"
-      indeterminate
-    ></v-progress-circular>
+        :width="4"
+        color="green"
+        indeterminate
+      ></v-progress-circular>
     </div>
     <div v-if="books.length === 0 && !loadingSearch">
       <div class="d-flex justify-center">
@@ -276,7 +276,7 @@ export default {
             ],
           },
         });
-
+        this.inputSearch = this.searchTerm;
         this.books = res.data.filter(
           (book) =>
             book.name.match(new RegExp(this.searchTerm, "i")) ||
@@ -285,30 +285,65 @@ export default {
         );
       }
     },
-    async searchAllBooks() {
+    async filterSearch() {
       if (!this.inputSearch) {
         this.alertWarning("กรุณาระบุคำที่ต้องการค้นหาด้วยครับ");
       } else {
-        this.loadingSearch = true;
-        const res = await api.get("/searchbook", {
-          params: {
-            $or: [
-              { name: { $regex: this.inputSearch, $options: "i" } },
-              { author: { $regex: this.inputSearch, $options: "i" } },
-              { publisher: { $regex: this.inputSearch, $options: "i" } },
-            ],
-          },
-        });
-        setTimeout(() => {
-          this.loadingSearch = false;
-          this.books = res.data.filter(
-            (book) =>
-              book.name.match(new RegExp(this.inputSearch, "i")) ||
-              book.author.match(new RegExp(this.inputSearch, "i")) ||
-              book.publisher.match(new RegExp(this.inputSearch, "i"))
-          );
-        }, 1000);
+        if (this.search === "ค้นหาทั้งหมด") {
+          this.loadingSearch = true;
+          setTimeout(() => {
+            this.loadingSearch = false;
+            this.searchAllBooks();
+          }, 1000);
+        }
+        else if (this.search === "ค้นจากชื่อเรื่อง") {
+          this.loadingSearch = true;
+          setTimeout(() => {
+            this.loadingSearch = false;
+            this.matchBooks("name/");
+          }, 1000);
+        }
+        else if (this.search === "ค้นจากผู้แต่ง") {
+          this.loadingSearch = true;
+          setTimeout(() => {
+            this.loadingSearch = false;
+            this.matchBooks("author/");
+          }, 1000);
+        }
+        else if (this.search === "ค้นจากสำนักพิมพ์") {
+          this.loadingSearch = true;
+          setTimeout(() => {
+            this.loadingSearch = false;
+            this.matchBooks("publisher/");
+          }, 1000);
+        }
       }
+    },
+    async searchAllBooks() {
+      const res = await api.get("/searchbook", {
+        params: {
+          $or: [
+            { name: { $regex: this.inputSearch, $options: "i" } },
+            { author: { $regex: this.inputSearch, $options: "i" } },
+            { publisher: { $regex: this.inputSearch, $options: "i" } },
+          ],
+        },
+      });
+      this.books = res.data.filter(
+        (book) =>
+          book.name.match(new RegExp(this.inputSearch, "i")) ||
+          book.author.match(new RegExp(this.inputSearch, "i")) ||
+          book.publisher.match(new RegExp(this.inputSearch, "i"))
+      );
+    },
+    async matchBooks(path) {
+      const res = await api.get("/searchbook/" + path, {
+        params: {
+          searchTerm: this.inputSearch,
+        },
+      });
+
+      this.books = res.data;
     },
     getId() {
       return this.$store.getters["auth/getId"];
