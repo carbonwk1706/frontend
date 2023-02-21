@@ -203,6 +203,23 @@
       </v-row>
     </div>
 
+    <div id="all_review">
+      <v-row>
+          <v-card v-for="book in reviews" :key="book._id">
+            <v-card-title>{{ book.name }}</v-card-title>
+            <v-card-text>
+              <p>Author: {{ book.author }}</p>
+              <p>Publisher: {{ book.publisher }}</p>
+              <p>Category: {{ book.category }}</p>
+              <p>Price: {{ book.price }}</p>
+              <p v-for="review in book.reviews" :key="review._id">
+                {{ review.user.username }} rated {{ review.rating }} with comment "{{ review.comment }}"
+              </p>
+            </v-card-text>
+          </v-card>
+      </v-row>
+    </div>
+
     <div id="halloffame">
       <v-row class="mb-1">
         <v-col class="text-start">
@@ -462,6 +479,7 @@ export default {
       recommend7d: [],
       halloffame: [],
       myBook: [],
+      reviews: [],
       showModal: false,
       screenWidth: 0,
     };
@@ -496,6 +514,11 @@ export default {
     },
     showDetail(item) {
       this.$router.push(`/book/${item._id}`);
+    },
+    getAllReview() {
+      api.get("/allreview/books/reviews/").then((result) => {
+        this.reviews = result.data;
+      });
     },
     alertWarning() {
       this.$swal({
@@ -659,7 +682,6 @@ export default {
         return this.recommend7d.slice(0, 2);
       }
     },
-
   },
   watch: {
     showModal(newValue) {
@@ -698,6 +720,7 @@ export default {
     this.getRecommend();
     this.getNewEntry7D();
     this.getRecommend7d();
+    this.getAllReview();
     if (this.isLogin) {
       this.getMyBook();
     }
