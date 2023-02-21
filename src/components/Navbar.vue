@@ -394,6 +394,7 @@ export default {
               searchTerm: this.searchTerm,
             },
           });
+          this.searchTerm = ""
         } else {
           this.loadingSearch = false;
           router.push({
@@ -403,16 +404,16 @@ export default {
             },
           });
         }
-      }, 2000);
+      }, 1000);
     },
     logout() {
       this.loading = true;
+      router.push("/");
       setTimeout(() => {
         this.$store.dispatch("auth/logout");
         this.loading = false;
       }, 2000);
-      router.push("/");
-      setTimeout(() => {}, 2000);
+
     },
     goToHome() {
       router.push("/");

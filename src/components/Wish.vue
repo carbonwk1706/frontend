@@ -57,7 +57,14 @@
             class="mx-auto cardHover"
             @click="showDetail(item)"
           >
-            <v-img :src="item.imageBook" height="280px" cover />
+            <v-img :src="item.imageBook" height="280px" cover>
+              <v-icon
+                size="40"
+                @click.stop="delWish(item)"
+                class="ml-auto mt-auto close-button"
+                >mdi-close-circle</v-icon
+              >
+            </v-img>
             <v-card-title class="text-center pb-0" style="font-size: 15px">{{
               item.name
             }}</v-card-title>
