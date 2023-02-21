@@ -119,6 +119,11 @@ const routes = [
     component: () => import('../views/Sell/Recommend.vue')
   },
   {
+    path: '/halloffame',
+    name: 'halloffame',
+    component: () => import('../views/Sell/Halloffame.vue')
+  },
+  {
     path: '/admintable',
     name: 'admintable',
     component: () => import('../views/AdminTable.vue')

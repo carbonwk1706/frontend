@@ -365,6 +365,13 @@
       >มาใหม่</span
     >
     <span
+      :class="halloffame ? 'border-bottom' : 'text-menu'"
+      class="text-menu font-text mr-3"
+      style="color: #5a5a5a"
+      @click="goToHalloffame"
+      >ฮิตขึ้นหิ้ง</span
+    >
+    <span
       :class="recommend ? 'border-bottom' : 'text-menu'"
       class="text-menu font-text"
       style="color: #5a5a5a"
@@ -422,7 +429,7 @@ export default {
       this.loadingSearch = true;
       setTimeout(() => {
         if (this.searchTerm) {
-          this.loadingSearch = false
+          this.loadingSearch = false;
           router.push({
             name: "search",
             params: {
@@ -430,7 +437,7 @@ export default {
             },
           });
         } else {
-          this.loadingSearch = false
+          this.loadingSearch = false;
           router.push({
             name: "search",
             params: {
@@ -447,8 +454,7 @@ export default {
         this.loading = false;
       }, 2000);
       router.push("/");
-      setTimeout(() => {
-      }, 2000);
+      setTimeout(() => {}, 2000);
     },
     goToHome() {
       router.push("/");
@@ -483,6 +489,9 @@ export default {
     goToRegisterSell() {
       router.push("/registersell");
     },
+    goToHalloffame(){
+      router.push("/halloffame");
+    },
     goToMyShop() {
       router.push("/myshop");
     },
@@ -515,7 +524,7 @@ export default {
       return this.$store.getters["auth/isLogin"];
     },
     showMiddleNav() {
-      return ["/", "/bestseller", "/newentry", "/recommend"].includes(
+      return ["/", "/bestseller", "/newentry","/halloffame" ,"/recommend"].includes(
         this.$route.path
       );
     },
@@ -530,6 +539,9 @@ export default {
     },
     recommend() {
       return ["/recommend"].includes(this.$route.path);
+    },
+    halloffame() {
+      return ["/halloffame"].includes(this.$route.path);
     },
     hasSellRole() {
       return this.user.roles.includes("SELL");
