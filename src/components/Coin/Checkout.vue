@@ -30,14 +30,17 @@
       </v-row>
     </v-card>
   </v-container>
-  <v-card class="mt-6 mb-6 card">
-    <v-container>
+  <p class="back-add-coin text-center mt-3" @click="goToAddCoin">
+    กลับไปแก้ไขธนาคารหรือจำนวนเงิน
+  </p>
+  <v-container class="mt-3">
+    <v-card class="card py-6">
       <v-row>
         <v-col>
           <div class="d-flex flex-row align-center justify-center mb-5">
             <span style="font-size: 18px" class="text-total-price mr-2"
-              >ยอดชำระ </span
-            >
+              >ยอดชำระ
+            </span>
             <span class="text-total-price"> {{ receipt.coin }} </span>
           </div>
           <div class="d-flex flex-row align-center justify-center">
@@ -47,8 +50,29 @@
           </div>
         </v-col>
       </v-row>
-    </v-container>
-  </v-card>
+    </v-card>
+  </v-container>
+
+  <v-dialog v-model="loading" max-width="500" persistent>
+    <v-card>
+      <v-card-title class="center">
+        <div class="img-size">
+          <v-img src="https://media.tenor.com/9XCr9dBEygwAAAAi/peach-cat.gif">
+          </v-img>
+        </div>
+      </v-card-title>
+      <div class="center-loading">
+        <v-progress-circular
+          v-if="loading"
+          :size="50"
+          :width="5"
+          indeterminate
+          color="#f58b1b"
+        ></v-progress-circular>
+      </div>
+      <v-card-text class="text-center">กำลังทำการชำระเงิน</v-card-text>
+    </v-card>
+  </v-dialog>
 </template>
 
 <script>
@@ -60,6 +84,7 @@ export default {
     return {
       receipt: [],
       user: [],
+      loading: false,
     };
   },
   methods: {
@@ -70,19 +95,41 @@ export default {
     getId() {
       return this.$store.getters["auth/getId"];
     },
+    goToAddCoin() {
+      router.push("/coin");
+    },
     async fetchApi() {
       const res = await api.get("/profile/" + this.getId());
       this.user = res.data.user;
     },
+    alertSuccess() {
+      this.$swal({
+        scrollbarPadding: false,
+        confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
+        width: "500",
+        text: "ซื้อสินค้าสำเร็จ",
+        icon: "success",
+        confirmButtonText: "ยืนยัน",
+      });
+    },
     async sendRequest() {
-      await api.post("/receipt", {
+      this.loading = true;
+      const res = await api.post("/receipt", {
         request: "คำร้องขอเพิ่ม Coin",
         user: this.getId(),
         username: this.user.username,
         amount: this.receipt.coin,
         method: this.receipt.bankAccount,
       });
-      this.$store.dispatch("checkoutCoin/setReceipt", null);
+      if (res.status === 201) {
+        setTimeout(() => {
+          this.loading = false;
+          this.$store.dispatch("checkoutCoin/setReceipt", null);
+          router.push("/");
+          this.alertSuccess();
+        }, 2000);
+      }
     },
   },
   computed: {
@@ -112,8 +159,26 @@ export default {
 .card {
   background-color: #f6f6f6;
 }
+.back-add-coin {
+  font-size: 14px;
+  color: #5a5a5a;
+  cursor: pointer;
+}
 .btn-bg {
   color: white;
   background-color: #f0a04b;
+}
+.img-size {
+  width: 100px;
+}
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+.center-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 </style>
