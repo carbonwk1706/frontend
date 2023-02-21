@@ -1,94 +1,103 @@
 <template>
-  <v-container>
-    <div class="d-flex justify-center">
-      <div class="headborder">My coin: {{ user.coin }}</div>
-    </div>
-    <div>
-      <div class="ma-10">กรุณาเลือกช่องทางการเติม coin</div>
-      <v-row row justify="space-around">
-        <v-col
-          xs="12"
-          sm="6"
-          md="4"
-          lg="3"
-          v-for="item in listBankAccout"
-          :key="item.listBankAccout"
+  <Auth v-if="isLogin"
+    ><v-container fluid>
+      <div class="d-flex justify-center">
+        <div class="headborder">My coin: {{ user.coin }}</div>
+      </div>
+      <div>
+        <div class="ma-10">กรุณาเลือกช่องทางการเติม coin</div>
+        <v-row row justify="space-around">
+          <v-col
+            xs="12"
+            sm="6"
+            md="4"
+            lg="3"
+            v-for="item in listBankAccout"
+            :key="item.listBankAccout"
+          >
+            <v-card
+              :style="{ width: '200px', height: '150px', margin: '10px' }"
+              :class="{ highlight: item.isClicked }"
+              @click="selectBank(item)"
+            >
+              <v-card-text class="d-flex justify-center">
+                {{ item.name }}
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+      </div>
+
+      <div v-if="firstDivClicked" class="pt-10">
+        <div class="ma-10">กรุณาเลือกจำนวน coin ที่ต้องการเติม</div>
+        <v-row class="mx-0" justify="center">
+          <v-col cols="4" v-for="item in coin" :key="item.coin">
+            <v-card
+              :style="{ height: '200px', margin: '10px' }"
+              :class="{ highlight: item.isClicked }"
+              @click="selectCoin(item)"
+            >
+              <v-card-text class="d-flex justify-center">
+                {{ item.coin }}
+              </v-card-text>
+            </v-card>
+          </v-col>
+        </v-row>
+        <div
+          class="d-flex justify-center ma-10"
+          v-if="bankIsClicked && coinIsClicked"
         >
-          <v-card
-            :style="{ width: '200px', height: '150px', margin: '10px' }"
-            :class="{ highlight: item.isClicked }"
-            @click="selectBank(item)"
-          >
-            <v-card-text class="d-flex justify-center">
-              {{ item.name }}
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
+          <v-btn class="button" @click="addCoin">ยืนยัน</v-btn>
+        </div>
+        <div class="d-flex justify-center ma-10" v-else>
+          <v-btn class="buttonDis" disabled>ยืนยัน</v-btn>
+        </div>
+      </div>
 
-    <div v-if="firstDivClicked" class="pt-10">
-      <div class="ma-10">กรุณาเลือกจำนวน coin ที่ต้องการเติม</div>
-      <v-row class="mx-0" justify="center">
-        <v-col cols="4" v-for="item in coin" :key="item.coin">
-          <v-card
-            :style="{ height: '200px', margin: '10px' }"
-            :class="{ highlight: item.isClicked }"
-            @click="selectCoin(item)"
-          >
-            <v-card-text class="d-flex justify-center">
-              {{ item.coin }}
-            </v-card-text>
-          </v-card>
-        </v-col>
-      </v-row>
-      <div
-        class="d-flex justify-center ma-10"
-        v-if="bankIsClicked && coinIsClicked"
+      <v-dialog
+        v-model="showConfirm"
+        max-width="500"
+        persistent
+        style="z-index: 900"
       >
-        <v-btn class="button" @click="addCoin">ยืนยัน</v-btn>
-      </div>
-      <div class="d-flex justify-center ma-10" v-else>
-        <v-btn class="buttonDis" disabled>ยืนยัน</v-btn>
-      </div>
-    </div>
-  </v-container>
-
-  <v-dialog
-    v-model="showConfirm"
-    max-width="500"
-    persistent
-    style="z-index: 900"
+        <v-card>
+          <div class="d-flex justify-end pa-1">
+            <v-icon @click="toggleShowModalConfirm">mdi-close</v-icon>
+          </div>
+          <v-card-title class="text-center font-text">
+            ระบุจำนวน Coin ที่ต้องการ
+          </v-card-title>
+          <div class="pa-3 center-loading">
+            <v-text-field
+              label="ระบุจำนวน Coin ที่ต้องการ"
+              v-model="selectedCoin"
+              variant="outlined"
+            ></v-text-field>
+          </div>
+          <v-card-actions class="center">
+            <v-btn color="white" class="btn-bg" text @click="addCoin">
+              ยืนยัน
+            </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-dialog>
+    </v-container></Auth
   >
-    <v-card>
-      <div class="d-flex justify-end pa-1">
-        <v-icon @click="toggleShowModalConfirm">mdi-close</v-icon>
-      </div>
-      <v-card-title class="text-center font-text">
-        ระบุจำนวน Coin ที่ต้องการ
-      </v-card-title>
-      <div class="pa-3 center-loading">
-        <v-text-field
-          label="ระบุจำนวน Coin ที่ต้องการ"
-          v-model="selectedCoin"
-          variant="outlined"
-        ></v-text-field>
-      </div>
-      <v-card-actions class="center">
-        <v-btn color="white" class="btn-bg" text @click="addCoin">
-          ยืนยัน
-        </v-btn>
-      </v-card-actions>
-    </v-card>
-  </v-dialog>
+  <Auth v-else>
+    <div></div>
+  </Auth>
 </template>
 
 <script>
 import api from "@/services/api";
-import router from '@/router';
+import router from "@/router";
+import Auth from "../Auth.vue";
 
 export default {
   name: "CoinTable",
+  components: {
+    Auth,
+  },
   data() {
     return {
       listBankAccout: [
@@ -198,7 +207,7 @@ export default {
       };
       this.showConfirm = false;
       this.$store.dispatch("checkoutCoin/setReceipt", this.resultSelect);
-      router.push('/checkoutcoin')
+      router.push("/checkoutcoin");
     },
     async fetchApi() {
       const res = await api.get("/profile/" + this.getId());
@@ -208,9 +217,15 @@ export default {
       this.showConfirm = !this.showConfirm;
     },
   },
-  computed: {},
+  computed: {
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
+    },
+  },
   mounted() {
-    this.fetchApi();
+    if(this.isLogin){
+      this.fetchApi();
+    }
   },
 };
 </script>
@@ -245,7 +260,7 @@ export default {
   text-align: center;
 }
 .buttonDis {
-  background-color: #CCCCCC;
+  background-color: #cccccc;
   color: white;
   height: 50px;
   width: 300px;

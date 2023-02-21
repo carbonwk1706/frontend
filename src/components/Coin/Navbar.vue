@@ -72,7 +72,6 @@
       <v-card-text class="text-center">กำลังออกจากระบบ</v-card-text>
     </v-card>
   </v-dialog>
-
 </template>
 
 <script>
@@ -115,8 +114,15 @@ export default {
       router.push("/");
     },
   },
+  computed: {
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
+    },
+  },
   mounted() {
-    this.fetchApi();
+    if (this.isLogin) {
+      this.fetchApi();
+    }
   },
 };
 </script>
