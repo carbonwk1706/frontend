@@ -1,10 +1,19 @@
 <template>
   <v-container fluid>
-    <v-row class="mb-1">
-      <v-col cols="6" class="text-start">
-        <h3>หนังสือทั้งหมด</h3>
+    <v-row>
+      <v-col cols="12">
+        <div class="d-flex align-center">
+          <span class="menu-link" @click="goToHome">หน้าแรก</span>
+          <v-icon>mdi-chevron-right</v-icon>
+          <span class="menu-link-current">อีบุ๊คทั้งหมด</span>
+        </div>
       </v-col>
-      <v-col cols="6" class="pa-0 d-flex justify-end">
+    </v-row>
+    <v-row class="mt-10 mb-1">
+      <v-col cols="6" class="text-start">
+        <h3>อีบุ๊คทั้งหมด</h3>
+      </v-col>
+      <v-col v-if="books.length > 0" cols="6" class="pa-0 d-flex justify-end">
         <v-pagination
           class="text-pagination"
           v-model="page"
@@ -14,7 +23,7 @@
       </v-col>
     </v-row>
     <v-divider class="mb-6"></v-divider>
-    <v-row>
+    <v-row v-if="books.length > 0">
       <v-col
         v-for="(item, index) in books.slice(
           (page - 1) * itemsPerPage,
@@ -74,7 +83,7 @@
       </v-col>
     </v-row>
 
-    <v-row class="mt-12">
+    <v-row v-if="books.length > 0" class="mt-12">
       <v-col cols="12" class="pa-0 d-flex justify-center">
         <v-pagination
           class="text-pagination"
@@ -259,8 +268,9 @@ export default {
 };
 </script>
 <style scoped>
-.select-width {
-  width: 200px;
+.text-noBook {
+  font-size: 18px;
+  font-weight: bold;
 }
 .btn-color {
   color: #fff;
@@ -289,5 +299,14 @@ export default {
   background-color: #f58b1b;
   border-radius: 40px;
   font-size: 16px;
+}
+.menu-link {
+  color: #5a5a5a;
+  font-size: 14px;
+  cursor: pointer;
+}
+.menu-link-current {
+  color: #5a5a5a;
+  font-size: 14px;
 }
 </style>

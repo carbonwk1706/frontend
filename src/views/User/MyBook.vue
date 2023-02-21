@@ -40,7 +40,11 @@
         <v-col cols="6" class="text-start">
           <h2 class="font-weight-bold">ชั้นหนังสือของฉัน</h2>
         </v-col>
-        <v-col v-if="myBook.length > 0" cols="6" class="pa-0 d-flex justify-end">
+        <v-col
+          v-if="myBook.length > 0"
+          cols="6"
+          class="pa-0 d-flex justify-end"
+        >
           <v-pagination
             class="text-pagination"
             v-model="page"
