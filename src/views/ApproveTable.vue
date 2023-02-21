@@ -1,42 +1,48 @@
 <template>
-    <v-table>
-      <thead>
-        <tr>
-          <th class="text-left">ลำดับ</th>
-          <th class="text-left">วันที่</th>
-          <th class="text-left">คำร้อง</th>
-          <th class="text-left">สถานะ</th>
-          <th class="text-left"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(index, item) in requestStatus" :key="index">
-          <td>{{ item + 1 }}</td>
-          <td>{{ formatTime(requestStatus[item].createdAt) }}</td>
-          <td>{{ requestStatus[item].request }}</td>
-          <td>{{ requestStatus[item].status }}</td>
-          <td>
-            <v-btn
-              variant="flat"
-              color="grey"
-              class="mr-3"
-              @click="showDetail(requestStatus[item]._id)"
-            >
-              รายละเอียด
-            </v-btn>
-            <v-btn
-              variant="flat"
-              color="success"
-              class="mr-3"
-              @click="showConfirmDialog = true"
+  <v-table dense class="elevation-1">
+    <thead class="table">
+      <tr>
+        <th class="text-left">ลำดับ</th>
+        <th class="text-left">วันที่</th>
+        <th class="text-left">คำร้อง</th>
+        <th class="text-left">สถานะ</th>
+        <th class="text-left"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr v-for="(item, index) in requestStatus" :key="index">
+        <td>{{ item + 1 }}</td>
+        <td>{{ formatTime(item.createdAt) }}</td>
+        <td>{{ item.request }}</td>
+        <td>{{ item.status }}</td>
+        <td>
+          <v-btn
+            variant="flat"
+            color="grey"
+            class="mr-3"
+            @click="showDetail(item._id)"
+          >
+            รายละเอียด
+          </v-btn>
 
-            >
-              อนุมัติ
-            </v-btn>
-            <v-btn variant="flat" color="error" @click="showCancelDialog = true"> ยกเลิก </v-btn>
-          </td>
+          <v-btn
+            variant="flat"
+            color="success"
+            class="mr-3"
+            @click="approve(item._id)"
+          >
+            อนุมัติ
+          </v-btn>
 
-          <v-dialog
+          <v-btn variant="flat" color="error" @click="rejects(item._id)">
+            ยกเลิก
+          </v-btn>
+        </td>
+      </tr>
+    </tbody>
+  </v-table>
+
+  <v-dialog
     v-model="showConfirmDialog"
     persistent
     style="z-index: 900"
@@ -45,19 +51,20 @@
     :padding="20"
   >
     <v-card>
-      <v-card-title class="headline text-center ">รายการอนุมัติ</v-card-title>
+      <v-card-title class="headline text-center">รายการอนุมัติ</v-card-title>
       <v-card-text class="text-center"
         >ต้องการยืนยันการอนุมัติหรือไม่</v-card-text
       >
       <v-card-actions class="text-center">
-        <v-btn color="success" @click="approveRequest(requestStatus[item]._id)" class="mr-10">ยืนยัน</v-btn>
+        <v-btn color="success" text @click=" approveRequest(confirmDialogId) " class="mr-10"
+          >ยืนยัน</v-btn
+        >
         <v-btn color="Grey" text @click="showConfirmDialog = false"
           >ยกเลิก</v-btn
         >
       </v-card-actions>
     </v-card>
   </v-dialog>
-
 
   <v-dialog
     v-model="showCancelDialog"
@@ -68,74 +75,77 @@
     :padding="20"
   >
     <v-card>
-      <v-card-title class="headline text-center ">ยกเลิก</v-card-title>
+      <v-card-title class="headline text-center">รายการยกเลิก</v-card-title>
       <v-card-text class="text-center"
         >ต้องการยืนยันการยกเลิกหรือไม่</v-card-text
       >
       <v-card-actions class="text-center">
-        <v-btn color="success" @click="rejectsRequest(requestStatus[item]._id)" class="mr-10">ยืนยัน</v-btn>
+        <v-btn color="success" text @click=" rejectsRequest(cancelDialogId) " class="mr-10"
+          >ยืนยัน</v-btn
+        >
         <v-btn color="Grey" text @click="showCancelDialog = false"
           >ยกเลิก</v-btn
         >
       </v-card-actions>
     </v-card>
   </v-dialog>
+</template>
+<script>
+import api from "@/services/api";
+import moment from "moment";
 
-
-        </tr>
-      </tbody>
-    </v-table>
-
-   
-
-
-
-  </template>
-  <script>
-  import api from "@/services/api";
-  import moment from "moment";
-
-  export default {
-    data() {
-      return {
-        showConfirmDialog: false,
-        showCancelDialog: false,
-        requestStatus: [],
-      };
+export default {
+  data() {
+    return {
+      showConfirmDialog: false,
+      showCancelDialog: false,
+      requestStatus: [],
+    };
+  },
+  methods: {
+    approve(id) {
+      this.showConfirmDialog = true;
+      this.confirmDialogId = id;
     },
-    methods: {
-      showDetail(id) {
-        this.$router.push(`/request/${id}`);
-      },
-      formatTime(item){
-        return moment(item).format('MM/DD/YYYY, h:mm:ss a');
-      },
-      async approveRequest(id) {
-        try {
+    rejects(id) {
+      this.showCancelDialog = true;
+      this.cancelDialogId = id;
+    },
+    showDetail(id) {
+      this.$router.push(`/request/${id}`);
+    },
+    formatTime(item) {
+      return moment(item).format("MM/DD/YYYY, h:mm:ss a");
+    },
+    async approveRequest(id) {
+      try {
           await api.patch(`/request/${id}/approve`);
           this.showAlert()
         } catch (error) {
           console.log(error);
         }
-          this.fetchApi()
-      },
-      async rejectsRequest(id) {
-        try {
-          await api.patch(`/request/${id}/reject`);
-        } catch (error) {
-          console.log(error);
-        }
-          this.fetchApi()
-      },
-      async fetchApi() {
-        try {
-          const res = await api.get("/request");
-          this.requestStatus = res.data.requests;
-        } catch (error) {
-          console.log(error);
-        }
-      },
-      showAlert() {
+        this.showConfirmDialog = false ;
+        this.fetchApi();
+    },
+    async rejectsRequest(id) {
+      try {
+        await api.patch(`/request/${id}/reject`);
+        this.showAlertCancel()
+      } catch (error) {
+        console.log(error);
+      }
+      this.showCancelDialog = false ;
+      this.fetchApi();
+    },
+    async fetchApi() {
+      try {
+        const res = await api.get("/request");
+        this.requestStatus = res.data.requests;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    showAlert() {
       this.$swal({
         scrollbarPadding: false,
         confirmButtonColor: "#00af70",
@@ -144,19 +154,31 @@
         icon: "success",
         allowOutsideClick: false,
         confirmButtonText: "OK",
-      })
+      });
     },
+    showAlertCancel() {
+      this.$swal({
+        scrollbarPadding: false,
+        confirmButtonColor: "#00af70",
+        customClass: "show-modal",
+        text: "ยกเลิกสำเร็จ",
+        icon: "success",
+        allowOutsideClick: false,
+        confirmButtonText: "OK",
+      });
     },
-    mounted() {
-      this.fetchApi();
-    },
-  };
-  </script>
-  <style>
-  .text-center {
+  },
+  mounted() {
+    this.fetchApi();
+  },
+};
+</script>
+<style>
+.text-center {
   display: flex;
   justify-content: center;
 }
-
-
+.table {
+  background-color: rgb(54, 233, 108);
+}
 </style>
