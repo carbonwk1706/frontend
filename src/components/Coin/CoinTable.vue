@@ -34,7 +34,10 @@
       </div>
 
       <div v-if="firstDivClicked" class="pt-10">
-        <div class="ma-10">กรุณาเลือกจำนวน coin ที่ต้องการเติม</div>
+        <div class="ma-10">  
+          <span class="mr-2">กรุณาเลือกจำนวน coin ที่ต้องการเติมผ่าน</span>
+          <span style="font-size: 16px; color: #22d122" class="mr-2 font-text">"{{ selectedBankAccount }}"</span>
+        </div>
         <v-row class="mx-0" justify="center">
           <v-col cols="4" v-for="item in coin" :key="item.coin">
             <v-card
