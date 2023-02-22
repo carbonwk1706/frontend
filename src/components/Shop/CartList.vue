@@ -127,7 +127,7 @@ export default {
     },
     getCartList() {
       api.get("/cart/" + this.getId()).then((result) => {
-        this.cartList = result.data.items;
+        this.cartList = result.data?.items ?? [];
         this.$store.dispatch("cartList/setCartList", this.cartList);
         this.selectAll = true;
         this.selectAllItems();
