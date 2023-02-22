@@ -2,7 +2,12 @@
   <Auth v-if="isLogin"
     ><v-container fluid>
       <div class="d-flex justify-center">
-        <div class="headborder">My coin: {{ user.coin }}</div>
+        <div class="headborder">
+          <span style="font-size: 16px" class="mr-2 font-text"> Coin : </span>
+          <span style="font-size: 16px; color: #22d122" class="mr-2 font-text">
+            {{ user.coin }}
+          </span>
+        </div>
       </div>
       <div>
         <div class="ma-10">กรุณาเลือกช่องทางการเติม coin</div>
@@ -223,7 +228,7 @@ export default {
     },
   },
   mounted() {
-    if(this.isLogin){
+    if (this.isLogin) {
       this.fetchApi();
     }
   },
@@ -232,18 +237,18 @@ export default {
 
 <style scoped>
 .highlight {
-  box-shadow: 0 0 15px #ffea20;
+  box-shadow: 0 0 15px #37c13d;
   transition: box-shadow 0.2s ease-in-out;
 }
 
 .highlight:hover {
-  box-shadow: 0 0 30px #ffea20;
+  box-shadow: 0 0 30px #37c13d;
 }
 .headborder {
   display: flex;
   justify-content: center;
   width: 300px;
-  border: 1px solid #ffb100;
+  border: 1px solid #22d122;
   padding: 10px;
 }
 .v-card-text {
@@ -253,7 +258,7 @@ export default {
   height: 100%;
 }
 .button {
-  background-color: #f0a04b;
+  background-color: #00af70;
   color: white;
   height: 50px;
   width: 300px;
@@ -272,7 +277,7 @@ export default {
   align-items: center;
 }
 .btn-bg {
-  background-color: #f0a04b;
+  background-color: #00af70;
   width: 100%;
   padding: 5px;
   margin-bottom: 16px;
