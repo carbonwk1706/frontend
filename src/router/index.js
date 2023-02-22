@@ -180,7 +180,7 @@ const routes = [
     component: () => import('../components/Coin/CoinHistory.vue')
   },
   {
-    path: '/coinhistorydetil/:userId',
+    path: '/coinhistorydetil/:id',
     name: 'coinhistorydetail',
     component: () => import('../components/Coin/DetailHistory.vue'),
     meta: {
