@@ -1,5 +1,6 @@
 <template>
   <v-container fluid>
+
     <div id="newentry">
       <div v-if="newentry7d.length > 0" id="newentry_7d">
         <v-row class="mb-1">
@@ -239,6 +240,75 @@
       </v-row>
     </div>
 
+    <div v-if="reviews.length > 0" id="all_review">
+      <v-row  class="mb-1">
+        <v-col class="text-start">
+          <h2 class="display-1 font-weight-bold">รีวิว</h2>
+        </v-col>
+        <v-col class="text-end mt-3">
+          <h4
+          v-if="reviews.length >= 3"
+            class="display-1 text-go"
+            @click="goToNewEntry"
+          >
+            ดูทั้งหมด
+          </h4>
+        </v-col>
+      </v-row>
+      <v-divider class="mb-6"></v-divider>
+      <v-row class="mb-1">
+        <v-col
+          v-for="(book, index) in filteredReviews"
+          :key="index"
+          class="mb-5"
+          md="4"
+          sm="3"
+          xs="2"
+        >
+          <v-card max-width="340" class="mx-auto bg-review-card" height="300">
+            <div
+              v-for="(review,index) in book.reviews.slice().reverse().splice(0, 1)"
+              :key="index"
+            >
+              <v-card>
+                <v-row>
+                  <v-col cols="12">
+                    <p>comment "{{ review.comment }}"</p>
+                  </v-col>
+                  <v-col cols="12">
+                    <p>{{ review.user.username }} rated {{ review.rating }}</p>
+                  </v-col>
+                </v-row>
+              </v-card>
+            </div>
+            <v-container>
+              <v-row>
+                <v-col cols="3">
+                  <v-img
+                    :src="book.imageBook"
+                    max-width="60"
+                    height="90"
+                    cover
+                  ></v-img>
+                </v-col>
+                <v-col cols="7">
+                  <v-row>
+                    <v-col cols="12">
+                      <p>{{ book.name }}</p>
+                      <p>Author: {{ book.author }}</p>
+                      <p>Category: {{ book.category }}</p>
+                      <p>{{ book.rating }} คะแนน จาก {{ book.ratingsCount }}</p>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
+
+
     <div v-if="halloffame.length > 0" id="halloffame">
       <v-row class="mb-1">
         <v-col class="text-start">
@@ -314,74 +384,7 @@
       </v-row>
     </div>
 
-    <div v-if="reviews.length > 0" id="all_review">
-      <v-row class="mb-1">
-        <v-col class="text-start">
-          <h2 class="display-1 font-weight-bold">รีวิว</h2>
-        </v-col>
-        <v-col class="text-end mt-3">
-          <h4
-            v-if="reviews.length >= 3"
-            class="display-1 text-go"
-            @click="goToNewEntry"
-          >
-            ดูทั้งหมด
-          </h4>
-        </v-col>
-      </v-row>
-      <v-divider class="mb-6"></v-divider>
-      <v-row class="mb-1">
-        <v-col
-          v-for="book in reviews.splice(0, 3)"
-          :key="book._id"
-          class="mb-5"
-          md="4"
-          sm="3"
-          xs="2"
-        >
-          <v-card max-width="340" class="mx-auto bg-review-card" height="300">
-            <div
-              v-for="review in book.reviews.slice().reverse().splice(0, 1)"
-              :key="review._id"
-            >
-              <v-card>
-                <v-row>
-                  <v-col cols="12">
-                    <p>comment "{{ review.comment }}"</p>
-                  </v-col>
-                  <v-col cols="12">
-                    <p>{{ review.user.username }} rated {{ review.rating }}</p>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </div>
-            <v-container>
-              <v-row>
-                <v-col cols="3">
-                  <v-img
-                    :src="book.imageBook"
-                    max-width="60"
-                    height="90"
-                    cover
-                  ></v-img>
-                </v-col>
-                <v-col cols="7">
-                  <v-row>
-                    <v-col cols="12">
-                      <p>{{ book.name }}</p>
-                      <p>Author: {{ book.author }}</p>
-                      <p>Category: {{ book.category }}</p>
-                      <p>{{ book.rating }} คะแนน จาก {{ book.ratingsCount }}</p>
-                    </v-col>
-                  </v-row>
-                </v-col>
-              </v-row>
-            </v-container>
-          </v-card>
-        </v-col>
-      </v-row>
-    </div>
-
+ 
     <div v-if="recommend7d.length > 0 || recommend.length > 0" id="recommend">
       <div v-if="recommend7d.length > 0" id="recommend_7d">
         <v-row class="mb-1">
@@ -807,11 +810,6 @@ export default {
     showDetail(item) {
       this.$router.push(`/book/${item._id}`);
     },
-    getAllReview() {
-      api.get("/allreview/books/reviews/").then((result) => {
-        this.reviews = result.data;
-      });
-    },
     alertWarning() {
       this.$swal({
         scrollbarPadding: false,
@@ -855,6 +853,10 @@ export default {
       } else {
         this.alertWarning();
       }
+    },
+    async getAllReview() {
+      const res = await api.get("/allreview/books/reviews/")
+        this.reviews = res.data;
     },
     getNewEntry7D() {
       api.get("/newentry/new/").then((result) => {
@@ -911,6 +913,9 @@ export default {
       return (item) => {
         return this.myBook.some((book) => book._id === item._id);
       };
+    },
+    filteredReviews() {
+      return this.reviews.slice(0,3)
     },
     filteredNewEntry() {
       if (this.screenWidth > 960) {
@@ -991,22 +996,22 @@ export default {
       if (!newValue) {
         this.myBook = [];
         this.visibleModal = false;
+        this.getAllReview();
         this.getBestseller();
         this.getNewEntry();
         this.getHalloffame();
         this.getRecommend();
         this.getNewEntry7D();
         this.getRecommend7d();
-        this.getAllReview();
       } else {
         this.visibleModal = false;
+        this.getAllReview();
         this.getBestseller();
         this.getNewEntry();
         this.getHalloffame();
         this.getRecommend();
         this.getNewEntry7D();
         this.getRecommend7d();
-        this.getAllReview();
         this.getMyBook();
       }
     },
@@ -1015,17 +1020,16 @@ export default {
     this.visibleModal = false;
     this.screenWidth = window.innerWidth;
     window.addEventListener("resize", this.handleResize);
+    this.getAllReview();
     this.getBestseller();
     this.getNewEntry();
     this.getHalloffame();
     this.getRecommend();
     this.getNewEntry7D();
     this.getRecommend7d();
-    this.getAllReview();
     if (this.isLogin) {
       this.visibleModal = false;
       this.getMyBook();
-      this.getAllReview();
     }
   },
 };
