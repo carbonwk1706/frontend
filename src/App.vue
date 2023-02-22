@@ -8,7 +8,29 @@
       "
     />
     <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
-    <v-main :class="{ 'padding-main': !showNavbarCoin && !showNavCoinDetail }">
+    <v-carousel
+      v-if="isRootRoute"
+      hide-delimiter-background
+      :show-arrows="false"
+      :cycle="3000"
+      color="success"
+    >
+    <v-carousel-item v-for="(group, index) in groups" :key="index">
+      <v-row>
+        <v-col v-for="(item, i) in group" :key="i" cols="4">
+          <v-card>
+            <v-img :src="item.image" aspect-ratio="1"></v-img>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-carousel-item>
+    </v-carousel>
+    <v-main
+      :class="{
+        'padding-main': !showNavbarCoin && !showNavCoinDetail,
+        'padding-main-root': isRootRoute,
+      }"
+    >
       <v-container class="container-size">
         <router-view />
       </v-container>
@@ -41,6 +63,48 @@ export default {
 
   created() {
     window.addEventListener("storage", this.handleStorageChange);
+  },
+  data() {
+    return {
+      items: [
+        {
+          id: 1,
+          image: "https://picsum.photos/200/200?random=1",
+        },
+        {
+          id: 2,
+          image: "https://picsum.photos/200/200?random=2",
+        },
+        {
+          id: 3,
+          image: "https://picsum.photos/200/200?random=3",
+        },
+        {
+          id: 4,
+          image: "https://picsum.photos/200/200?random=4",
+        },
+        {
+          id: 5,
+          image: "https://picsum.photos/200/200?random=5",
+        },
+        {
+          id: 6,
+          image: "https://picsum.photos/200/200?random=6",
+        },
+        {
+          id: 7,
+          image: "https://picsum.photos/200/200?random=7",
+        },
+        {
+          id: 8,
+          image: "https://picsum.photos/200/200?random=8",
+        },
+        {
+          id: 9,
+          image: "https://picsum.photos/200/200?random=9",
+        },
+      ],
+    };
   },
   methods: {
     handleStorageChange(event) {
@@ -80,6 +144,15 @@ export default {
     },
   },
   computed: {
+    groups() {
+      let groups = [];
+
+      for (let i = 0; i < this.items.length; i += 3) {
+        groups.push(this.items.slice(i, i + 3));
+      }
+
+      return groups;
+    },
     isLogin() {
       return this.$store.getters["auth/isLogin"];
     },
@@ -204,6 +277,9 @@ export default {
       }
       return false;
     },
+    isRootRoute() {
+      return this.$route.path === "/";
+    },
   },
 };
 </script>
@@ -216,5 +292,8 @@ export default {
 }
 .padding-main {
   padding-top: 164px;
+}
+.padding-main-root {
+  padding-top: 60px;
 }
 </style>
