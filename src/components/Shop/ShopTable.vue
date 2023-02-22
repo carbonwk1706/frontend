@@ -41,7 +41,10 @@
               >
                 {{ item.author }} / {{ item.publisher }}
               </v-card-subtitle>
-              <v-card-text class="text-center pb-0 pt-0" style="font-size: 13px">
+              <v-card-text
+                class="text-center pb-0 pt-0"
+                style="font-size: 13px"
+              >
                 <div style="display: inline-block; vertical-align: middle">
                   <v-rating
                     v-model="item.rating"
@@ -114,7 +117,10 @@
               >
                 {{ item.author }} / {{ item.publisher }}
               </v-card-subtitle>
-              <v-card-text class="text-center pb-0 pt-0" style="font-size: 13px">
+              <v-card-text
+                class="text-center pb-0 pt-0"
+                style="font-size: 13px"
+              >
                 <div style="display: inline-block; vertical-align: middle">
                   <v-rating
                     v-model="item.rating"
@@ -314,7 +320,13 @@
           <h2 class="display-1 font-weight-bold">รีวิว</h2>
         </v-col>
         <v-col class="text-end mt-3">
-          <h4 v-if="reviews.length >= 3" class="display-1 text-go" @click="goToNewEntry">ดูทั้งหมด</h4>
+          <h4
+            v-if="reviews.length >= 3"
+            class="display-1 text-go"
+            @click="goToNewEntry"
+          >
+            ดูทั้งหมด
+          </h4>
         </v-col>
       </v-row>
       <v-divider class="mb-6"></v-divider>
@@ -328,35 +340,43 @@
           xs="2"
         >
           <v-card max-width="340" class="mx-auto bg-review-card" height="300">
-              <div v-for="review in book.reviews.slice().reverse().splice(0,1)" :key="review._id">
-                <v-card>
-                  <v-row>
-                    <v-col cols="12">
-                      <p>comment "{{ review.comment }}"</p>
-                    </v-col>
-                    <v-col cols="12">
-                      <p>{{ review.user.username }} rated {{ review.rating }}</p>
-                    </v-col>
-                  </v-row>
-                </v-card>
-              </div>
-              <v-container>
+            <div
+              v-for="review in book.reviews.slice().reverse().splice(0, 1)"
+              :key="review._id"
+            >
+              <v-card>
                 <v-row>
-                  <v-col cols="3">
-                    <v-img :src="book.imageBook" max-width="60" height="90" cover></v-img>
+                  <v-col cols="12">
+                    <p>comment "{{ review.comment }}"</p>
                   </v-col>
-                  <v-col cols="7">
-                    <v-row>
-                      <v-col cols="12">
-                        <p>{{ book.name }}</p>
-                        <p>Author: {{ book.author }}</p>
-                        <p>Category: {{ book.category }}</p>
-                        <p>{{ book.rating }} คะแนน จาก {{ book.ratingsCount }}</p>
-                      </v-col>
-                    </v-row>
+                  <v-col cols="12">
+                    <p>{{ review.user.username }} rated {{ review.rating }}</p>
                   </v-col>
                 </v-row>
-              </v-container>
+              </v-card>
+            </div>
+            <v-container>
+              <v-row>
+                <v-col cols="3">
+                  <v-img
+                    :src="book.imageBook"
+                    max-width="60"
+                    height="90"
+                    cover
+                  ></v-img>
+                </v-col>
+                <v-col cols="7">
+                  <v-row>
+                    <v-col cols="12">
+                      <p>{{ book.name }}</p>
+                      <p>Author: {{ book.author }}</p>
+                      <p>Category: {{ book.category }}</p>
+                      <p>{{ book.rating }} คะแนน จาก {{ book.ratingsCount }}</p>
+                    </v-col>
+                  </v-row>
+                </v-col>
+              </v-row>
+            </v-container>
           </v-card>
         </v-col>
       </v-row>
@@ -522,7 +542,7 @@
       <div v-if="newentry7d.length > 0" id="newentry_7d">
         <v-row class="mb-1">
           <v-col class="text-start">
-            <h2 class="display-1 font-weight-bold">มาใหม่</h2>
+            <h2 class="display-1 font-weight-bold">แนะนำ</h2>
           </v-col>
           <v-col class="text-end mt-3">
             <h4
@@ -559,7 +579,10 @@
               >
                 {{ item.author }} / {{ item.publisher }}
               </v-card-subtitle>
-              <v-card-text class="text-center pb-0 pt-0" style="font-size: 13px">
+              <v-card-text
+                class="text-center pb-0 pt-0"
+                style="font-size: 13px"
+              >
                 <div style="display: inline-block; vertical-align: middle">
                   <v-rating
                     v-model="item.rating"
@@ -632,7 +655,10 @@
               >
                 {{ item.author }} / {{ item.publisher }}
               </v-card-subtitle>
-              <v-card-text class="text-center pb-0 pt-0" style="font-size: 13px">
+              <v-card-text
+                class="text-center pb-0 pt-0"
+                style="font-size: 13px"
+              >
                 <div style="display: inline-block; vertical-align: middle">
                   <v-rating
                     v-model="item.rating"
@@ -715,14 +741,23 @@
       </v-card>
     </v-dialog>
   </v-container>
+
+  <Login
+  :visibleModal="visibleModal"
+  @update:isVisible="visibleModal = $event"
+/>
 </template>
 
 <script>
 import router from "@/router";
 import api from "@/services/api";
+import Login from "@/views/Login.vue";
 
 export default {
   name: "ShopTable",
+  components:{
+    Login
+  },
   data() {
     return {
       bestseller: [],
@@ -735,9 +770,13 @@ export default {
       reviews: [],
       showModal: false,
       screenWidth: 0,
+      visibleModal: false,
     };
   },
   methods: {
+    toggleLoginModal() {
+      this.visibleModal = !this.visibleModal;
+    },
     goToHome() {
       this.showModal = false;
       router.push("/");
@@ -781,7 +820,11 @@ export default {
         width: "500",
         text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
         icon: "warning",
-        button: "OK",
+        confirmButtonText: "OK",
+      }).then((result) => {
+        if (result.value) {
+          this.toggleLoginModal()
+        }
       });
     },
     alertSuccess() {
@@ -792,7 +835,7 @@ export default {
         width: "500",
         text: "คุณมีหนังสือนี้ในตะกร้าแล้ว",
         icon: "warning",
-        button: "OK",
+        confirmButtonText: "OK",
       });
     },
     async addItem(item) {
@@ -947,6 +990,7 @@ export default {
     isLogin(newValue) {
       if (!newValue) {
         this.myBook = [];
+        this.visibleModal = false;
         this.getBestseller();
         this.getNewEntry();
         this.getHalloffame();
@@ -955,6 +999,7 @@ export default {
         this.getRecommend7d();
         this.getAllReview();
       } else {
+        this.visibleModal = false;
         this.getBestseller();
         this.getNewEntry();
         this.getHalloffame();
@@ -967,6 +1012,7 @@ export default {
     },
   },
   mounted() {
+    this.visibleModal = false;
     this.screenWidth = window.innerWidth;
     window.addEventListener("resize", this.handleResize);
     this.getBestseller();
@@ -977,6 +1023,7 @@ export default {
     this.getRecommend7d();
     this.getAllReview();
     if (this.isLogin) {
+      this.visibleModal = false;
       this.getMyBook();
       this.getAllReview();
     }

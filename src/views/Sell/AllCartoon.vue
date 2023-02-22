@@ -161,11 +161,20 @@
       </v-card>
     </v-dialog>
   </v-container>
+
+  <Login
+  :visibleModal="visibleModal"
+  @update:isVisible="visibleModal = $event"
+/>
 </template>
 <script>
 import router from "@/router";
 import api from "@/services/api";
+import Login from "@/views/Login.vue";
 export default {
+  components: {
+    Login,
+  },
   data() {
     return {
       books: [],
@@ -173,9 +182,13 @@ export default {
       showModal: false,
       page: 1,
       itemsPerPage: 40,
+      visibleModal: false,
     };
   },
   methods: {
+    toggleLoginModal() {
+      this.visibleModal = !this.visibleModal;
+    },
     goToHome() {
       this.showModal = false;
       router.push("/");
@@ -227,7 +240,11 @@ export default {
           width: "500",
           text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
           icon: "warning",
-          button: "OK",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.value) {
+            this.toggleLoginModal();
+          }
         });
       }
     },
@@ -274,16 +291,20 @@ export default {
     isLogin(newValue) {
       if (!newValue) {
         this.myBook = [];
+        this.visibleModal = false;
         this.fetchApi();
       } else {
+        this.visibleModal = false;
         this.fetchApi();
         this.getMyBook();
       }
     },
   },
   mounted() {
+    this.visibleModal = false;
     this.fetchApi();
     if (this.isLogin) {
+      this.visibleModal = false;
       this.getMyBook();
     }
   },

@@ -157,11 +157,20 @@
       </v-card>
     </v-dialog>
   </v-container>
+
+  <Login
+  :visibleModal="visibleModal"
+  @update:isVisible="visibleModal = $event"
+/>
 </template>
 <script>
 import router from "@/router";
 import api from "@/services/api";
+import Login from "@/views/Login.vue";
 export default {
+  components: {
+    Login,
+  },
   data() {
     return {
       books: [],
@@ -175,9 +184,13 @@ export default {
         "มาใหม่การ์ตูน",
         "มาใหม่นิยาย",
       ],
+      visibleModal: false,
     };
   },
   methods: {
+    toggleLoginModal() {
+      this.visibleModal = !this.visibleModal;
+    },
     goToHome() {
       this.showModal = false;
       router.push("/");
@@ -226,7 +239,11 @@ export default {
           width: "500",
           text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
           icon: "warning",
-          button: "OK",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.value) {
+            this.toggleLoginModal();
+          }
         });
       }
     },
@@ -283,8 +300,10 @@ export default {
     isLogin(newValue) {
       if (!newValue) {
         this.myBook = [];
+        this.visibleModal = false;
         this.fetchApi();
       } else {
+        this.visibleModal = false;
         this.fetchApi();
         this.getMyBook();
       }
@@ -292,18 +311,23 @@ export default {
     select(newValue) {
       if (newValue) {
         if (newValue === "มาใหม่ทั้งหมด") {
+          this.visibleModal = false;
           this.fetchApi();
         } else if (newValue === "มาใหม่การ์ตูน") {
+          this.visibleModal = false;
           this.fetchApiCartoon();
         } else if (newValue === "มาใหม่นิยาย") {
+          this.visibleModal = false;
           this.fetchApiNovel();
         }
       }
     },
   },
   mounted() {
+    this.visibleModal = false;
     this.fetchApi();
     if (this.isLogin) {
+      this.visibleModal = false;
       this.getMyBook();
     }
   },

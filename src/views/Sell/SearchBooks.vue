@@ -176,14 +176,23 @@
       </v-card>
     </v-dialog>
   </v-container>
+
+  <Login
+  :visibleModal="visibleModal"
+  @update:isVisible="visibleModal = $event"
+/>
 </template>
 
 <script>
 import router from "@/router";
 import api from "@/services/api";
+import Login from "@/views/Login.vue";
 
 export default {
   name: "search",
+  components: {
+    Login,
+  },
   data() {
     return {
       books: [],
@@ -201,9 +210,13 @@ export default {
       inputSearch: "",
       searchTerm: "",
       loadingSearch: false,
+      visibleModal: false,
     };
   },
   methods: {
+    toggleLoginModal() {
+      this.visibleModal = !this.visibleModal;
+    },
     goToHome() {
       this.showModal = false;
       router.push("/");
@@ -224,14 +237,18 @@ export default {
     },
     alertWarning() {
       this.$swal({
-        scrollbarPadding: false,
-        confirmButtonColor: "#00af70",
-        allowOutsideClick: false,
-        width: "500",
-        text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
-        icon: "warning",
-        button: "OK",
-      });
+          scrollbarPadding: false,
+          confirmButtonColor: "#00af70",
+          allowOutsideClick: false,
+          width: "500",
+          text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
+          icon: "warning",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.value) {
+            this.toggleLoginModal();
+          }
+        });
     },
     alertSuccess() {
       this.$swal({
@@ -382,15 +399,19 @@ export default {
     },
     "$route.params.searchTerm"(newValue) {
       if (newValue) {
+        this.visibleModal = false;
         this.fetchApi();
       } else if (newValue === "") {
+        this.visibleModal = false;
         this.books = [];
       }
     },
   },
   mounted() {
+    this.visibleModal = false;
     this.fetchApi();
     if (this.isLogin) {
+      this.visibleModal = false;
       this.getMyBook();
     }
   },
