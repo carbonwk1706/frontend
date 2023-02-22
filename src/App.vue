@@ -15,15 +15,12 @@
       :cycle="3000"
       color="success"
     >
-    <v-carousel-item v-for="(group, index) in groups" :key="index">
-      <v-row>
-        <v-col v-for="(item, i) in group" :key="i" cols="4">
-          <v-card>
-            <v-img :src="item.image" aspect-ratio="1"></v-img>
-          </v-card>
-        </v-col>
-      </v-row>
-    </v-carousel-item>
+        <v-carousel-item
+      v-for="(item,i) in items"
+      :key="i"
+      :src="item.src"
+      cover
+    ></v-carousel-item>
     </v-carousel>
     <v-main
       :class="{
@@ -68,40 +65,16 @@ export default {
     return {
       items: [
         {
-          id: 1,
-          image: "https://picsum.photos/200/200?random=1",
+          src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
         },
         {
-          id: 2,
-          image: "https://picsum.photos/200/200?random=2",
+          src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg",
         },
         {
-          id: 3,
-          image: "https://picsum.photos/200/200?random=3",
+          src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg",
         },
         {
-          id: 4,
-          image: "https://picsum.photos/200/200?random=4",
-        },
-        {
-          id: 5,
-          image: "https://picsum.photos/200/200?random=5",
-        },
-        {
-          id: 6,
-          image: "https://picsum.photos/200/200?random=6",
-        },
-        {
-          id: 7,
-          image: "https://picsum.photos/200/200?random=7",
-        },
-        {
-          id: 8,
-          image: "https://picsum.photos/200/200?random=8",
-        },
-        {
-          id: 9,
-          image: "https://picsum.photos/200/200?random=9",
+          src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
         },
       ],
     };
@@ -144,15 +117,6 @@ export default {
     },
   },
   computed: {
-    groups() {
-      let groups = [];
-
-      for (let i = 0; i < this.items.length; i += 3) {
-        groups.push(this.items.slice(i, i + 3));
-      }
-
-      return groups;
-    },
     isLogin() {
       return this.$store.getters["auth/isLogin"];
     },
