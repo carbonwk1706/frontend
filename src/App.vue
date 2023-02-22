@@ -9,18 +9,19 @@
     />
     <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
     <v-carousel
+    class="mg-carousel"
       v-if="isRootRoute"
       hide-delimiter-background
       :show-arrows="false"
-      :cycle="3000"
       color="success"
+      style="height: 300;"
     >
         <v-carousel-item
       v-for="(item,i) in items"
       :key="i"
-      :src="item.src"
-      cover
-    ></v-carousel-item>
+    >
+    <v-img :src="item.src" cover height="300"></v-img>
+  </v-carousel-item>
     </v-carousel>
     <v-main
       :class="{
@@ -259,5 +260,8 @@ export default {
 }
 .padding-main-root {
   padding-top: 60px;
+}
+.mg-carousel{
+  margin-top: 164px;
 }
 </style>
