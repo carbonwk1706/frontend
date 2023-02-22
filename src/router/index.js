@@ -43,13 +43,13 @@ const routes = [
   {
     path: '/admin',
     name: 'admin',
-    component: () => import('../views/Admin.vue')
+    component: () => import('../views/Admin/Admin.vue')
   }
   ,
   {
     path: '/usertable',
     name: 'usertable',
-    component: () => import('../views/UserTable.vue')
+    component: () => import('../views/Admin/UserTable.vue')
   }
   ,
   {
@@ -111,12 +111,12 @@ const routes = [
   {
     path: '/admintable',
     name: 'admintable',
-    component: () => import('../views/AdminTable.vue')
+    component: () => import('../views/Admin/AdminTable.vue')
   },
   {
     path: '/usertable',
     name: 'usertable',
-    component: () => import('../views/UserTable.vue')
+    component: () => import('../views/Admin/UserTable.vue')
   },
   {
     path: '/approvetable',
@@ -137,7 +137,7 @@ const routes = [
   {
     path: '/usertable/:id',
     name: 'edituser',
-    component: () => import('../views/EditUserForm.vue'),
+    component: () => import('../views/Admin/EditUserForm.vue'),
     meta: {
       hideFooter: true
     }
@@ -151,7 +151,7 @@ const routes = [
   {
     path: '/admintable/:id',
     name: 'editadmin',
-    component: () => import('../views/EditAdminForm.vue')
+    component: () => import('../views/Admin/EditAdminForm.vue')
   },{
     path: '/historyadmin',
     name: 'historyadmin',
@@ -166,8 +166,7 @@ const routes = [
   ,{
     path: '/bookadmin',
     name: 'bookadmin',
-    component: () => import('../views/BookLocalAdmin.vue')
-
+    component: () => import('../views/Admin/Book/BookAdmin.vue')
   },
   {
     path: '/checkoutcoin',
@@ -187,6 +186,16 @@ const routes = [
       hideFooter: true,
       hideNavbar: true
     }
+  },
+  {
+    path: '/newbookadmin',
+    name: 'newbookadmin',
+    component: () => import('../views/Admin/Book/AddBook.vue')
+  },
+  {
+    path: '/bookadmin/:id',
+    name: 'editbookadmin',
+    component: () => import('../views/Admin/Book/EditBookForm.vue')
   }
 ]
 

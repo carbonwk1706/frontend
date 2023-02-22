@@ -1,35 +1,38 @@
 <template>
-  <v-card>
-    <v-form ref="form" v-model="valid" :lazy-validation="lazy">
-      <v-container>
-        <v-row>
-          <v-col>
-            <v-text-field
-              label="Name"
-              v-model="userItems.name"
-              :rules="nameRule"
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-text-field
-              label="Username"
-              v-model="userItems.username"
-              :rules="usernameRule"
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-text-field
-              label="Email"
-              v-model="userItems.email"
-              :rules="emailRule"
-            />
-          </v-col>
-        </v-row>
-        <!-- <v-row>
+  <v-container fluid>
+    <v-card>
+      <v-row>
+        <v-col cols="12" class="my-5">
+          <v-form ref="form" v-model="valid" :lazy-validation="lazy">
+            <v-container>
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    label="Name"
+                    v-model="userItems.name"
+                    :rules="nameRule"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    label="Username"
+                    v-model="userItems.username"
+                    :rules="usernameRule"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    label="Email"
+                    v-model="userItems.email"
+                    :rules="emailRule"
+                  />
+                </v-col>
+              </v-row>
+              <!-- <v-row>
           <v-col>
             <v-text-field
               label="Password"
@@ -38,29 +41,34 @@
             />
           </v-col>
         </v-row> -->
-        <v-row>
-          <v-col>
-            <v-select
-              label="Gender"
-              v-model="userItems.gender"
-              :items="genderItem"
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col class="text-center">
-            <v-btn color="success" rounded @click="showConfirmDialog = true"
-              >ยืนยัน</v-btn
-            >
-          </v-col>
-          <v-col class="text-center">
-            <v-btn color="Grey" rounded @click="submit">ยกเลิก</v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-form>
-  </v-card>
-
+              <v-row>
+                <v-col>
+                  <v-select
+                    label="Gender"
+                    v-model="userItems.gender"
+                    :items="genderItem"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col class="text-center">
+                  <v-btn
+                    color="success"
+                    rounded
+                    @click="showConfirmDialog = true"
+                    >ยืนยัน</v-btn
+                  >
+                </v-col>
+                <v-col class="text-center">
+                  <v-btn color="Grey" rounded @click="submit">ยกเลิก</v-btn>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
+        </v-col>
+      </v-row>
+    </v-card>
+  </v-container>
   <v-dialog
     v-model="showConfirmDialog"
     persistent
@@ -70,12 +78,14 @@
     :padding="20"
   >
     <v-card>
-      <v-card-title class="headline text-center ">ยืนยันการแก้ไข</v-card-title>
+      <v-card-title class="headline text-center">ยืนยันการแก้ไข</v-card-title>
       <v-card-text class="text-center"
         >ต้องการยืนยันการแก้ไขหรือไม่</v-card-text
       >
       <v-card-actions class="text-center">
-        <v-btn color="success" @click="changeDuplicate" class="mr-10">ยืนยัน</v-btn>
+        <v-btn color="success" @click="changeDuplicate" class="mr-10"
+          >ยืนยัน</v-btn
+        >
         <v-btn color="Grey" text @click="showConfirmDialog = false"
           >ยกเลิก</v-btn
         >
@@ -83,7 +93,7 @@
     </v-card>
   </v-dialog>
 </template>
-  <script>
+<script>
 import api from "@/services/api";
 
 export default {
@@ -92,7 +102,7 @@ export default {
     return {
       showConfirmDialog: false,
       valid: false,
-      form: { username: "", email: "", },
+      form: { username: "", email: "" },
       lazy: false,
       userItems: [],
 
@@ -142,7 +152,6 @@ export default {
             res.status === 200 &&
             res.data.message === "Username and Email already exists"
           ) {
-
             this.showAlert("Username and Email already exists");
           } else if (
             res.status === 200 &&
@@ -170,7 +179,6 @@ export default {
       this.status = !this.status;
       alert(this.status);
     },
-    alertvalidate() {},
     submit() {
       api.put("/users/" + this.$route.params.id, this.userItems).then(() => {
         this.$router.push("/usertable");
@@ -198,9 +206,8 @@ export default {
         button: "OK",
       });
     },
-    resetForm(){
-      this.formEdit.username = "",
-      this.formEdit.email= ""
+    resetForm() {
+      (this.formEdit.username = ""), (this.formEdit.email = "");
     },
     hideDialog() {
       this.resetForm();
@@ -221,7 +228,7 @@ export default {
 };
 </script>
 
-  <style scoped>
+<style scoped>
 .headerName {
   display: flex;
   justify-content: center;
