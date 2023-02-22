@@ -10,7 +10,7 @@
         </div>
       </div>
       <div>
-        <div class="ma-10">กรุณาเลือกช่องทางการเติม coin</div>
+        <div class="ma-10 font-text">กรุณาเลือกช่องทางการเติม Coin</div>
         <v-row row justify="space-around">
           <v-col
             xs="12"
@@ -21,32 +21,47 @@
             :key="item.listBankAccout"
           >
             <v-card
-              :style="{ width: '200px', height: '150px', margin: '10px' }"
               :class="{ highlight: item.isClicked }"
               @click="selectBank(item)"
+              class="mx-auto"
+              max-width="344"
             >
-              <v-card-text class="d-flex justify-center">
-                {{ item.name }}
-              </v-card-text>
+              <div class="d-flex justify-center">
+                <v-img :src="'http://localhost:3000/uploads/'+item.image" height="200px" width="200"></v-img>
+              </div>
+
+              <v-divider class="my-3 mx-3"></v-divider>
+              <v-card-text class="font-text2"> {{ item.name }} </v-card-text>
             </v-card>
           </v-col>
         </v-row>
       </div>
 
       <div v-if="firstDivClicked" class="pt-10">
-        <div class="ma-10">  
-          <span class="mr-2">กรุณาเลือกจำนวน coin ที่ต้องการเติมผ่าน</span>
-          <span style="font-size: 16px; color: #22d122" class="mr-2 font-text">"{{ selectedBankAccount }}"</span>
+        <div class="ma-10">
+          <span class="mr-2 font-text"
+            >กรุณาเลือกจำนวน Coin ที่ต้องการเติมผ่าน</span
+          >
+          <span style="color: #22d122" class="mr-2 font-text"
+            >"{{ selectedBankAccount }}"</span
+          >
         </div>
-        <v-row class="mx-0" justify="center">
+        <v-row class="d-flex align-center justify-center mx-0">
           <v-col cols="4" v-for="item in coin" :key="item.coin">
             <v-card
               :style="{ height: '200px', margin: '10px' }"
               :class="{ highlight: item.isClicked }"
               @click="selectCoin(item)"
             >
-              <v-card-text class="d-flex justify-center">
-                {{ item.coin }}
+              <v-card-text class="d-flex justify-center text-coin text-h3">
+                <span class="mr-3">{{ item.coin }}</span>
+                <span v-if="item.coin !== 'กำหนดเอง'"
+                  ><v-img
+                    src="https://www.pngall.com/wp-content/uploads/10/USD-Coin-Logo-PNG-File.png"
+                    height="50"
+                    width="50"
+                  ></v-img
+                ></span>
               </v-card-text>
             </v-card>
           </v-col>
@@ -111,34 +126,42 @@ export default {
       listBankAccout: [
         {
           name: "ธนาคารกรุงเทพ จำกัด (มหาชน)",
+          image: "bbl.png",
           isClicked: false,
         },
         {
           name: "ธนาคารกสิกร จำกัด (มหาชน)",
+          image: "kbank.png",
           isClicked: false,
         },
         {
           name: "ธนาคารไทยพาณิชย์ จำกัด (มหาชน)",
+          image: "scb.png",
           isClicked: false,
         },
         {
           name: "ธนาคารกรุงศรีอยุธยา จำกัด (มหาชน)",
+          image: "krungsri.png",
           isClicked: false,
         },
         {
           name: "ธนาคารกรุงไทย จำกัด (มหาชน)",
+          image: "ktb.png",
           isClicked: false,
         },
         {
           name: "ธนาคารทหารไทยธนชาต จำกัด (มหาชน)",
+          image: "ttb.png",
           isClicked: false,
         },
         {
           name: "ธนาคารยูโอบี จำกัด (มหาชน)",
+          image: "uob.png",
           isClicked: false,
         },
         {
           name: "ธนาคาร ซีไอเอ็มบี ไทย จำกัด (มหาชน)",
+          image: "cimb.png",
           isClicked: false,
         },
       ],
@@ -285,5 +308,22 @@ export default {
   padding: 5px;
   margin-bottom: 16px;
   max-width: 120px;
+}
+.text-coin {
+  font-size: 16px;
+  color: #f58b1b;
+  font-weight: bolder;
+  height: "200px";
+  margin: "10px";
+}
+.font-text {
+  font-size: 24px;
+  font-weight: bolder;
+  font-family: Prompt, sans-serif;
+}
+.font-text2 {
+  font-size: 16px;
+  font-weight: bolder;
+  font-family: Prompt, sans-serif;
 }
 </style>
