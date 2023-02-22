@@ -160,7 +160,7 @@ const routes = [
   {
     path: '/search/:searchTerm?',
     name: 'search',
-    component: () => import('../views/SearchBooks.vue')
+    component: () => import('../views/Sell/SearchBooks.vue')
 
   }
   ,{

@@ -84,6 +84,23 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-row v-else>
+      <v-col cols="12">
+        <div class="d-flex justify-center">
+          <img
+            src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
+            width="200"
+            height="200"
+          />
+        </div>
+        <div class="text-noBook text-center">
+          <p>ขออภัยด้วยนะครับ</p>
+        </div>
+        <div class="text-center mt-3">
+          <p class="text-muted">ไม่พบข้อมูลในหัวข้อที่คุณกำลังชมค่ะ</p>
+        </div>
+      </v-col>
+    </v-row>
 
     <v-row v-if="books.length > 0" class="mt-12">
       <v-col cols="12" class="pa-0 d-flex justify-center">
@@ -144,11 +161,20 @@
       </v-card>
     </v-dialog>
   </v-container>
+
+  <Login
+  :visibleModal="visibleModal"
+  @update:isVisible="visibleModal = $event"
+/>
 </template>
 <script>
 import router from "@/router";
 import api from "@/services/api";
+import Login from "@/views/Login.vue";
 export default {
+  components: {
+    Login,
+  },
   data() {
     return {
       books: [],
@@ -156,9 +182,13 @@ export default {
       showModal: false,
       page: 1,
       itemsPerPage: 40,
+      visibleModal: false,
     };
   },
   methods: {
+    toggleLoginModal() {
+      this.visibleModal = !this.visibleModal;
+    },
     goToHome() {
       this.showModal = false;
       router.push("/");
@@ -210,7 +240,11 @@ export default {
           width: "500",
           text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
           icon: "warning",
-          button: "OK",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.value) {
+            this.toggleLoginModal();
+          }
         });
       }
     },
@@ -257,22 +291,30 @@ export default {
     isLogin(newValue) {
       if (!newValue) {
         this.myBook = [];
+        this.visibleModal = false;
         this.fetchApi();
       } else {
+        this.visibleModal = false;
         this.fetchApi();
         this.getMyBook();
       }
     },
   },
   mounted() {
+    this.visibleModal = false;
     this.fetchApi();
     if (this.isLogin) {
+      this.visibleModal = false;
       this.getMyBook();
     }
   },
 };
 </script>
 <style scoped>
+.text-noBook {
+  font-size: 18px;
+  font-weight: bold;
+}
 .select-width {
   width: 200px;
 }

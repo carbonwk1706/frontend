@@ -115,7 +115,7 @@
               </v-col>
               <v-col v-if="!isLogin" cols="12">
                 <h3
-                  @click="goToLogin()"
+                  @click="toggleLoginModal()"
                   class="text-center text-login text-login-2"
                 >
                   คุณสามารถล็อกอินเพื่อแสดงความคิดเห็นได้จ้า
@@ -215,15 +215,24 @@
       </v-container>
     </v-card>
   </v-dialog>
+
+  <Login
+  :visibleModal="visibleModal"
+  @update:isVisible="visibleModal = $event"
+/>
 </template>
 
 <script>
 import api from "@/services/api";
 import router from "@/router";
+import Login from "@/views/Login.vue";
 import moment from "moment";
 
 export default {
   name: "BookDetail",
+  components: {
+    Login,
+  },
   data() {
     return {
       book: [],
@@ -238,9 +247,13 @@ export default {
       noRating: false,
       page: 1,
       itemsPerPage: 2,
+      visibleModal: false,
     };
   },
   methods: {
+    toggleLoginModal() {
+      this.visibleModal = !this.visibleModal;
+    },
     goToHome() {
       this.showModal = false;
       router.push("/");
@@ -293,7 +306,19 @@ export default {
           this.getCartList();
         }
       } else {
-        this.alertWarning("กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า");
+        this.$swal({
+          scrollbarPadding: false,
+          confirmButtonColor: "#00af70",
+          allowOutsideClick: false,
+          width: "500",
+          text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
+          icon: "warning",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.value) {
+            this.toggleLoginModal();
+          }
+        });
       }
     },
     async addWishlist(item) {
@@ -316,7 +341,19 @@ export default {
           console.log(error);
         }
       } else {
-        this.alertWarning("กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้ารายการโปรดด้วยจ้า");
+        this.$swal({
+          scrollbarPadding: false,
+          confirmButtonColor: "#00af70",
+          allowOutsideClick: false,
+          width: "500",
+          text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้ารายการโปรดด้วยจ้า",
+          icon: "warning",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.value) {
+            this.toggleLoginModal();
+          }
+        });
       }
     },
     getId() {
@@ -420,7 +457,9 @@ export default {
   mounted() {
     this.getBookDetail();
     this.getRatingBook();
+    this.visibleModal = false;
     if (this.isLogin) {
+      this.visibleModal = false;
       this.hasBook();
       this.checkRating();
       this.getProfile();

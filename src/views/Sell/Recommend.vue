@@ -1,97 +1,114 @@
 <template>
   <v-container fluid>
-      <v-row class="mb-1">
-        <v-col cols="6" class="text-start">
-          <div class="select-width">
-            <v-select
-              density="compact"
-              v-model="select"
-              :items="selectItem"
-              variant="outlined"
-            ></v-select>
-          </div>
-        </v-col>
-        <v-col v-if="books.length > 0" cols="6" class="pa-0 d-flex justify-end">
-          <v-pagination
-            class="text-pagination"
-            v-model="page"
-            :length="pages"
-            circle
-          ></v-pagination>
-        </v-col>
-      </v-row>
-      <v-divider class="mb-6"></v-divider>
-      <v-row v-if="books.length > 0">
-        <v-col
-          v-for="(item, index) in books.slice(
-            (page - 1) * itemsPerPage,
-            page * itemsPerPage
-          )"
-          :key="index"
-          class="mb-5"
-          md="3"
-          sm="4"
-          xs="6"
+    <v-row class="mb-1">
+      <v-col cols="6" class="text-start">
+        <div class="select-width">
+          <v-select
+            density="compact"
+            v-model="select"
+            :items="selectItem"
+            variant="outlined"
+          ></v-select>
+        </div>
+      </v-col>
+      <v-col v-if="books.length > 0" cols="6" class="pa-0 d-flex justify-end">
+        <v-pagination
+          class="text-pagination"
+          v-model="page"
+          :length="pages"
+          circle
+        ></v-pagination>
+      </v-col>
+    </v-row>
+    <v-divider class="mb-6"></v-divider>
+    <v-row v-if="books.length > 0">
+      <v-col
+        v-for="(item, index) in books.slice(
+          (page - 1) * itemsPerPage,
+          page * itemsPerPage
+        )"
+        :key="index"
+        class="mb-5"
+        md="3"
+        sm="4"
+        xs="6"
+      >
+        <v-card
+          max-width="200"
+          class="mx-auto cardHover"
+          @click="showDetail(item)"
         >
-          <v-card
-            max-width="200"
-            class="mx-auto cardHover"
-            @click="showDetail(item)"
+          <v-img :src="item.imageBook" height="280px" cover />
+          <v-card-title class="text-center pb-0" style="font-size: 15px">{{
+            item.name
+          }}</v-card-title>
+          <v-card-subtitle
+            class="text-center grey--text"
+            style="font-size: 12px"
           >
-            <v-img :src="item.imageBook" height="280px" cover />
-            <v-card-title class="text-center pb-0" style="font-size: 15px">{{
-              item.name
-            }}</v-card-title>
-            <v-card-subtitle
-              class="text-center grey--text"
-              style="font-size: 12px"
+            {{ item.author }} / {{ item.publisher }}
+          </v-card-subtitle>
+          <v-card-text class="text-center pb-0 pt-0" style="font-size: 13px">
+            <div style="display: inline-block; vertical-align: middle">
+              <v-rating
+                v-model="item.rating"
+                color="#5a5a5a"
+                active-color="#e83e8c"
+                empty-icon="mdi-cards-heart"
+                full-icon="mdi-cards-heart"
+                readonly
+                hover
+                size="16"
+              />
+            </div>
+            <span
+              class="ml-2 text-grey-lighten-1 text-caption"
+              style="display: inline-block; vertical-align: middle"
             >
-              {{ item.author }} / {{ item.publisher }}
-            </v-card-subtitle>
-            <v-card-text class="text-center pb-0 pt-0" style="font-size: 13px">
-              <div style="display: inline-block; vertical-align: middle">
-                <v-rating
-                  v-model="item.rating"
-                  color="#5a5a5a"
-                  active-color="#e83e8c"
-                  empty-icon="mdi-cards-heart"
-                  full-icon="mdi-cards-heart"
-                  readonly
-                  hover
-                  size="16"
-                />
-              </div>
-              <span
-                class="ml-2 text-grey-lighten-1 text-caption"
-                style="display: inline-block; vertical-align: middle"
-              >
-                ({{ item.ratingsCount }} Rating)
-              </span>
-            </v-card-text>
-            <v-card-actions class="justify-center">
-              <v-btn
-                v-if="!checkHaveBook(item)"
-                class="btn-color success"
-                @click.stop="addItem(item)"
-              >
-                ฿ {{ item.price }}
-              </v-btn>
-              <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
-            </v-card-actions>
-          </v-card>
-        </v-col>
-      </v-row>
+              ({{ item.ratingsCount }} Rating)
+            </span>
+          </v-card-text>
+          <v-card-actions class="justify-center">
+            <v-btn
+              v-if="!checkHaveBook(item)"
+              class="btn-color success"
+              @click.stop="addItem(item)"
+            >
+              ฿ {{ item.price }}
+            </v-btn>
+            <v-btn v-else disabled class="btn-color">มีแล้ว</v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+    <v-row v-else>
+      <v-col cols="12">
+        <div class="d-flex justify-center">
+          <img
+            src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
+            width="200"
+            height="200"
+          />
+        </div>
+        <div class="text-noBook text-center">
+          <p>ขออภัยด้วยนะครับ</p>
+        </div>
+        <div class="text-center mt-3">
+          <p class="text-muted">ไม่พบข้อมูลในหัวข้อที่คุณกำลังชมค่ะ</p>
+        </div>
+      </v-col>
+    </v-row>
 
-      <v-row v-if="books.length > 0" class="mt-12">
-        <v-col cols="12" class="pa-0 d-flex justify-center">
-          <v-pagination
-            class="text-pagination"
-            v-model="page"
-            :length="pages"
-            circle
-          ></v-pagination>
-        </v-col>
-      </v-row>
+    <v-row v-if="books.length > 0" class="mt-12">
+      <v-col cols="12" class="pa-0 d-flex justify-center">
+        <v-pagination
+          class="text-pagination"
+          v-model="page"
+          :length="pages"
+          circle
+        ></v-pagination>
+      </v-col>
+    </v-row>
 
     <v-dialog v-model="showModal" max-width="500px">
       <v-card max-width="400px" class="pa-4">
@@ -141,11 +158,20 @@
       </v-card>
     </v-dialog>
   </v-container>
+
+  <Login
+    :visibleModal="visibleModal"
+    @update:isVisible="visibleModal = $event"
+  />
 </template>
 <script>
 import router from "@/router";
 import api from "@/services/api";
+import Login from "@/views/Login.vue";
 export default {
+  components: {
+    Login,
+  },
   data() {
     return {
       books: [],
@@ -155,9 +181,13 @@ export default {
       itemsPerPage: 40,
       select: "แนะนำทั้งหมด",
       selectItem: ["แนะนำทั้งหมด", "แนะนำการ์ตูน", "แนะนำนิยาย"],
+      visibleModal: false,
     };
   },
   methods: {
+    toggleLoginModal() {
+      this.visibleModal = !this.visibleModal;
+    },
     goToHome() {
       this.showModal = false;
       router.push("/");
@@ -206,23 +236,42 @@ export default {
           width: "500",
           text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
           icon: "warning",
-          button: "OK",
+          confirmButtonText: "OK",
+        }).then((result) => {
+          if (result.value) {
+            this.toggleLoginModal();
+          }
         });
       }
     },
     fetchApi() {
       api.get("/recommended/").then((result) => {
         this.books = result.data;
+        if (this.books.length === 0) {
+          api.get("/newentry/").then((result) => {
+            this.books = result.data;
+          });
+        }
       });
     },
     fetchApiCartoon() {
       api.get("/recommended/cartoon").then((result) => {
         this.books = result.data;
+        if (this.books.length === 0) {
+          api.get("/newentry/cartoon").then((result) => {
+            this.books = result.data;
+          });
+        }
       });
     },
     fetchApiNovel() {
       api.get("/recommended/novel").then((result) => {
         this.books = result.data;
+        if (this.books.length === 0) {
+          api.get("/newentry/novel").then((result) => {
+            this.books = result.data;
+          });
+        }
       });
     },
     getId() {
@@ -263,8 +312,10 @@ export default {
     isLogin(newValue) {
       if (!newValue) {
         this.myBook = [];
+        this.visibleModal = false;
         this.fetchApi();
       } else {
+        this.visibleModal = false;
         this.fetchApi();
         this.getMyBook();
       }
@@ -272,24 +323,34 @@ export default {
     select(newValue) {
       if (newValue) {
         if (newValue === "แนะนำทั้งหมด") {
+          this.visibleModal = false;
           this.fetchApi();
         } else if (newValue === "แนะนำการ์ตูน") {
+          this.visibleModal = false;
           this.fetchApiCartoon();
         } else if (newValue === "แนะนำนิยาย") {
+          this.visibleModal = false;
           this.fetchApiNovel();
         }
       }
     },
   },
   mounted() {
+    this.visibleModal = false;
     this.fetchApi();
     if (this.isLogin) {
+      this.visibleModal = false;
       this.getMyBook();
     }
   },
 };
 </script>
 <style scoped>
+.text-noBook {
+  font-size: 18px;
+  font-weight: bold;
+}
+
 .select-width {
   width: 200px;
 }

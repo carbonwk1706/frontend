@@ -8,7 +8,27 @@
       "
     />
     <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
-    <v-main :class="{ 'padding-main': !showNavbarCoin && !showNavCoinDetail }">
+    <v-carousel
+    class="mg-carousel"
+      v-if="isRootRoute"
+      hide-delimiter-background
+      :show-arrows="false"
+      color="success"
+      style="height: 300;"
+    >
+        <v-carousel-item
+      v-for="(item,i) in items"
+      :key="i"
+    >
+    <v-img :src="item.src" cover height="300"></v-img>
+  </v-carousel-item>
+    </v-carousel>
+    <v-main
+      :class="{
+        'padding-main': !showNavbarCoin && !showNavCoinDetail,
+        'padding-main-root': isRootRoute,
+      }"
+    >
       <v-container class="container-size">
         <router-view />
       </v-container>
@@ -41,6 +61,24 @@ export default {
 
   created() {
     window.addEventListener("storage", this.handleStorageChange);
+  },
+  data() {
+    return {
+      items: [
+        {
+          src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
+        },
+        {
+          src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg",
+        },
+        {
+          src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg",
+        },
+        {
+          src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
+        },
+      ],
+    };
   },
   methods: {
     handleStorageChange(event) {
@@ -204,6 +242,9 @@ export default {
       }
       return false;
     },
+    isRootRoute() {
+      return this.$route.path === "/";
+    },
   },
 };
 </script>
@@ -216,5 +257,11 @@ export default {
 }
 .padding-main {
   padding-top: 164px;
+}
+.padding-main-root {
+  padding-top: 60px;
+}
+.mg-carousel{
+  margin-top: 164px;
 }
 </style>
