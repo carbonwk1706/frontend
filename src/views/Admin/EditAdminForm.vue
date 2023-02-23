@@ -1,66 +1,74 @@
 <template>
-  <v-card>
-    <v-form ref="form" v-model="valid" :lazy-validation="lazy">
-      <v-container>
-        <v-row>
-          <v-col>
-            <v-text-field
-              label="Name"
-              v-model="userItems.name"
-              :rules="nameRule"
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-text-field
-              label="Username"
-              v-model="userItems.username"
-              :rules="usernameRule"
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col>
-            <v-text-field
-              label="Email"
-              v-model="userItems.email"
-              :rules="emailRule"
-            />
-          </v-col>
-        </v-row>
-        <!-- <v-row>
+  <v-container fluid>
+    <v-card>
+      <v-row>
+        <v-col cols="12" class="my-5">
+          <v-form ref="form" v-model="valid" :lazy-validation="lazy">
+            <v-container>
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    label="Name"
+                    v-model="user.name"
+                    :rules="nameRule"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    label="Username"
+                    v-model="user.username"
+                    :rules="usernameRule"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col>
+                  <v-text-field
+                    label="Email"
+                    v-model="user.email"
+                    :rules="emailRule"
+                  />
+                </v-col>
+              </v-row>
+              <!-- <v-row>
           <v-col>
             <v-text-field
               label="Password"
-              v-model="userItems.password"
+              v-model="user.password"
               :rules="[(v) => !!v || 'Password is required']"
             />
           </v-col>
         </v-row> -->
-        <v-row>
-          <v-col>
-            <v-select
-              label="Gender"
-              v-model="userItems.gender"
-              :items="genderItem"
-            />
-          </v-col>
-        </v-row>
-        <v-row>
-          <v-col class="text-center">
-            <v-btn color="success" rounded @click="showConfirmDialog = true"
-              >ยืนยัน</v-btn
-            >
-          </v-col>
-          <v-col class="text-center">
-            <v-btn color="Grey" rounded @click="back">ยกเลิก</v-btn>
-          </v-col>
-        </v-row>
-      </v-container>
-    </v-form>
-  </v-card>
-
+              <v-row>
+                <v-col>
+                  <v-select
+                    label="Gender"
+                    v-model="user.gender"
+                    :items="genderItem"
+                  />
+                </v-col>
+              </v-row>
+              <v-row>
+                <v-col class="text-center">
+                  <v-btn
+                    color="success"
+                    rounded
+                    @click="showConfirmDialog = true"
+                    >ยืนยัน</v-btn
+                  >
+                </v-col>
+                <v-col class="text-center">
+                  <v-btn color="Grey" rounded @click="submit">ยกเลิก</v-btn>
+                </v-col>
+              </v-row>
+            </v-container>
+          </v-form>
+        </v-col>
+      </v-row>
+    </v-card>
+  </v-container>
   <v-dialog
     v-model="showConfirmDialog"
     persistent
@@ -75,7 +83,9 @@
         >ต้องการยืนยันการแก้ไขหรือไม่</v-card-text
       >
       <v-card-actions class="text-center">
-        <v-btn color="success" @click="changeDuplicate" class="mr-10">ยืนยัน</v-btn>
+        <v-btn color="success" @click="checkDuplicate" class="mr-10"
+          >ยืนยัน</v-btn
+        >
         <v-btn color="Grey" text @click="showConfirmDialog = false"
           >ยกเลิก</v-btn
         >
@@ -83,7 +93,7 @@
     </v-card>
   </v-dialog>
 </template>
-  <script>
+<script>
 import api from "@/services/api";
 
 export default {
@@ -92,10 +102,11 @@ export default {
     return {
       showConfirmDialog: false,
       valid: false,
-      form: { username: "", email: "", },
       lazy: false,
-      userItems: [],
-
+      user: [],
+      currentUsername: "",
+      currentEmail: "",
+      genderItem: ["Not specified", "Male", "Female"],
       usernameRule: [
         (v) => !!v || "กรุณากรอก username",
         (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
@@ -116,7 +127,6 @@ export default {
           (v && v.length >= 4 && v.length <= 32) ||
           "ระบุอย่างน้อย 4 ตัวอักษร และน้อยกว่า 15 ตัวอักษร",
       ],
-      genderItem: ["Male", "Female", "Other"],
       emailRule: [
         (v) => !!v || "กรุณากรอก Email",
         (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
@@ -125,44 +135,84 @@ export default {
     };
   },
   methods: {
-    async changeDuplicate() {
+    async checkDuplicate() {
       const { valid } = await this.$refs.form.validate();
       if (!valid) {
         this.showAlert("กรุณากรอกข้อมูลให้ถูกต้อง");
       } else {
-        try {
-          const res = await api.post(
-            "/checkDuplicateUser/" + this.$route.params.id,
-            {
-              username: this.userItems.username,
-              email: this.userItems.email,
-            }
-          );
-          if (
-            res.status === 200 &&
-            res.data.message === "Username and Email already exists"
-          ) {
-
-            this.showAlert("Username and Email already exists");
-          } else if (
-            res.status === 200 &&
-            res.data.message === "Username already exists"
-          ) {
-            this.showAlert("Username already exists");
-          } else if (
-            res.status === 200 &&
-            res.data.message === "Email already exists"
-          ) {
-            this.showAlert("Email already exists");
-          } else if (
-            res.status === 201 &&
-            res.data.message === "Username and Email already"
-          ) {
-            this.showAlertSucsess("แก้ไขสำเร็จ");
+        if (
+          this.user.username === this.currentUsername &&
+          this.user.email === this.currentEmail
+        ) {
+          try {
             this.submit();
+          } catch (error) {
+            console.log(error);
           }
-        } catch (error) {
-          console.log("ERROR");
+        } else {
+          if (
+            this.user.username !== this.currentUsername &&
+            this.user.email !== this.currentEmail
+          ) {
+            try {
+              const res = await api.post("/checkDuplicateUser/", {
+                username: this.user.username,
+                email: this.user.email,
+              });
+              console.log(res);
+              if (
+                res.status === 200 &&
+                res.data.message === "Username and Email already exist"
+              ) {
+                this.showAlert("Username and Email already exists");
+              }else{
+                this.submit()
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          } else if (
+            this.user.username === this.currentUsername &&
+            this.user.email !== this.currentEmail
+          ) {
+            try {
+              const res = await api.post("/checkDuplicateUser/", {
+                email: this.user.email,
+              });
+              console.log(res);
+              if (
+                res.status === 200 &&
+                res.data.message === "Email already exists"
+              ) {
+                this.showAlert("Email already exists");
+              }else{
+                this.submit()
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          }
+          else if (
+            this.user.username !== this.currentUsername &&
+            this.user.email === this.currentEmail
+          ) {
+            try {
+              const res = await api.post("/checkDuplicateUser/", {
+                username: this.user.username,
+              });
+              console.log(res);
+              if (
+                res.status === 200 &&
+                res.data.message === "Username already exists"
+              ) {
+                this.showAlert("Username already exists");
+              }else{
+                this.submit()
+              }
+            } catch (error) {
+              console.log(error);
+            }
+          }
         }
       }
     },
@@ -170,10 +220,9 @@ export default {
       this.status = !this.status;
       alert(this.status);
     },
-    alertvalidate() {},
     submit() {
-      api.put("/users/" + this.$route.params.id, this.userItems).then(() => {
-        this.$router.push("/usertable");
+      api.put("/users/" + this.$route.params.id, this.user).then(() => {
+        this.$router.push("/admintable");
       });
     },
     showAlert(text) {
@@ -198,9 +247,8 @@ export default {
         button: "OK",
       });
     },
-    resetForm(){
-      this.formEdit.username = "",
-      this.formEdit.email= ""
+    resetForm() {
+      (this.formEdit.username = ""), (this.formEdit.email = "");
     },
     hideDialog() {
       this.resetForm();
@@ -208,15 +256,16 @@ export default {
     },
     resetFormApi() {
       this.fetchApi();
-
     },
-    back(){
-      this.$router.push("/usertable");
-    },
-    fetchApi() {
-      api.get("/users/" + this.$route.params.id).then((result) => {
-        this.userItems = result.data;
-      });
+    async fetchApi() {
+      try {
+        const result = await api.get("/users/" + this.$route.params.id);
+        this.user = result.data;
+        this.currentUsername = this.user.username;
+        this.currentEmail = this.user.email;
+      } catch (error) {
+        console.log(error);
+      }
     },
   },
   mounted() {
@@ -225,7 +274,7 @@ export default {
 };
 </script>
 
-  <style scoped>
+<style scoped>
 .headerName {
   display: flex;
   justify-content: center;

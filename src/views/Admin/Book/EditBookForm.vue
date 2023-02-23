@@ -3,7 +3,7 @@
     <v-card>
       <v-row>
         <v-col cols="12" class="my-5">
-          <v-form>
+          <v-form ref="form" v-model="valid" :lazy-validation="lazy">
             <v-container>
               <v-row>
                 <v-col>
@@ -91,7 +91,7 @@
         >ต้องการยืนยันการแก้ไขหรือไม่</v-card-text
       >
       <v-card-actions class="text-center">
-        <v-btn color="success" @click="submit()" class="mr-10"
+        <v-btn color="success" @click="changeDuplicate()" class="mr-10"
           >ยืนยัน</v-btn
         >
         <v-btn color="Grey" text @click="showConfirmDialog = false"
@@ -110,26 +110,69 @@ export default {
   data() {
     return {
       bookList: [],
-      showConfirmDialog: false,
-      nameRule: [(v) => !!v || "กรุณากรอกชื่อหนังสือ"],
-      authorRule: [(v) => !!v || "กรุณากรอกชื่อผู้แต่ง"],
-      publisherRule: [(v) => !!v || "กรุณากรอกชื่อสำนักพิมพ์"],
+      valid: false,
+      lazy: false,
+      namecurrent:"",
       categoryItem: ["การ์ตูนทั่วไป", "นิยาย"],
+      showConfirmDialog: false,
+      nameRule: [(v) => !!v || "กรุณากรอกชื่อหนังสือ",(v) =>
+      /^\S/.test(v) ||
+          "ห้ามเว้นวรรคข้างหน้า"],
+      authorRule: [(v) => !!v || "กรุณากรอกชื่อผู้แต่ง", (v) =>
+      /^\S/.test(v) ||
+          "ห้ามเว้นวรรคข้างหน้า"],
+      publisherRule: [(v) => !!v || "กรุณากรอกชื่อสำนักพิมพ์",(v) =>
+      /^\S/.test(v) ||
+          "ห้ามเว้นวรรคข้างหน้า"],
     };
   },
   methods: {
-    async changeDuplicate() {},
-
+    async changeDuplicate() {
+      const { valid } = await this.$refs.form.validate();
+      if (!valid) {
+        this.showAlert("กรุณากรอกข้อมูลให้ถูกต้อง");
+      } else{
+        if(this.bookList.name === this.namecurrent){
+          this.submit()
+        }else{
+          try{
+              const res = await api.post("/checkDuplicateBook/",
+              {
+                name:this.bookList.name
+              });
+              console.log(res)
+              if(res.status === 201 && res.data.message === "BookName already exist"){
+                this.showAlert("ชื่อหนังนี้ถูกใช้งานไปแล้ว");
+              }else{
+                this.submit()
+              }
+          }catch(error){
+            console.log(error);
+          }
+        }
+      }
+    },
     async fetchApi() {
       const res = await api.get("/books/" + this.$route.params.id);
       this.bookList = res.data;
-      console.log(this.bookList);
+      this.namecurrent =this.bookList.name
     },
     submit() {
       api.put("/books/" + this.$route.params.id, this.bookList).then(() => {
         this.$router.push("/bookadmin");
       });
-    }
+    },
+    showAlert(text) {
+      this.showConfirmDialog = false;
+      this.$swal({
+        confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
+        width: "500",
+        text: text,
+        icon: "warning",
+        button: "OK",
+      });
+    },
   },
   mounted() {
     this.fetchApi();
