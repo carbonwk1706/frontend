@@ -13,10 +13,7 @@
         <div class="ma-10 font-text">กรุณาเลือกช่องทางการเติม Coin</div>
         <v-row row justify="space-around">
           <v-col
-            xs="12"
-            sm="6"
-            md="4"
-            lg="3"
+            cols="3"
             v-for="item in listBankAccout"
             :key="item.listBankAccout"
           >
@@ -27,7 +24,11 @@
               max-width="344"
             >
               <div class="d-flex justify-center">
-                <v-img :src="'http://localhost:3000/uploads/'+item.image" height="200px" width="200"></v-img>
+                <v-img
+                  :src="'http://localhost:3000/uploads/' + item.image"
+                  height="200px"
+                  width="200"
+                ></v-img>
               </div>
 
               <v-divider class="my-3 mx-3"></v-divider>
@@ -46,11 +47,12 @@
             >"{{ selectedBankAccount }}"</span
           >
         </div>
-        <v-row class="d-flex align-center justify-center mx-0">
+        <v-row class="d-flex align-center justify-center mx-0" fixed dense>
           <v-col cols="4" v-for="item in coin" :key="item.coin">
             <v-card
-              :style="{ height: '200px', margin: '10px' }"
+              :style="{ 'max-height': '200px', width: '344', margin: '10px' }"
               :class="{ highlight: item.isClicked }"
+              อ
               @click="selectCoin(item)"
             >
               <v-card-text class="d-flex justify-center text-coin text-h3">
@@ -247,6 +249,9 @@ export default {
     toggleShowModalConfirm() {
       this.showConfirm = !this.showConfirm;
     },
+    handleResize() {
+      this.screenWidth = window.innerWidth;
+    },
   },
   computed: {
     isLogin() {
@@ -254,6 +259,8 @@ export default {
     },
   },
   mounted() {
+    this.screenWidth = window.innerWidth;
+    window.addEventListener("resize", this.handleResize);
     if (this.isLogin) {
       this.fetchApi();
     }

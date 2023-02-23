@@ -11,7 +11,7 @@
       <template v-slot:activator="{ props }">
         <v-btn v-bind="props">
           <v-icon class="mr-2">mdi-account</v-icon>
-          <span class="font-text"> {{ user._id }}</span>
+          <span class="font-text hide-on-mobile"> {{ user._id }}</span>
           <v-icon>mdi-menu-down</v-icon>
         </v-btn>
       </template>
@@ -196,4 +196,9 @@ export default {
   justify-content: center;
   align-items: center;
 }
+  @media (max-width: 600px) {
+    .hide-on-mobile {
+      display: none;
+    }
+  }
 </style>
