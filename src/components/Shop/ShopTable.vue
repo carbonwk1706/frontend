@@ -1,7 +1,50 @@
 <template>
   <v-container fluid>
+    <div v-if="!isLogin" id="menu">
+      <v-row>
+        <v-col lg="4" md="4" sm="12"  class="mb-4">
+          <v-card @click="toggleModalRegister" class="mx-auto bg-card" max-width="300">
+            <v-container>
+              <div class="text-card-center">
+                <v-icon class="mr-3">mdi-account-plus</v-icon>
+                <h3>สมัครอ่านหนังสือ</h3>
+              </div>
+              <div class="text-card-center">
+                <p>ง่ายสุด เยอะสุด สนุกสุด</p>
+              </div>
+            </v-container>
+          </v-card>
+        </v-col>
+        <v-col lg="4" md="4" sm="12" class="mb-4">
+          <v-card @click="goToAllBooks" class="mx-auto bg-card" max-width="300">
+            <v-container>
+              <div class="text-card-center">
+                <v-icon class="mr-3">mdi-book-open-blank-variant</v-icon>
+                <h3>ดูหนังสือทั้งหมด</h3>
+              </div>
+              <div class="text-card-center">
+                <p>เลือกดูหนังสือทุกเล่มที่วางขาย</p>
+              </div>
+            </v-container>
+          </v-card>
+        </v-col>
+        <v-col lg="4" md="4" sm="12" class="mb-4">
+          <v-card @click="goToRecommend" class="mx-auto bg-card" max-width="300">
+            <v-container>
+              <div class="text-card-center">
+                <v-icon class="mr-3">mdi-thumb-up</v-icon>
+                <h3>หนังสือแนะนำ</h3>
+              </div>
+              <div class="text-card-center">
+                <p>เลือกดูหนังสือที่น่าสนใจ</p>
+              </div>
+            </v-container>
+          </v-card>
+        </v-col>
+      </v-row>
+    </div>
 
-    <div id="newentry">
+    <div class="mt-10" id="newentry">
       <div v-if="newentry7d.length > 0" id="newentry_7d">
         <v-row class="mb-1">
           <v-col class="text-start">
@@ -241,13 +284,13 @@
     </div>
 
     <div v-if="reviews.length > 0" id="all_review">
-      <v-row  class="mb-1">
+      <v-row class="mb-1">
         <v-col class="text-start">
           <h2 class="display-1 font-weight-bold">รีวิว</h2>
         </v-col>
         <v-col class="text-end mt-3">
           <h4
-          v-if="reviews.length >= 3"
+            v-if="reviews.length >= 3"
             class="display-1 text-go"
             @click="goToNewEntry"
           >
@@ -267,7 +310,10 @@
         >
           <v-card max-width="340" class="mx-auto bg-review-card" height="300">
             <div
-              v-for="(review,index) in book.reviews.slice().reverse().splice(0, 1)"
+              v-for="(review, index) in book.reviews
+                .slice()
+                .reverse()
+                .splice(0, 1)"
               :key="index"
             >
               <v-card>
@@ -307,7 +353,6 @@
         </v-col>
       </v-row>
     </div>
-
 
     <div v-if="halloffame.length > 0" id="halloffame">
       <v-row class="mb-1">
@@ -384,7 +429,6 @@
       </v-row>
     </div>
 
- 
     <div v-if="recommend7d.length > 0 || recommend.length > 0" id="recommend">
       <div v-if="recommend7d.length > 0" id="recommend_7d">
         <v-row class="mb-1">
@@ -746,20 +790,28 @@
   </v-container>
 
   <Login
-  :visibleModal="visibleModal"
-  @update:isVisible="visibleModal = $event"
+    :visibleModal="visibleModal"
+    @update:isVisible="visibleModal = $event"
+  />
+
+  <Register
+  :registerModal="registerModal"
+  @update:isVisible="registerModal = $event"
 />
+
 </template>
 
 <script>
 import router from "@/router";
 import api from "@/services/api";
 import Login from "@/views/Login.vue";
+import Register from "@/views/Register.vue";
 
 export default {
   name: "ShopTable",
-  components:{
-    Login
+  components: {
+    Login,
+    Register,
   },
   data() {
     return {
@@ -774,11 +826,15 @@ export default {
       showModal: false,
       screenWidth: 0,
       visibleModal: false,
+      registerModal: false,
     };
   },
   methods: {
     toggleLoginModal() {
       this.visibleModal = !this.visibleModal;
+    },
+    toggleModalRegister() {
+      this.registerModal = !this.registerModal;
     },
     goToHome() {
       this.showModal = false;
@@ -804,6 +860,9 @@ export default {
     goToHalloffame() {
       router.push("/halloffame");
     },
+    goToAllBooks(){
+      router.push("/books/all")
+    },
     hideModal() {
       this.showModal = !this.showModal;
     },
@@ -821,7 +880,7 @@ export default {
         confirmButtonText: "OK",
       }).then((result) => {
         if (result.value) {
-          this.toggleLoginModal()
+          this.toggleLoginModal();
         }
       });
     },
@@ -855,8 +914,8 @@ export default {
       }
     },
     async getAllReview() {
-      const res = await api.get("/allreview/books/reviews/")
-        this.reviews = res.data;
+      const res = await api.get("/allreview/books/reviews/");
+      this.reviews = res.data;
     },
     getNewEntry7D() {
       api.get("/newentry/new/").then((result) => {
@@ -915,7 +974,7 @@ export default {
       };
     },
     filteredReviews() {
-      return this.reviews.slice(0,3)
+      return this.reviews.slice(0, 3);
     },
     filteredNewEntry() {
       if (this.screenWidth > 960) {
@@ -1036,6 +1095,14 @@ export default {
 </script>
 
 <style scoped>
+.bg-card{
+  background-image: linear-gradient(#00af70, #37c13d);
+  color: #ffff;
+  cursor: pointer;
+}
+.bg-card:hover{
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
+}
 .text-go {
   cursor: pointer;
   color: #00af70;
@@ -1050,6 +1117,10 @@ export default {
 .cardHover:hover {
   border: 1px solid #00af70;
   cursor: pointer;
+}
+.text-card-center {
+  display: flex;
+  justify-content: center;
 }
 .position-absolute {
   position: absolute;

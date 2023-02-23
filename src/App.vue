@@ -150,6 +150,7 @@ export default {
             "/approvetable",
             "/historyadmin",
             "/orderhistory",
+            "/bookadmin"
           ].includes(this.$route.path);
         } else {
           return ![
