@@ -119,12 +119,17 @@ export default {
     showDetail(id) {
       this.$router.push(`/requestcoin/${id}`);
     },
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
+    },
     formatTime(item) {
       return moment(item).format("MM/DD/YYYY, h:mm:ss a");
     },
     async approveRequest(id) {
       try {
-          await api.patch(`/requestcoin/${id}/approve`);
+          await api.patch(`/requestcoin/${id}/approve`,{
+            adminId: this.getId()
+          });
           this.showAlert()
         } catch (error) {
           console.log(error);
@@ -134,7 +139,9 @@ export default {
     },
     async rejectsRequest(id) {
       try {
-        await api.patch(`/requestcoin/${id}/reject`);
+        await api.patch(`/requestcoin/${id}/reject`, {
+          adminId: this.getId()
+        });
         this.showAlertCancel()
       } catch (error) {
         console.log(error);
