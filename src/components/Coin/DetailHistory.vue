@@ -24,6 +24,18 @@
           <span>{{ formatTime(detail.createAt) }}</span>
         </v-col>
       </v-row>
+      <v-row v-if="detail.status !== 'pending'">
+        <v-col cols="12">
+          <div v-if="detail.approvedAt">
+            <span>วันเวลาที่อนุมัติ : </span>
+            <span>{{ formatTime(detail.approvedAt) }}</span>
+          </div>
+          <div v-else-if="detail.rejectedAt">
+            <span>วันเวลาที่ปฏิเสธ : </span>
+            <span>{{ formatTime(detail.rejectedAt) }}</span>
+          </div>
+        </v-col>
+      </v-row>
       <v-row>
         <v-col cols="12">
           <span>ผู้ใช้งาน : </span>
