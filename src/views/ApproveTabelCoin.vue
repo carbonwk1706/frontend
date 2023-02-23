@@ -124,7 +124,7 @@ export default {
     },
     async approveRequest(id) {
       try {
-          await api.patch(`/request/${id}/approve`);
+          await api.patch(`/requestcoin/${id}/approve`);
           this.showAlert()
         } catch (error) {
           console.log(error);
@@ -134,7 +134,7 @@ export default {
     },
     async rejectsRequest(id) {
       try {
-        await api.patch(`/request/${id}/reject`);
+        await api.patch(`/requestcoin/${id}/reject`);
         this.showAlertCancel()
       } catch (error) {
         console.log(error);
