@@ -196,6 +196,16 @@ const routes = [
     path: '/bookadmin/:id',
     name: 'editbookadmin',
     component: () => import('../views/Admin/Book/EditBookForm.vue')
+  },
+  {
+    path: '/approvetable/coin',
+    name: 'approvetablecoin',
+    component: () => import('../views/ApproveTabelCoin.vue')
+  },
+  {
+    path: '/requestcoin/:id',
+    name: 'requestcoindetail',
+    component: () => import('../views/DeatailRequsetCoin.vue')
   }
 ]
 
