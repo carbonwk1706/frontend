@@ -1,7 +1,7 @@
 <template>
   <Auth v-if="isLogin">
     <div class="mb-5 pt-15">
-      <span class="menu-link" @click="goToProfile">จัดการบัญชี</span>
+      <span class="menu-link" @click="goToCoin">เติม Coin</span>
       <v-icon>mdi-chevron-right</v-icon>
       <span class="menu-link-current">ประวัติการเติม Coin ของฉัน</span>
     </div>
@@ -91,8 +91,8 @@ export default {
     };
   },
   methods: {
-    goToProfile() {
-      router.push("/profile");
+    goToCoin() {
+      router.push("/coin");
     },
     getId() {
       return this.$store.getters["auth/getId"];

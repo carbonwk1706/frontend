@@ -11,7 +11,7 @@
       <template v-slot:activator="{ props }">
         <v-btn v-bind="props">
           <v-icon class="mr-2">mdi-account</v-icon>
-          <span class="font-text"> {{ user._id }}</span>
+          <span class="font-text hide-on-mobile"> {{ user._id }}</span>
           <v-icon>mdi-menu-down</v-icon>
         </v-btn>
       </template>
@@ -26,74 +26,21 @@
               <p style="color: #5a5a5a" class="mt-1 text-upper font-text">
                 ID-{{ user._id }}
               </p>
-              <div class="d-flex flex justify-end mt-2">
-                <v-btn
-                  class="rounded-pill px-4 py-0"
-                  variant="outlined"
-                  color="error"
-                  @click="logout"
-                >
-                  <span class="font-text" style="font-size: 12px"
-                    >ออกจากระบบ</span
+            </v-col>
+          </v-row>
+          <v-divider class="my-1"></v-divider>
+          <v-row>
+            <v-col cols="px-0">
+              <div class="float-left">
+                <v-btn rounded variant="text" @click="goToAddCoin">
+                  <span class="font-text" style="color: #5a5a5a"
+                    >เติม Coin</span
                   >
                 </v-btn>
               </div>
             </v-col>
           </v-row>
           <v-divider class="my-1"></v-divider>
-          <v-row>
-            <v-col cols="9">
-              <div class="px-3 py-2">
-                <span style="font-size: 14px" class="mr-2 font-text"
-                  >COIN
-                </span>
-                <span
-                  style="font-size: 16px; color: #f58b1b"
-                  class="mr-2 font-text"
-                  >{{ user.coin }}</span
-                >
-                <span style="font-size: 14px" class="font-text">เหรียญ</span>
-              </div>
-            </v-col>
-            <v-col cols="3">
-              <div class="float-right">
-                <v-btn rounded variant="text" @click="goToAddCoin">
-                  <span class="font-text" style="color: #5a5a5a">เติม Coin</span>
-                </v-btn>
-              </div></v-col
-            >
-          </v-row>
-          <v-divider class="my-1"></v-divider>
-          <v-col class="px-0">
-            <v-btn
-              style="color: #5a5a5a"
-              rounded
-              variant="text"
-              @click="goToWishlist"
-            >
-              <span class="font-text">รายการที่อยากได้ </span>
-            </v-btn>
-          </v-col>
-          <v-col class="px-0">
-            <v-btn
-              style="color: #5a5a5a"
-              rounded
-              variant="text"
-              @click="goToMyBook"
-            >
-              <span class="font-text">ชั้นหนังสือของฉัน</span>
-            </v-btn>
-          </v-col>
-          <v-col class="px-0">
-            <v-btn
-              style="color: #5a5a5a"
-              rounded
-              variant="text"
-              @click="goToBuyHistory"
-            >
-              <span class="font-text">ประวัติการสั่งซื้อของฉัน</span>
-            </v-btn>
-          </v-col>
           <v-col class="px-0">
             <v-btn
               style="color: #5a5a5a"
@@ -122,18 +69,9 @@
               style="color: #5a5a5a"
               rounded
               variant="text"
-              @click="goToRegisterSell"
+              @click="logout"
             >
-              <span class="font-text">สมัครขายอีบุ๊ค</span>
-            </v-btn>
-            <v-btn
-              v-if="hasSellRole"
-              style="color: #5a5a5a"
-              rounded
-              variant="text"
-              @click="goToMyShop"
-            >
-              <span class="font-text">ร้านค้าของฉัน</span>
+              <span class="font-text">ออกจากระบบ</span>
             </v-btn>
           </v-col>
         </v-card-text>
@@ -155,7 +93,7 @@
           :size="50"
           :width="5"
           indeterminate
-          color="#f58b1b"
+          color="#00af70"
         ></v-progress-circular>
       </div>
       <v-card-text class="text-center">กำลังออกจากระบบ</v-card-text>
@@ -237,7 +175,7 @@ export default {
 
 <style scoped>
 .app_bar {
-  background-color: #f58b1b;
+  background-color: #00af70;
   color: #ffff;
 }
 
@@ -258,4 +196,9 @@ export default {
   justify-content: center;
   align-items: center;
 }
+  @media (max-width: 600px) {
+    .hide-on-mobile {
+      display: none;
+    }
+  }
 </style>

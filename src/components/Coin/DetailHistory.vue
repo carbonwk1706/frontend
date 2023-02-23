@@ -1,8 +1,10 @@
 <template>
   <div class="mb-6 pt-16">
-    <span class="menu-link" @click="goToProfile">จัดการบัญชี</span>
+    <span class="menu-link" @click="goToCoin">เติม Coin</span>
     <v-icon>mdi-chevron-right</v-icon>
-    <span class="menu-link" @click="goToCoinHistory">ประวัติการเติม Coin ของฉัน</span>
+    <span class="menu-link" @click="goToCoinHistory"
+      >ประวัติการเติม Coin ของฉัน</span
+    >
     <v-icon>mdi-chevron-right</v-icon>
     <span class="menu-link-current">รายละเอียดการเติม Coin</span>
   </div>
@@ -22,24 +24,42 @@
           <span>{{ formatTime(detail.createAt) }}</span>
         </v-col>
       </v-row>
-      <v-row>
+      <v-row v-if="detail.status !== 'pending'">
         <v-col cols="12">
-          <span>ราคารวม : </span>
-          <span> {{ detail.totalCost }} บาท</span>
+          <div v-if="detail.approvedAt">
+            <span>วันเวลาที่อนุมัติ : </span>
+            <span>{{ formatTime(detail.approvedAt) }}</span>
+          </div>
+          <div v-else-if="detail.rejectedAt">
+            <span>วันเวลาที่ปฏิเสธ : </span>
+            <span>{{ formatTime(detail.rejectedAt) }}</span>
+          </div>
         </v-col>
       </v-row>
       <v-row>
         <v-col cols="12">
-          <span>จำนวนสินค้า : </span>
-          <span> {{ detail.count }} เล่ม</span>
+          <span>ผู้ใช้งาน : </span>
+          <span> {{ detail.username }}</span>
         </v-col>
       </v-row>
-      <v-pagination
-        class="mt-5"
-        v-model="page"
-        :length="pages"
-        circle
-      ></v-pagination>
+      <v-row>
+        <v-col cols="12">
+          <span>จำนวนที่เติม : </span>
+          <span> {{ detail.amount }} Coin</span>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <span>ช่องทางการชำระ : </span>
+          <span> {{ detail.method }}</span>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
+          <span>สถานะ : </span>
+          <span> {{ detail.status }}</span>
+        </v-col>
+      </v-row>
     </v-card-text>
   </v-card>
 </template>
@@ -57,8 +77,8 @@ export default {
     };
   },
   methods: {
-    goToProfile() {
-      router.push("/profile");
+    goToCoin() {
+      router.push("/coin");
     },
     goToCoinHistory() {
       router.push("/coinhistory");
@@ -73,25 +93,22 @@ export default {
       const res = await api.get(
         "/receipt/" + this.$route.params.id + "/" + this.getId()
       );
-      console.log(this.$route.params.id)
-      console.log(res)
+      console.log(this.$route.params.id);
+      console.log(res);
       this.detail = res.data;
-      console.log(this.detail)
+      console.log(this.detail);
     },
   },
   computed: {
-    pages() {
-      return Math.ceil(this.detail.length / this.itemsPerPage);
-    },
     isLogin() {
       return this.$store.getters["auth/isLogin"];
     },
   },
   mounted() {
-    if(this.isLogin){
+    if (this.isLogin) {
       this.getDetailOrder();
-    }else{
-      router.push("/orderhistory")
+    } else {
+      router.push("/orderhistory");
     }
   },
 };

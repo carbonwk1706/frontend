@@ -67,7 +67,7 @@
           :size="50"
           :width="5"
           indeterminate
-          color="#f58b1b"
+          color="#00af70"
         ></v-progress-circular>
       </div>
       <v-card-text class="text-center">กำลังทำการชำระเงิน</v-card-text>
@@ -90,7 +90,6 @@ export default {
   methods: {
     setReceipt() {
       this.receipt = this.$store.getters["checkoutCoin/getReceipt"];
-      console.log(typeof this.receipt);
     },
     getId() {
       return this.$store.getters["auth/getId"];
@@ -126,7 +125,7 @@ export default {
         setTimeout(() => {
           this.loading = false;
           this.$store.dispatch("checkoutCoin/setReceipt", null);
-          router.push("/");
+          router.push("/coin");
           this.alertSuccess();
         }, 2000);
       }
@@ -166,7 +165,7 @@ export default {
 }
 .btn-bg {
   color: white;
-  background-color: #f0a04b;
+  background-color: #00af70;
 }
 .img-size {
   width: 100px;
