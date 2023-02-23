@@ -114,12 +114,17 @@ export default {
     showDetail(id) {
       this.$router.push(`/request/${id}`);
     },
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
+    },
     formatTime(item) {
       return moment(item).format("MM/DD/YYYY, h:mm:ss a");
     },
     async approveRequest(id) {
       try {
-          await api.patch(`/request/${id}/approve`);
+          await api.patch(`/request/${id}/approve`,{
+            adminId: this.getId()
+          });
           this.showAlert()
         } catch (error) {
           console.log(error);
@@ -129,7 +134,9 @@ export default {
     },
     async rejectsRequest(id) {
       try {
-        await api.patch(`/request/${id}/reject`);
+        await api.patch(`/request/${id}/reject`,{
+          adminId: this.getId()
+        });
         this.showAlertCancel()
       } catch (error) {
         console.log(error);
