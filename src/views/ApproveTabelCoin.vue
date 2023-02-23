@@ -5,6 +5,8 @@
         <th class="text-left">ลำดับ</th>
         <th class="text-left">วันที่</th>
         <th class="text-left">คำร้อง</th>
+        <th class="text-left">จำนวนเงิน</th>
+        <th class="text-left">ธนาคาร</th>
         <th class="text-left">สถานะ</th>
         <th class="text-left"></th>
       </tr>
@@ -14,6 +16,8 @@
         <td>{{ index+1 }}</td>
         <td>{{ formatTime(item.createdAt) }}</td>
         <td>{{ item.request }}</td>
+        <td>{{ item.amount }} บาท</td>
+        <td>{{ item.method }}</td>
         <td>{{ item.status }}</td>
         <td>
           <v-btn
@@ -89,6 +93,7 @@
       </v-card-actions>
     </v-card>
   </v-dialog>
+
 </template>
 <script>
 import api from "@/services/api";
@@ -112,14 +117,19 @@ export default {
       this.cancelDialogId = id;
     },
     showDetail(id) {
-      this.$router.push(`/request/${id}`);
+      this.$router.push(`/requestcoin/${id}`);
+    },
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
     },
     formatTime(item) {
       return moment(item).format("MM/DD/YYYY, h:mm:ss a");
     },
     async approveRequest(id) {
       try {
-          await api.patch(`/request/${id}/approve`);
+          await api.patch(`/requestcoin/${id}/approve`,{
+            adminId: this.getId()
+          });
           this.showAlert()
         } catch (error) {
           console.log(error);
@@ -129,7 +139,9 @@ export default {
     },
     async rejectsRequest(id) {
       try {
-        await api.patch(`/request/${id}/reject`);
+        await api.patch(`/requestcoin/${id}/reject`, {
+          adminId: this.getId()
+        });
         this.showAlertCancel()
       } catch (error) {
         console.log(error);
@@ -139,8 +151,9 @@ export default {
     },
     async fetchApi() {
       try {
-        const res = await api.get("/request");
-        this.requestStatus = res.data.requests;
+        const res = await api.get("/requestcoin");
+        this.requestStatus = res.data.receipt;
+        console.log(this.requestStatus)
       } catch (error) {
         console.log(error);
       }

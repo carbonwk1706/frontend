@@ -30,5 +30,8 @@ export default {
     isLogin(state) {
       return state.admin != null;
     },
+    getId(state){
+      return state.admin._id.toString()
+    },
   }
 };
