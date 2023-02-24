@@ -6,7 +6,7 @@
       <span class="menu-link-current">ประวัติการเติม Coin ของฉัน</span>
     </div>
       <div class="mb-5 d-flex justify-center">
-        <h1>ประวัติการ Coin ของฉัน</h1>
+        <h1>ประวัติการเติม Coin ของฉัน</h1>
       </div>
       <v-divider class="mb-10"></v-divider>
       <v-table v-if="coinHistory.length > 0">
