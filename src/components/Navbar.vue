@@ -9,13 +9,15 @@
           @click="toggleLoginModal"
         >
           <v-icon class="font-text mr-2">mdi-login</v-icon>
-          ล็อกอินเข้าสู่ระบบ / สมัครสมาชิก
+          <span v-if="screenWidth > 900">ล็อกอินเข้าสู่ระบบ / สมัครสมาชิก</span>
         </v-btn>
         <v-menu v-if="isLogin" offset-y>
           <template v-slot:activator="{ props }">
             <v-btn class="header_action" v-bind="props">
               <v-icon class="mr-2">mdi-account</v-icon>
-              <span class="font-text"> สวัสดี ID-{{ user._id }}</span>
+              <span class="font-text" v-if="screenWidth > 1050">
+                สวัสดี {{ user.username }}</span
+              >
               <v-icon>mdi-menu-down</v-icon>
             </v-btn>
           </template>
@@ -159,49 +161,75 @@
         </v-btn>
       </v-col>
       <v-col cols="4" class="d-flex justify-end align-center">
-        <v-btn
-          class="header_action px-2 mx-2 v-btn--outline"
-          color="white"
-          @click="goToWishlist"
-          v-if="getWishListCount === 0 || !isLogin"
-        >
-          <v-icon class="mr-2">mdi-heart</v-icon>
-          <span class="font-text">รายการโปรด</span>
-        </v-btn>
-
-        <v-badge v-else :content="getWishListCount" color="error">
+        <div v-if="screenWidth > 900">
           <v-btn
             class="header_action px-2 mx-2 v-btn--outline"
             color="white"
             @click="goToWishlist"
+            v-if="getWishListCount === 0 || !isLogin"
           >
-            <v-icon class="mr-2">mdi-heart</v-icon>
+            <v-icon>mdi-heart</v-icon>
             <span class="font-text">รายการโปรด</span>
           </v-btn>
-        </v-badge>
 
-        <v-btn
-          class="header_action px-2 mx-2 v-btn--outline"
-          color="white"
-          @click="goToCart"
-          v-if="getCartListCount === 0 || !isLogin"
-        >
-          <v-icon class="mr-2">mdi-cart</v-icon>
-          <span class="font-text">ตะกร้าสินค้า</span>
-        </v-btn>
-        <v-badge v-else :content="getCartListCount" color="error">
+          <v-badge v-else :content="getWishListCount" color="error">
+            <v-btn
+              class="header_action px-2 mx-2 v-btn--outline"
+              color="white"
+              @click="goToWishlist"
+            >
+              <v-icon>mdi-heart</v-icon>
+              <span class="font-text" v-if="screenWidth > 900">รายการโปรด</span>
+            </v-btn>
+          </v-badge>
+        </div>
+        <div class="mr-4" v-else>
+          <v-icon
+            v-if="getWishListCount === 0 || !isLogin"
+            @click="goToWishlist"
+            >mdi-heart</v-icon
+          >
+          <v-badge v-else :content="getWishListCount" color="error">
+            <v-icon @click="goToWishlist">mdi-heart</v-icon>
+          </v-badge>
+        </div>
+
+        <div v-if="screenWidth > 900">
           <v-btn
             class="header_action px-2 mx-2 v-btn--outline"
             color="white"
             @click="goToCart"
+            v-if="getCartListCount === 0 || !isLogin"
           >
-            <v-icon class="mr-2">mdi-cart</v-icon>
-
-            <span class="font-text">ตะกร้าสินค้า</span>
+            <v-icon>mdi-cart</v-icon>
+            <span class="font-text" v-if="screenWidth > 900">ตะกร้าสินค้า</span>
           </v-btn>
-        </v-badge>
+          <v-badge v-else :content="getCartListCount" color="error">
+            <v-btn
+              class="header_action px-2 mx-2 v-btn--outline"
+              color="white"
+              @click="goToCart"
+            >
+              <v-icon>mdi-cart</v-icon>
 
-        <v-card-text>
+              <span class="font-text" v-if="screenWidth > 900"
+                >ตะกร้าสินค้า</span
+              >
+            </v-btn>
+          </v-badge>
+        </div>
+        <div class="mr-4" v-else>
+          <v-icon
+            v-if="getCartListCount === 0 || !isLogin"
+            @click="goToCart"
+            >mdi-cart</v-icon
+          >
+          <v-badge v-else :content="getWishListCount" color="error">
+            <v-icon @click="goToCart">mdi-cart</v-icon>
+          </v-badge>
+        </div>
+
+        <v-card-text v-if="screenWidth > 1200">
           <v-text-field
             :loading="loadingSearch"
             density="compact"
@@ -215,6 +243,7 @@
             @keyup.enter="handleSearch"
           ></v-text-field>
         </v-card-text>
+        <v-icon v-else class="mr-3" @click="handleSearch">mdi-magnify</v-icon>
       </v-col>
     </v-row>
   </v-toolbar>
@@ -399,6 +428,7 @@ export default {
     loading: false,
     visibleModal: false,
     searchTerm: "",
+    screenWidth: 0,
     user: [],
   }),
   methods: {
@@ -504,6 +534,9 @@ export default {
         }
       });
     },
+    handleResize() {
+      this.screenWidth = window.innerWidth;
+    },
   },
   computed: {
     isLogin() {
@@ -561,6 +594,8 @@ export default {
   },
   mounted() {
     this.visibleModal = false;
+    this.screenWidth = window.innerWidth;
+    window.addEventListener("resize", this.handleResize);
     if (this.isLogin) {
       this.fetchApi();
       this.getWishList();
