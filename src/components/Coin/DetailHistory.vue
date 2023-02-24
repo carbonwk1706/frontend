@@ -20,19 +20,25 @@
     <v-card-text>
       <v-row>
         <v-col cols="12">
+          <span>สถานะ : </span>
+          <span> {{ detail.status }}</span>
+        </v-col>
+      </v-row>
+      <v-row>
+        <v-col cols="12">
           <span>วันเวลาที่ดำเนินการเติม : </span>
           <span>{{ formatTime(detail.createAt) }}</span>
         </v-col>
       </v-row>
       <v-row v-if="detail.status !== 'pending'">
         <v-col cols="12">
-          <div v-if="detail.approvedAt">
+          <div v-if="detail.status === 'approved'">
             <span>วันเวลาที่อนุมัติ : </span>
             <span>{{ formatTime(detail.approvedAt) }}</span>
           </div>
-          <div v-else-if="detail.rejectedAt">
+           <div v-if="detail.status === 'rejected'">
             <span>วันเวลาที่ปฏิเสธ : </span>
-            <span>{{ formatTime(detail.rejectedAt) }}</span>
+            <span>{{ formatTime(detail.approvedAt) }}</span>
           </div>
         </v-col>
       </v-row>
@@ -52,12 +58,6 @@
         <v-col cols="12">
           <span>ช่องทางการชำระ : </span>
           <span> {{ detail.method }}</span>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12">
-          <span>สถานะ : </span>
-          <span> {{ detail.status }}</span>
         </v-col>
       </v-row>
     </v-card-text>
@@ -93,10 +93,7 @@ export default {
       const res = await api.get(
         "/receipt/" + this.$route.params.id + "/" + this.getId()
       );
-      console.log(this.$route.params.id);
-      console.log(res);
       this.detail = res.data;
-      console.log(this.detail);
     },
   },
   computed: {
