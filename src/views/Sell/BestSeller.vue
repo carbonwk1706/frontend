@@ -176,7 +176,7 @@
 <script>
 import router from "@/router";
 import api from "@/services/api";
-import Login from "@/views/Login.vue";
+import Login from "@/views/User/Login.vue";
 
 export default {
   name: "ShopTable",

@@ -31,13 +31,13 @@ const routes = [
   {
     path: '/book/:id',
     name: 'book',
-    component: () => import('../views/Book.vue')
+    component: () => import('../views/Sell/Book.vue')
   }
   ,
   {
     path: '/login',
     name: 'loginadmin',
-    component: () => import('../views/LoginAdmin.vue')
+    component: () => import('../views/Admin/LoginAdmin.vue')
   }
   ,
   {

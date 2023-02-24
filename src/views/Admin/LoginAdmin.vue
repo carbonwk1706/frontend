@@ -59,7 +59,7 @@
 </template>
 <script>
 import api from "@/services/api";
-import router from "../router";
+import router from "../../router";
 import NoAuth from "@/components/NoAuth.vue";
 
 export default {
