@@ -140,7 +140,9 @@ const routes = [
     component: () => import('../views/Admin/EditUserForm.vue'),
     meta: {
       hideFooter: true,
+      hideFooterCoin: true,
       hideNavbar: true,
+      hideNavbarCoin: true
     }
   },
   {
@@ -155,7 +157,9 @@ const routes = [
     component: () => import('../views/Admin/EditAdminForm.vue'),
     meta: {
       hideFooter: true,
-      hideNavbar: true
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true
     }
   },{
     path: '/historyadmin',
@@ -203,13 +207,21 @@ const routes = [
     component: () => import('../views/Admin/Book/EditBookForm.vue'),
     meta: {
       hideFooter: true,
-      hideNavbar: true
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true
     }
   },
   {
     path: '/requestcoin/:id',
     name: 'requestcoindetail',
-    component: () => import('../views/DeatailRequsetCoin.vue')
+    component: () => import('../views/DeatailRequsetCoin.vue'),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true
+    }
   }
 ]
 

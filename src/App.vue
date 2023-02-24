@@ -4,7 +4,7 @@
     <CoinNavbar
       v-if="
         (showNavbarCoin && !this.isNotFoundRoute && this.isLogin) ||
-        showNavCoinDetail
+        showNavCoinDetail && !hideNavbar
       "
     />
     <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
@@ -37,7 +37,7 @@
     <FooterCoin
       v-if="
         (showFooterCoin && !this.isNotFoundRoute && this.isLogin) ||
-        showFooterCoinDetail
+        showFooterCoinDetail && !hideFooter
       "
     />
   </v-app>
@@ -210,7 +210,11 @@ export default {
       }
     },
     showSidebar() {
-      return [
+      const currenRoute = this.$route;
+      if (currenRoute.meta.hideNavbar) {
+        return true;
+      }{
+        return [
         "/admin",
         "/usertable",
         "/admintable",
@@ -218,6 +222,7 @@ export default {
         "/historyadmin",
         "/bookadmin",
       ].includes(this.$route.path);
+      }
     },
     showNavbarCoin() {
       return ["/coin", "/checkoutcoin", "/coinhistory"].includes(
@@ -228,6 +233,7 @@ export default {
       return ["/coin", "/checkoutcoin", "/coinhistory"].includes(
         this.$route.path
       );
+
     },
     showNavCoinDetail() {
       const currenRoute = this.$route;
@@ -236,9 +242,23 @@ export default {
       }
       return false;
     },
+    hideNavbar() {
+      const currenRoute = this.$route;
+      if (currenRoute.meta.hideNavbarCoin) {
+        return true;
+      }
+      return false;
+    },
     showFooterCoinDetail() {
       const currenRoute = this.$route;
       if (currenRoute.meta.hideFooter) {
+        return true;
+      }
+      return false;
+    },
+    hideFooter() {
+      const currenRoute = this.$route;
+      if (currenRoute.meta.hideFooterCoin) {
         return true;
       }
       return false;
