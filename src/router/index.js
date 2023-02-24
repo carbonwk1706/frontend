@@ -139,7 +139,8 @@ const routes = [
     name: 'edituser',
     component: () => import('../views/Admin/EditUserForm.vue'),
     meta: {
-      hideFooter: true
+      hideFooter: true,
+      hideNavbar: true,
     }
   },
   {
@@ -151,7 +152,11 @@ const routes = [
   {
     path: '/admintable/:id',
     name: 'editadmin',
-    component: () => import('../views/Admin/EditAdminForm.vue')
+    component: () => import('../views/Admin/EditAdminForm.vue'),
+    meta: {
+      hideFooter: true,
+      hideNavbar: true
+    }
   },{
     path: '/historyadmin',
     name: 'historyadmin',
@@ -195,7 +200,11 @@ const routes = [
   {
     path: '/bookadmin/:id',
     name: 'editbookadmin',
-    component: () => import('../views/Admin/Book/EditBookForm.vue')
+    component: () => import('../views/Admin/Book/EditBookForm.vue'),
+    meta: {
+      hideFooter: true,
+      hideNavbar: true
+    }
   },
   {
     path: '/approvetable/coin',
