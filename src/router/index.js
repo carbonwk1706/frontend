@@ -207,11 +207,6 @@ const routes = [
     }
   },
   {
-    path: '/approvetable/coin',
-    name: 'approvetablecoin',
-    component: () => import('../views/ApproveTabelCoin.vue')
-  },
-  {
     path: '/requestcoin/:id',
     name: 'requestcoindetail',
     component: () => import('../views/DeatailRequsetCoin.vue')

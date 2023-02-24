@@ -36,7 +36,10 @@
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in request" :key="index">
+        <tr v-for="(item, index) in request.slice(
+          (page - 1) * itemsPerPage,
+          page * itemsPerPage
+        )" :key="index">
           <td>{{ index + 1 }}</td>
           <td>{{ formatTime(item.approvedAt) }}</td>
           <td>{{ item.request }}</td>
@@ -102,7 +105,7 @@ export default {
       select: "รายการทั้งหมด",
       selectItem: ["รายการทั้งหมด", "รายการขอขายอีบุ๊ค", "รายการขอเติม Coin"],
       page: 1,
-      itemsPerPage: 40,
+      itemsPerPage: 10,
     };
   },
   methods: {
