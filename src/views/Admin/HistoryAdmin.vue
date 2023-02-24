@@ -92,7 +92,7 @@
 </template>
 <script>
 import api from "@/services/api";
-import AuthAdmin from "../components/AuthAdmin.vue";
+import AuthAdmin from "../../components/AuthAdmin.vue";
 import moment from "moment";
 
 export default {

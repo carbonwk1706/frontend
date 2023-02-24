@@ -121,7 +121,7 @@ const routes = [
   {
     path: '/approvetable',
     name: 'approvetable',
-    component: () => import('../views/ApproveTable.vue')
+    component: () => import('../views/Admin/ApproveTable.vue')
   },
   {
     path: '/request/:id',
@@ -160,7 +160,7 @@ const routes = [
   },{
     path: '/historyadmin',
     name: 'historyadmin',
-    component: () => import('../views/HistoryAdmin.vue')
+    component: () => import('../views/Admin/HistoryAdmin.vue')
   },
   {
     path: '/search/:searchTerm?',
