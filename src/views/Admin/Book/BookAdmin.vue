@@ -1,62 +1,125 @@
 <template>
   <v-container fluid>
-  <v-row>
-    <v-col cols="12">
-      <div class="text-end">
-      <v-btn color="blue-grey" class="mb-3" @click="addBook">เพิ่มหนังสือ</v-btn>
+    <v-row>
+      <v-col cols="12">
+        <h2>หนังสือที่วางขาย</h2>
+      </v-col>
+    </v-row>
+    <v-row>
+      <v-col cols="6" class="text-start">
+        <div class="select-width">
+          <v-select
+            density="compact"
+            v-model="select"
+            :items="selectItem"
+            variant="outlined"
+          ></v-select>
+        </div>
+      </v-col>
+      <v-col
+        v-if="bookList.length > 0"
+        cols="6"
+        class="pa-0 d-flex justify-end"
+      >
+        <v-pagination
+          class="text-pagination"
+          v-model="page"
+          :length="pages"
+          circle
+        ></v-pagination>
+      </v-col>
+    </v-row>
+
+    <div class="text-end">
+      <v-btn color="blue-grey" class="mb-3" @click="addBook"
+        >เพิ่มหนังสือ</v-btn
+      >
     </div>
-      <v-table dense class="elevation-1">
-        <thead class="table">
-          <tr>
-            <th class="text-left">Name</th>
-            <th class="text-left">Author</th>
-            <th class="text-left">Publisher</th>
-            <th class="text-left">Category</th>
-            <th class="text-left">Price</th>
-            <th class="text-left">Image</th>
-            <th class="text-left"></th>
-          </tr>
-        </thead>
-        <tbody>
-          <tr v-for="(item, index) in bookList" :key="index">
-            <td class="ellipsis-one-line mt-2">
-              <span>{{ item.name }}</span>
-            </td>
-            <td class="mt-2">{{ item.author }}</td>
-            <td class="mt-2">{{ item.publisher }}</td>
-            <td class="mt-2">{{ item.category }}</td>
-            <td class="mt-2">{{ item.price }}</td>
-            <td class="ellipsis mt-2">
-              <v-avatar  rounded="0" size="80"> 
-                <v-img :src="item.imageBook" />
-              </v-avatar>
-            </td> 
-            <td class="d-flex justify-center mt-15">
-              <v-btn
-                variant="flat"
-                color="success"
-                class="mr-3"
-                @click="editBook(item)"
-                >แก้ไข</v-btn
-              >
-              <v-btn
-                variant="flat"
-                color="error"
-                class="mr-3"
-                @click="
-                  showConfirm = true;
-                  selectedBook = item;
-                "
-                >ลบ</v-btn
-              >
-            </td>
-          </tr>
-        </tbody>
-      </v-table>
-    </v-col>
-  </v-row>
-  
-  <v-dialog
+
+    <v-table v-if="bookList.length > 0" dense class="elevation-1">
+      <thead class="table">
+        <tr>
+          <th class="text-left">ชื่อหนังสือ</th>
+          <th class="text-left">ผู้แต่ง</th>
+          <th class="text-left">สำนักพิมพ์</th>
+          <th class="text-left">หมวดหมู่</th>
+          <th class="text-left">ราคา</th>
+          <th class="text-left">รูปภาพ</th>
+          <th class="text-left"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="(item, index) in bookList.slice(
+            (page - 1) * itemsPerPage,
+            page * itemsPerPage
+          )"
+          :key="index"
+        >
+          <td class="ellipsis-one-line mt-2">
+            <span>{{ item.name }}</span>
+          </td>
+          <td class="mt-2">{{ item.author }}</td>
+          <td class="mt-2">{{ item.publisher }}</td>
+          <td class="mt-2">{{ item.category }}</td>
+          <td class="mt-2">{{ item.price }}</td>
+          <td class="ellipsis mt-2">
+            <v-avatar rounded="0" size="80">
+              <v-img :src="item.imageBook" />
+            </v-avatar>
+          </td>
+          <td class="d-flex justify-center mt-15">
+            <v-btn
+              variant="flat"
+              color="success"
+              class="mr-3"
+              @click="editBook(item)"
+              >แก้ไข</v-btn
+            >
+            <v-btn
+              variant="flat"
+              color="error"
+              class="mr-3"
+              @click="
+                showConfirm = true;
+                selectedBook = item;
+              "
+              >ลบ</v-btn
+            >
+          </td>
+        </tr>
+      </tbody>
+    </v-table>
+    <v-row v-else>
+      <v-divider class="mt-3 mb-6"></v-divider>
+      <v-col cols="12">
+        <div class="d-flex justify-center">
+          <img
+            src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
+            width="200"
+            height="200"
+          />
+        </div>
+        <div class="text-noBook text-center">
+          <p>ขออภัยด้วยนะครับ</p>
+        </div>
+        <div class="text-center mt-3">
+          <p class="text-muted">ไม่พบข้อมูลในหัวข้อที่คุณกำลังชมค่ะ</p>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row v-if="bookList.length > 0" class="mt-12">
+      <v-col cols="12" class="pa-0 d-flex justify-center">
+        <v-pagination
+          class="text-pagination"
+          v-model="page"
+          :length="pages"
+          circle
+        ></v-pagination>
+      </v-col>
+    </v-row>
+
+    <v-dialog
       v-model="showConfirm"
       persistent
       style="z-index: 900"
@@ -84,8 +147,7 @@
         </v-card-actions>
       </v-card>
     </v-dialog>
-
-</v-container>
+  </v-container>
 </template>
 
 <script>
@@ -94,43 +156,56 @@ export default {
   components: {},
   data() {
     return {
+      select: "หนังสือทั้งหมด",
+      selectItem: ["หนังสือทั้งหมด", "การ์ตูนทั้งหมด", "นิยายทั้งหมด"],
+      page: 1,
+      itemsPerPage: 10,
       bookList: [],
-      cartList:[],
-      inventoryUser:[],
-      selectedBook:[],
-      showConfirm:false
+      cartList: [],
+      inventoryUser: [],
+      selectedBook: [],
+      showConfirm: false,
     };
   },
   methods: {
     async fetchApi() {
       try {
-        const result = await api.get("/books");
+        const result = await api.get("/books/all");
         this.bookList = result.data;
       } catch (error) {
         console.log(error);
       }
     },
-    editBook(book){
+    getBooksCartoon() {
+      api.get("/books/cartoon").then((result) => {
+        this.bookList = result.data;
+      });
+    },
+    getBooksNovel() {
+      api.get("/books/novel").then((result) => {
+        this.bookList = result.data;
+      });
+    },
+    editBook(book) {
       this.$router.push(`/bookadmin/${book._id}`);
     },
-    addBook(){
+    addBook() {
       this.$router.push(`/newbookadmin`);
     },
-    async deleteBook(book){
-      this.getCart()
-      if(this.cartList.length === 0){
-        console.log("Null")
-         try {
-        await api.delete("/books/" + book._id, book);
-        this.showAlert();
-      } catch (error) {
-        console.error(error);
+    async deleteBook(book) {
+      this.getCart();
+      if (this.cartList.length === 0) {
+        console.log("Null");
+        try {
+          await api.delete("/books/" + book._id, book);
+          this.showAlert();
+        } catch (error) {
+          console.error(error);
+        }
+        this.fetchApi();
+      } else {
+        console.log(this.cartList);
       }
-      this.fetchApi();
-      }else{
-        console.log(this.cartList)
-
-      }     
     },
     showAlert() {
       this.$swal({
@@ -151,7 +226,27 @@ export default {
     //   const res = await api.get("/inventory/" + this.getId());
     //   this.inventoryUser = res.data;
     // },
-
+  },
+  computed: {
+    pages() {
+      return Math.ceil(this.bookList.length / this.itemsPerPage);
+    },
+    isLogin() {
+      return this.$store.getters["authAdmin/isLogin"];
+    },
+  },
+  watch: {
+    select(newValue) {
+      if (newValue) {
+        if (newValue === "หนังสือทั้งหมด") {
+          this.fetchApi();
+        } else if (newValue === "การ์ตูนทั้งหมด") {
+          this.getBooksCartoon();
+        } else if (newValue === "นิยายทั้งหมด") {
+          this.getBooksNovel();
+        }
+      }
+    },
   },
   mounted() {
     this.fetchApi();
@@ -159,6 +254,9 @@ export default {
 };
 </script>
 <style>
+.select-width {
+  width: 200px;
+}
 .table {
   background-color: #00af70;
 }
