@@ -211,7 +211,7 @@ export default {
     },
     showSidebar() {
       const currenRoute = this.$route;
-      if (currenRoute.meta.hideNavbar) {
+      if (currenRoute.meta.hideNavbar && !currenRoute.meta.hideSidebar) {
         return true;
       }{
         return [

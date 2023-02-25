@@ -199,7 +199,8 @@ const routes = [
     component: () => import('../components/Coin/DetailHistory.vue'),
     meta: {
       hideFooter: true,
-      hideNavbar: true
+      hideNavbar: true,
+      hideSidebar: true
     }
   },
   {
