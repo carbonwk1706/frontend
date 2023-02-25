@@ -19,45 +19,51 @@
     >
     <v-card-text>
       <v-row>
-        <v-col cols="12">
-          <span>สถานะ : </span>
-          <span> {{ detail.status }}</span>
+        <v-col cols="6">
+          <v-col cols="12">
+            <span>รูปภาพที่แจ้งโอน</span>
+            <v-img class="mt-2" :src="detail.imageSlip" width="200px" cover/>
+          </v-col>
         </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12">
-          <span>วันเวลาที่ดำเนินการเติม : </span>
-          <span>{{ formatTime(detail.createAt) }}</span>
-        </v-col>
-      </v-row>
-      <v-row v-if="detail.status !== 'pending'">
-        <v-col cols="12">
-          <div v-if="detail.status === 'approved'">
-            <span>วันเวลาที่อนุมัติ : </span>
-            <span>{{ formatTime(detail.approvedAt) }}</span>
-          </div>
-           <div v-if="detail.status === 'rejected'">
-            <span>วันเวลาที่ปฏิเสธ : </span>
-            <span>{{ formatTime(detail.approvedAt) }}</span>
-          </div>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12">
-          <span>ผู้ใช้งาน : </span>
-          <span> {{ detail.username }}</span>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12">
-          <span>จำนวนที่เติม : </span>
-          <span> {{ detail.amount }} Coin</span>
-        </v-col>
-      </v-row>
-      <v-row>
-        <v-col cols="12">
-          <span>ช่องทางการชำระ : </span>
-          <span> {{ detail.method }}</span>
+        <v-col cols="6">
+          <v-row>
+            <v-col cols="12">
+              <span>ผู้ใช้งาน : </span>
+              <span> {{ detail.username }}</span>
+            </v-col>
+            <v-col cols="12">
+              <span>จำนวนที่เติม : </span>
+              <span> {{ detail.amount }} Coin</span>
+            </v-col>
+            <v-col cols="12">
+              <span>ช่องทางการชำระ : </span>
+              <span> {{ detail.method }}</span>
+            </v-col>
+            <v-col cols="12">
+              <span>สถานะ : </span>
+              <span> {{ detail.status }}</span>
+            </v-col>
+            <v-col cols="12">
+              <span>วันเวลาที่ดำเนินการเติม : </span>
+              <span>{{ formatTime(detail.createAt) }}</span>
+            </v-col>
+            <v-col cols="12">
+              <span>วันเวลาที่แจ้งโอน : </span>
+              <span>{{ detail.slipDate }}, {{ detail.slipTime }}</span>
+            </v-col>
+          </v-row>
+          <v-row v-if="detail.status !== 'pending'">
+            <v-col cols="12">
+              <div v-if="detail.status === 'approved'">
+                <span>วันเวลาที่อนุมัติ : </span>
+                <span>{{ formatTime(detail.approvedAt) }}</span>
+              </div>
+               <div v-if="detail.status === 'rejected'">
+                <span>วันเวลาที่ปฏิเสธ : </span>
+                <span>{{ formatTime(detail.approvedAt) }}</span>
+              </div>
+            </v-col>
+          </v-row>
         </v-col>
       </v-row>
     </v-card-text>
