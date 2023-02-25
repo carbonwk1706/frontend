@@ -1,16 +1,8 @@
 <template>
   <v-container fluid>
     <v-row class="mb-1">
-      <v-col cols="6" class="text-start">
+      <v-col cols="12" class="text-start">
         <h3>ค้นหาในร้านหนังสือ</h3>
-      </v-col>
-      <v-col v-if="books.length > 0" cols="6" class="pa-0 d-flex justify-end">
-        <v-pagination
-          class="text-pagination"
-          v-model="page"
-          :length="pages"
-          circle
-        ></v-pagination>
       </v-col>
     </v-row>
     <v-divider class="mb-6"></v-divider>
@@ -118,7 +110,7 @@
     </v-row>
 
     <v-row v-if="books.length > 0" class="mt-12">
-      <v-col cols="12" class="pa-0 d-flex justify-center">
+      <v-col cols="12" class="pa-0">
         <v-pagination
           class="text-pagination"
           v-model="page"
