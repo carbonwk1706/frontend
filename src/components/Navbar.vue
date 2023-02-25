@@ -150,9 +150,57 @@
           </v-card>
         </v-menu>
         <v-btn v-if="isLogin" class="text-none" stacked>
-          <v-badge content="2" color="error">
-            <v-icon>mdi-bell-outline</v-icon>
-          </v-badge>
+          <v-menu offset-y max-width="500">
+            <template v-slot:activator="{ props }">
+              <v-badge
+                v-if="notification.length > 0"
+                :content="notification.length"
+                color="error"
+                v-bind="props"
+              >
+                <v-icon>mdi-bell-outline</v-icon>
+              </v-badge>
+              <v-icon v-else v-bind="props">mdi-bell-outline</v-icon>
+            </template>
+            <v-card width="400px">
+              <v-card-text>
+                <v-row class="pa-2">
+                  <v-col cols="6" class="d-flex justify-start"
+                    ><h3>แจ้งเตือน</h3></v-col
+                  >
+                  <v-col cols="6" class="d-flex justify-end"
+                    ><v-icon @click="clearNotifications"
+                      >mdi-trash-can</v-icon
+                    ></v-col
+                  >
+                </v-row>
+                <v-divider class="my-2"></v-divider>
+                <v-row v-if="notification.length > 0" class="pa-2">
+                  <v-col
+                    v-for="(item, index) in notification.reverse()"
+                    :key="index"
+                    class="pa-2"
+                    cols="12"
+                  >
+                    <v-card class="px-3 py-2">
+                      <h4>{{ item.type }}</h4>
+                      <p>{{ item.message }}</p>
+                      <p>เวลา {{ item.createdAt }}</p>
+                    </v-card>
+                  </v-col>
+                </v-row>
+                <v-row v-else class="pa-2">
+                  <v-col cols="12" class="pa-2">
+                    <p class="text-center">ไม่มีข้อมูลการแจ้งเตือน</p>
+                  </v-col>
+                </v-row>
+                <v-divider
+                  v-if="notification.length > 0"
+                  class="my-2"
+                ></v-divider>
+              </v-card-text>
+            </v-card>
+          </v-menu>
         </v-btn>
       </v-col>
       <v-col cols="4" class="d-flex justify-center align-center">
@@ -432,6 +480,7 @@ export default {
     searchTerm: "",
     screenWidth: 0,
     user: [],
+    notification: [],
     socket: null,
     socketioURL: "http://localhost:3000",
   }),
@@ -544,6 +593,56 @@ export default {
     handleResize() {
       this.screenWidth = window.innerWidth;
     },
+    async clearNotifications() {
+      if (this.notification.length > 0) {
+        this.$swal({
+          scrollbarPadding: false,
+          confirmButtonColor: "#00af70",
+          cancelButtonColor: "#999999",
+          showCancelButton: true,
+          allowOutsideClick: false,
+          width: "500",
+          text: "คุณต้องการที่จะล้างข้อมูลการแจ้งเตือนทั้งหมดใช่หรือไม่?",
+          icon: "warning",
+          confirmButtonText: "ใช่ฉันต้องการลบ",
+          cancelButtonText: "เอาไว้ก่อน",
+        }).then((result) => {
+          if (result.value) {
+            api.delete("/notifications/" + this.getId()).then(() => {
+              this.fetchApi();
+              this.$swal({
+                scrollbarPadding: false,
+                allowOutsideClick: false,
+                confirmButtonColor: "#00af70",
+                text: "ล้างข้อมูลการแจ้งเตือนเรียบร้อยแล้ว",
+                icon: "success",
+                confirmButtonText: "OK",
+              });
+            });
+          }
+        });
+      } else {
+        this.$swal({
+          scrollbarPadding: false,
+          confirmButtonColor: "#00af70",
+          allowOutsideClick: false,
+          width: "500",
+          text: "คุณล้างข้อมูลการแจ้งหมดแล้ว",
+          icon: "warning",
+          confirmButtonText: "OK",
+        });
+      }
+    },
+    async getNotification() {
+      const res = await api.get("/notifications/" + this.getId());
+      if (res.data.notifications.length === 0) {
+        this.notification = [];
+      } else {
+        this.notification = res.data.notifications.map((item) =>
+          JSON.parse(item)
+        );
+      }
+    },
   },
   computed: {
     isLogin() {
@@ -589,6 +688,7 @@ export default {
         this.fetchApi();
         this.getWishList();
         this.getCartList();
+        this.getNotification();
       }
     },
     loading(newValue) {
@@ -607,6 +707,7 @@ export default {
       this.fetchApi();
       this.getWishList();
       this.getCartList();
+      this.getNotification();
     }
 
     window.addEventListener("scroll", function () {
@@ -633,9 +734,11 @@ export default {
     this.socket.on("disconnect", (reason) => {
       console.log("[socket disconnected]: ", reason);
     });
-    this.socket.on("receipt-rejected", (data) => {
-      console.log("[receipt-rejected]: ", data);
-      // Do something with the data here
+    this.socket.on("receipt-rejected", () => {
+      this.getNotification();
+    });
+    this.socket.on("receipt-approved", () => {
+      this.getNotification();
     });
   },
 };
@@ -708,7 +811,7 @@ export default {
   cursor: pointer;
   border-bottom: 3px solid #00af70;
 }
-.text-cursor{
+.text-cursor {
   cursor: pointer;
 }
 </style>
