@@ -689,6 +689,9 @@ export default {
         this.getWishList();
         this.getCartList();
         this.getNotification();
+      }else{
+        this.$store.dispatch("wishlist/setWishList", []);
+        this.$store.dispatch("cartList/setCartList", []);
       }
     },
     loading(newValue) {
@@ -739,6 +742,7 @@ export default {
     });
     this.socket.on("receipt-approved", () => {
       this.getNotification();
+      this.fetchApi();
     });
   },
 };

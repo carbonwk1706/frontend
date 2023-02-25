@@ -166,6 +166,12 @@ export default {
     isAllSelected(newValue) {
       this.selectAll = newValue;
     },
+    isLogin(newValue) {
+      if (!newValue) {
+        console.log(newValue)
+        this.$store.dispatch("cartList/setCartList", []);
+      }
+    },
   },
   mounted() {
     if (this.isLogin) {

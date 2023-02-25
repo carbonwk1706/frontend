@@ -261,6 +261,13 @@ export default {
       return Math.ceil(this.wishList.length / this.itemsPerPage);
     },
   },
+    watch: {
+    isLogin(newValue){
+      if(!newValue){
+      this.$store.dispatch("wishlist/setWishList", []);
+      }
+    }
+  },
   mounted() {
     if (this.isLogin) {
       this.getWishList();
