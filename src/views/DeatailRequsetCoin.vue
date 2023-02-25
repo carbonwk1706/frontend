@@ -58,6 +58,28 @@
           </v-card-text>
         </v-card>
       </v-col>
+
+      <v-col>
+        <v-card class="card">
+          <v-card-text>
+            <v-row class="d-flex justify-center">
+              <v-col cols="6" class="d-flex justify-start">
+                <span>รูปภาพ</span>
+              </v-col>
+              <v-col cols="6" class="d-flex justify-end">
+                <span>{{ request.createdAt }}</span>
+              </v-col>
+              <v-divider></v-divider>
+              <v-col cols="4" class="d-flex justify-start">
+                <span>ธนาคาร:</span>
+              </v-col>
+              <v-col cols="8" class="d-flex justify-end">
+                <span> {{ request.method }} </span>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-col>
     </v-row>
   </v-container>
 </template>
