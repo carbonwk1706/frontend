@@ -126,7 +126,13 @@ const routes = [
   {
     path: '/request/:id',
     name: 'request',
-    component: () => import('../views/DetailRequest.vue')
+    component: () => import('../views/DetailRequest.vue'),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true
+    }
   },
   {
     path: '/coin',
