@@ -219,9 +219,7 @@
           </v-badge>
         </div>
         <div class="mr-4" v-else>
-          <v-icon
-            v-if="getCartListCount === 0 || !isLogin"
-            @click="goToCart"
+          <v-icon v-if="getCartListCount === 0 || !isLogin" @click="goToCart"
             >mdi-cart</v-icon
           >
           <v-badge v-else :content="getWishListCount" color="error">
@@ -255,7 +253,6 @@
     :class="screenWidth <= 990 ? 'pl-4' : ''"
     height="50"
   >
-  
     <v-spacer v-if="screenWidth > 990"></v-spacer>
     <v-menu offset-y>
       <template v-slot:activator="{ props }">
@@ -304,14 +301,17 @@
   </v-toolbar>
   <v-toolbar
     id="bottom-nav"
-    :class="[(showMiddleNav ? 'bottom-nav' : 'bottom-nav-2'),(screenWidth <= 990 ? 'pl-4' : '')]"
+    :class="[
+      showMiddleNav ? 'bottom-nav' : 'bottom-nav-2',
+      screenWidth <= 990 ? 'pl-4' : '',
+    ]"
     style="background-color: #f6f6f6"
     height="50"
   >
     <v-spacer v-if="screenWidth > 990"></v-spacer>
     <v-menu offset-y v-if="!showMiddleNav">
       <template v-slot:activator="{ props }">
-        <span class="font-text mr-3" v-bind="props">
+        <span class="font-text text-cursor mr-3" v-bind="props">
           อีบุ๊คทั้งหมด<v-icon>mdi-menu-down</v-icon>
         </span>
       </template>
@@ -419,7 +419,7 @@
 import api from "@/services/api";
 import router from "../router";
 import Login from "../views/User/Login.vue";
-
+import io from "socket.io-client";
 export default {
   components: {
     Login,
@@ -432,6 +432,8 @@ export default {
     searchTerm: "",
     screenWidth: 0,
     user: [],
+    socket: null,
+    socketioURL: "http://localhost:3000",
   }),
   methods: {
     handleSearch() {
@@ -507,8 +509,8 @@ export default {
     goToRecommend() {
       router.push("/recommend");
     },
-    goToMyShop(){
-      router.push("/")
+    goToMyShop() {
+      router.push("/");
     },
     goToRegisterSell() {
       router.push("/registersell");
@@ -621,6 +623,21 @@ export default {
       }
     });
   },
+  async created() {
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("connect", () => {
+      console.log("[socket connected]: ", this.socket.connected);
+    });
+    this.socket.on("disconnect", (reason) => {
+      console.log("[socket disconnected]: ", reason);
+    });
+    this.socket.on("receipt-rejected", (data) => {
+      console.log("[receipt-rejected]: ", data);
+      // Do something with the data here
+    });
+  },
 };
 </script>
 <style scoped>
@@ -690,5 +707,8 @@ export default {
 .border-bottom {
   cursor: pointer;
   border-bottom: 3px solid #00af70;
+}
+.text-cursor{
+  cursor: pointer;
 }
 </style>
