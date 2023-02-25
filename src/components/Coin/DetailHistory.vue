@@ -13,17 +13,18 @@
   </div>
   <v-divider class="mb-6"></v-divider>
   <v-card class="mx-auto mt-5">
-    <v-card-title class="headline">ใบเสร็จ</v-card-title>
+    <v-card-title class="headline">แจ้งชำระเงิน</v-card-title>
     <v-card-subtitle class="subtitle-2 text-uppercase"
       >Order #{{ detail._id }}</v-card-subtitle
     >
+    <v-divider class="my-3"></v-divider>
     <v-card-text>
       <v-row>
-        <v-col cols="6">
-          <v-col cols="12">
-            <span>รูปภาพที่แจ้งโอน</span>
-            <v-img class="mt-2" :src="detail.imageSlip" width="200px" cover/>
-          </v-col>
+        <v-col cols="6" class="pt-0">
+            <v-col cols="12" class="pt-0 pb-0">
+              <span>รูปภาพที่แจ้งโอน</span>
+              <v-img class="mt-2" :src="detail.imageSlip" width="200px" cover/>
+            </v-col>
         </v-col>
         <v-col cols="6">
           <v-row>
@@ -43,17 +44,7 @@
               <span>สถานะ : </span>
               <span> {{ detail.status }}</span>
             </v-col>
-            <v-col cols="12">
-              <span>วันเวลาที่ดำเนินการเติม : </span>
-              <span>{{ formatTime(detail.createAt) }}</span>
-            </v-col>
-            <v-col cols="12">
-              <span>วันเวลาที่แจ้งโอน : </span>
-              <span>{{ detail.slipDate }}, {{ detail.slipTime }}</span>
-            </v-col>
-          </v-row>
-          <v-row v-if="detail.status !== 'pending'">
-            <v-col cols="12">
+            <v-col v-if="detail.status !== 'pending'" cols="12">
               <div v-if="detail.status === 'approved'">
                 <span>วันเวลาที่อนุมัติ : </span>
                 <span>{{ formatTime(detail.approvedAt) }}</span>
@@ -62,6 +53,14 @@
                 <span>วันเวลาที่ปฏิเสธ : </span>
                 <span>{{ formatTime(detail.approvedAt) }}</span>
               </div>
+            </v-col>
+            <v-col cols="12">
+              <span>วันเวลาที่ดำเนินการเติม : </span>
+              <span>{{ formatTime(detail.createAt) }}</span>
+            </v-col>
+            <v-col cols="12">
+              <span>วันเวลาที่แจ้งโอน : </span>
+              <span>{{ detail.slipDate }}, {{ detail.slipTime }}</span>
             </v-col>
           </v-row>
         </v-col>
