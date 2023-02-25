@@ -52,7 +52,7 @@
       </v-row>
     </div>
 
-    <div class="mt-10" id="newentry">
+    <div :class="isLogin ? '' : 'mt-10'" id="newentry">
       <div v-if="newentry7d.length > 0" id="newentry_7d">
         <v-row class="mb-1">
           <v-col class="text-start">
