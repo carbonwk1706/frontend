@@ -130,6 +130,9 @@ export default {
     };
   },
   methods: {
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
+    },
     async deleteUser(user) {
       try {
         await api.delete("/users/" + user._id, user);
@@ -159,8 +162,10 @@ export default {
             result.data[i].roles[j] === "ADMIN" ||
             result.data[i].roles[j] === "LOCAL_ADMIN"
           ) {
-            this.userItems.push(result.data[i]);
+            if(result.data[i]._id !== this.getId()){
+              this.userItems.push(result.data[i]);
             break;
+            }
           }
         }
       }
