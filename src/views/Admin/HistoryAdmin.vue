@@ -25,8 +25,8 @@
         ></v-pagination>
       </v-col>
     </v-row>
-    <v-table v-if="request.length > 0" class="mt-5">
-      <thead>
+    <v-table v-if="request.length > 0" class="elevation-1">
+      <thead class="table">
         <tr>
           <th class="text-left">ลำดับ</th>
           <th class="text-left">วันที่ทำรายการ</th>
@@ -175,5 +175,8 @@ export default {
 .text-noRequest {
   font-size: 18px;
   font-weight: bold;
+}
+.table {
+  background-color: #00af70;
 }
 </style>

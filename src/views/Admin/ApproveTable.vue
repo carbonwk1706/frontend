@@ -334,7 +334,7 @@ export default {
   justify-content: center;
 }
 .table {
-  background-color: rgb(54, 233, 108);
+  background-color: #00af70;
 }
 .select-width {
   width: 200px;

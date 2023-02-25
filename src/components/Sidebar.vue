@@ -66,7 +66,7 @@
         <v-divider inset></v-divider>
         <v-list-item
           prepend-icon="mdi-book-multiple"
-          title="book"
+          title="หนังสือที่วางขาย"
           value="books"
           @click="goToBookTable()"
           dense

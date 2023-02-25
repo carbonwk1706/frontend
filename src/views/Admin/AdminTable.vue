@@ -1,45 +1,92 @@
 <template>
   <v-container fluid>
-    <v-row>
+    <v-row class="mb-3">
+      <v-col cols="6" class="text-start">
+        <h2>รายการชื่อแอดมิน</h2>
+      </v-col>
+      <v-col
+        v-if="userItems.length > 0"
+        cols="6"
+        class="pa-0 d-flex justify-end"
+      >
+        <v-pagination
+          class="text-pagination"
+          v-model="page"
+          :length="pages"
+          circle
+        ></v-pagination>
+      </v-col>
+    </v-row>
+    <v-table v-if="userItems.length > 0" dense class="elevation-1">
+      <thead class="table">
+        <tr>
+          <th class="text-left">Name</th>
+          <th class="text-left">Userame</th>
+          <th class="text-left">Email</th>
+          <th class="text-left">Gender</th>
+          <th class="text-left"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr
+          v-for="(item, index) in userItems.slice(
+            (page - 1) * itemsPerPage,
+            page * itemsPerPage
+          )"
+          :key="index"
+        >
+          <td>{{ item.name }}</td>
+          <td>{{ item.username }}</td>
+          <td>{{ item.email }}</td>
+          <td>{{ item.gender }}</td>
+          <td class="d-flex justify-center mt-2">
+            <v-btn
+              variant="flat"
+              color="success"
+              class="mr-3"
+              @click="editUser(item)"
+              >แก้ไข</v-btn
+            >
+            <v-btn
+              variant="flat"
+              color="error"
+              class="mr-3"
+              @click="
+                showConfirm = true;
+                selectedUser = item;
+              "
+              >ลบ</v-btn
+            >
+          </td>
+        </tr>
+      </tbody>
+    </v-table>
+    <v-row v-else>
+      <v-divider class="mb-6"></v-divider>
       <v-col cols="12">
-        <v-table dense class="elevation-1">
-          <thead class="table">
-            <tr>
-              <th class="text-left">Name</th>
-              <th class="text-left">Userame</th>
-              <th class="text-left">Email</th>
-              <th class="text-left">Gender</th>        
-              <th class="text-left"></th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr v-for="(item, index) in userItems" :key="index">
-              <td>{{ item.name }}</td>
-              <td>{{ item.username }}</td>
-              <td>{{ item.email }}</td>
-              <td>{{ item.gender }}</td>
-              <td class="d-flex justify-center mt-2">
-                <v-btn
-                  variant="flat"
-                  color="success"
-                  class="mr-3"
-                  @click="editUser(item)"
-                  >แก้ไข</v-btn
-                >
-                <v-btn
-                  variant="flat"
-                  color="error"
-                  class="mr-3"
-                  @click="
-                    showConfirm = true;
-                    selectedUser = item;
-                  "
-                  >ลบ</v-btn
-                >
-              </td>
-            </tr>
-          </tbody>
-        </v-table>
+        <div class="d-flex justify-center">
+          <img
+            src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
+            width="200"
+            height="200"
+          />
+        </div>
+        <div class="text-noRequest text-center">
+          <p>ขออภัยด้วยนะครับ</p>
+        </div>
+        <div class="text-center mt-3">
+          <p class="text-muted">ไม่พบข้อมูลในหัวข้อที่คุณกำลังชมค่ะ</p>
+        </div>
+      </v-col>
+    </v-row>
+    <v-row v-if="userItems.length > 0" class="mt-12">
+      <v-col cols="12" class="pa-0 d-flex justify-center">
+        <v-pagination
+          class="text-pagination"
+          v-model="page"
+          :length="pages"
+          circle
+        ></v-pagination>
       </v-col>
     </v-row>
 
@@ -72,11 +119,12 @@
 import api from "@/services/api";
 
 export default {
-  components: {},
   data() {
     return {
       userItems: [],
       selectedUser: {},
+      page: 1,
+      itemsPerPage: 10,
       showForm: false,
       showConfirm: false,
     };
@@ -86,7 +134,7 @@ export default {
       try {
         await api.delete("/users/" + user._id, user);
         this.showAlert();
-        this.userItems = this.userItems.filter((item) => item._id !== user._id); 
+        this.userItems = this.userItems.filter((item) => item._id !== user._id);
       } catch (error) {
         console.error(error);
       }
@@ -103,20 +151,19 @@ export default {
       this.showForm = false;
     },
     async fetchApi() {
-       const result = await api.get("/users/");
-       this.userItems.splice(0, this.userItems.length); 
-        for (let i = 0; i < result.data.length; i++) {
-          for (let j = 0; j < result.data[i].roles.length; j++) {
-            if (
-              result.data[i].roles[j] === "ADMIN" ||
-              result.data[i].roles[j] === "LOCAL_ADMIN"
-            ) {
-              this.userItems.push(result.data[i]);
-              break;
-            }
+      const result = await api.get("/users/");
+      this.userItems.splice(0, this.userItems.length);
+      for (let i = 0; i < result.data.length; i++) {
+        for (let j = 0; j < result.data[i].roles.length; j++) {
+          if (
+            result.data[i].roles[j] === "ADMIN" ||
+            result.data[i].roles[j] === "LOCAL_ADMIN"
+          ) {
+            this.userItems.push(result.data[i]);
+            break;
           }
         }
-
+      }
     },
     showAlert() {
       this.$swal({
@@ -128,6 +175,14 @@ export default {
         allowOutsideClick: false,
         confirmButtonText: "OK",
       });
+    },
+  },
+  computed: {
+    pages() {
+      return Math.ceil(this.userItems.length / this.itemsPerPage);
+    },
+    isLogin() {
+      return this.$store.getters["authAdmin/isLogin"];
     },
   },
   mounted() {
@@ -144,6 +199,6 @@ export default {
 }
 
 .table {
-  background-color: rgb(54, 233, 108);
+  background-color: #00af70;
 }
 </style>
