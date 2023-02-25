@@ -6,7 +6,7 @@
       </v-col>
     </v-row>
     <v-row class="mb-1">
-      <v-col cols="6" class="text-start">
+      <v-col cols="12" class="text-start">
         <div class="select-width">
           <v-select
             density="compact"
@@ -15,14 +15,6 @@
             variant="outlined"
           ></v-select>
         </div>
-      </v-col>
-      <v-col v-if="request.length > 0" cols="6" class="pa-0 d-flex justify-end">
-        <v-pagination
-          class="text-pagination"
-          v-model="page"
-          :length="pages"
-          circle
-        ></v-pagination>
       </v-col>
     </v-row>
     <v-table v-if="request.length > 0" dense class="elevation-1">
@@ -92,7 +84,7 @@
       </v-col>
     </v-row>
     <v-row v-if="request.length > 0" class="mt-12">
-      <v-col cols="12" class="pa-0 d-flex justify-center">
+      <v-col cols="12" class="pa-0">
         <v-pagination
           class="text-pagination"
           v-model="page"
@@ -257,6 +249,7 @@ export default {
       try {
         const res = await api.get("/allrequest");
         this.request = res.data.combinedData;
+        console.log(this.request)
       } catch (error) {
         console.log(error);
       }
