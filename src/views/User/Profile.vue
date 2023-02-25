@@ -54,7 +54,7 @@
                 <div class="pa-3 center-loading">
                   <v-file-input
                     :rules="rules"
-                    label="File input"
+                    label="อัพโหลดไฟล์ที่นี่"
                     variant="solo"
                     accept="image/png, image/jpeg, image/bmp"
                     prepend-icon="mdi-camera"

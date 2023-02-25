@@ -1,5 +1,5 @@
 <template>
-  <h1 class="text-center mt-6 mb-6">รายละเอียดการชำระ</h1>
+  <h1 class="text-center mt-6 mb-6">รายละเอียดการแจ้งชำระเงิน</h1>
   <v-container>
     <span>สรุปการเติม Coin</span>
     <v-divider class="mt-3 mb-6"></v-divider>
@@ -11,20 +11,51 @@
               ><span>Username: </span></v-col
             >
             <v-col cols="6" class="d-flex justify-end"
-              ><span class="text-price">{{ user.username }} </span></v-col
+              ><span>{{ user.username }} </span></v-col
             >
             <v-col cols="6" class="d-flex justify-start"
               ><span>จำนวน Coin ที่เติม: </span></v-col
             >
             <v-col cols="6" class="d-flex justify-end"
-              ><span class="text-price">{{ receipt.coin }}</span></v-col
+              ><span>{{ receipt.coin }} Coin</span></v-col
             >
             <v-col cols="6" class="d-flex justify-start"
               ><span>ช่องทางการชำระ: </span></v-col
             >
             <v-col cols="6" class="d-flex justify-end"
-              ><span class="text-price">{{ receipt.bankAccount }}</span></v-col
+              ><span>{{ receipt.bankAccount }}</span></v-col
             >
+            <v-col cols="12" class="d-flex justify-start"
+              ><span>แจ้งวันเวลาที่โอน<span style="color: red">*</span></span>
+            </v-col>
+            <v-col cols="6" class="d-flex justify-start"
+              ><v-text-field
+                v-model="formattedDate"
+                :model-value="formattedDate"
+                variant="solo"
+                type="date"
+            /></v-col>
+            <v-col cols="6" class="d-flex justify-start"
+              ><v-text-field
+                v-model="currentTime"
+                :model-value="currentTime"
+                variant="solo"
+                type="time"
+            /></v-col>
+            <v-col cols="12" class="d-flex justify-start"
+              ><span>หลักฐานการโอนเงิน<span style="color: red">*</span></span>
+            </v-col>
+            <v-col cols="12" class="d-flex justify-end">
+              <v-file-input
+                :rules="rules"
+                label="อัพโหลดไฟล์ที่นี่"
+                variant="solo"
+                accept="image/png, image/jpeg, image/bmp"
+                prepend-icon="mdi-camera"
+                @change="onFileChange"
+              >
+              </v-file-input>
+            </v-col>
           </v-row>
         </v-col>
       </v-row>
@@ -33,7 +64,7 @@
   <p class="back-add-coin text-center mt-3" @click="goToAddCoin">
     กลับไปแก้ไขธนาคารหรือจำนวนเงิน
   </p>
-  <v-container class="mt-3">
+  <v-container class="mt-3 mb-10">
     <v-card class="card py-6">
       <v-row>
         <v-col>
@@ -45,7 +76,7 @@
           </div>
           <div class="d-flex flex-row align-center justify-center">
             <v-btn class="btn-bg" rounded width="200" @click="sendRequest"
-              ><span style="font-size: 18px">ชำระเงิน</span></v-btn
+              ><span style="font-size: 18px">แจ้งชำระเงิน</span></v-btn
             >
           </div>
         </v-col>
@@ -70,7 +101,7 @@
           color="#00af70"
         ></v-progress-circular>
       </div>
-      <v-card-text class="text-center">กำลังทำการชำระเงิน</v-card-text>
+      <v-card-text class="text-center">กำลังทำการแจ้งชำระเงิน</v-card-text>
     </v-card>
   </v-dialog>
 </template>
@@ -82,12 +113,43 @@ import api from "@/services/api";
 export default {
   data() {
     return {
+      date: new Date(),
+      formattedDate: "",
+      currentTime: "",
       receipt: [],
       user: [],
       loading: false,
+      files: null,
+      rules: [
+        (value) => {
+          return (
+            !value ||
+            !value.length ||
+            value[0].size < 2000000 ||
+            "Image size should be less than 2 MB!"
+          );
+        },
+      ],
+      imagePreview: "",
     };
   },
   methods: {
+    onFileChange(e) {
+      this.files = e.target.files;
+      if (!this.files.length) return;
+
+      this.createImage(this.files[0]);
+    },
+    createImage(files) {
+      let reader = new FileReader();
+      reader.onload = (event) => {
+        this.imagePreview = event.target.result;
+      };
+      reader.readAsDataURL(files);
+    },
+    removeImage() {
+      this.imagePreview = "";
+    },
     setReceipt() {
       this.receipt = this.$store.getters["checkoutCoin/getReceipt"];
     },
@@ -107,27 +169,58 @@ export default {
         confirmButtonColor: "#00af70",
         allowOutsideClick: false,
         width: "500",
-        text: "ซื้อสินค้าสำเร็จ",
+        text: "แจ้งชำระเงินสำเร็จ",
         icon: "success",
         confirmButtonText: "ยืนยัน",
       });
     },
     async sendRequest() {
-      this.loading = true;
-      const res = await api.post("/receipt", {
-        request: "คำร้องขอเพิ่ม Coin",
-        user: this.getId(),
-        username: this.user.username,
-        amount: this.receipt.coin,
-        method: this.receipt.bankAccount,
-      });
-      if (res.status === 201) {
-        setTimeout(() => {
-          this.loading = false;
-          this.$store.dispatch("checkoutCoin/setReceipt", null);
-          router.push("/coin");
-          this.alertSuccess();
-        }, 2000);
+      if (this.imagePreview) {
+        this.loading = true;
+        this.handleFileUpload();
+        const res = await api.post("/receipt", {
+          request: "คำร้องขอเพิ่ม Coin",
+          slipDate: this.formattedDate,
+          slipTime: this.currentTime,
+          user: this.getId(),
+          username: this.user.username,
+          amount: this.receipt.coin,
+          method: this.receipt.bankAccount,
+        });
+        if (res.status === 201) {
+          setTimeout(() => {
+            this.loading = false;
+            this.$store.dispatch("checkoutCoin/setReceipt", null);
+            router.push("/coin");
+            this.alertSuccess();
+          }, 2000);
+        }
+      } else {
+        this.$swal({
+          scrollbarPadding: false,
+          width: "500",
+          confirmButtonColor: "#00af70",
+          text: "กรุณาอัพโหลดรูปภาพ",
+          icon: "warning",
+          button: "OK",
+          allowOutsideClick: false,
+        });
+      }
+    },
+
+    async handleFileUpload() {
+      try {
+        let formData = new FormData();
+        formData.append("image", this.files[0]);
+        formData.append("username", this.user.username);
+        await api.post("/upload/slip", formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        this.removeImage();
+      } catch (error) {
+        console.log(error);
       }
     },
   },
@@ -146,6 +239,8 @@ export default {
       if (this.isLogin) {
         this.setReceipt();
         this.fetchApi();
+        this.currentTime = new Date().toLocaleTimeString().slice(0, 5);
+        this.formattedDate = this.date.toISOString().split("T")[0];
       } else {
         router.push("/");
       }
