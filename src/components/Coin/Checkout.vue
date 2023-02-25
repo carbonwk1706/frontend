@@ -177,7 +177,6 @@ export default {
     async sendRequest() {
       if (this.imagePreview) {
         this.loading = true;
-        this.handleFileUpload();
         const res = await api.post("/receipt", {
           request: "คำร้องขอเพิ่ม Coin",
           slipDate: this.formattedDate,
@@ -188,6 +187,8 @@ export default {
           method: this.receipt.bankAccount,
         });
         if (res.status === 201) {
+          const receiptId = res.data.newReceipt._id
+          this.handleFileUpload(receiptId);
           setTimeout(() => {
             this.loading = false;
             this.$store.dispatch("checkoutCoin/setReceipt", null);
@@ -208,12 +209,12 @@ export default {
       }
     },
 
-    async handleFileUpload() {
+    async handleFileUpload(receiptId) {
       try {
         let formData = new FormData();
         formData.append("image", this.files[0]);
         formData.append("username", this.user.username);
-        await api.post("/upload/slip", formData, {
+        await api.post(`/upload/slip/${receiptId}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
