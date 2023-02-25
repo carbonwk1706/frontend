@@ -95,6 +95,8 @@ export default {
   data() {
     return {
       bookList: [],
+      cartList:[],
+      inventoryUser:[],
       selectedBook:[],
       showConfirm:false
     };
@@ -115,13 +117,20 @@ export default {
       this.$router.push(`/newbookadmin`);
     },
     async deleteBook(book){
-      try {
+      this.getCart()
+      if(this.cartList.length === 0){
+        console.log("Null")
+         try {
         await api.delete("/books/" + book._id, book);
         this.showAlert();
       } catch (error) {
         console.error(error);
       }
       this.fetchApi();
+      }else{
+        console.log(this.cartList)
+
+      }     
     },
     showAlert() {
       this.$swal({
@@ -134,6 +143,14 @@ export default {
         confirmButtonText: "OK",
       });
     },
+    async getCart() {
+      const res = await api.get("/cart");
+      this.cartList = res.data;
+    },
+    // async getInventoryUser() {
+    //   const res = await api.get("/inventory/" + this.getId());
+    //   this.inventoryUser = res.data;
+    // },
 
   },
   mounted() {
