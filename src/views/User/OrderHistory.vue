@@ -83,7 +83,7 @@ export default {
     return {
       history: [],
       page: 1,
-      itemsPerPage: 5,
+      itemsPerPage: 10
     };
   },
   methods: {

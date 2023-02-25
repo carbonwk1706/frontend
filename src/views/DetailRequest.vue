@@ -10,7 +10,7 @@
                 <span>ID:</span>
               </v-col>
               <v-col cols="6" class="d-flex justify-end">
-                <span>{{ request._id }}</span>
+                <span>{{ request._id}}</span>
               </v-col>
               <v-divider></v-divider>
               <v-col cols="6" class="d-flex justify-start">
@@ -61,13 +61,6 @@
               <v-col cols="6" class="d-flex justify-end">
                 <span> {{ request.idAccount }} </span>
               </v-col>
-              <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
-                <span>รหัสประจำตัวประชาชน:</span>
-              </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <span> {{ request.idCard }} </span>
-              </v-col>
             </v-row>
           </v-card-text>
         </v-card>
@@ -75,8 +68,26 @@
       <v-col cols="6" sm="6">
         <v-card class="card">
           <v-card-text>
-            
-
+            <v-row class="d-flex justify-center">
+              <v-col cols="6" class="d-flex justify-start">
+                <span>รหัสประจำตัวประชาชน:</span>
+              </v-col>
+              <v-col cols="6" class="d-flex justify-end">
+                <span> {{ request.idCard }} </span>
+              </v-col>
+              <v-col cols="6" class="d-flex justify-start">
+                <span> รูปภาพบัตรประชาชน:</span>
+              </v-col>
+              <v-col cols="6" class="d-flex justify-end">
+                <v-img
+                  :width="348"
+                  aspect-ratio="16/9"
+                  cover
+                  src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                  onclick="previewImage(this)"
+                ></v-img>
+              </v-col>
+            </v-row>
           </v-card-text>
         </v-card>
       </v-col>
@@ -154,16 +165,45 @@ export default {
       request: [],
     };
   },
+  methods : {
+
+   previewImage(image) {
+  // Create a new image element
+  var preview = document.createElement("img");
+  preview.src = image.src;
+  preview.classList.add("preview-image");
+
+  // Append the image to the body or a specific container element
+  document.body.appendChild(preview);
+
+  // Add a click event listener to remove the preview when clicked
+  preview.addEventListener("click", function() {
+    document.body.removeChild(preview);
+  });
+}
+  },
   mounted() {
     api.get("/request/" + this.$route.params.id).then((result) => {
       this.request = result.data.request;
       console.log(this.request);
     });
   },
+
 };
 </script>
 <style scoped>
 .card {
   background-color: #f6f6f6;
+}
+
+.preview-image {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.8);
+  object-fit: contain;
+  cursor: pointer;
 }
 </style>

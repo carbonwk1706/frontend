@@ -418,7 +418,7 @@
 <script>
 import api from "@/services/api";
 import router from "../router";
-import Login from "../views/Login.vue";
+import Login from "../views/User/Login.vue";
 
 export default {
   components: {

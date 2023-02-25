@@ -31,13 +31,13 @@ const routes = [
   {
     path: '/book/:id',
     name: 'book',
-    component: () => import('../views/Book.vue')
+    component: () => import('../views/Sell/Book.vue')
   }
   ,
   {
     path: '/login',
     name: 'loginadmin',
-    component: () => import('../views/LoginAdmin.vue')
+    component: () => import('../views/Admin/LoginAdmin.vue')
   }
   ,
   {
@@ -121,12 +121,18 @@ const routes = [
   {
     path: '/approvetable',
     name: 'approvetable',
-    component: () => import('../views/ApproveTable.vue')
+    component: () => import('../views/Admin/ApproveTable.vue')
   },
   {
     path: '/request/:id',
     name: 'request',
-    component: () => import('../views/DetailRequest.vue')
+    component: () => import('../views/DetailRequest.vue'),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true
+    }
   },
   {
     path: '/coin',
@@ -140,7 +146,9 @@ const routes = [
     component: () => import('../views/Admin/EditUserForm.vue'),
     meta: {
       hideFooter: true,
+      hideFooterCoin: true,
       hideNavbar: true,
+      hideNavbarCoin: true
     }
   },
   {
@@ -155,12 +163,14 @@ const routes = [
     component: () => import('../views/Admin/EditAdminForm.vue'),
     meta: {
       hideFooter: true,
-      hideNavbar: true
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true
     }
   },{
     path: '/historyadmin',
     name: 'historyadmin',
-    component: () => import('../views/HistoryAdmin.vue')
+    component: () => import('../views/Admin/HistoryAdmin.vue')
   },
   {
     path: '/search/:searchTerm?',
@@ -203,18 +213,21 @@ const routes = [
     component: () => import('../views/Admin/Book/EditBookForm.vue'),
     meta: {
       hideFooter: true,
-      hideNavbar: true
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true
     }
-  },
-  {
-    path: '/approvetable/coin',
-    name: 'approvetablecoin',
-    component: () => import('../views/ApproveTabelCoin.vue')
   },
   {
     path: '/requestcoin/:id',
     name: 'requestcoindetail',
-    component: () => import('../views/DeatailRequsetCoin.vue')
+    component: () => import('../views/DeatailRequsetCoin.vue'),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true
+    }
   }
 ]
 
