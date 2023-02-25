@@ -252,9 +252,11 @@
     v-if="showMiddleNav"
     style="background-color: #f6f6f6"
     class="middle-nav"
+    :class="screenWidth <= 990 ? 'pl-4' : ''"
     height="50"
   >
-    <v-spacer></v-spacer>
+  
+    <v-spacer v-if="screenWidth > 990"></v-spacer>
     <v-menu offset-y>
       <template v-slot:activator="{ props }">
         <span class="text-middle" v-bind="props">
@@ -298,15 +300,15 @@
       </v-card>
     </v-menu>
 
-    <v-spacer></v-spacer>
+    <v-spacer v-if="screenWidth > 990"></v-spacer>
   </v-toolbar>
   <v-toolbar
     id="bottom-nav"
-    :class="showMiddleNav ? 'bottom-nav' : 'bottom-nav-2'"
+    :class="[(showMiddleNav ? 'bottom-nav' : 'bottom-nav-2'),(screenWidth <= 990 ? 'pl-4' : '')]"
     style="background-color: #f6f6f6"
     height="50"
   >
-    <v-spacer></v-spacer>
+    <v-spacer v-if="screenWidth > 990"></v-spacer>
     <v-menu offset-y v-if="!showMiddleNav">
       <template v-slot:activator="{ props }">
         <span class="font-text mr-3" v-bind="props">
@@ -384,7 +386,7 @@
       @click="goToRecommend"
       >แนะนำ</span
     >
-    <v-spacer></v-spacer>
+    <v-spacer v-if="screenWidth > 990"></v-spacer>
   </v-toolbar>
 
   <Login
@@ -504,6 +506,9 @@ export default {
     },
     goToRecommend() {
       router.push("/recommend");
+    },
+    goToMyShop(){
+      router.push("/")
     },
     goToRegisterSell() {
       router.push("/registersell");

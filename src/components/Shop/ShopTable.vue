@@ -2,8 +2,12 @@
   <v-container fluid>
     <div v-if="!isLogin" id="menu">
       <v-row>
-        <v-col lg="4" md="4" sm="12"  class="mb-4">
-          <v-card @click="toggleModalRegister" class="mx-auto bg-card" max-width="300">
+        <v-col lg="4" md="4" sm="12" class="mb-4">
+          <v-card
+            @click="toggleModalRegister"
+            class="mx-auto bg-card"
+            max-width="300"
+          >
             <v-container>
               <div class="text-card-center">
                 <v-icon class="mr-3">mdi-account-plus</v-icon>
@@ -29,7 +33,11 @@
           </v-card>
         </v-col>
         <v-col lg="4" md="4" sm="12" class="mb-4">
-          <v-card @click="goToRecommend" class="mx-auto bg-card" max-width="300">
+          <v-card
+            @click="goToRecommend"
+            class="mx-auto bg-card"
+            max-width="300"
+          >
             <v-container>
               <div class="text-card-center">
                 <v-icon class="mr-3">mdi-thumb-up</v-icon>
@@ -308,7 +316,7 @@
           sm="3"
           xs="2"
         >
-          <v-card max-width="340" class="mx-auto bg-review-card" height="300">
+          <v-card max-width="340" class="mx-auto bg-review-card" height="360">
             <div
               v-for="(review, index) in book.reviews
                 .slice()
@@ -317,12 +325,30 @@
               :key="index"
             >
               <v-card>
-                <v-row>
+                <v-row class="ma-2">
                   <v-col cols="12">
-                    <p>comment "{{ review.comment }}"</p>
+                    <p class="review-comment">{{ review.comment }}</p>
+                    <p class="text-show-all" @click="hidereview(review)">
+                      แสดงทั้งหมด
+                    </p>
                   </v-col>
+                  <v-card-subtitle class="subtitle-2 text-uppercase"
+                    >รีวิวจาก
+                  </v-card-subtitle>
                   <v-col cols="12">
-                    <p>{{ review.user.username }} rated {{ review.rating }}</p>
+                    <p>{{ review.user.name }}</p>
+                    <div style="font-size: 10px">
+                      <v-rating
+                        v-model="review.rating"
+                        color="#5a5a5a"
+                        active-color="#e83e8c"
+                        empty-icon="mdi-cards-heart"
+                        full-icon="mdi-cards-heart"
+                        readonly
+                        hover
+                        size="16"
+                      />
+                    </div>
                   </v-col>
                 </v-row>
               </v-card>
@@ -340,10 +366,10 @@
                 <v-col cols="7">
                   <v-row>
                     <v-col cols="12">
-                      <p>{{ book.name }}</p>
-                      <p>Author: {{ book.author }}</p>
-                      <p>Category: {{ book.category }}</p>
-                      <p>{{ book.rating }} คะแนน จาก {{ book.ratingsCount }}</p>
+                      <p style="font-size: 16px; font-weight: bold;">{{ book.name }}</p>
+                      <p style="font-size: 12px; ">Author: {{ book.author }}</p>
+                      <p style="font-size: 12px; ">Category: {{ book.category }}</p>
+                      <p style="font-size: 12px; color: red;">{{ book.rating }} คะแนน จาก {{ book.ratingsCount }} </p>
                     </v-col>
                   </v-row>
                 </v-col>
@@ -789,16 +815,41 @@
     </v-dialog>
   </v-container>
 
+  <v-dialog v-model="showReview" max-width="600px">
+    <v-card max-width="400px" class="pa-4">
+      <div class="d-flex justify-end pa-0">
+        <v-icon @click="showReview = false">mdi-close</v-icon>
+      </div>
+      <p class="text-h6">{{ displayName }}</p>
+      <v-divider class="my-2"></v-divider>
+      <p>{{ userComment }}</p>
+      <div class="my-1">
+        <span>Rating: </span>
+        <span style="font-size: 10px">
+          <v-rating
+            v-model="userRating"
+            color="#5a5a5a"
+            active-color="#e83e8c"
+            empty-icon="mdi-cards-heart"
+            full-icon="mdi-cards-heart"
+            readonly
+            hover
+            size="16"
+          />
+        </span>
+      </div>
+    </v-card>
+  </v-dialog>
+
   <Login
     :visibleModal="visibleModal"
     @update:isVisible="visibleModal = $event"
   />
 
   <Register
-  :registerModal="registerModal"
-  @update:isVisible="registerModal = $event"
-/>
-
+    :registerModal="registerModal"
+    @update:isVisible="registerModal = $event"
+  />
 </template>
 
 <script>
@@ -824,9 +875,14 @@ export default {
       myBook: [],
       reviews: [],
       showModal: false,
+      showReview: false,
       screenWidth: 0,
       visibleModal: false,
       registerModal: false,
+      displayName: "",
+      userComment: "",
+      userRating: 0,
+      showFullText: false,
     };
   },
   methods: {
@@ -860,11 +916,17 @@ export default {
     goToHalloffame() {
       router.push("/halloffame");
     },
-    goToAllBooks(){
-      router.push("/books/all")
+    goToAllBooks() {
+      router.push("/books/all");
     },
     hideModal() {
       this.showModal = !this.showModal;
+    },
+    hidereview(review) {
+      this.displayName = review.user.name;
+      this.userComment = review.comment;
+      this.userRating = review.rating;
+      this.showReview = true;
     },
     showDetail(item) {
       this.$router.push(`/book/${item._id}`);
@@ -1095,12 +1157,12 @@ export default {
 </script>
 
 <style scoped>
-.bg-card{
+.bg-card {
   background-image: linear-gradient(#00af70, #37c13d);
   color: #ffff;
   cursor: pointer;
 }
-.bg-card:hover{
+.bg-card:hover {
   box-shadow: 0 1px 5px rgba(0, 0, 0, 0.3);
 }
 .text-go {
@@ -1143,5 +1205,19 @@ export default {
 }
 .bg-review-card {
   background-color: #f6f6f6;
+}
+.review-comment {
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+.text-show-all {
+  font-size: 16px;
+  line-height: 1.5;
+  color: #39b449;
+  margin-bottom: 10px;
+  cursor: pointer;
 }
 </style>

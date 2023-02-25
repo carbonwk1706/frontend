@@ -57,6 +57,17 @@
                   style="color: #5a5a5a"
                   rounded
                   variant="text"
+                  @click="goToBuyHistory"
+                >
+                  <span class="font-text">ประวัติการสั่งซื้อของฉัน</span>
+                </v-btn>
+              </v-col>
+              <v-divider class="my-1"></v-divider>
+              <v-col class="px-0">
+                <v-btn
+                  style="color: #5a5a5a"
+                  rounded
+                  variant="text"
                   @click="goToProfile"
                 >
                   <span class="font-text">จัดการบัญชี</span>

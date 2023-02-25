@@ -87,7 +87,7 @@ export default {
     return {
       coinHistory: [],
       page: 1,
-      itemsPerPage: 5,
+      itemsPerPage: 10,
     };
   },
   methods: {
