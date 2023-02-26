@@ -10,24 +10,27 @@
         </div>
       </div>
       <div>
-        <div class="ma-10 font-text">กรุณาเลือกช่องทางการเติม Coin</div>
-        <v-row row justify="space-around">
+        <div class="mt-15 mb-5 font-text">กรุณาเลือกช่องทางการเติม Coin</div>
+        <v-divider class="mb-6"></v-divider>
+        <v-row row justify="start">
           <v-col
             cols="3"
             v-for="item in listBankAccout"
             :key="item.listBankAccout"
+            md="4"
+            sm="6"
+            xs="4"
           >
             <v-card
               :class="{ highlight: item.isClicked }"
               @click="selectBank(item)"
-              class="mx-auto"
-              max-width="344"
+              max-width="350"
             >
               <div class="d-flex justify-center">
                 <v-img
                   :src="'http://localhost:3000/uploads/' + item.image"
-                  height="200px"
-                  width="200"
+                  height="200"
+                  width="300"
                 ></v-img>
               </div>
 
@@ -95,6 +98,7 @@
           <div class="pa-3 center-loading">
             <v-text-field
               label="ระบุจำนวน Coin ที่ต้องการ"
+              type="number"
               v-model="selectedCoin"
               variant="outlined"
             ></v-text-field>
@@ -211,9 +215,27 @@ export default {
         bankAccount: this.selectedBankAccount,
         coin: parseInt(this.selectedCoin),
       };
-      this.showConfirm = false;
-      this.$store.dispatch("checkoutCoin/setReceipt", this.resultSelect);
-      router.push("/checkoutcoin");
+      if (this.selectedCoin <= 0) {
+        this.$swal({
+          scrollbarPadding: false,
+          confirmButtonColor: "#00af70",
+          allowOutsideClick: false,
+          width: "500",
+          text: "กรุณากรอกจำนวนเงินให้ถูกต้อง",
+          icon: "warning",
+          button: "OK",
+        });
+      } else {
+        if (this.selectedBankAccount === "โอนเงินเข้าบัญชีธนาคาร") {
+          this.showConfirm = false;
+          this.$store.dispatch("checkoutCoin/setReceipt", this.resultSelect);
+          router.push("/checkoutcoin");
+        } else {
+          this.showConfirm = false;
+          this.$store.dispatch("checkoutCoin/setReceipt", this.resultSelect);
+          router.push("/checkoutcoin/qrcode");
+        }
+      }
     },
     async fetchApi() {
       const res = await api.get("/profile/" + this.getId());
@@ -238,14 +260,14 @@ export default {
       this.fetchApi();
     }
   },
-  async created(){
+  async created() {
     this.socket = io(this.socketioURL, {
       transports: ["websocket", "polling"],
     });
     this.socket.on("receipt-approved", () => {
       this.fetchApi();
     });
-  }
+  },
 };
 </script>
 
