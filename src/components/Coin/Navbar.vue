@@ -225,7 +225,9 @@ export default {
 .img-size {
   width: 100px;
 }
-
+.text-upper {
+  text-transform: uppercase;
+}
 .font-text {
   font-family: Prompt, sans-serif;
   font-size: 16px;
