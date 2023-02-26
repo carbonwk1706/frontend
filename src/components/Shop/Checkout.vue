@@ -91,6 +91,7 @@ export default {
         setTimeout(() => {
           this.loading = false;
           this.$store.dispatch("selectItem/setSelectedItems", []);
+          this.$store.dispatch("user/setUpdateUser", true);
           router.push("/mybook");
           this.alertSuccess();
         }, 2000);
@@ -105,11 +106,7 @@ export default {
         text: "ซื้อสินค้าสำเร็จ",
         icon: "success",
         confirmButtonText: "ยืนยัน",
-      }).then((result) => {
-        if (result.value) {
-          window.location.reload();
-        }
-      });
+      })
     },
     alertWarning() {
       this.$swal({

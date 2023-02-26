@@ -681,6 +681,9 @@ export default {
     getCartListCount() {
       return this.$store.getters["cartList/cartListCount"];
     },
+    getUser() {
+      return this.$store.getters["user/fetchApi"];
+    },
   },
   watch: {
     isLogin(newValue) {
@@ -701,6 +704,12 @@ export default {
         document.body.classList.remove("dialog-open");
       }
     },
+    getUser(newValue){
+      if(newValue){
+        this.fetchApi();
+        this.$store.dispatch("user/setUpdateUser", false);
+      }
+    }
   },
   mounted() {
     this.visibleModal = false;

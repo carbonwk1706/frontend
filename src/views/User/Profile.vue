@@ -297,6 +297,7 @@ export default {
           this.loading = false;
           setTimeout(() => {
             this.fetchApi();
+            this.$store.dispatch("user/setUpdateUser", true);
           }, 1000);
           this.showAlert();
         } catch (error) {
@@ -327,11 +328,7 @@ export default {
         icon: "success",
         allowOutsideClick: false,
         confirmButtonText: "OK",
-      }).then((result) => {
-        if (result.value) {
-          window.location.reload();
-        }
-      });
+      })
     },
     getId() {
       return this.$store.getters["auth/getId"];
