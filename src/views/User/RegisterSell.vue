@@ -107,6 +107,31 @@
               ></v-text-field>
             </v-col>
           </v-row>
+          <v-row>
+            <v-col cols="12">
+              <span
+                >อัพโหลดรูปบัตรประชาชน <span style="color: red">*</span></span
+              >
+            </v-col>
+            <v-col cols="12">
+              <v-file-input
+                v-if="files1 === null"
+                :rules="rules"
+                label="อัพโหลดไฟล์ที่นี่"
+                variant="solo"
+                accept="image/png, image/jpeg, image/bmp"
+                prepend-icon="mdi-camera"
+                @change="onFileChange1"
+              >
+              </v-file-input>
+              <p v-else>
+                {{ files1[0].name }}
+                <v-icon class="ml-1" @click="removeImage1"
+                  >mdi-close-box</v-icon
+                >
+              </p>
+            </v-col>
+          </v-row>
         </v-form>
       </v-container>
 
@@ -309,6 +334,30 @@
               ></v-text-field>
             </v-col>
           </v-row>
+
+          <v-row>
+            <v-col cols="12">
+              <span>อัพโหลดรูปบัญชี <span style="color: red">*</span></span>
+            </v-col>
+            <v-col cols="12">
+              <v-file-input
+                v-if="files2 === null"
+                :rules="rules"
+                label="อัพโหลดไฟล์ที่นี่"
+                variant="solo"
+                accept="image/png, image/jpeg, image/bmp"
+                prepend-icon="mdi-camera"
+                @change="onFileChange2"
+              >
+              </v-file-input>
+              <p v-else>
+                {{ files2[0].name }}
+                <v-icon class="ml-1" @click="removeImage2"
+                  >mdi-close-box</v-icon
+                >
+              </p>
+            </v-col>
+          </v-row>
         </v-form>
       </v-container>
 
@@ -454,6 +503,10 @@ export default {
   },
   data() {
     return {
+      files1: null,
+      files2: null,
+      imageIDCard: "",
+      imageBankAccount: "",
       showModal: false,
       showModal1: false,
       loading: false,
@@ -490,6 +543,16 @@ export default {
         "TTB-ธนาคารทหารไทยธนชาต จำกัด (มหาชน)",
         "UOB-ธนาคารยูโอบี จำกัด (มหาชน)",
         "CIMB-ธนาคาร ซีไอเอ็มบี ไทย จำกัด (มหาชน)",
+      ],
+      rules: [
+        (value) => {
+          return (
+            !value ||
+            !value.length ||
+            value[0].size < 2000000 ||
+            "Image size should be less than 2 MB!"
+          );
+        },
       ],
     };
   },
@@ -558,11 +621,76 @@ export default {
     },
   },
   methods: {
+    onFileChange1(e) {
+      this.files1 = e.target.files;
+      if (!this.files1.length) return;
+
+      this.createImage1(this.files1[0]);
+    },
+    createImage1(files) {
+      let reader = new FileReader();
+      reader.onload = (event) => {
+        this.imageIDCard = event.target.result;
+      };
+      reader.readAsDataURL(files);
+    },
+    onFileChange2(e) {
+      this.files2 = e.target.files;
+      if (!this.files2.length) return;
+
+      this.createImage2(this.files2[0]);
+    },
+    createImage2(files) {
+      let reader = new FileReader();
+      reader.onload = (event) => {
+        this.imageBankAccount = event.target.result;
+      };
+      reader.readAsDataURL(files);
+    },
+    removeImage1() {
+      this.imageIDCard = "";
+      this.files1 = null;
+    },
+    removeImage2() {
+      this.imageBankAccount = "";
+      this.files2 = null;
+    },
+    async handleFileUpload1(requestId) {
+      try {
+        let formData = new FormData();
+        formData.append("image", this.files1[0]);
+        await api.post(`/upload/imageIDCard/${requestId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        this.removeImage1();
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async handleFileUpload2(requestId) {
+      try {
+        let formData = new FormData();
+        formData.append("image", this.files2[0]);
+        await api.post(`/upload/imageBankAccount/${requestId}`, formData, {
+          headers: {
+            "Content-Type": "multipart/form-data",
+          },
+        });
+        this.removeImage2();
+      } catch (error) {
+        console.log(error);
+      }
+    },
     async goPage2() {
       const { valid } = await this.$refs.form.validate();
       if (!valid) {
         this.showAlert("กรุณากรอกข้อมูลให้ครบถ้วน");
+      } else if (!this.imageIDCard) {
+        this.showAlert("กรุณาอัพโหลดรูปภาพ");
       } else {
+        console.log(this.files1);
         this.page++;
       }
     },
@@ -578,17 +706,22 @@ export default {
       const { valid } = await this.$refs.form2.validate();
       if (!valid) {
         this.showAlert("กรุณากรอกข้อมูลให้ครบถ้วน");
+      } else if (!this.imageBankAccount) {
+        this.showAlert("กรุณาอัพโหลดรูปภาพ");
       } else {
         this.page++;
       }
     },
+    getId() {
+      return this.$store.getters["auth/getId"];
+    },
     async submitForm() {
       if (this.terms) {
         try {
-          this.showModal1 = true
-          this.loading = true
-          await api.post("/request", {
-            user: this.$store.getters["auth/getId"],
+          this.showModal1 = true;
+          this.loading = true;
+          const res = await api.post("/request", {
+            user: this.getId(),
             request: "คำร้องขอสมัครขายอีบุ๊ค",
             publisher: this.form.publisher,
             firstName: this.form.firstName,
@@ -604,20 +737,25 @@ export default {
             bankAccount: this.form.bankAccount,
             idAccount: this.form.idAccount,
           });
-          this.resetForm();
-          setTimeout(() => {
-            this.showModal1 = false
-            this.loading = false
-            router.push("/");
-            this.$swal({
-              confirmButtonColor: "#00af70",
-              allowOutsideClick: false,
-              width: "500",
-              text: "บันทึกข้อมูลสำเร็จ",
-              icon: "success",
-              confirmButtonText: "OK",
-            });
-          }, 2000);
+          if (res.status === 201) {
+            const requestId = res.data.newRequest._id;
+            this.handleFileUpload1(requestId);
+            this.handleFileUpload2(requestId);
+            this.resetForm();
+            setTimeout(() => {
+              this.showModal1 = false;
+              this.loading = false;
+              router.push("/");
+              this.$swal({
+                confirmButtonColor: "#00af70",
+                allowOutsideClick: false,
+                width: "500",
+                text: "บันทึกข้อมูลสำเร็จ",
+                icon: "success",
+                confirmButtonText: "OK",
+              });
+            }, 2000);
+          }
         } catch (error) {
           console.log(error);
         }
@@ -650,9 +788,6 @@ export default {
         icon: "warning",
         button: "OK",
       });
-    },
-    getId() {
-      return this.$store.getters["auth/getId"];
     },
     async checkRoles() {
       const res = await api.get("/checkRoles/" + this.getId());
