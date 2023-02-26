@@ -97,7 +97,6 @@
     <v-dialog
       v-model="showConfirmDialog"
       persistent
-      style="z-index: 900"
       :center="true"
       max-width="500"
       :padding="20"
@@ -125,7 +124,6 @@
     <v-dialog
       v-model="showCancelDialog"
       persistent
-      style="z-index: 900"
       :center="true"
       max-width="500"
       :padding="20"

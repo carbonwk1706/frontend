@@ -82,7 +82,6 @@
     <v-dialog
       v-model="showConfirm"
       persistent
-      style="z-index: 900"
       :center="true"
       max-width="500"
       :padding="20"

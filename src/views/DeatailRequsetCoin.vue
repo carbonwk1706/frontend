@@ -1,8 +1,15 @@
 <template>
-  <div class="d-flex justify-center">รายละเอียดคำร้อง</div>
-  <v-container>
-    <v-row>
-      <v-col cols="6" sm="6">
+  <v-container fluid>
+    <v-btn icon @click="goBack">
+          <v-icon>mdi-arrow-left</v-icon>
+    </v-btn>
+    <v-row class="mb-3 mt-3">
+      <v-col cols="12" class="d-flex justify-center">
+        <h2>รายละเอียดคำร้อง</h2>
+      </v-col>
+    </v-row>
+    <v-row  class="bg-white my-3 rounded border px-3">
+      <v-col cols="12" sm="6">
         <v-card class="card">
           <v-card-text>
             <v-row class="d-flex justify-center">
@@ -30,7 +37,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="6" sm="6">
+      <v-col cols="12" sm="6">
         <v-card class="card">
           <v-card-text>
             <v-row class="d-flex justify-center">
@@ -58,23 +65,20 @@
           </v-card-text>
         </v-card>
       </v-col>
-
-      <v-col>
+      <v-col cols="12">
         <v-card class="card">
           <v-card-text>
             <v-row class="d-flex justify-center">
               <v-col cols="6" class="d-flex justify-start">
-                <span>รูปภาพ</span>
+                <span>รูปภาพใบเสร็จ:</span>
               </v-col>
               <v-col cols="6" class="d-flex justify-end">
-                <span>{{ request.createdAt }}</span>
-              </v-col>
-              <v-divider></v-divider>
-              <v-col cols="4" class="d-flex justify-start">
-                <span>ธนาคาร:</span>
-              </v-col>
-              <v-col cols="8" class="d-flex justify-end">
-                <span> {{ request.method }} </span>
+                <v-img
+                  :width="348"
+                  aspect-ratio="16/9"
+                  cover
+                  src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                ></v-img>
               </v-col>
             </v-row>
           </v-card-text>
@@ -90,6 +94,11 @@ export default {
     return {
       request: [],
     };
+  },
+  methods: {
+    goBack(){
+      this.$router.push("/approvetable");
+    }
   },
   mounted() {
     api.get("/requestcoin/" + this.$route.params.id).then((result) => {
