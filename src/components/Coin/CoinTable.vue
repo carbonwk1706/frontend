@@ -53,7 +53,7 @@
         <v-row class="d-flex align-center justify-center mx-0" fixed dense>
           <v-col cols="4" v-for="item in coin" :key="item.coin">
             <v-card
-              :style="{ 'max-height': '200px', width: '344', margin: '10px' }"
+              :style="{ 'height': '100px', width: '344', margin: '10px' }"
               :class="{ highlight: item.isClicked }"
               อ
               @click="selectCoin(item)"

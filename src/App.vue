@@ -4,24 +4,21 @@
     <CoinNavbar
       v-if="
         (showNavbarCoin && !this.isNotFoundRoute && this.isLogin) ||
-        showNavCoinDetail && !hideNavbar
+        (showNavCoinDetail && !hideNavbar)
       "
     />
     <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
     <v-carousel
-    class="mg-carousel"
+      class="mg-carousel"
       v-if="isRootRoute"
       hide-delimiter-background
       :show-arrows="false"
       color="success"
-      style="height: 300;"
+      style="height: 300"
     >
-        <v-carousel-item
-      v-for="(item,i) in items"
-      :key="i"
-    >
-    <v-img :src="item.src" cover height="300"></v-img>
-  </v-carousel-item>
+      <v-carousel-item v-for="(item, i) in items" :key="i">
+        <v-img :src="item.src" cover height="300"></v-img>
+      </v-carousel-item>
     </v-carousel>
     <v-main
       :class="{
@@ -37,7 +34,7 @@
     <FooterCoin
       v-if="
         (showFooterCoin && !this.isNotFoundRoute && this.isLogin) ||
-        showFooterCoinDetail && !hideFooter
+        (showFooterCoinDetail && !hideFooter)
       "
     />
   </v-app>
@@ -140,6 +137,7 @@ export default {
             "/profile",
             "/registersell",
             "/coin",
+            "/checkoutcoin/qrcode",
             "/mybook",
             "/profile",
             "/coinhistory",
@@ -150,7 +148,7 @@ export default {
             "/approvetable",
             "/historyadmin",
             "/orderhistory",
-            "/bookadmin"
+            "/bookadmin",
           ].includes(this.$route.path);
         } else {
           return ![
@@ -161,6 +159,7 @@ export default {
             "/admintable",
             "/approvetable",
             "/historyadmin",
+            "/checkoutcoin/qrcode",
             "/coin",
             "/bookadmin",
             "/checkoutcoin",
@@ -179,6 +178,7 @@ export default {
             "/wishlist",
             "/profile",
             "/registersell",
+            "/checkoutcoin/qrcode",
             "/coin",
             "/mybook",
             "/wishlist",
@@ -201,6 +201,7 @@ export default {
             "/admintable",
             "/approvetable",
             "/historyadmin",
+            "/checkoutcoin/qrcode",
             "/coin",
             "/bookadmin",
             "/checkoutcoin",
@@ -213,27 +214,33 @@ export default {
       const currenRoute = this.$route;
       if (currenRoute.meta.hideNavbar && !currenRoute.meta.hideSidebar) {
         return true;
-      }{
+      }
+      {
         return [
-        "/admin",
-        "/usertable",
-        "/admintable",
-        "/approvetable",
-        "/historyadmin",
-        "/bookadmin",
-      ].includes(this.$route.path);
+          "/admin",
+          "/usertable",
+          "/admintable",
+          "/approvetable",
+          "/historyadmin",
+          "/bookadmin",
+        ].includes(this.$route.path);
       }
     },
     showNavbarCoin() {
-      return ["/coin", "/checkoutcoin", "/coinhistory"].includes(
-        this.$route.path
-      );
+      return [
+        "/coin",
+        "/checkoutcoin",
+        "/coinhistory",
+        "/checkoutcoin/qrcode",
+      ].includes(this.$route.path);
     },
     showFooterCoin() {
-      return ["/coin", "/checkoutcoin", "/coinhistory"].includes(
-        this.$route.path
-      );
-
+      return [
+        "/coin",
+        "/checkoutcoin",
+        "/coinhistory",
+        "/checkoutcoin/qrcode",
+      ].includes(this.$route.path);
     },
     showNavCoinDetail() {
       const currenRoute = this.$route;
@@ -282,7 +289,7 @@ export default {
 .padding-main-root {
   padding-top: 60px;
 }
-.mg-carousel{
+.mg-carousel {
   margin-top: 164px;
 }
 </style>

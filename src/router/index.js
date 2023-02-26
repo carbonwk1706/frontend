@@ -189,6 +189,11 @@ const routes = [
     component: () => import('../components/Coin/Checkout.vue')
   },
   {
+    path: '/checkoutcoin/qrcode',
+    name: 'checkoutcoinQRCode',
+    component: () => import('../components/Coin/CheckoutQR.vue')
+  },
+  {
     path: '/coinhistory',
     name: 'coinhistory',
     component: () => import('../components/Coin/CoinHistory.vue')
