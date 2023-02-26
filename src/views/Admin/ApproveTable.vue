@@ -157,6 +157,7 @@
 import api from "@/services/api";
 import AuthAdmin from "../../components/AuthAdmin.vue";
 import moment from "moment";
+import io from "socket.io-client";
 
 export default {
   components: {
@@ -171,6 +172,8 @@ export default {
       selectItem: ["คำร้องทั้งหมด", "คำร้องขอขายอีบุ๊ค", "คำร้องขอเติม Coin"],
       page: 1,
       itemsPerPage: 10,
+      socket: null,
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
@@ -318,6 +321,17 @@ export default {
     if (this.isLogin) {
       this.fetchApi();
     }
+  },
+  created() {
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("new-receipt", () => {
+      this.fetchApi();
+    });
+    this.socket.on("new-request", () => {
+      this.fetchApi();
+    });
   },
 };
 </script>

@@ -857,6 +857,7 @@ import router from "@/router";
 import api from "@/services/api";
 import Login from "@/views/User/Login.vue";
 import Register from "@/views/User/Register.vue";
+import io from "socket.io-client";
 
 export default {
   name: "ShopTable",
@@ -883,6 +884,8 @@ export default {
       userComment: "",
       userRating: 0,
       showFullText: false,
+      socket: null,
+    socketioURL: "http://localhost:3000",
     };
   },
   methods: {
@@ -1152,6 +1155,14 @@ export default {
       this.visibleModal = false;
       this.getMyBook();
     }
+  },
+  async created() {
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("new-rating", () => {
+      this.getAllReview()
+    });
   },
 };
 </script>
