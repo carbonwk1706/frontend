@@ -164,6 +164,7 @@
 <script>
 import api from "@/services/api";
 import router from "@/router";
+import io from "socket.io-client";
 
 export default {
   name: "Wish",
@@ -174,6 +175,8 @@ export default {
       showModal: false,
       page: 1,
       itemsPerPage: 40,
+      socket: null,
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
@@ -261,18 +264,29 @@ export default {
       return Math.ceil(this.wishList.length / this.itemsPerPage);
     },
   },
-    watch: {
-    isLogin(newValue){
-      if(!newValue){
-      this.$store.dispatch("wishlist/setWishList", []);
+  watch: {
+    isLogin(newValue) {
+      if (!newValue) {
+        this.$store.dispatch("wishlist/setWishList", []);
       }
-    }
+    },
   },
   mounted() {
     if (this.isLogin) {
       this.getWishList();
       this.getMyBook();
     }
+  },
+  async created() {
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("new-rating", () => {
+      if (this.isLogin) {
+        this.getWishList();
+        this.getMyBook();
+      }
+    });
   },
 };
 </script>

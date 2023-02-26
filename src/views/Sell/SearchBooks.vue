@@ -179,6 +179,7 @@
 import router from "@/router";
 import api from "@/services/api";
 import Login from "@/views/User/Login.vue";
+import io from "socket.io-client";
 
 export default {
   name: "search",
@@ -203,6 +204,8 @@ export default {
       searchTerm: "",
       loadingSearch: false,
       visibleModal: false,
+      socket: null,
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
@@ -406,6 +409,23 @@ export default {
       this.visibleModal = false;
       this.getMyBook();
     }
+  },
+  async created() {
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("new-rating", () => {
+      this.fetchApi();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
+    this.socket.on("product-sell", () => {
+      this.fetchApi();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
   },
 };
 </script>

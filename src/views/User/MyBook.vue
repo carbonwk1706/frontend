@@ -135,6 +135,7 @@
 import api from "@/services/api";
 import router from "@/router";
 import Auth from "@/components/Auth.vue";
+import io from "socket.io-client";
 
 export default {
   components: {
@@ -150,6 +151,8 @@ export default {
       itemsPerPage: 40,
       searchTerm: "",
       loadingSearch: false,
+      socket: null,
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
@@ -222,6 +225,17 @@ export default {
       this.getMyBook();
       this.getCartList();
     }
+  },
+  async created() {
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("new-rating", () => {
+      if (this.isLogin) {
+        this.getMyBook();
+      this.getCartList();
+      }
+    });
   },
 };
 </script>

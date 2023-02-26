@@ -366,10 +366,16 @@
                 <v-col cols="7">
                   <v-row>
                     <v-col cols="12">
-                      <p style="font-size: 16px; font-weight: bold;">{{ book.name }}</p>
-                      <p style="font-size: 12px; ">Author: {{ book.author }}</p>
-                      <p style="font-size: 12px; ">Category: {{ book.category }}</p>
-                      <p style="font-size: 12px; color: red;">{{ book.rating }} คะแนน จาก {{ book.ratingsCount }} </p>
+                      <p style="font-size: 16px; font-weight: bold">
+                        {{ book.name }}
+                      </p>
+                      <p style="font-size: 12px">Author: {{ book.author }}</p>
+                      <p style="font-size: 12px">
+                        Category: {{ book.category }}
+                      </p>
+                      <p style="font-size: 12px; color: red">
+                        {{ book.rating }} คะแนน จาก {{ book.ratingsCount }}
+                      </p>
                     </v-col>
                   </v-row>
                 </v-col>
@@ -885,7 +891,7 @@ export default {
       userRating: 0,
       showFullText: false,
       socket: null,
-    socketioURL: "http://localhost:3000",
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
@@ -1161,7 +1167,29 @@ export default {
       transports: ["websocket", "polling"],
     });
     this.socket.on("new-rating", () => {
-      this.getAllReview()
+      this.getAllReview();
+      this.getAllReview();
+      this.getBestseller();
+      this.getNewEntry();
+      this.getHalloffame();
+      this.getRecommend();
+      this.getNewEntry7D();
+      this.getRecommend7d();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
+    this.socket.on("product-sell", () => {
+      this.getAllReview();
+      this.getBestseller();
+      this.getNewEntry();
+      this.getHalloffame();
+      this.getRecommend();
+      this.getNewEntry7D();
+      this.getRecommend7d();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
     });
   },
 };

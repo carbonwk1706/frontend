@@ -169,6 +169,7 @@
 import router from "@/router";
 import api from "@/services/api";
 import Login from "@/views/User/Login.vue";
+import io from "socket.io-client";
 
 export default {
   name: "ShopTable",
@@ -185,6 +186,8 @@ export default {
       select: "ขายดีทั้งหมด",
       selectItem: ["ขายดีทั้งหมด", "ขายดีการ์ตูน", "ขายดีนิยาย"],
       visibleModal: false,
+      socket: null,
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
@@ -330,6 +333,23 @@ export default {
     }
     this.visibleModal = false;
     this.fetchApi();
+  },
+  async created() {
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("new-rating", () => {
+      this.fetchApi();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
+    this.socket.on("product-sell", () => {
+      this.fetchApi();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
   },
 };
 </script>
