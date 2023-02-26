@@ -417,6 +417,29 @@
         >
       </v-card>
     </v-dialog>
+
+    <v-dialog class="pa-0" v-model="showModal1" max-width="500" persistent>
+      <v-card>
+        <v-card-title class="center">
+          <div class="img-size">
+            <v-img
+              src="https://media.tenor.com/mvTL8ggxk2kAAAAC/chibicat-chibicatt.gif"
+            >
+            </v-img>
+          </div>
+        </v-card-title>
+        <div class="center-loading">
+          <v-progress-circular
+            v-if="loading"
+            :size="50"
+            :width="5"
+            indeterminate
+            color="success"
+          ></v-progress-circular>
+        </div>
+        <v-card-text class="text-center">กำลังทำการส่งข้อมูล</v-card-text>
+      </v-card>
+    </v-dialog>
   </Auth>
   <Auth v-if="!isLogin"> </Auth>
 </template>
@@ -432,12 +455,15 @@ export default {
   data() {
     return {
       showModal: false,
+      showModal1: false,
+      loading: false,
       roles: [],
       request: null,
       valid: true,
       valid1: true,
       valid2: true,
       terms: false,
+      reloadModal: false,
       page: 1,
       form: {
         publisher: "",
@@ -559,6 +585,8 @@ export default {
     async submitForm() {
       if (this.terms) {
         try {
+          this.showModal1 = true
+          this.loading = true
           await api.post("/request", {
             user: this.$store.getters["auth/getId"],
             request: "คำร้องขอสมัครขายอีบุ๊ค",
@@ -576,21 +604,20 @@ export default {
             bankAccount: this.form.bankAccount,
             idAccount: this.form.idAccount,
           });
-          this.page = 1;
           this.resetForm();
-          this.$swal({
-            confirmButtonColor: "#00af70",
-            allowOutsideClick: false,
-            width: "500",
-            text: "บันทึกข้อมูลสำเร็จ",
-            icon: "success",
-            confirmButtonText: "OK",
-          }).then((result) => {
-            if (result.value) {
-              router.push("/");
-              window.location.reload();
-            }
-          });
+          setTimeout(() => {
+            this.showModal1 = false
+            this.loading = false
+            router.push("/");
+            this.$swal({
+              confirmButtonColor: "#00af70",
+              allowOutsideClick: false,
+              width: "500",
+              text: "บันทึกข้อมูลสำเร็จ",
+              icon: "success",
+              confirmButtonText: "OK",
+            });
+          }, 2000);
         } catch (error) {
           console.log(error);
         }
@@ -693,6 +720,11 @@ export default {
 }
 .img-size {
   width: 100px;
+}
+.center-loading {
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 .center {
   display: flex;
