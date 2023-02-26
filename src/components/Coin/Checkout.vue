@@ -25,12 +25,14 @@
             <v-col cols="6" class="d-flex justify-end"
               ><span>{{ receipt.bankAccount }}</span></v-col
             >
-            <v-col cols="6" class="d-flex justify-start"
-              >
+            <v-col cols="6" class="d-flex justify-start">
               <v-avatar color="info">
-                <v-img :src="'http://localhost:3000/uploads/kbank.png'" cover></v-img>
+                <v-img
+                  :src="'http://localhost:3000/uploads/kbank.png'"
+                  cover
+                ></v-img>
               </v-avatar>
-              <h4 class="ml-3">ธนาคาร กสิรกร เลขบัญชี 058-1502-710 </h4></v-col
+              <h4 class="ml-3">ธนาคาร กสิรกร เลขบัญชี 058-1502-710</h4></v-col
             >
             <v-col cols="6" class="d-flex justify-end"
               ><h4>ชื่อบัญชี นาย วุฒิวัฒน์ เพิ่มศิริกวินกุล</h4></v-col
@@ -55,8 +57,9 @@
             <v-col cols="12" class="d-flex justify-start"
               ><span>หลักฐานการโอนเงิน<span style="color: red">*</span></span>
             </v-col>
-            <v-col cols="12" class="d-flex justify-end">
+            <v-col cols="12">
               <v-file-input
+                v-if="files === null"
                 :rules="rules"
                 label="อัพโหลดไฟล์ที่นี่"
                 variant="solo"
@@ -65,6 +68,7 @@
                 @change="onFileChange"
               >
               </v-file-input>
+              <p v-else>{{ files[0].name }} <v-icon class="ml-1" @click="removeImage">mdi-close-box</v-icon></p>
             </v-col>
           </v-row>
         </v-col>
@@ -158,6 +162,7 @@ export default {
       reader.readAsDataURL(files);
     },
     removeImage() {
+      this.files = null
       this.imagePreview = "";
     },
     setReceipt() {
@@ -223,7 +228,6 @@ export default {
       try {
         let formData = new FormData();
         formData.append("image", this.files[0]);
-        formData.append("username", this.user.username);
         await api.post(`/upload/slip/${receiptId}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
