@@ -126,7 +126,7 @@ const routes = [
   {
     path: '/request/:id',
     name: 'request',
-    component: () => import('../views/DetailRequest.vue'),
+    component: () => import('../views/Admin/DetailRequest.vue'),
     meta: {
       hideFooter: true,
       hideFooterCoin: true,
@@ -227,7 +227,7 @@ const routes = [
   {
     path: '/requestcoin/:id',
     name: 'requestcoindetail',
-    component: () => import('../views/DeatailRequsetCoin.vue'),
+    component: () => import('../views/Admin/DeatailRequsetCoin.vue'),
     meta: {
       hideFooter: true,
       hideFooterCoin: true,
