@@ -117,6 +117,7 @@
 import api from "@/services/api";
 import router from "@/router";
 import Auth from "../Auth.vue";
+import io from "socket.io-client";
 
 export default {
   name: "CoinTable",
@@ -125,6 +126,8 @@ export default {
   },
   data() {
     return {
+      socket: null,
+      socketioURL: "http://localhost:3000",
       listBankAccout: [
         {
           name: "ธนาคารกรุงเทพ จำกัด (มหาชน)",
@@ -265,6 +268,14 @@ export default {
       this.fetchApi();
     }
   },
+  async created(){
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("receipt-approved", () => {
+      this.fetchApi();
+    });
+  }
 };
 </script>
 

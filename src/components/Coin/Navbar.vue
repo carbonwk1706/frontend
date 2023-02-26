@@ -11,7 +11,7 @@
           <template v-slot:activator="{ props }">
             <v-btn v-bind="props">
               <v-icon class="mr-2">mdi-account</v-icon>
-              <span class="font-text hide-on-mobile"> {{ user._id }}</span>
+              <span class="font-text hide-on-mobile"> {{ user.username }}</span>
               <v-icon>mdi-menu-down</v-icon>
             </v-btn>
           </template>
@@ -30,15 +30,30 @@
               </v-row>
               <v-divider class="my-1"></v-divider>
               <v-row>
-                <v-col cols="px-0">
-                  <div class="float-left">
+                <v-col cols="9">
+                  <div class="px-3 py-2">
+                    <span style="font-size: 14px" class="mr-2 font-text"
+                      >COIN
+                    </span>
+                    <span
+                      style="font-size: 16px; color: #f58b1b"
+                      class="mr-2 font-text"
+                      >{{ user.coin }}</span
+                    >
+                    <span style="font-size: 14px" class="font-text"
+                      >เหรียญ</span
+                    >
+                  </div>
+                </v-col>
+                <v-col cols="3">
+                  <div class="float-right">
                     <v-btn rounded variant="text" @click="goToAddCoin">
                       <span class="font-text" style="color: #5a5a5a"
                         >เติม Coin</span
                       >
                     </v-btn>
-                  </div>
-                </v-col>
+                  </div></v-col
+                >
               </v-row>
               <v-divider class="my-1"></v-divider>
               <v-col class="px-0">
@@ -76,7 +91,6 @@
               <v-divider class="my-1"></v-divider>
               <v-col class="px-0">
                 <v-btn
-                  v-if="!hasSellRole"
                   style="color: #5a5a5a"
                   rounded
                   variant="text"
@@ -117,6 +131,7 @@
 <script>
 import api from "@/services/api";
 import router from "@/router";
+import io from "socket.io-client";
 
 export default {
   name: "CoinNavbar",
@@ -125,6 +140,8 @@ export default {
       user: [],
       checkRoles: null,
       loading: false,
+      socket: null,
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
@@ -183,6 +200,14 @@ export default {
       this.fetchApi();
     }
   },
+  async created(){
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("receipt-approved", () => {
+      this.fetchApi();
+    });
+  }
 };
 </script>
 
