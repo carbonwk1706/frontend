@@ -25,6 +25,16 @@
             <v-col cols="6" class="d-flex justify-end"
               ><span>{{ receipt.bankAccount }}</span></v-col
             >
+            <v-col cols="6" class="d-flex justify-start"
+              >
+              <v-avatar color="info">
+                <v-img :src="'http://localhost:3000/uploads/kbank.png'" cover></v-img>
+              </v-avatar>
+              <h4 class="ml-3">ธนาคาร กสิรกร เลขบัญชี 058-1502-710 </h4></v-col
+            >
+            <v-col cols="6" class="d-flex justify-end"
+              ><h4>ชื่อบัญชี นาย วุฒิวัฒน์ เพิ่มศิริกวินกุล</h4></v-col
+            >
             <v-col cols="12" class="d-flex justify-start"
               ><span>แจ้งวันเวลาที่โอน<span style="color: red">*</span></span>
             </v-col>
@@ -62,7 +72,7 @@
     </v-card>
   </v-container>
   <p class="back-add-coin text-center mt-3" @click="goToAddCoin">
-    กลับไปแก้ไขธนาคารหรือจำนวนเงิน
+    กลับไปแก้ไขช่องทางการชำระเงินหรือจำนวนเงิน
   </p>
   <v-container class="mt-3 mb-10">
     <v-card class="card py-6">
@@ -187,7 +197,7 @@ export default {
           method: this.receipt.bankAccount,
         });
         if (res.status === 201) {
-          const receiptId = res.data.newReceipt._id
+          const receiptId = res.data.newReceipt._id;
           this.handleFileUpload(receiptId);
           setTimeout(() => {
             this.loading = false;

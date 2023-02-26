@@ -130,43 +130,13 @@ export default {
       socketioURL: "http://localhost:3000",
       listBankAccout: [
         {
-          name: "ธนาคารกรุงเทพ จำกัด (มหาชน)",
-          image: "bbl.png",
+          name: "สแกน QR พร้อมเพย์",
+          image: "qr.png",
           isClicked: false,
         },
         {
-          name: "ธนาคารกสิกร จำกัด (มหาชน)",
-          image: "kbank.png",
-          isClicked: false,
-        },
-        {
-          name: "ธนาคารไทยพาณิชย์ จำกัด (มหาชน)",
-          image: "scb.png",
-          isClicked: false,
-        },
-        {
-          name: "ธนาคารกรุงศรีอยุธยา จำกัด (มหาชน)",
-          image: "krungsri.png",
-          isClicked: false,
-        },
-        {
-          name: "ธนาคารกรุงไทย จำกัด (มหาชน)",
-          image: "ktb.png",
-          isClicked: false,
-        },
-        {
-          name: "ธนาคารทหารไทยธนชาต จำกัด (มหาชน)",
-          image: "ttb.png",
-          isClicked: false,
-        },
-        {
-          name: "ธนาคารยูโอบี จำกัด (มหาชน)",
-          image: "uob.png",
-          isClicked: false,
-        },
-        {
-          name: "ธนาคาร ซีไอเอ็มบี ไทย จำกัด (มหาชน)",
-          image: "cimb.png",
+          name: "โอนเงินเข้าบัญชีธนาคาร",
+          image: "bank.png",
           isClicked: false,
         },
       ],
