@@ -112,6 +112,7 @@
 
 <script>
 import api from "@/services/api";
+import io from "socket.io-client";
 
 export default {
   components: {},
@@ -123,6 +124,8 @@ export default {
       itemsPerPage: 10,
       showForm: false,
       showConfirm: false,
+      socket: null,
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
@@ -191,6 +194,14 @@ export default {
   },
   mounted() {
     this.fetchApi();
+  },
+  created() {
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("new-user", () => {
+      this.fetchApi();
+    });
   },
 };
 </script>
