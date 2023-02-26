@@ -1,16 +1,25 @@
 <template>
-  <div class="d-flex justify-center">รายละเอียดคำร้อง</div>
-  <v-container>
-    <v-row>
-      <v-col cols="6" sm="6">
+  <v-container fluid>
+    <v-btn icon @click="goBack">
+          <v-icon>mdi-arrow-left</v-icon>
+    </v-btn>
+    <v-row class="mb-3 mt-3">
+      <v-col cols="12" class="d-flex justify-center">
+        <h2>รายละเอียดคำร้อง</h2>
+      </v-col>
+    </v-row>
+    <v-row class="bg-white my-3 rounded border px-3">
+      <v-col cols="12" sm="6">
         <v-card class="card">
           <v-card-text>
             <v-row class="d-flex justify-center">
               <v-col cols="6" class="d-flex justify-start">
-                <span>ID:</span>
+                <span>ไอดีรายละเอียดคำร้อง:</span>
               </v-col>
               <v-col cols="6" class="d-flex justify-end">
-                <span>{{ request._id}}</span>
+                <span>{{
+                  request._id ? request._id.toString().toUpperCase() : ""
+                }}</span>
               </v-col>
               <v-divider></v-divider>
               <v-col cols="6" class="d-flex justify-start">
@@ -26,37 +35,9 @@
               <v-col cols="6" class="d-flex justify-end">
                 <span> {{ request.status }} </span>
               </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="6" sm="6">
-        <v-card class="card">
-          <v-card-text>
-            <v-row class="d-flex justify-center">
-              <v-col cols="6" class="d-flex justify-start">
-                <span>ที่อยู่:</span>
-              </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <span> {{ request.address }} </span>
-              </v-col>
               <v-divider></v-divider>
               <v-col cols="6" class="d-flex justify-start">
-                <span>บัญชีธนาคาร:</span>
-              </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <span> {{ request.bankAccount }} </span>
-              </v-col>
-              <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
-                <span>เขต:</span>
-              </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <span> {{ request.district }} </span>
-              </v-col>
-              <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
-                <span>ไอดี:</span>
+                <span>ไอดีผู้ใช้งาน:</span>
               </v-col>
               <v-col cols="6" class="d-flex justify-end">
                 <span> {{ request.idAccount }} </span>
@@ -65,33 +46,7 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="6" sm="6">
-        <v-card class="card">
-          <v-card-text>
-            <v-row class="d-flex justify-center">
-              <v-col cols="6" class="d-flex justify-start">
-                <span>รหัสประจำตัวประชาชน:</span>
-              </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <span> {{ request.idCard }} </span>
-              </v-col>
-              <v-col cols="6" class="d-flex justify-start">
-                <span> รูปภาพบัตรประชาชน:</span>
-              </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <v-img
-                  :width="348"
-                  aspect-ratio="16/9"
-                  cover
-                  src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-                  onclick="previewImage(this)"
-                ></v-img>
-              </v-col>
-            </v-row>
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="6" sm="6">
+      <v-col cols="12" sm="6">
         <v-card class="card">
           <v-card-text>
             <v-row class="d-flex justify-center">
@@ -110,10 +65,84 @@
               </v-col>
               <v-divider></v-divider>
               <v-col cols="6" class="d-flex justify-start">
+                <span>นามปากกา / สำนักพิมพ์:</span>
+              </v-col>
+              <v-col cols="6" class="d-flex justify-end">
+                <span> {{ request.publisher }} </span>
+              </v-col>
+              <v-divider></v-divider>
+              <v-col cols="6" class="d-flex justify-start">
                 <span>เบอร์โทรศัพท์:</span>
               </v-col>
               <v-col cols="6" class="d-flex justify-end">
                 <span> {{ request.phone }} </span>
+              </v-col>            
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <v-card class="card">
+          <v-card-text>
+            <v-row class="d-flex justify-center">
+              <v-col cols="6" class="d-flex justify-start">
+                <span>รหัสประจำตัวประชาชน:</span>
+              </v-col>
+              <v-col cols="6" class="d-flex justify-end">
+                <span> {{ request.idCard }} </span>
+              </v-col>
+              <v-divider></v-divider>
+              <v-col cols="6" class="d-flex justify-start">
+                <span> รูปภาพบัตรประชาชน:</span>
+              </v-col>
+              <v-col cols="6" class="d-flex justify-end">
+                <v-img
+                  :width="348"
+                  aspect-ratio="16/9"
+                  cover
+                  src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                ></v-img>
+              </v-col>
+              <v-divider></v-divider>
+              <v-col cols="6" class="d-flex justify-start">
+                <span>บัญชีธนาคาร:</span>
+              </v-col>
+              <v-col cols="6" class="d-flex justify-end">
+                <span> {{ request.bankAccount }} </span>
+              </v-col>
+              <v-divider></v-divider>
+              <v-col cols="6" class="d-flex justify-start">
+                <span> รูปภาพบัญชีธนาคาร:</span>
+              </v-col>
+              <v-col cols="6" class="d-flex justify-end">
+                <v-img
+                  :width="348"
+                  aspect-ratio="16/9"
+                  cover
+                  src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                ></v-img>
+              </v-col>
+            </v-row>
+          </v-card-text>
+        </v-card>
+      </v-col>
+      <v-col cols="12" sm="6">
+        <v-card class="card">
+          <v-card-text>
+            <v-row class="d-flex justify-center px-3">
+              <v-col cols="6" class="d-flex justify-start">
+                <span>ที่อยู่:</span>
+              </v-col>
+              <v-col cols="6" class="d-flex justify-end">
+                <span> {{ request.address }} </span>
+              </v-col>
+              <v-divider></v-divider>
+
+              <v-col cols="6" class="d-flex justify-start">
+                <span>เขต:</span>
+              </v-col>
+              <v-col cols="6" class="d-flex justify-end">
+                <span> {{ request.district }} </span>
               </v-col>
               <v-divider></v-divider>
               <v-col cols="6" class="d-flex justify-start">
@@ -128,13 +157,6 @@
               </v-col>
               <v-col cols="6" class="d-flex justify-end">
                 <span> {{ request.province }} </span>
-              </v-col>
-              <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
-                <span>สำนักพิมพ์:</span>
-              </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <span> {{ request.publisher }} </span>
               </v-col>
               <v-divider></v-divider>
               <v-col cols="6" class="d-flex justify-start">
@@ -165,22 +187,10 @@ export default {
       request: [],
     };
   },
-  methods : {
-
-   previewImage(image) {
-  // Create a new image element
-  var preview = document.createElement("img");
-  preview.src = image.src;
-  preview.classList.add("preview-image");
-
-  // Append the image to the body or a specific container element
-  document.body.appendChild(preview);
-
-  // Add a click event listener to remove the preview when clicked
-  preview.addEventListener("click", function() {
-    document.body.removeChild(preview);
-  });
-}
+  methods: {
+    goBack(){
+      this.$router.push("/approvetable");
+    }
   },
   mounted() {
     api.get("/request/" + this.$route.params.id).then((result) => {
@@ -188,7 +198,6 @@ export default {
       console.log(this.request);
     });
   },
-
 };
 </script>
 <style scoped>
