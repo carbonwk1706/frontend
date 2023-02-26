@@ -227,6 +227,7 @@ import api from "@/services/api";
 import router from "@/router";
 import Login from "@/views/User/Login.vue";
 import moment from "moment";
+import io from "socket.io-client";
 
 export default {
   name: "BookDetail",
@@ -248,6 +249,8 @@ export default {
       page: 1,
       itemsPerPage: 2,
       visibleModal: false,
+      socket: null,
+    socketioURL: "http://localhost:3000",
     };
   },
   methods: {
@@ -464,6 +467,16 @@ export default {
       this.checkRating();
       this.getProfile();
     }
+  },
+  async created() {
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("new-rating", () => {
+      this.getRatingBook();
+      this.getBookDetail();
+      this.getRatingBook();
+    });
   },
 };
 </script>
