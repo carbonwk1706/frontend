@@ -107,11 +107,7 @@ export default {
         text: "Token ของคุณหมดอายุโปรดเข้าสู่ระบบอีกครั้ง",
         icon: "warning",
         confirmButtonText: "OK",
-      }).then((result) => {
-        if (result.value) {
-          window.location.reload();
-        }
-      });
+      })
     },
   },
   computed: {
