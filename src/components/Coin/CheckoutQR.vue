@@ -61,13 +61,24 @@ import api from "@/services/api";
 import router from "@/router";
 export default {
   data: () => ({
+    date: new Date(),
+    formattedDate: "",
+    currentTime: "",
     imageQRCode: "",
     countdown: "15:00",
     timer: null,
     receipt: [],
     loading: false,
+    user: [],
   }),
   methods: {
+    async fetchApi() {
+      const res = await api.get("/profile/" + this.getId());
+      this.user = res.data.user;
+    },
+    getId() {
+      return this.$store.getters["auth/getId"];
+    },
     async getQRCode() {
       const res = await api.post("/generateQR", {
         amount: this.receipt.coin,
@@ -102,8 +113,20 @@ export default {
         }
       }, 1000);
     },
+    async sendRequest() {
+      await api.post("/receipt", {
+        request: "คำร้องขอเพิ่ม Coin",
+        slipDate: this.formattedDate,
+        slipTime: this.currentTime,
+        user: this.getId(),
+        username: this.user.username,
+        amount: this.receipt.coin,
+        method: this.receipt.bankAccount,
+      });
+    },
     payment() {
       this.loading = true;
+      this.sendRequest()
       setTimeout(() => {
         this.loading = false;
         this.$store.dispatch("checkoutCoin/setReceipt", null);
@@ -140,6 +163,9 @@ export default {
         this.setReceipt();
         this.getQRCode();
         this.startCountdown();
+        this.fetchApi();
+        this.currentTime = new Date().toLocaleTimeString().slice(0, 5);
+        this.formattedDate = this.date.toISOString().split("T")[0];
       } else {
         router.push("/");
       }
