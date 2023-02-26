@@ -65,22 +65,19 @@
           </v-card-text>
         </v-card>
       </v-col>
-      <v-col cols="12">
+      <v-col v-if="request.method !== 'สแกน QR พร้อมเพย์'" cols="12">
         <v-card class="card">
           <v-card-text>
-            <v-row class="d-flex justify-center">
+            <v-col cols="6">
+              <p>หลักฐานการโอนเงิน:</p>
+            </v-col>
               <v-col cols="6" class="d-flex justify-start">
-                <span>รูปภาพใบเสร็จ:</span>
-              </v-col>
-              <v-col cols="6" class="d-flex justify-end">
                 <v-img
-                  :width="348"
-                  aspect-ratio="16/9"
-                  cover
-                  src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
-                ></v-img>
+                max-width="350"
+                cover
+                :src="request.imageSlip"
+              ></v-img>
               </v-col>
-            </v-row>
           </v-card-text>
         </v-card>
       </v-col>
