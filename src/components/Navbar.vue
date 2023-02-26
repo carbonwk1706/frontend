@@ -177,7 +177,7 @@
                 <v-divider class="my-2"></v-divider>
                 <v-row v-if="notification.length > 0" class="pa-2">
                   <v-col
-                    v-for="(item, index) in notification.reverse()"
+                    v-for="(item, index) in reversedNotifications"
                     :key="index"
                     class="pa-2"
                     cols="12"
@@ -609,7 +609,7 @@ export default {
         }).then((result) => {
           if (result.value) {
             api.delete("/notifications/" + this.getId()).then(() => {
-              this.fetchApi();
+              this.getNotification();
               this.$swal({
                 scrollbarPadding: false,
                 allowOutsideClick: false,
@@ -647,6 +647,9 @@ export default {
   computed: {
     isLogin() {
       return this.$store.getters["auth/isLogin"];
+    },
+    reversedNotifications() {
+      return this.notification.slice().reverse();
     },
     showMiddleNav() {
       return [
@@ -740,16 +743,18 @@ export default {
     this.socket = io(this.socketioURL, {
       transports: ["websocket", "polling"],
     });
-    this.socket.on("connect", () => {
-      console.log("[socket connected]: ", this.socket.connected);
-    });
-    this.socket.on("disconnect", (reason) => {
-      console.log("[socket disconnected]: ", reason);
-    });
     this.socket.on("receipt-rejected", () => {
       this.getNotification();
+      this.fetchApi();
     });
     this.socket.on("receipt-approved", () => {
+      this.getNotification();
+      this.fetchApi();
+    });
+    this.socket.on("request-rejected", () => {
+      this.getNotification();
+    });
+    this.socket.on("request-approved", () => {
       this.getNotification();
       this.fetchApi();
     });
