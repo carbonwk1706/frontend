@@ -1,5 +1,5 @@
 <template>
-  <v-container class="mt-10">
+  <v-container class="mt-15">
     <v-card class="mx-auto" max-width="400">
       <v-img
         :src="'http://localhost:3000/uploads/thai_qr_payment.png'"
@@ -34,6 +34,7 @@
     </v-card>
   </v-container>
   <h2 class="text-center mt-5">ชำระภายในเวลาที่กำหนด : {{ countdown }}</h2>
+  <h2 class="text-center mt-5">ยอดชำระ : {{ receipt.coin }} บาท</h2>
 
   <v-dialog v-model="loading" max-width="500" persistent>
     <v-card>
