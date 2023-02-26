@@ -100,7 +100,7 @@
                   :width="348"
                   aspect-ratio="16/9"
                   cover
-                  src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                  :src="request.imageIDCard"
                 ></v-img>
               </v-col>
               <v-divider></v-divider>
@@ -119,7 +119,7 @@
                   :width="348"
                   aspect-ratio="16/9"
                   cover
-                  src="https://cdn.vuetifyjs.com/images/parallax/material.jpg"
+                  :src="request.imageBankAccount"
                 ></v-img>
               </v-col>
             </v-row>
