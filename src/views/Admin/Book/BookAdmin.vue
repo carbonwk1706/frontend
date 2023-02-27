@@ -18,7 +18,7 @@
       </v-col>
     </v-row>
 
-    <div class="text-end">
+    <div class="d-flex justify-end">
       <v-btn color="blue-grey" class="mb-3" @click="addBook"
         >เพิ่มหนังสือ</v-btn
       >
@@ -279,8 +279,5 @@ export default {
   display: flex;
   justify-content: center;
 }
-.text-end {
-  display: flex;
-  justify-content: end;
-}
+
 </style>
