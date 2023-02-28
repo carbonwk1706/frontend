@@ -378,8 +378,8 @@ export default {
     font-size: 24px;
   }
   .responsive-img-coin {
-    height: 45px;
-    width: 45px;
+    height: 40px;
+    width: 40px;
   }
   .font-text {
     font-size: 20px;
@@ -441,6 +441,10 @@ export default {
   .responsive-img-bank {
     width: 100%;
     height: 120px;
+  }
+    .responsive-img-coin {
+    height: 35px;
+    width: 35px;
   }
     .button {
     background-color: #00af70;
