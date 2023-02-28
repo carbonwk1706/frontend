@@ -10,39 +10,37 @@
         </div>
       </div>
       <div>
-        <div class="mt-15 mb-5 font-text">กรุณาเลือกช่องทางการเติม Coin</div>
+        <div class="mx-2 mt-10 mb-5 font-text">
+          กรุณาเลือกช่องทางการเติม Coin
+        </div>
         <v-divider class="mb-6"></v-divider>
-        <v-row row justify="start">
+        <v-row class="d-flex justify-center" fixed dense>
           <v-col
-            cols="3"
+            cols="6"
             v-for="item in listBankAccout"
             :key="item.listBankAccout"
-            md="4"
-            sm="6"
-            xs="4"
           >
             <v-card
               :class="{ highlight: item.isClicked }"
               @click="selectBank(item)"
-              max-width="350"
+              class="card-bank-responsive"
             >
-              <div class="d-flex justify-center">
-                <v-img
-                  :src="'http://localhost:3000/uploads/' + item.image"
-                  height="200"
-                  width="300"
-                ></v-img>
-              </div>
+              <v-img
+                :src="'http://localhost:3000/uploads/' + item.image"
+                class="responsive-img-bank"
+              ></v-img>
 
-              <v-divider class="my-3 mx-3"></v-divider>
-              <v-card-text class="font-text2"> {{ item.name }} </v-card-text>
+              <v-divider class="my-1"></v-divider>
+              <div class="d-flex align-center">
+                <v-card-text class="font-text2"> {{ item.name }} </v-card-text>
+              </div>
             </v-card>
           </v-col>
         </v-row>
       </div>
 
-      <div v-if="firstDivClicked" class="pt-10">
-        <div class="ma-10">
+      <div v-if="firstDivClicked" class="pt-5">
+        <div class="mx-2 mt-10 mb-5">
           <span class="mr-2 font-text"
             >กรุณาเลือกจำนวน Coin ที่ต้องการเติมผ่าน</span
           >
@@ -50,21 +48,20 @@
             >"{{ selectedBankAccount }}"</span
           >
         </div>
+        <v-divider class="mb-6"></v-divider>
         <v-row class="d-flex align-center justify-center mx-0" fixed dense>
           <v-col cols="4" v-for="item in coin" :key="item.coin">
             <v-card
-              :style="{ 'height': '100px', width: '344', margin: '10px' }"
+              class="card-coin-responsive"
               :class="{ highlight: item.isClicked }"
-              อ
               @click="selectCoin(item)"
             >
-              <v-card-text class="d-flex justify-center text-coin text-h3">
-                <span class="mr-3">{{ item.coin }}</span>
+              <v-card-text class="d-flex justify-center text-coin font-size">
+                <span class="mr-1">{{ item.coin }}</span>
                 <span v-if="item.coin !== 'กำหนดเอง'"
                   ><v-img
                     src="https://www.pngall.com/wp-content/uploads/10/USD-Coin-Logo-PNG-File.png"
-                    height="50"
-                    width="50"
+                    class="responsive-img-coin"
                   ></v-img
                 ></span>
               </v-card-text>
@@ -72,12 +69,12 @@
           </v-col>
         </v-row>
         <div
-          class="d-flex justify-center ma-10"
+          class="d-flex justify-center ma-10 "
           v-if="bankIsClicked && coinIsClicked"
         >
           <v-btn class="button" @click="addCoin">ยืนยัน</v-btn>
         </div>
-        <div class="d-flex justify-center ma-10" v-else>
+        <div class="d-flex justify-center ma-10 " v-else>
           <v-btn class="buttonDis" disabled>ยืนยัน</v-btn>
         </div>
       </div>
@@ -299,6 +296,7 @@ export default {
   height: 50px;
   width: 300px;
   text-align: center;
+  font-size: 24px;
 }
 .buttonDis {
   background-color: #cccccc;
@@ -306,6 +304,7 @@ export default {
   height: 50px;
   width: 300px;
   text-align: center;
+  font-size: 24px;
 }
 .center {
   display: flex;
@@ -321,7 +320,7 @@ export default {
 }
 .text-coin {
   font-size: 16px;
-  color: #f58b1b;
+  color: #00af70;
   font-weight: bolder;
   height: "200px";
   margin: "10px";
@@ -335,5 +334,258 @@ export default {
   font-size: 16px;
   font-weight: bolder;
   font-family: Prompt, sans-serif;
+}
+.card-coin-responsive {
+  height: 200px;
+  width: 344px;
+  margin: 10px;
+}
+.card-bank-responsive {
+  height: 280px;
+  width: 100%;
+}
+.font-size {
+  font-size: 36px;
+}
+.responsive-img-bank {
+  height: 200px;
+  width: 100%;
+}
+.responsive-img-coin {
+  height: 50px;
+  width: 50px;
+}
+
+@media (max-width: 1200px) {
+  .card-coin-responsive {
+    height: 150px;
+    width: 100%;
+    margin: 10px 0;
+  }
+  .card-bank-responsive {
+    height: 250px;
+    width: 100%;
+  }
+  .card-bank-responsive v-img {
+    max-height: 150px;
+    max-width: 250px;
+  }
+  .responsive-img-bank {
+    width: 100%;
+    height: 180px;
+  }
+  .font-size {
+    font-size: 24px;
+  }
+  .responsive-img-coin {
+    height: 45px;
+    width: 45px;
+  }
+  .font-text {
+    font-size: 20px;
+    font-weight: bolder;
+    font-family: Prompt, sans-serif;
+  }
+  .font-text2 {
+    font-size: 12px;
+    font-weight: bolder;
+    font-family: Prompt, sans-serif;
+  }
+}
+@media (max-width: 950px) {
+  .card-coin-responsive {
+    height: 125px;
+    width: 100%;
+    margin: 10px 0;
+  }
+  .card-bank-responsive {
+    height: 225px;
+    width: 100%;
+  }
+  .responsive-img-bank {
+    width: 100%;
+    height: 150px;
+  }
+  .button {
+    background-color: #00af70;
+    color: white;
+    height: 45px;
+    width: 250px;
+    text-align: center;
+    font-size: 20px;
+  }
+  .buttonDis {
+    background-color: #cccccc;
+    color: white;
+    height: 45px;
+    width: 250px;
+    text-align: center;
+    font-size: 20px;
+  }
+}
+@media (max-width: 750px) {
+  .card-coin-responsive {
+    height: 100px;
+    width: 100%;
+    margin: 10px 0;
+  }
+  .card-bank-responsive {
+    width: 100%;
+    height: 200px;
+  }
+  .font-text {
+    font-size: 16px;
+    font-weight: bolder;
+    font-family: Prompt, sans-serif;
+  }
+  .responsive-img-bank {
+    width: 100%;
+    height: 120px;
+  }
+    .button {
+    background-color: #00af70;
+    color: white;
+    height: 40px;
+    width: 225px;
+    text-align: center;
+    font-size: 18px;
+  }
+  .buttonDis {
+    background-color: #cccccc;
+    color: white;
+    height: 40px;
+    width: 225px;
+    text-align: center;
+    font-size: 18px;
+  }
+}
+@media (max-width: 600px) {
+  .card-coin-responsive {
+    height: 75px;
+    width: 100%;
+    margin: 10px 0;
+  }
+  .card-bank-responsive {
+    width: 100%;
+    height: 160px;
+  }
+  .font-size {
+    font-size: 16px;
+  }
+  .responsive-img-coin {
+    height: 30px;
+    width: 30px;
+  }
+  .font-text {
+    font-size: 12px;
+    font-weight: bolder;
+    font-family: Prompt, sans-serif;
+  }
+  .font-text2 {
+    font-size: 12px;
+    font-weight: bolder;
+    font-family: Prompt, sans-serif;
+  }
+  .responsive-img-bank {
+    width: 100%;
+    height: 100px;
+  }
+    .button {
+    background-color: #00af70;
+    color: white;
+    height: 30px;
+    width: 200px;
+    text-align: center;
+    font-size: 16px;
+  }
+  .buttonDis {
+    background-color: #cccccc;
+    color: white;
+    height: 30px;
+    width: 200px;
+    text-align: center;
+    font-size: 16px;
+  }
+}
+@media (max-width: 450px) {
+  .card-bank-responsive {
+    width: 100%;
+    height: 130px;
+  }
+  .font-size {
+    font-size: 12px;
+  }
+  .responsive-img-coin {
+    height: 20px;
+    width: 20px;
+  }
+  .font-text2 {
+    font-size: 8px;
+    font-weight: bolder;
+    font-family: Prompt, sans-serif;
+  }
+  .responsive-img-bank {
+    height: 75px;
+    width: 100%;
+  }
+    .button {
+    background-color: #00af70;
+    color: white;
+    height: 30px;
+    width: 175px;
+    text-align: center;
+    font-size: 12px;
+  }
+  .buttonDis {
+    background-color: #cccccc;
+    color: white;
+    height: 30px;
+    width: 175px;
+    text-align: center;
+    font-size: 12px;
+  }
+}
+@media (max-width: 400px) {
+  .card-coin-responsive {
+    height: 50px;
+    width: 100%;
+    margin: 10px 0;
+  }
+  .card-bank-responsive {
+    width: 100%;
+    height: 110px;
+  }
+  .font-size {
+    font-size: 8px;
+  }
+  .responsive-img-coin {
+    height: 15px;
+    width: 15px;
+  }
+  .font-text {
+    font-size: 8px;
+    font-weight: bolder;
+    font-family: Prompt, sans-serif;
+  }
+  .responsive-img-bank {
+    width: 100%;
+    height: 50px;
+  }
+    .button {
+    background-color: #00af70;
+    color: white;
+    height: 25px;
+    width: 150px;
+    text-align: center;
+    font-size: 8px;
+  }
+  .buttonDis {
+    background-color: #cccccc;
+    color: white;
+    height: 25px;
+    width: 150px;
+    text-align: center;
+    font-size: 8px;
+  }
 }
 </style>

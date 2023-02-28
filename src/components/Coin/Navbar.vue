@@ -11,7 +11,9 @@
           <template v-slot:activator="{ props }">
             <v-btn v-bind="props">
               <v-icon class="mr-2">mdi-account</v-icon>
-              <span class="font-text hide-on-mobile"> {{ user.username }}</span>
+              <span class="font-text hide-on-mobile" v-if="screenWidth > 480">
+                {{ user.username }}</span
+              >
               <v-icon>mdi-menu-down</v-icon>
             </v-btn>
           </template>
@@ -141,6 +143,7 @@ export default {
       checkRoles: null,
       loading: false,
       socket: null,
+      screenWidth: 0,
       socketioURL: "http://localhost:3000",
     };
   },
@@ -196,18 +199,20 @@ export default {
     },
   },
   mounted() {
+    this.screenWidth = window.innerWidth;
+    window.addEventListener("resize", this.handleResize);
     if (this.isLogin) {
       this.fetchApi();
     }
   },
-  async created(){
+  async created() {
     this.socket = io(this.socketioURL, {
       transports: ["websocket", "polling"],
     });
     this.socket.on("receipt-approved", () => {
       this.fetchApi();
     });
-  }
+  },
 };
 </script>
 
