@@ -167,7 +167,13 @@ const routes = [
       hideNavbar: true,
       hideNavbarCoin: true
     }
-  },{
+  },
+  {
+    path: '/newadmintable',
+    name: 'newadmin',
+    component: () => import('../views/Admin/NewAdminForm.vue'),
+  },
+  {
     path: '/historyadmin',
     name: 'historyadmin',
     component: () => import('../views/Admin/HistoryAdmin.vue')
