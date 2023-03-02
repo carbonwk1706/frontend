@@ -177,7 +177,6 @@ export default {
       try {
         const result = await api.get("/books/all");
         this.bookList = result.data;
-        console.log(this.bookList);
       } catch (error) {
         console.log(error);
       }
