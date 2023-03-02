@@ -27,7 +27,7 @@
     <v-table v-if="bookList.length > 0" dense class="elevation-1">
       <thead class="table">
         <tr>
-          <th class="text-left"><span class="text-color">เวลาที่เพิ่ม</span></th>
+          <th class="text-left"><span class="text-color">วันเวลาที่เพิ่ม</span></th>
           <th class="text-left"><span class="text-color">ชื่อหนังสือ</span></th>
           <th class="text-left"><span class="text-color">ผู้แต่ง</span></th>
           <th class="text-left"><span class="text-color">สำนักพิมพ์</span></th>
