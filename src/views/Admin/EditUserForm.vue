@@ -94,6 +94,7 @@
 </template>
 <script>
 import api from "@/services/api";
+import router from "@/router";
 
 export default {
   name: "EditUser",
@@ -134,6 +135,7 @@ export default {
     };
   },
   methods: {
+    
     async checkDuplicate() {
       const { valid } = await this.$refs.form.validate();
       if (!valid) {
@@ -265,8 +267,17 @@ export default {
       }
     },
   },
+  computed:{
+    isLogin() {
+      return this.$store.getters["authAdmin/isLogin"];
+    },
+  },
   mounted() {
-    this.fetchApi();
+    if(this.isLogin){
+      this.fetchApi();
+    }else{
+      router.push("/login")
+    }
   },
 };
 </script>
