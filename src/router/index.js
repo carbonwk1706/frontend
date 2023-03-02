@@ -225,6 +225,17 @@ const routes = [
     }
   },
   {
+    path: '/detailbookadmin/:id',
+    name: 'detailbookadmin',
+    component: () => import('../views/Admin/Book/DetailBookAdmin.vue'),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true
+    }
+  },
+  {
     path: '/requestcoin/:id',
     name: 'requestcoindetail',
     component: () => import('../views/Admin/DeatailRequsetCoin.vue'),
@@ -234,6 +245,11 @@ const routes = [
       hideNavbar: true,
       hideNavbarCoin: true
     }
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import('../views/Admin/Book/test.vue')
   }
 ]
 

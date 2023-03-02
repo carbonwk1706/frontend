@@ -1,0 +1,72 @@
+<template>
+  <div class="mb-5 d-flex justify-center">
+    <h1 class="mt-8">รายละเอียดหนังสือ</h1>
+  </div>
+  <v-divider class="mb-6"></v-divider>
+  <v-card class="mx-auto mt-5">
+    <v-card-text>
+      <v-row
+      >
+        <v-col cols="4">
+          <v-img :src="books.imageBook" aspect-ratio="1"></v-img>
+        </v-col>
+        <v-col cols="8">
+          <h3 class="mb-3">{{ books.name }}</h3>
+          <p class="mb-3">วันเวลาที่เพิ่ม : {{ formatTime(books.createAt) }}</p>
+          <p class="mb-2">โดย {{ books.author }}</p>
+          <p class="mb-2">สำนักพิมพ์ {{ books.publisher }}</p>
+          <p class="mb-2">หมวดหมู่ {{ books.category }}</p>
+          <p class="mb-2">ราคา {{ books.price }} บาท</p>
+          <p class="mb-2">ยอดขาย {{ books.sold }} เล่ม</p>
+          <p class="mb-2">เรตติ้ง {{ books.rating }}</p>
+        </v-col>
+      </v-row>
+    </v-card-text>
+  </v-card>
+</template>
+<script>
+import router from "@/router";
+import api from "@/services/api";
+import moment from "moment";
+export default {
+  data() {
+    return {
+      books: [],
+    };
+  },
+  methods: {
+    formatTime(item) {
+      return moment(item).format("MM/DD/YYYY, h:mm:ss a");
+    },
+    async fetchApi() {
+      const res = await api.get(
+        "/books/" + this.$route.params.id);
+      this.books = res.data;
+      console.log(this.books)
+    },
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters["authAdmin/isLogin"];
+    },
+  },
+  mounted() {
+    if(this.isLogin){
+      this.fetchApi();
+    }else{
+      router.push("/login")
+    }
+  },
+};
+</script>
+<style scoped>
+.menu-link {
+  color: #5a5a5a;
+  font-size: 14px;
+  cursor: pointer;
+}
+.menu-link-current {
+  color: #5a5a5a;
+  font-size: 14px;
+}
+</style>
