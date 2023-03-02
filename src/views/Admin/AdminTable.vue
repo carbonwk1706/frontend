@@ -200,6 +200,12 @@ export default {
     this.socket.on("add-new", () => {
       this.fetchApi();
     });
+    this.socket.on("update-user", () => {
+      this.fetchApi();
+    });
+    this.socket.on("delete-user", () => {
+      this.fetchApi();
+    });
   },
 };
 </script>
