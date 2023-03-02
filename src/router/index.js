@@ -184,6 +184,11 @@ const routes = [
     component: () => import('../views/Admin/HistoryAdmin.vue')
   },
   {
+    path: '/userhistoryadmin',
+    name: 'userhistoryadmin',
+    component: () => import('../views/Admin/UserHistoryAdmin.vue')
+  },
+  {
     path: '/search/:searchTerm?',
     name: 'search',
     component: () => import('../views/Sell/SearchBooks.vue')
