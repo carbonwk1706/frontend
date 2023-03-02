@@ -60,14 +60,14 @@
               <v-row>
                 <v-col class="text-center">
                   <v-btn
-                    color="success"
+                    class="btn-agree"
                     rounded
                     @click="showConfirmDialog = true"
                     >ยืนยัน</v-btn
                   >
                 </v-col>
                 <v-col class="text-center">
-                  <v-btn color="Grey" rounded @click="submit">ยกเลิก</v-btn>
+                  <v-btn color="error" rounded @click="submit">ยกเลิก</v-btn>
                 </v-col>
               </v-row>
             </v-container>
@@ -91,10 +91,10 @@
         >ต้องการยืนยันการแก้ไขหรือไม่</v-card-text
       >
       <v-card-actions class="text-center">
-        <v-btn color="success" @click="changeDuplicate()" class="mr-10"
+        <v-btn  @click="changeDuplicate()" class="mr-10 btn-agree"
           >ยืนยัน</v-btn
         >
-        <v-btn color="Grey" text @click="showConfirmDialog = false"
+        <v-btn class="btn-cancel" @click="showConfirmDialog = false"
           >ยกเลิก</v-btn
         >
       </v-card-actions>
@@ -106,7 +106,6 @@
 import api from "@/services/api";
 
 export default {
-  components: {},
   data() {
     return {
       bookList: [],
@@ -183,5 +182,14 @@ export default {
 .text-center {
   display: flex;
   justify-content: center;
+}
+
+.btn-agree {
+  color: #ffff;
+  background-color: #00af70;
+}
+.btn-cancel {
+  color: #ffff;
+  background-color: #B00020;
 }
 </style>
