@@ -248,7 +248,6 @@ export default {
       try {
         const res = await api.get("/allrequest");
         this.request = res.data.combinedData;
-        console.log(this.request)
       } catch (error) {
         console.log(error);
       }

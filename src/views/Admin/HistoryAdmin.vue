@@ -20,10 +20,10 @@
     <v-table v-if="request.length > 0" class="elevation-1">
       <thead class="table">
         <tr>
-          <th class="text-left">ลำดับ</th>
-          <th class="text-left">วันที่ทำรายการ</th>
-          <th class="text-left">รายการที่ทำ</th>
-          <th class="text-left">สถานะ</th>
+          <th class="text-left"><span class="text-color">ลำดับ</span></th>
+          <th class="text-left"><span class="text-color">วันที่ทำรายการ</span></th>
+          <th class="text-left"><span class="text-color">รายการที่ทำ</span></th>
+          <th class="text-left"><span class="text-color">สถานะ</span> </th>
           <th class="text-left"></th>
         </tr>
       </thead>
@@ -85,6 +85,7 @@
 import api from "@/services/api";
 import AuthAdmin from "../../components/AuthAdmin.vue";
 import moment from "moment";
+import router from "@/router";
 
 export default {
   components: {
@@ -155,11 +156,16 @@ export default {
   mounted() {
     if (this.isLogin) {
       this.fetchApi();
+    }else{
+      router.push("/login")
     }
   },
 };
 </script>
 <style scoped>
+.text-color {
+  color: #ffff;
+}
 .select-width {
   width: 200px;
 }
