@@ -197,7 +197,7 @@ export default {
     this.socket = io(this.socketioURL, {
       transports: ["websocket", "polling"],
     });
-    this.socket.on("new-user", () => {
+    this.socket.on("add-new", () => {
       this.fetchApi();
     });
   },

@@ -212,6 +212,9 @@ export default {
     this.socket.on("new-user", () => {
       this.fetchApi();
     });
+    this.socket.on("add-new", () => {
+      this.fetchApi();
+    });
   },
 };
 </script>

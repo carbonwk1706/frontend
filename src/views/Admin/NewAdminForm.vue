@@ -186,7 +186,7 @@ export default {
               res.status === 201 &&
               res.data.message === "Username and Email already"
             ) {
-              this.register();
+              this.addNewAdmin();
               this.$swal({
                 scrollbarPadding: false,
                 confirmButtonColor: "#00af70",
@@ -214,9 +214,9 @@ export default {
       this.form.gender = "Not specified";
       this.form.role = ["ADMIN"];
     },
-    async register() {
+    async addNewAdmin() {
       try {
-        await api.post("/auth/register", {
+        await api.post("/users", {
           name: this.form.name,
           username: this.form.username,
           password: this.form.password,
