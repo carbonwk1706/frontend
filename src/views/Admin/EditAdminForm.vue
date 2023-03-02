@@ -1,5 +1,7 @@
 <template>
   <v-container fluid>
+    <h2 class="mb-3 text-uppercase">แก้ไข ADMIN ID-{{ user._id }}</h2>
+    <v-divider class="mb-5"></v-divider>
     <v-card>
       <v-row>
         <v-col cols="12" class="my-5">
@@ -7,8 +9,14 @@
             <v-container>
               <v-row>
                 <v-col>
+                  <v-card-text class="pa-2">
+                    Display name <span style="color: red">*</span>
+                    <span style="color: gray"> 4-32 chars</span>
+                  </v-card-text>
                   <v-text-field
-                    label="Name"
+                    variant="outlined"
+                    required
+                    placeholder="Name"
                     v-model="user.name"
                     :rules="nameRule"
                   />
@@ -16,8 +24,15 @@
               </v-row>
               <v-row>
                 <v-col>
+                  <v-card-text class="pa-2">
+                    Username <span style="color: red">*</span>
+                    <span style="color: gray"> 4-32 chars [A-z, 0-9, _-@.]</span>
+                  </v-card-text>
                   <v-text-field
-                    label="Username"
+                    prepend-inner-icon="mdi-account-outline"
+                    variant="outlined"
+                    required
+                    placeholder="Username"
                     v-model="user.username"
                     :rules="usernameRule"
                   />
@@ -25,26 +40,43 @@
               </v-row>
               <v-row>
                 <v-col>
+                  <v-card-text class="pa-2">
+                    Email <span style="color: red">*</span>
+                  </v-card-text>
                   <v-text-field
-                    label="Email"
+                    prepend-inner-icon="mdi-email-outline"
+                    variant="outlined"
+                    required
+                    placeholder="Email"
                     v-model="user.email"
                     :rules="emailRule"
                   />
                 </v-col>
               </v-row>
-              <!-- <v-row>
-          <v-col>
-            <v-text-field
-              label="Password"
-              v-model="user.password"
-              :rules="[(v) => !!v || 'Password is required']"
-            />
-          </v-col>
-        </v-row> -->
               <v-row>
                 <v-col>
+                  <v-card-text class="pa-2">
+                    Password <span style="color: red">*</span>
+                    <span style="color: gray"> ระบุอย่างน้อย 8 ตัว</span>
+                  </v-card-text>
+                  <v-text-field
+                    prepend-inner-icon="mdi-lock-outline"
+                    :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+                    @click:append-inner="visible = !visible"
+                    :type="visible ? 'text' : 'password'"
+                    variant="outlined"
+                    required
+                    placeholder="แก้ไขรหัสผ่าน"
+                    v-model="password"
+                    :rules="passwordRule"
+                  />
+                </v-col>
+        </v-row>
+              <v-row>
+                <v-col>
+                  <v-card-text class="pa-2"> Gender </v-card-text>
                   <v-select
-                    label="Gender"
+                    variant="solo"
                     v-model="user.gender"
                     :items="genderItem"
                   />
@@ -60,7 +92,7 @@
                   >
                 </v-col>
                 <v-col class="text-center">
-                  <v-btn color="error" rounded @click="submit">ยกเลิก</v-btn>
+                  <v-btn color="error" rounded @click="goToAdminTable">ยกเลิก</v-btn>
                 </v-col>
               </v-row>
             </v-container>
@@ -82,9 +114,7 @@
         >ต้องการยืนยันการแก้ไขหรือไม่</v-card-text
       >
       <v-card-actions class="text-center">
-        <v-btn  @click="checkDuplicate" class="mr-3 btn-success"
-          >ยืนยัน</v-btn
-        >
+        <v-btn @click="checkDuplicate" class="mr-3 btn-success">ยืนยัน</v-btn>
         <v-btn class="btn-cancel" text @click="showConfirmDialog = false"
           >ยกเลิก</v-btn
         >
@@ -102,10 +132,12 @@ export default {
     return {
       showConfirmDialog: false,
       valid: false,
+      visible: false,
       lazy: false,
       user: [],
       currentUsername: "",
       currentEmail: "",
+      password: "",
       genderItem: ["Not specified", "Male", "Female"],
       usernameRule: [
         (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
@@ -132,9 +164,17 @@ export default {
         (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
         (v) => /.+@.+\..+/.test(v) || "E-mail must be valid",
       ],
+      passwordRule: [
+        (v) => !!v || "กรุณากรอก Password",
+        (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
+        (v) => (v && v.length >= 8) || "ระบุอย่างน้อย 8 ตัว",
+      ],
     };
   },
   methods: {
+    goToAdminTable() {
+      router.push("/admintable");
+    },
     async checkDuplicate() {
       const { valid } = await this.$refs.form.validate();
       if (!valid) {
@@ -165,8 +205,8 @@ export default {
                 res.data.message === "Username and Email already exist"
               ) {
                 this.showAlert("Username and Email already exists");
-              }else{
-                this.submit()
+              } else {
+                this.submit();
               }
             } catch (error) {
               console.log(error);
@@ -185,14 +225,13 @@ export default {
                 res.data.message === "Email already exists"
               ) {
                 this.showAlert("Email already exists");
-              }else{
-                this.submit()
+              } else {
+                this.submit();
               }
             } catch (error) {
               console.log(error);
             }
-          }
-          else if (
+          } else if (
             this.user.username !== this.currentUsername &&
             this.user.email === this.currentEmail
           ) {
@@ -206,8 +245,8 @@ export default {
                 res.data.message === "Username already exists"
               ) {
                 this.showAlert("Username already exists");
-              }else{
-                this.submit()
+              } else {
+                this.submit();
               }
             } catch (error) {
               console.log(error);
@@ -221,9 +260,26 @@ export default {
       alert(this.status);
     },
     submit() {
-      api.put("/users/" + this.$route.params.id, this.user).then(() => {
-        this.$router.push("/admintable");
-      });
+      api
+        .put("/users/" + this.$route.params.id, {
+          name: this.user.name,
+          username: this.user.username,
+          password: this.password,
+          email: this.user.email,
+          gender: this.user.gender,
+          roles: this.user.roles,
+        })
+        .then(() => {
+          this.$swal({
+            confirmButtonColor: "#00af70",
+            allowOutsideClick: false,
+            width: "500",
+            text: "แก้ไขข้อมูลสำเร็จ",
+            icon: "success",
+            button: "OK",
+          });
+          this.$router.push("/admintable");
+        });
     },
     showAlert(text) {
       this.showConfirmDialog = false;
@@ -268,16 +324,16 @@ export default {
       }
     },
   },
-  computed:{
+  computed: {
     isLogin() {
       return this.$store.getters["authAdmin/isLogin"];
     },
   },
   mounted() {
-    if(this.isLogin){
+    if (this.isLogin) {
       this.fetchApi();
-    }else{
-      router.push("/login")
+    } else {
+      router.push("/login");
     }
   },
 };
@@ -290,7 +346,7 @@ export default {
 }
 .btn-cancel {
   color: #ffff;
-  background-color: #B00020;
+  background-color: #b00020;
 }
 .headerName {
   display: flex;
