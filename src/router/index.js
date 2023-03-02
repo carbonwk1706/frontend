@@ -234,6 +234,11 @@ const routes = [
       hideNavbar: true,
       hideNavbarCoin: true
     }
+  },
+  {
+    path: '/allreview',
+    name: 'allreview',
+    component: () => import('../components/Shop/AllReview.vue')
   }
 ]
 
