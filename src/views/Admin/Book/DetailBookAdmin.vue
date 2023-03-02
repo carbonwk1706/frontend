@@ -56,8 +56,7 @@ export default {
     },
     async fetchApi() {
       const res = await api.get("/books/" + this.$route.params.id);
-      console.log(res)
-      this.books = []
+      this.books = res.data
     },
   },
   computed: {
