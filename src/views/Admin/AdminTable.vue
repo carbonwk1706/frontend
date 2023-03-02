@@ -130,13 +130,10 @@ export default {
       return this.$store.getters["authAdmin/getId"];
     },
     async deleteUser(user) {
-      try {
-        await api.delete("/users/" + user._id, user);
-        this.showAlert();
-        this.userItems = this.userItems.filter((item) => item._id !== user._id);
-      } catch (error) {
-        console.error(error);
-      }
+      await api.delete("/users/" + user._id, {
+        adminId: this.getId(),
+      });
+      this.showAlert();
       this.fetchApi();
     },
     editUser(user) {

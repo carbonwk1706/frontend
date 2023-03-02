@@ -34,10 +34,7 @@
           <td class="mt-2">{{ item.gender }}</td>
 
           <td class="d-flex justify-center mt-2">
-            <v-btn
-              variant="flat"
-              class="mr-3 btn-edit"
-              @click="editUser(item)"
+            <v-btn variant="flat" class="mr-3 btn-edit" @click="editUser(item)"
               >แก้ไข</v-btn
             >
             <v-btn
@@ -105,7 +102,9 @@
           >
             ลบ
           </v-btn>
-          <v-btn class="btn-cancel" text @click="showConfirm = false"> ยกเลิก </v-btn>
+          <v-btn class="btn-cancel" text @click="showConfirm = false">
+            ยกเลิก
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -135,14 +134,12 @@ export default {
     addUser() {
       this.$router.push(`/newusertable`);
     },
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
+    },
     async deleteUser(user) {
-      try {
-        await api.delete("/users/" + user._id, user);
-        this.showAlert();
-        this.userItems = this.userItems.filter((item) => item._id !== user._id);
-      } catch (error) {
-        console.error(error);
-      }
+      await api.delete("/users/" + user._id + "/" + this.getId());
+      this.showAlert();
       this.fetchApi();
     },
     editUser(user) {
@@ -199,10 +196,10 @@ export default {
     },
   },
   mounted() {
-    if(this.isLogin){
+    if (this.isLogin) {
       this.fetchApi();
-    }else{
-      router.push("/login")
+    } else {
+      router.push("/login");
     }
   },
   created() {
@@ -228,11 +225,11 @@ export default {
 <style>
 .btn-confirm {
   color: #ffff;
-  background-color: #B00020;
+  background-color: #b00020;
 }
-.btn-cancel{
+.btn-cancel {
   color: #ffff;
-  background-color: #9E9E9E;
+  background-color: #9e9e9e;
 }
 .btn-edit {
   color: #ffff;

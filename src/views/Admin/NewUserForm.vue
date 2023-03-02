@@ -211,6 +211,9 @@ export default {
       this.form.gender = "Not specified";
       this.form.roles = ["USER"];
     },
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
+    },
     async addNewUser() {
       try {
         await api.post("/users", {
@@ -220,6 +223,7 @@ export default {
           email: this.form.email,
           gender: this.form.gender,
           roles: this.form.roles,
+          adminId: this.getId()
         });
       } catch (error) {
         console.log(error);

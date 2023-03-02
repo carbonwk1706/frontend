@@ -257,6 +257,9 @@ export default {
       this.status = !this.status;
       alert(this.status);
     },
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
+    },
     submit() {
       api
         .put("/users/" + this.$route.params.id,  {
@@ -265,7 +268,8 @@ export default {
           password: this.password,
           email: this.user.email,
           gender: this.user.gender,
-          roles: this.user.roles
+          roles: this.user.roles,
+          adminId: this.getId()
         })
         .then(() => {
           this.$swal({
@@ -317,7 +321,6 @@ export default {
         this.user = result.data;
         this.currentUsername = this.user.username;
         this.currentEmail = this.user.email;
-        console.log(this.user);
       } catch (error) {
         console.log(error);
       }
