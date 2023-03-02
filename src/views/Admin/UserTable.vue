@@ -5,6 +5,11 @@
         <h2>รายชื่อผู้ใช้งาน</h2>
       </v-col>
     </v-row>
+    <div class="text-end">
+      <v-btn color="blue-grey" class="mb-3" @click="addUser"
+        >เพิ่มผู้ใช้งาน</v-btn
+      >
+    </div>
     <v-table v-if="userItems.length > 0" dense class="elevation-1">
       <thead class="table">
         <tr>
@@ -127,6 +132,9 @@ export default {
     };
   },
   methods: {
+    addUser() {
+      this.$router.push(`/newusertable`);
+    },
     async deleteUser(user) {
       try {
         await api.delete("/users/" + user._id, user);

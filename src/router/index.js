@@ -152,6 +152,11 @@ const routes = [
     }
   },
   {
+    path: '/newusertable',
+    name: 'newuser',
+    component: () => import('../views/Admin/NewUserForm.vue'),
+  },
+  {
     path: '/checkout',
     name: 'checkout',
     component: () => import('../components/Shop/Checkout.vue')
