@@ -9,7 +9,7 @@
       <thead class="table">
         <tr>
           <th class="text-left"><span class="text-color">Name</span></th>
-          <th class="text-left"><span class="text-color">Userame</span></th>
+          <th class="text-left"><span class="text-color">Username</span></th>
           <th class="text-left"><span class="text-color">Email</span></th>
           <th class="text-left"><span class="text-color">Gender</span></th>
           <th class="text-left"></th>
