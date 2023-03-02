@@ -20,10 +20,10 @@
     <v-table v-if="request.length > 0" dense class="elevation-1">
       <thead class="table">
         <tr>
-          <th class="text-left">ลำดับ</th>
-          <th class="text-left">วันที่</th>
-          <th class="text-left">คำร้อง</th>
-          <th class="text-left">สถานะ</th>
+          <th class="text-left"><span class="text-color">ลำดับ</span></th>
+          <th class="text-left"><span class="text-color">วันที่</span></th>
+          <th class="text-left"><span class="text-color">คำร้อง</span></th>
+          <th class="text-left"><span class="text-color">สถานะ</span></th>
           <th class="text-left"></th>
         </tr>
       </thead>
@@ -51,8 +51,7 @@
 
             <v-btn
               variant="flat"
-              color="success"
-              class="mr-3"
+              class="mr-3 btn-success"
               @click="approve(item)"
             >
               อนุมัติ
@@ -108,13 +107,12 @@
         >
         <v-card-actions class="text-center">
           <v-btn
-            color="success"
             text
             @click="approveRequest(confirmDialogId)"
-            class="mr-10"
+            class="mr-3 btn-success"
             >ยืนยัน</v-btn
           >
-          <v-btn color="Grey" text @click="showConfirmDialog = false"
+          <v-btn class="btn-cancel" @click="showConfirmDialog = false"
             >ยกเลิก</v-btn
           >
         </v-card-actions>
@@ -135,13 +133,12 @@
         >
         <v-card-actions class="text-center">
           <v-btn
-            color="success"
             text
             @click="rejectsRequest(cancelDialogId)"
-            class="mr-10"
+            class="mr-3 btn-success"
             >ยืนยัน</v-btn
           >
-          <v-btn color="Grey" text @click="showCancelDialog = false"
+          <v-btn class="btn-cancel" @click="showCancelDialog = false"
             >ยกเลิก</v-btn
           >
         </v-card-actions>
@@ -156,6 +153,7 @@ import api from "@/services/api";
 import AuthAdmin from "../../components/AuthAdmin.vue";
 import moment from "moment";
 import io from "socket.io-client";
+import router from "@/router";
 
 export default {
   components: {
@@ -318,6 +316,8 @@ export default {
   mounted() {
     if (this.isLogin) {
       this.fetchApi();
+    }else{
+      router.push("/login")
     }
   },
   created() {
@@ -334,6 +334,17 @@ export default {
 };
 </script>
 <style scoped>
+.btn-success {
+  color: #ffff;
+  background-color: #00af70;
+}
+.btn-cancel{
+  color: #ffff;
+  background-color: #9E9E9E;
+}
+.text-color {
+  color: #ffff;
+}
 .text-center {
   display: flex;
   justify-content: center;
