@@ -2,9 +2,15 @@
   <v-container fluid>
     <v-row class="mb-3">
       <v-col cols="12" class="text-start">
-        <h2>รายการชื่อแอดมิน</h2>
+        <h2>รายชื่อแอดมิน</h2>
       </v-col>
     </v-row>
+
+    <div class="text-end">
+      <v-btn color="blue-grey" class="mb-3" @click="addAdmin"
+        >เพิ่มแอดมิน</v-btn
+      >
+    </div>
     <v-table v-if="userItems.length > 0" dense class="elevation-1">
       <thead class="table">
         <tr>
@@ -28,10 +34,7 @@
           <td>{{ item.email }}</td>
           <td>{{ item.gender }}</td>
           <td class="d-flex justify-center mt-2">
-            <v-btn
-              variant="flat"
-              class="mr-3 btn-edit"
-              @click="editUser(item)"
+            <v-btn variant="flat" class="mr-3 btn-edit" @click="editUser(item)"
               >แก้ไข</v-btn
             >
             <v-btn
@@ -84,16 +87,18 @@
           คุณต้องการลบผู้ใช้ {{ selectedUser.name }} ใช่หรือไม่?
         </v-card-text>
         <v-card-actions class="d-flex justify-center">
-            <v-btn
-              class="btn-confirm"
-              @click="
-                deleteUser(selectedUser);
-                showConfirm = false;
-              "
-            >
-              ลบ
-            </v-btn>
-            <v-btn class="btn-cancel" @click="showConfirm = false"> ยกเลิก </v-btn>
+          <v-btn
+            class="btn-confirm"
+            @click="
+              deleteUser(selectedUser);
+              showConfirm = false;
+            "
+          >
+            ลบ
+          </v-btn>
+          <v-btn class="btn-cancel" @click="showConfirm = false">
+            ยกเลิก
+          </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -103,7 +108,7 @@
 <script>
 import api from "@/services/api";
 import router from "@/router";
-
+import io from "socket.io-client";
 export default {
   data() {
     return {
@@ -113,9 +118,14 @@ export default {
       itemsPerPage: 10,
       showForm: false,
       showConfirm: false,
+      socket: null,
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
+    addAdmin() {
+      this.$router.push(`/newadmintable`);
+    },
     getId() {
       return this.$store.getters["authAdmin/getId"];
     },
@@ -148,9 +158,9 @@ export default {
             result.data[i].roles[j] === "ADMIN" ||
             result.data[i].roles[j] === "LOCAL_ADMIN"
           ) {
-            if(result.data[i]._id !== this.getId()){
+            if (result.data[i]._id !== this.getId()) {
               this.userItems.push(result.data[i]);
-            break;
+              break;
             }
           }
         }
@@ -177,11 +187,19 @@ export default {
     },
   },
   mounted() {
-    if(this.isLogin){
+    if (this.isLogin) {
       this.fetchApi();
-    }else{
-      router.push("/login")
+    } else {
+      router.push("/login");
     }
+  },
+  created() {
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("new-user", () => {
+      this.fetchApi();
+    });
   },
 };
 </script>
@@ -205,10 +223,10 @@ export default {
 }
 .btn-confirm {
   color: #ffff;
-  background-color: #B00020;
+  background-color: #b00020;
 }
-.btn-cancel{
+.btn-cancel {
   color: #ffff;
-  background-color: #9E9E9E;
+  background-color: #9e9e9e;
 }
 </style>

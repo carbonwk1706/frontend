@@ -2,7 +2,7 @@
   <v-container fluid>
     <v-row class="mb-3">
       <v-col cols="12" class="text-start">
-        <h2>รายการชื่อผู้ใช้งาน</h2>
+        <h2>รายชื่อผู้ใช้งาน</h2>
       </v-col>
     </v-row>
     <v-table v-if="userItems.length > 0" dense class="elevation-1">
