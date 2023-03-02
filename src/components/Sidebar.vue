@@ -56,7 +56,7 @@
         <v-divider inset></v-divider>
         <v-list-item
           prepend-icon="mdi-history"
-          title="ประวัติ"
+          title="ประวัติรายการคำร้อง"
           value="history"
           @click="goToHistoryTable()"
           dense
@@ -64,6 +64,16 @@
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
         <v-divider inset></v-divider>
+        <v-list-item
+        prepend-icon="mdi-history"
+        title="ประวัติการจัดการผู้ใช้"
+        value="history"
+        @click="goToUserHistoryTable()"
+        dense
+        nav
+        :style="{ 'max-width': '100%' }"
+      ></v-list-item>
+      <v-divider inset></v-divider>
         <v-list-item
           prepend-icon="mdi-book-multiple"
           title="หนังสือที่วางขาย"
@@ -124,6 +134,9 @@ export default {
     },
     goToHistoryTable() {
       router.push("/historyadmin");
+    },
+    goToUserHistoryTable() {
+      router.push("/userhistoryadmin");
     },
     goToBookTable() {
       router.push("/bookadmin");
