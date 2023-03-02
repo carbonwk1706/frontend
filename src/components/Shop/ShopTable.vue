@@ -300,7 +300,7 @@
           <h4
             v-if="reviews.length >= 3"
             class="display-1 text-go"
-            @click="goToNewEntry"
+            @click="goToAllReview"
           >
             ดูทั้งหมด
           </h4>
@@ -313,10 +313,10 @@
           :key="index"
           class="mb-5"
           md="4"
-          sm="3"
-          xs="2"
+          sm="6"
+          xs="12"
         >
-          <v-card max-width="340" class="mx-auto bg-review-card" height="360">
+          <v-card class="mx-auto bg-review-card pa-3" max-width="340" height="360">
             <div
               v-for="(review, index) in book.reviews
                 .slice()
@@ -324,7 +324,7 @@
                 .splice(0, 1)"
               :key="index"
             >
-              <v-card>
+              <v-card max-width="320" height="200">
                 <v-row class="ma-2">
                   <v-col cols="12">
                     <p class="review-comment">{{ review.comment }}</p>
@@ -366,7 +366,7 @@
                 <v-col cols="7">
                   <v-row>
                     <v-col cols="12">
-                      <p style="font-size: 16px; font-weight: bold">
+                      <p style="font-size: 16px; font-weight: bold" class="review-comment">
                         {{ book.name }}
                       </p>
                       <p style="font-size: 12px">Author: {{ book.author }}</p>
@@ -928,6 +928,9 @@ export default {
     goToAllBooks() {
       router.push("/books/all");
     },
+    goToAllReview(){
+      router.push("/allreview");
+    },
     hideModal() {
       this.showModal = !this.showModal;
     },
@@ -1045,7 +1048,14 @@ export default {
       };
     },
     filteredReviews() {
-      return this.reviews.slice(0, 3);
+      if(this.screenWidth > 960){
+        return this.reviews.slice(0, 3);
+      }else if(this.screenWidth > 600){
+        return this.reviews.slice(0, 2);
+      }else {
+        return this.reviews.slice(0, 1);
+      }
+      
     },
     filteredNewEntry() {
       if (this.screenWidth > 960) {
@@ -1248,7 +1258,7 @@ export default {
 .review-comment {
   display: -webkit-box;
   -webkit-box-orient: vertical;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   overflow: hidden;
   text-overflow: ellipsis;
 }
