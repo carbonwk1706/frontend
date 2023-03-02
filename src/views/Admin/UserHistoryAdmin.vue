@@ -5,7 +5,18 @@
         <h2>ประวัติการทำรายการของฉัน</h2>
       </v-col>
     </v-row>
-    <v-row class="mb-1"> </v-row>
+    <v-row>
+      <v-col cols="12" class="text-start">
+        <div class="select-width">
+          <v-select
+            density="compact"
+            v-model="select"
+            :items="selectItem"
+            variant="outlined"
+          ></v-select>
+        </div>
+      </v-col>
+    </v-row>
     <v-table v-if="history.length > 0" class="elevation-1">
       <thead class="table">
         <tr>
@@ -90,6 +101,8 @@ export default {
       history: [],
       page: 1,
       itemsPerPage: 10,
+      select: "การทำรายการทั้งหมด",
+      selectItem: ["การทำรายการทั้งหมด","การทำรายการเพิ่ม", "การทำรายการแก้ไข", "การทำรายการลบ"],
     };
   },
   methods: {
@@ -111,7 +124,21 @@ export default {
     fetchApi() {
       api.get("/historycrud/all/" + this.getId()).then((result) => {
         this.history = result.data.AdminHistoryCRUD;
-        console.log(this.history);
+      });
+    },
+    historyCreate() {
+      api.get("/historycrud/create/" + this.getId()).then((result) => {
+        this.history = result.data.AdminHistoryCRUD;
+      });
+    },
+    historyUpdate() {
+      api.get("/historycrud/update/" + this.getId()).then((result) => {
+        this.history = result.data.AdminHistoryCRUD;
+      });
+    },
+    historyDelete() {
+      api.get("/historycrud/delete/" + this.getId()).then((result) => {
+        this.history = result.data.AdminHistoryCRUD;
       });
     },
   },
@@ -124,17 +151,20 @@ export default {
     },
   },
   watch: {
-    // select(newValue) {
-    //   if (newValue) {
-    //     if (newValue === "รายการทั้งหมด") {
-    //       this.fetchApi();
-    //     } else if (newValue === "รายการขอขายอีบุ๊ค") {
-    //       this.getHistoryRequest();
-    //     } else if (newValue === "รายการขอเติม Coin") {
-    //       this.getHistoryReceipts();
-    //     }
-    //   }
-    // },
+    select(newValue) {
+      if (newValue) {
+        if (newValue === "การทำรายการทั้งหมด") {
+          this.fetchApi();
+        } else if (newValue === "การทำรายการเพิ่ม") {
+          this.historyCreate()
+        } else if (newValue === "การทำรายการแก้ไข") {
+          this.historyUpdate()
+        }
+        else if (newValue === "การทำรายการลบ") {
+          this.historyDelete()
+        }
+      }
+    },
   },
   mounted() {
     if (this.isLogin) {
@@ -150,7 +180,7 @@ export default {
   color: #ffff;
 }
 .select-width {
-  width: 200px;
+  width: 220px;
 }
 .text-noRequest {
   font-size: 18px;
