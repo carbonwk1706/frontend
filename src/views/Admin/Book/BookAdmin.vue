@@ -27,6 +27,7 @@
     <v-table v-if="bookList.length > 0" dense class="elevation-1">
       <thead class="table">
         <tr>
+          <th class="text-left"><span class="text-color">เวลาที่เพิ่ม</span></th>
           <th class="text-left"><span class="text-color">ชื่อหนังสือ</span></th>
           <th class="text-left"><span class="text-color">ผู้แต่ง</span></th>
           <th class="text-left"><span class="text-color">สำนักพิมพ์</span></th>
@@ -46,6 +47,7 @@
           )"
           :key="index"
         >
+        <td class="mt-2">{{ formatTime(item.createAt) }}</td>
           <td class="ellipsis-one-line mt-2">
             <span>{{ item.name }}</span>
           </td>
@@ -148,8 +150,10 @@
 
 <script>
 import api from "@/services/api";
+import router from "@/router";
+import moment from "moment";
+import io from "socket.io-client";
 export default {
-  components: {},
   data() {
     return {
       select: "หนังสือทั้งหมด",
@@ -161,9 +165,14 @@ export default {
       inventoryUser: [],
       selectedBook: [],
       showConfirm: false,
+      socket: null,
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
+    formatTime(item) {
+      return moment(item).format("MM/DD/YYYY, h:mm:ss a");
+    },
     async fetchApi() {
       try {
         const result = await api.get("/books/all");
@@ -249,8 +258,29 @@ export default {
     },
   },
   mounted() {
-    this.fetchApi();
+    if(this.isLogin){
+      this.fetchApi();
+    }else{
+      router.push("/login")
+    }
   },
+  created(){
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("product-sell", () => {
+      this.fetchApi();
+    });
+    this.socket.on("update-book-create", () => {
+      this.fetchApi();
+    });
+    this.socket.on("update-book-edit", () => {
+      this.fetchApi();
+    });
+    this.socket.on("update-book-delete", () => {
+      this.fetchApi();
+    });
+  }
 };
 </script>
 <style>
