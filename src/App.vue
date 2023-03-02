@@ -146,6 +146,7 @@ export default {
             "/orderhistory",
             "/bookadmin",
             "/newadmintable",
+            "/newusertable",
             "/newbookadmin"
           ].includes(this.$route.path);
         } else {
@@ -163,6 +164,7 @@ export default {
             "/checkoutcoin",
             "/coinhistory",
             "/newadmintable",
+            "/newusertable",
             "/newbookadmin"
           ].includes(this.$route.path);
         }
@@ -193,6 +195,7 @@ export default {
             "/historyadmin",
             "/bookadmin",
             "/newadmintable",
+            "/newusertable",
             "/newbookadmin"
           ].includes(this.$route.path);
         } else {
@@ -209,6 +212,7 @@ export default {
             "/checkoutcoin",
             "/coinhistory",
             "/newadmintable",
+            "/newusertable",
             "/newbookadmin"
           ].includes(this.$route.path);
         }
@@ -228,6 +232,7 @@ export default {
           "/historyadmin",
           "/bookadmin",
           "/newadmintable",
+          "/newusertable",
           "/newbookadmin"
         ].includes(this.$route.path);
       }
