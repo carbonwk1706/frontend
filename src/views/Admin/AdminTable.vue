@@ -30,8 +30,7 @@
           <td class="d-flex justify-center mt-2">
             <v-btn
               variant="flat"
-              color="success"
-              class="mr-3"
+              class="mr-3 btn-edit"
               @click="editUser(item)"
               >แก้ไข</v-btn
             >
@@ -78,25 +77,23 @@
       </v-col>
     </v-row>
 
-    <v-dialog v-model="showConfirm" max-width="290">
+    <v-dialog v-model="showConfirm" max-width="450">
       <v-card>
-        <v-card-title class="headline">ยืนยันการลบ</v-card-title>
-        <v-card-text>
+        <v-card-title class="headline text-center">ยืนยันการลบ</v-card-title>
+        <v-card-text class="text-center">
           คุณต้องการลบผู้ใช้ {{ selectedUser.name }} ใช่หรือไม่?
         </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="Grey" text @click="showConfirm = false"> ยกเลิก </v-btn>
-          <v-btn
-            color="red darken-1"
-            text
-            @click="
-              deleteUser(selectedUser);
-              showConfirm = false;
-            "
-          >
-            ลบ
-          </v-btn>
+        <v-card-actions class="d-flex justify-center">
+            <v-btn
+              class="btn-confirm"
+              @click="
+                deleteUser(selectedUser);
+                showConfirm = false;
+              "
+            >
+              ลบ
+            </v-btn>
+            <v-btn class="btn-cancel" @click="showConfirm = false"> ยกเลิก </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -105,6 +102,7 @@
 
 <script>
 import api from "@/services/api";
+import router from "@/router";
 
 export default {
   data() {
@@ -179,7 +177,11 @@ export default {
     },
   },
   mounted() {
-    this.fetchApi();
+    if(this.isLogin){
+      this.fetchApi();
+    }else{
+      router.push("/login")
+    }
   },
 };
 </script>
@@ -193,5 +195,20 @@ export default {
 
 .table {
   background-color: #00af70;
+}
+.btn-edit {
+  color: #ffff;
+  background-color: #00af70;
+}
+.text-color {
+  color: #ffff;
+}
+.btn-confirm {
+  color: #ffff;
+  background-color: #B00020;
+}
+.btn-cancel{
+  color: #ffff;
+  background-color: #9E9E9E;
 }
 </style>
