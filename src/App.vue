@@ -147,7 +147,8 @@ export default {
             "/bookadmin",
             "/newadmintable",
             "/newusertable",
-            "/newbookadmin"
+            "/newbookadmin",
+            "/userhistoryadmin"
           ].includes(this.$route.path);
         } else {
           return ![
@@ -165,7 +166,8 @@ export default {
             "/coinhistory",
             "/newadmintable",
             "/newusertable",
-            "/newbookadmin"
+            "/newbookadmin",
+            "/userhistoryadmin"
           ].includes(this.$route.path);
         }
       }
@@ -196,7 +198,8 @@ export default {
             "/bookadmin",
             "/newadmintable",
             "/newusertable",
-            "/newbookadmin"
+            "/newbookadmin",
+            "/userhistoryadmin"
           ].includes(this.$route.path);
         } else {
           return ![
@@ -213,7 +216,8 @@ export default {
             "/coinhistory",
             "/newadmintable",
             "/newusertable",
-            "/newbookadmin"
+            "/newbookadmin",
+            "/userhistoryadmin"
           ].includes(this.$route.path);
         }
       }
@@ -233,7 +237,8 @@ export default {
           "/bookadmin",
           "/newadmintable",
           "/newusertable",
-          "/newbookadmin"
+          "/newbookadmin",
+          "/userhistoryadmin"
         ].includes(this.$route.path);
       }
     },
