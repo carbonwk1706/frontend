@@ -8,10 +8,10 @@
     <v-table v-if="userItems.length > 0" dense class="elevation-1">
       <thead class="table">
         <tr>
-          <th class="text-left">Name</th>
-          <th class="text-left">Userame</th>
-          <th class="text-left">Email</th>
-          <th class="text-left">Gender</th>
+          <th class="text-left"><span class="text-color">Name</span></th>
+          <th class="text-left"><span class="text-color">Userame</span></th>
+          <th class="text-left"><span class="text-color">Email</span></th>
+          <th class="text-left"><span class="text-color">Gender</span></th>
           <th class="text-left"></th>
         </tr>
       </thead>
@@ -31,8 +31,7 @@
           <td class="d-flex justify-center mt-2">
             <v-btn
               variant="flat"
-              color="success"
-              class="mr-3"
+              class="mr-3 btn-edit"
               @click="editUser(item)"
               >แก้ไข</v-btn
             >
@@ -92,10 +91,8 @@
           คุณต้องการลบผู้ใช้ {{ selectedUser.name }} ใช่หรือไม่?
         </v-card-text>
         <v-card-actions class="text-center">
-          <v-btn color="Grey" text @click="showConfirm = false"> ยกเลิก </v-btn>
           <v-btn
-            color="red darken-1"
-            text
+            class="btn-confirm"
             @click="
               deleteUser(selectedUser);
               showConfirm = false;
@@ -103,6 +100,7 @@
           >
             ลบ
           </v-btn>
+          <v-btn class="btn-cancel" text @click="showConfirm = false"> ยกเลิก </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -112,6 +110,7 @@
 <script>
 import api from "@/services/api";
 import io from "socket.io-client";
+import router from "@/router";
 
 export default {
   components: {},
@@ -192,7 +191,11 @@ export default {
     },
   },
   mounted() {
-    this.fetchApi();
+    if(this.isLogin){
+      this.fetchApi();
+    }else{
+      router.push("/login")
+    }
   },
   created() {
     this.socket = io(this.socketioURL, {
@@ -206,6 +209,18 @@ export default {
 </script>
 
 <style>
+.btn-confirm {
+  color: #ffff;
+  background-color: #B00020;
+}
+.btn-cancel{
+  color: #ffff;
+  background-color: #9E9E9E;
+}
+.btn-edit {
+  color: #ffff;
+  background-color: #00af70;
+}
 .left {
   display: flex;
   justify-content: left;
@@ -220,7 +235,9 @@ export default {
   display: flex;
   justify-content: center;
 }
-
+.text-color {
+  color: #ffff;
+}
 .v-responsive__content {
   max-width: 100%;
 }
