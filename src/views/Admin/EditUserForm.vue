@@ -73,16 +73,6 @@
                 </v-col>
               </v-row>
               <v-row>
-                <v-col>
-                  <v-card-text class="pa-2"> Gender </v-card-text>
-                  <v-select
-                    variant="solo"
-                    v-model="user.gender"
-                    :items="genderItem"
-                  />
-                </v-col>
-              </v-row>
-              <v-row>
                 <v-col class="text-center">
                   <v-btn
                     class="btn-success"
@@ -138,7 +128,6 @@ export default {
       currentUsername: "",
       currentEmail: "",
       password: "",
-      genderItem: ["Not specified", "Male", "Female"],
       usernameRule: [
         (v) => !/[ ]/.test(v) || "ห้ามเว้นวรรค",
         (v) => !!v || "กรุณากรอก username",
@@ -267,7 +256,6 @@ export default {
           username: this.user.username,
           password: this.password,
           email: this.user.email,
-          gender: this.user.gender,
           roles: this.user.roles,
           adminId: this.getId()
         })

@@ -17,7 +17,6 @@
           <th class="text-left"><span class="text-color">Name</span></th>
           <th class="text-left"><span class="text-color">Username</span></th>
           <th class="text-left"><span class="text-color">Email</span></th>
-          <th class="text-left"><span class="text-color">Gender</span></th>
           <th class="text-left"></th>
         </tr>
       </thead>
@@ -32,7 +31,6 @@
           <td>{{ item.name }}</td>
           <td>{{ item.username }}</td>
           <td>{{ item.email }}</td>
-          <td>{{ item.gender }}</td>
           <td class="d-flex justify-center mt-2">
             <v-btn variant="flat" class="mr-3 btn-edit" @click="editUser(item)"
               >แก้ไข</v-btn
@@ -130,9 +128,7 @@ export default {
       return this.$store.getters["authAdmin/getId"];
     },
     async deleteUser(user) {
-      await api.delete("/users/" + user._id, {
-        adminId: this.getId(),
-      });
+      await api.delete("/users/" + user._id + "/" + this.getId());
       this.showAlert();
       this.fetchApi();
     },
