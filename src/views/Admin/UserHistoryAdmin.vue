@@ -50,7 +50,7 @@
               variant="flat"
               color="grey"
               class="mr-3"
-              @click="showDetail(item)"
+              @click="showDetail(item._id)"
             >
               ดูรายละเอียด
             </v-btn>
@@ -106,15 +106,10 @@ export default {
     };
   },
   methods: {
-    // showDetail(item)
-    // {
-    //   console.log(item.request)
-    //   if(item.request === "คำร้องขอสมัครขายอีบุ๊ค"){
-    //     this.$router.push(`/request/${item._id}`);
-    //   }else if(item.request === "คำร้องขอเพิ่ม Coin"){
-    //     this.$router.push(`/requestcoin/${item._id}`);
-    //   }
-    // },
+    showDetail(item)
+    {
+      this.$router.push(`/detailusercrud/${item}`);
+    },
     getId() {
       return this.$store.getters["authAdmin/getId"];
     },
