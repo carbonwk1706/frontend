@@ -57,7 +57,7 @@
         <v-list-item
           prepend-icon="mdi-history"
           title="ประวัติรายการคำร้อง"
-          value="history"
+          value="historyrequest"
           @click="goToHistoryTable()"
           dense
           nav
@@ -67,7 +67,7 @@
         <v-list-item
         prepend-icon="mdi-history"
         title="ประวัติการจัดการผู้ใช้"
-        value="history"
+        value="historyuser"
         @click="goToUserHistoryTable()"
         dense
         nav
