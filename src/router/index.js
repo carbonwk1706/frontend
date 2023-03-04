@@ -189,6 +189,17 @@ const routes = [
     component: () => import('../views/Admin/UserHistoryAdmin.vue')
   },
   {
+    path: '/detailusercrud/:id',
+    name: 'detailusercrud',
+    component: () => import('../views/Admin/DetailUserCRUD.vue'),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true
+    }
+  },
+  {
     path: '/search/:searchTerm?',
     name: 'search',
     component: () => import('../views/Sell/SearchBooks.vue')
