@@ -162,7 +162,7 @@
               </v-badge>
               <v-icon v-else v-bind="props">mdi-bell-outline</v-icon>
             </template>
-            <v-card width="400px">
+            <v-card width="430px">
               <v-card-text>
                 <v-row class="pa-2">
                   <v-col cols="6" class="d-flex justify-start"
@@ -695,7 +695,7 @@ export default {
         this.getWishList();
         this.getCartList();
         this.getNotification();
-      }else{
+      } else {
         this.$store.dispatch("wishlist/setWishList", []);
         this.$store.dispatch("cartList/setCartList", []);
       }
@@ -707,12 +707,12 @@ export default {
         document.body.classList.remove("dialog-open");
       }
     },
-    getUser(newValue){
-      if(newValue){
+    getUser(newValue) {
+      if (newValue) {
         this.fetchApi();
         this.$store.dispatch("user/setUpdateUser", false);
       }
-    }
+    },
   },
   mounted() {
     this.visibleModal = false;
@@ -744,19 +744,45 @@ export default {
       transports: ["websocket", "polling"],
     });
     this.socket.on("receipt-rejected", () => {
-      this.getNotification();
-      this.fetchApi();
+      if (this.isLogin) {
+        this.getNotification();
+        this.fetchApi();
+      }
     });
     this.socket.on("receipt-approved", () => {
-      this.getNotification();
-      this.fetchApi();
+      if (this.isLogin) {
+        this.getNotification();
+        this.fetchApi();
+      }
     });
     this.socket.on("request-rejected", () => {
-      this.getNotification();
+      if (this.isLogin) {
+        this.getNotification();
+        this.fetchApi();
+      }
     });
     this.socket.on("request-approved", () => {
-      this.getNotification();
-      this.fetchApi();
+      if (this.isLogin) {
+        this.getNotification();
+        this.fetchApi();
+      }
+    });
+    this.socket.on("update-user", (data) => {
+      if (this.isLogin) {
+        if(this.getId() === data.user._id){
+          router.push("/");
+          this.$store.dispatch("auth/logout");
+          this.$swal({
+          scrollbarPadding: false,
+          confirmButtonColor: "#00af70",
+          allowOutsideClick: false,
+          width: "500",
+          text: "ID ของคุณถูกแก้ไขโปรดติดต่อ ADMIN",
+          icon: "warning",
+          confirmButtonText: "OK",
+        });
+        }
+      }
     });
   },
 };
