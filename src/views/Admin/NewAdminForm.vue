@@ -187,6 +187,7 @@ export default {
               res.data.message === "Username and Email already"
             ) {
               this.addNewAdmin();
+              this.resetForm();
               this.$swal({
                 scrollbarPadding: false,
                 confirmButtonColor: "#00af70",

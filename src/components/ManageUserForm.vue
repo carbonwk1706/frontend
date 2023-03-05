@@ -58,7 +58,7 @@
           ></v-text-field>
           <v-card-text class="pa-2"> Gender </v-card-text>
           <v-select
-            variant="solo"
+            variant="outlined"
             :items="genders"
             v-model="user.gender"
           ></v-select>
@@ -273,7 +273,6 @@ export default {
 };
 </script>
 <style scoped>
-
 .btn-color {
   color: #ffff;
   background-color: #00af70;

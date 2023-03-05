@@ -79,7 +79,7 @@
         <v-select
           :items="genders"
           v-model="form.gender"
-          variant="solo"
+          variant="outlined"
         ></v-select>
       </v-form>
     </v-container>
@@ -184,6 +184,7 @@ export default {
               res.data.message === "Username and Email already"
             ) {
               this.addNewUser();
+              this.resetForm();
               this.$swal({
                 scrollbarPadding: false,
                 confirmButtonColor: "#00af70",
