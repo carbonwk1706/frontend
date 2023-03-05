@@ -294,7 +294,7 @@ export default {
           price: this.form.price,
           imageBook: this.form.imageBook,
           pdf: this.form.pdf,
-          // adminId: this.getId(),
+          adminId: this.getId(),
         });
         if (res.status === 201) {
           const bookId = res.data.newBook._id;
