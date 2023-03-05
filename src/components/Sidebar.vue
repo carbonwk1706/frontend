@@ -65,7 +65,7 @@
         ></v-list-item>
         <v-divider inset></v-divider>
         <v-list-item
-        prepend-icon="mdi-account-edit"
+        prepend-icon="mdi-account-clock"
         title="ประวัติการจัดการผู้ใช้"
         value="historyuser"
         @click="goToUserHistoryTable()"
@@ -73,6 +73,16 @@
         nav
         :style="{ 'max-width': '100%' }"
       ></v-list-item>
+      <v-divider inset></v-divider>
+      <v-list-item
+      prepend-icon="mdi-book-clock"
+      title="ประวัติการจัดการหนังสือ"
+      value="historybook"
+      @click="goToBookHistory()"
+      dense
+      nav
+      :style="{ 'max-width': '100%' }"
+    ></v-list-item>
       <v-divider inset></v-divider>
         <v-list-item
           prepend-icon="mdi-book-multiple"
@@ -122,6 +132,9 @@ export default {
   methods: {
     toggleRail() {
       this.rail = !this.rail;
+    },
+    goToBookHistory(){
+      router.push("/historybookcrud")
     },
     goToUserTable() {
       router.push("/usertable");
