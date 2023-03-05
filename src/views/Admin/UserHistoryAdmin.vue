@@ -84,7 +84,6 @@
     </v-row>
   </AuthAdmin>
   <AuthAdmin v-else></AuthAdmin>
-  <div></div>
 </template>
 <script>
 import api from "@/services/api";
