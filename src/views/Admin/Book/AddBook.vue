@@ -302,13 +302,13 @@ export default {
           this.handleFileUpload2(bookId);
           this.resetForm();
           this.$router.push("/bookadmin");
-          this.showAlertSucsess("เพิ่มหนังสือสำเร็จ");
+          this.showAlertSuccess("เพิ่มหนังสือสำเร็จ");
         }
       } catch (error) {
         console.log(error);
       }
     },
-    showAlertSucsess(text) {
+    showAlertSuccess(text) {
       this.$swal({
         confirmButtonColor: "#00af70",
         allowOutsideClick: false,
