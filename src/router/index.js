@@ -277,6 +277,11 @@ const routes = [
     path: '/test',
     name: 'test',
     component: () => import('../views/Admin/Book/test.vue')
+  },
+  {
+    path: '/historybookcrud',
+    name: 'historybookcrud',
+    component: () => import('../views/Admin/BookHistory.vue')
   }
 ]
 
