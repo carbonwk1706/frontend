@@ -769,18 +769,35 @@ export default {
     });
     this.socket.on("update-user", (data) => {
       if (this.isLogin) {
-        if(this.getId() === data.user._id){
+        if (this.getId() === data.user._id) {
           router.push("/");
           this.$store.dispatch("auth/logout");
           this.$swal({
-          scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
-          allowOutsideClick: false,
-          width: "500",
-          text: "ID ของคุณถูกแก้ไขโปรดติดต่อ ADMIN",
-          icon: "warning",
-          confirmButtonText: "OK",
-        });
+            scrollbarPadding: false,
+            confirmButtonColor: "#00af70",
+            allowOutsideClick: false,
+            width: "500",
+            text: "ID ของคุณถูกแก้ไขโปรดติดต่อ ADMIN",
+            icon: "warning",
+            confirmButtonText: "OK",
+          });
+        }
+      }
+    });
+    this.socket.on("delete-user", (data) => {
+      if (this.isLogin) {
+        if (this.getId() === data.userDeleted.userId) {
+          this.$store.dispatch("auth/logout");
+          router.push("/");
+          this.$swal({
+            scrollbarPadding: false,
+            confirmButtonColor: "#00af70",
+            allowOutsideClick: false,
+            width: "500",
+            text: "ID ของคุณถูกลบโดยผู้ดูแลระบบโปรดติดต่อ ADMIN",
+            icon: "warning",
+            confirmButtonText: "OK",
+          });
         }
       }
     });
