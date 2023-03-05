@@ -200,20 +200,17 @@ export default {
     addBook() {
       this.$router.push(`/newbookadmin`);
     },
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
+    },
     async deleteBook(book) {
-      this.getCart();
-      if (this.cartList.length === 0) {
-        console.log("Null");
         try {
-          await api.delete("/books/" + book._id, book);
+          await api.delete("/books/" + book._id + "/" + this.getId());
           this.showAlert();
+          this.fetchApi();
         } catch (error) {
           console.error(error);
         }
-        this.fetchApi();
-      } else {
-        console.log(this.cartList);
-      }
     },
     showAlert() {
       this.$swal({
@@ -226,14 +223,6 @@ export default {
         confirmButtonText: "OK",
       });
     },
-    async getCart() {
-      const res = await api.get("/cart");
-      this.cartList = res.data;
-    },
-    // async getInventoryUser() {
-    //   const res = await api.get("/inventory/" + this.getId());
-    //   this.inventoryUser = res.data;
-    // },
   },
   computed: {
     pages() {
