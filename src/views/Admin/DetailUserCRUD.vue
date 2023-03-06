@@ -16,39 +16,40 @@
         <v-card class="card">
           <v-card-text>
             <v-row class="d-flex justify-center">
-              <v-col cols="6" class="d-flex justify-start">
+              <v-col cols="3" class="d-flex justify-start">
                 <span>ID</span>
               </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <span class="text-uppercase">{{ user._id }}</span>
+              <v-col cols="9" class="d-flex justify-end">
+                <span v-if="detail.action === 'delete'" class="text-uppercase">{{ user.userId }}</span>
+                <span v-if="detail.action === 'add'" class="text-uppercase">{{ user._id }}</span>
               </v-col>
               <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
+              <v-col cols="3" class="d-flex justify-start">
                 <span>username</span>
               </v-col>
-              <v-col cols="6" class="d-flex justify-end">
+              <v-col cols="9" class="d-flex justify-end">
                 <span> {{ user.username }} </span>
               </v-col>
               <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
+              <v-col cols="3" class="d-flex justify-start">
                 <span>ชื่อ</span>
               </v-col>
-              <v-col cols="6" class="d-flex justify-end">
+              <v-col cols="9" class="d-flex justify-end">
                 <span> {{ user.name }} </span>
               </v-col>
               <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
+              <v-col cols="3" class="d-flex justify-start">
                 <span>อีเมล</span>
               </v-col>
-              <v-col cols="6" class="d-flex justify-end">
+              <v-col cols="9" class="d-flex justify-end">
                 <span> {{ user.email }} </span>
               </v-col>
               <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
+              <v-col cols="5" class="d-flex justify-start">
                 <span>วันที่ลงทะเบียน</span>
               </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <span> {{ user.createdAt }} </span>
+              <v-col cols="7" class="d-flex justify-end">
+                <span> {{ formatTime(user.createdAt) }} </span>
               </v-col>
             </v-row>
           </v-card-text>
@@ -62,39 +63,39 @@
                 <span>ข้อมูลที่เก่า</span>
               </v-col>
               <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
+              <v-col cols="3" class="d-flex justify-start">
                 <span>ID</span>
               </v-col>
-              <v-col cols="6" class="d-flex justify-end">
+              <v-col cols="9" class="d-flex justify-end">
                 <span class="text-uppercase">{{ oldData._id }}</span>
               </v-col>
               <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
+              <v-col cols="3" class="d-flex justify-start">
                 <span>username</span>
               </v-col>
-              <v-col cols="6" class="d-flex justify-end">
+              <v-col cols="9" class="d-flex justify-end">
                 <span> {{ oldData.username }} </span>
               </v-col>
               <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
+              <v-col cols="3" class="d-flex justify-start">
                 <span>ชื่อ</span>
               </v-col>
-              <v-col cols="6" class="d-flex justify-end">
+              <v-col cols="9" class="d-flex justify-end">
                 <span> {{ oldData.name }} </span>
               </v-col>
               <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
+              <v-col cols="3" class="d-flex justify-start">
                 <span>อีเมล</span>
               </v-col>
-              <v-col cols="6" class="d-flex justify-end">
+              <v-col cols="9" class="d-flex justify-end">
                 <span> {{ oldData.email }} </span>
               </v-col>
               <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
+              <v-col cols="5" class="d-flex justify-start">
                 <span>วันที่ลงทะเบียน</span>
               </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <span> {{ oldData.createdAt }} </span>
+              <v-col cols="7" class="d-flex justify-end">
+                <span> {{ formatTime(oldData.createdAt) }} </span>
               </v-col>
             </v-row>
           </v-card-text>
@@ -108,39 +109,39 @@
                 <span>ข้อมูลที่ UPDATE</span>
               </v-col>
               <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
+              <v-col cols="3" class="d-flex justify-start">
                 <span>ID</span>
               </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <span class="text-uppercase">{{ user._id }}</span>
+              <v-col cols="9" class="d-flex justify-end">
+                <span class="text-uppercase">{{ newData._id }}</span>
               </v-col>
               <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
+              <v-col cols="3" class="d-flex justify-start">
                 <span>username</span>
               </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <span> {{ user.username }} </span>
+              <v-col cols="9" class="d-flex justify-end">
+                <span> {{ newData.username }} </span>
               </v-col>
               <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
+              <v-col cols="3" class="d-flex justify-start">
                 <span>ชื่อ</span>
               </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <span> {{ user.name }} </span>
+              <v-col cols="9" class="d-flex justify-end">
+                <span> {{ newData.name }} </span>
               </v-col>
               <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
+              <v-col cols="3" class="d-flex justify-start">
                 <span>อีเมล</span>
               </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <span> {{ user.email }} </span>
+              <v-col cols="9" class="d-flex justify-end">
+                <span> {{ newData.email }} </span>
               </v-col>
               <v-divider></v-divider>
-              <v-col cols="6" class="d-flex justify-start">
+              <v-col cols="5" class="d-flex justify-start">
                 <span>วันที่ลงทะเบียน</span>
               </v-col>
-              <v-col cols="6" class="d-flex justify-end">
-                <span> {{ user.createdAt }} </span>
+              <v-col cols="7" class="d-flex justify-end">
+                <span> {{ formatTime(newData.createdAt) }} </span>
               </v-col>
             </v-row>
           </v-card-text>
@@ -159,6 +160,7 @@ export default {
       user: [],
       detail: [],
       oldData: [],
+      newData: []
 
     };
   },
@@ -168,6 +170,7 @@ export default {
         this.detail = res.data
         if(res.data.action === "update"){
           this.oldData = res.data.oldData
+          this.newData = res.data.newData
         }
         api.get("/users/" + res.data.userId).then((result) => {
         if (result.data.message === "User not found!!") {
