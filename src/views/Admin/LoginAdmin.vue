@@ -1,60 +1,61 @@
 <template>
   <NoAuth>
     <v-container>
-    <v-row  justify="center">
-      <v-col cols="12" sm="8" md="6" lg="4" >
-        <v-card>
-          <v-container>
-            <v-toolbar dark color="green lighten-1">
-              <v-toolbar-title>ADMIN E-BOOK</v-toolbar-title>
-            </v-toolbar>
-            <v-form @submit.prevent="login">
-              <v-text-field
-                label="Username"
-                v-model="form.username"
-                type="email"
-              />
-              <v-text-field
-                label="Password"
-                v-model="form.password"
-                type="password"
-              />
-              <div class="center">
-                <v-hover>
-                  <template v-slot:default="{ isHovering, props }">
-                    <v-btn
-                      v-bind="props"
-                      class="rounded-pill"
-                      type="submit"
-                      color="success"
-                      size="large"
-                      :variant="isHovering ? 'outlined' : 'elevated'"
-                      >ล็อกอินเข้าระบบ</v-btn
-                    >
-                  </template>
-                </v-hover>
-              </div>
-            </v-form>
-
-            <v-dialog v-model="loading" max-width="300">
-              <v-card>
-                <div class="center-loading mt-3">
-                  <v-progress-circular
-                    v-if="loading"
-                    :size="50"
-                    :width="5"
-                    indeterminate
-                    color="success"
-                  ></v-progress-circular>
+      <v-row justify="center">
+        <v-col cols="12" sm="8" md="6" lg="4">
+          <v-card class="mx-auto">
+            <v-container>
+              <v-toolbar class="bg-color">
+                <v-toolbar-title>ADMIN E-BOOK</v-toolbar-title>
+              </v-toolbar>
+              <v-form @submit.prevent="login">
+                <v-text-field
+                  label="Username"
+                  prepend-inner-icon="mdi-account-outline"
+                  variant="outlined"
+                  v-model="form.username"
+                  class="mt-3"
+                />
+                <v-text-field
+                :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+                @click:append-inner="visible = !visible"
+                  label="Password"
+                  prepend-inner-icon="mdi-lock-outline"
+                  variant="outlined"
+                  v-model="form.password"
+                  :type="visible ? 'text' : 'password'"
+                />
+                <div class="center">
+                  <v-btn
+                    class="rounded-pill btn-color"
+                    type="submit"
+                    size="large"
+                    >ล็อกอินเข้าระบบ</v-btn
+                  >
                 </div>
-                <v-card-text class="text-center">กำลังเข้าสู่ระบบ</v-card-text>
-              </v-card>
-            </v-dialog>
-          </v-container>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+              </v-form>
+
+              <v-dialog v-model="loading" max-width="300">
+                <v-card>
+                  <div class="center-loading mt-3">
+                    <v-progress-circular
+                      v-if="loading"
+                      :size="50"
+                      :width="5"
+                      indeterminate
+                      color="success"
+                    ></v-progress-circular>
+                  </div>
+                  <v-card-text class="text-center"
+                    >กำลังเข้าสู่ระบบ</v-card-text
+                  >
+                </v-card>
+              </v-dialog>
+            </v-container>
+          </v-card>
+        </v-col>
+      </v-row>
+    </v-container>
   </NoAuth>
 </template>
 <script>
@@ -117,10 +118,10 @@ export default {
                 this.$store.dispatch("authAdmin/login", admin);
                 this.loading = false;
                 this.hideLogin();
-                if(checkRole === "LOCAL_ADMIN"){
+                if (checkRole === "LOCAL_ADMIN") {
                   router.push("/admin");
-                }else if(checkRole === "ADMIN"){
-                  router.push("/admintable")
+                } else if (checkRole === "ADMIN") {
+                  router.push("/admintable");
                 }
               }, 2000);
             } else {
@@ -184,5 +185,19 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+.btn-color {
+  color: #00af70;
+  border: 1px solid #00af70;
+  box-shadow: none;
+}
+.btn-color:hover {
+  color: #ffff;
+  background-color: #00af70;
+  box-shadow: none;
+}
+.bg-color {
+  color: #ffff;
+  background-color: #00af70;
 }
 </style>
