@@ -204,29 +204,41 @@ export default {
     removePDF() {
       this.files2 = null;
     },
-    async handleFileUpload1(bookId) {
+    async handleFileUpload1(bookId,historyId) {
       try {
         let formData = new FormData();
         formData.append("image", this.files1[0]);
-        await api.post(`/upload/imageBook/${bookId}`, formData, {
+        const res = await api.post(`/upload/imageBook/${bookId}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
+        if(res.status === 200){
+          const imageBookUpload = res.data.book.imageBook
+           await api.patch('/books/updateImage/' + historyId,{
+            imageBook: imageBookUpload
+          })
+        }
         this.removeImage();
       } catch (error) {
         console.log(error);
       }
     },
-    async handleFileUpload2(bookId) {
+    async handleFileUpload2(bookId,historyId) {
       try {
         let formData = new FormData();
         formData.append("pdf", this.files2[0]);
-        await api.post(`/upload/pdf/${bookId}`, formData, {
+        const res = await api.post(`/upload/pdf/${bookId}`, formData, {
           headers: {
             "Content-Type": "multipart/form-data",
           },
         });
+        if(res.status === 200){
+          const pdfUpload = res.data.book.pdf
+           await api.patch('/books/updatePdf/' + historyId,{
+            pdf: pdfUpload
+          })
+        }
         this.removePDF();
       } catch (error) {
         console.log(error);
@@ -286,7 +298,7 @@ export default {
     },
     submit() {
       api
-        .put("/books/" + this.$route.params.id, {
+        .patch("/books/" + this.$route.params.id, {
           name: this.bookList.name,
           author: this.bookList.author,
           publisher: this.bookList.publisher,
@@ -315,7 +327,8 @@ export default {
         });
         if(res.status === 200){
           const bookId = res.data.book._id;
-          this.handleFileUpload1(bookId);
+          const historyId = res.data.history._id
+          this.handleFileUpload1(bookId,historyId);
           this.$router.push("/bookadmin");
           this.showAlertSuccess("เพิ่มหนังสือสำเร็จ");
         }
@@ -337,7 +350,8 @@ export default {
         });
         if(res.status === 200){
           const bookId = res.data.book._id;
-          this.handleFileUpload2(bookId);
+          const historyId = res.data.history._id
+          this.handleFileUpload2(bookId,historyId);
           this.$router.push("/bookadmin");
           this.showAlertSuccess("เพิ่มหนังสือสำเร็จ");
         }
@@ -359,8 +373,9 @@ export default {
         });
         if(res.status === 200){
           const bookId = res.data.book._id;
-          this.handleFileUpload1(bookId);
-          this.handleFileUpload2(bookId);
+          const historyId = res.data.history._id
+          this.handleFileUpload1(bookId,historyId);
+          this.handleFileUpload2(bookId,historyId);
           this.$router.push("/bookadmin");
           this.showAlertSuccess("เพิ่มหนังสือสำเร็จ");
         }
