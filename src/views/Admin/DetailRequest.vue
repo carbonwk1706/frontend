@@ -190,7 +190,10 @@ export default {
       api.get("/request/" + this.$route.params.id).then((result) => {
       this.request = result.data.request;
     });
-    }
+    },
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
+    },
   },
   computed: {
     isLogin() {

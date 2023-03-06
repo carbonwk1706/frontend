@@ -58,6 +58,9 @@ export default {
       const res = await api.get("/books/" + this.$route.params.id);
       this.books = res.data
     },
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
+    },
   },
   computed: {
     isLogin() {

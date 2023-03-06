@@ -95,7 +95,10 @@ export default {
       api.get("/requestcoin/" + this.$route.params.id).then((result) => {
       this.request = result.data.request;
     });
-    }
+    },
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
+    },
   },
   computed: {
     isLogin() {
