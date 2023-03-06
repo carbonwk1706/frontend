@@ -24,7 +24,18 @@
 
       <v-list density="compact" nav>
         <v-list-item
-        v-if="admin"
+          v-if="isLogin"
+          prepend-icon="mdi-home-circle"
+          title="หน้าแรก"
+          value="home"
+          @click="goToHome()"
+          dense
+          nav
+          :style="{ 'max-width': '100%' }"
+        ></v-list-item>
+        <v-divider inset v-if="isLogin"></v-divider>
+        <v-list-item
+          v-if="admin"
           prepend-icon="mdi-account"
           title="รายชื่อแอดมิน"
           value="admin"
@@ -33,9 +44,9 @@
           nav
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
-        <v-divider inset     v-if="admin"></v-divider>
+        <v-divider inset v-if="admin"></v-divider>
         <v-list-item
-        v-if="admin"
+          v-if="admin"
           prepend-icon="mdi-account-group-outline"
           title="รายชื่อผู้ใช้งาน"
           value="users"
@@ -45,7 +56,7 @@
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
         <v-list-item
-        v-if="local_admin"
+          v-if="local_admin"
           prepend-icon="mdi-book-multiple"
           title="หนังสือที่วางขาย"
           value="books"
@@ -54,9 +65,9 @@
           nav
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
-        <v-divider inset  v-if="local_admin"></v-divider>
+        <v-divider inset v-if="local_admin"></v-divider>
         <v-list-item
-        v-if="local_admin"
+          v-if="local_admin"
           prepend-icon="mdi-view-dashboard"
           title="รายการคำร้อง"
           value="approve"
@@ -65,9 +76,9 @@
           nav
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
-        <v-divider inset  v-if="local_admin"></v-divider>
+        <v-divider inset v-if="local_admin"></v-divider>
         <v-list-item
-        v-if="local_admin"
+          v-if="local_admin"
           prepend-icon="mdi-history"
           title="ประวัติรายการคำร้อง"
           value="historyrequest"
@@ -78,28 +89,29 @@
         ></v-list-item>
         <v-divider inset v-if="admin"></v-divider>
         <v-list-item
-        v-if="admin"
-        prepend-icon="mdi-account-clock"
-        title="ประวัติการจัดการผู้ใช้"
-        value="historyuser"
-        @click="goToUserHistoryTable()"
-        dense
-        nav
-        :style="{ 'max-width': '100%' }"
-      ></v-list-item>
-      <v-divider inset v-if="local_admin"></v-divider>
-      <v-list-item
-      v-if="local_admin"
-      prepend-icon="mdi-book-clock"
-      title="ประวัติการจัดการหนังสือ"
-      value="historybook"
-      @click="goToBookHistory()"
-      dense
-      nav
-      :style="{ 'max-width': '100%' }"
-    ></v-list-item>
-        <v-divider inset ></v-divider>
+          v-if="admin"
+          prepend-icon="mdi-account-clock"
+          title="ประวัติการจัดการผู้ใช้"
+          value="historyuser"
+          @click="goToUserHistoryTable()"
+          dense
+          nav
+          :style="{ 'max-width': '100%' }"
+        ></v-list-item>
+        <v-divider inset v-if="local_admin"></v-divider>
         <v-list-item
+          v-if="local_admin"
+          prepend-icon="mdi-book-clock"
+          title="ประวัติการจัดการหนังสือ"
+          value="historybook"
+          @click="goToBookHistory()"
+          dense
+          nav
+          :style="{ 'max-width': '100%' }"
+        ></v-list-item>
+        <v-divider inset v-if="isLogin"></v-divider>
+        <v-list-item
+          v-if="isLogin"
           prepend-icon="mdi-exit-to-app"
           title="ออกจากระบบ"
           value="logout"
@@ -140,8 +152,8 @@ export default {
     toggleRail() {
       this.rail = !this.rail;
     },
-    goToBookHistory(){
-      router.push("/historybookcrud")
+    goToBookHistory() {
+      router.push("/historybookcrud");
     },
     goToUserTable() {
       router.push("/usertable");
@@ -161,6 +173,9 @@ export default {
     goToBookTable() {
       router.push("/bookadmin");
     },
+    goToHome() {
+      router.push("/admin");
+    },
     logout() {
       this.loading = true;
       setTimeout(() => {
@@ -174,10 +189,10 @@ export default {
     async fetchApi() {
       const res = await api.get("/checkRoles/" + this.getId());
       this.user = res.data.user;
-      if(this.hasAdminRole){
-        this.admin = true
-      }else{
-        this.local_admin = true
+      if (this.hasAdminRole) {
+        this.admin = true;
+      } else {
+        this.local_admin = true;
       }
     },
   },
@@ -193,8 +208,8 @@ export default {
     },
   },
   mounted() {
-    if(this.isLogin){
-      this.fetchApi()
+    if (this.isLogin) {
+      this.fetchApi();
     }
   },
 };
