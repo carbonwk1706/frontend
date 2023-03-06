@@ -105,6 +105,10 @@ export default {
     }
   },
   methods:{
+    showDetail(item)
+    {
+      this.$router.push(`/detailbookcrud/${item}`);
+    },
     getId() {
       return this.$store.getters["authAdmin/getId"];
     },
