@@ -1,13 +1,184 @@
-<template >
-    <div>
-       
-    </div>
+<template>
+  <div>
+    <v-row>
+      <v-col cols="3">
+        <v-card
+        max-width="300"
+        height="150"
+          class="d-flex align-center justify-center"
+        >
+          <v-icon class="mr-2">mdi-cart-outline</v-icon>
+          <span>ขายแล้ว {{ totalSold }} เล่ม</span></v-card
+        >
+      </v-col>
+      <v-col cols="3">
+        <v-card
+        max-width="300"
+        height="150"
+          class="d-flex align-center justify-center"
+        >
+        <v-icon class="mr-2">mdi-cash-multiple</v-icon>
+          <span>ยอดขายทั้งหมด {{ totalRevenue }} บาท</span>
+        </v-card>
+      </v-col>
+      <v-col cols="3">
+        <v-card
+        max-width="300"
+        height="150"
+          class="d-flex align-center justify-center"
+        >
+        <v-icon class="mr-2">mdi-account-check</v-icon>
+          <span>
+            คำร้องที่รอการอนุมัติ {{ request.length }} รายการ
+          </span></v-card
+        >
+      </v-col>
+      <v-col cols="3">
+        <v-card
+          max-width="300"
+          height="150"
+          class="d-flex align-center justify-center"
+        >
+          <v-icon class="mr-2">mdi-account</v-icon>
+          <span>จำนวนผู้ใช้งาน {{ user.length }} คน</span></v-card
+        >
+      </v-col>
+    </v-row>
+  </div>
+  <div v-if="bestseller.length > 0" id="bestseller" class="rounded border mt-5">
+    <v-row class="pa-2">
+      <v-col class="text-center">
+        <h2 class="display-1 font-weight-bold">EBOOK ขายดี</h2>
+      </v-col>
+    </v-row>
+    <v-divider class="mb-6"></v-divider>
+    <v-row>
+      <v-col
+        v-for="(item, index) in filteredBestSell"
+        :key="index"
+        class="mb-5"
+        md="3"
+        sm="4"
+        xs="6"
+      >
+        <v-card max-width="200" class="mx-auto cardHover">
+          <v-img :src="item.imageBook" height="280px" cover>
+            <v-img
+              src="https://www.mebmarket.com/web/dist/assets/images/book-badge-B@2x.png"
+              width="35"
+              height="55"
+              class="position-absolute"
+              style="right: 0"
+            ></v-img>
+          </v-img>
+          <v-card-title class="text-center pb-0" style="font-size: 15px">{{
+            item.name
+          }}</v-card-title>
+          <v-card-subtitle
+            class="text-center grey--text"
+            style="font-size: 12px"
+          >
+            {{ item.author }} / {{ item.publisher }}
+          </v-card-subtitle>
+          <v-card-text class="text-center pb-0 pt-0" style="font-size: 13px">
+            <div style="display: inline-block; vertical-align: middle">
+              <v-rating
+                v-model="item.rating"
+                color="#5a5a5a"
+                active-color="#e83e8c"
+                empty-icon="mdi-cards-heart"
+                full-icon="mdi-cards-heart"
+                readonly
+                hover
+                size="16"
+              />
+            </div>
+            <span
+              class="ml-2 text-grey-lighten-1 text-caption"
+              style="display: inline-block; vertical-align: middle"
+            >
+              ({{ item.ratingsCount }} Rating)
+            </span>
+          </v-card-text>
+          <v-card-actions class="justify-center">
+            <v-btn class="btn-color">ยอดขาย {{ item.sold }} เล่ม </v-btn>
+          </v-card-actions>
+        </v-card>
+      </v-col>
+    </v-row>
+  </div>
+  <div v-else class="rounded border mt-5 pa-3">
+    <h2 class="text-center">ยังไม่มีรายการขายดี</h2>
+  </div>
 </template>
 <script>
+import api from "@/services/api";
 export default {
-
-}
+  data() {
+    return {
+      bestseller: [],
+      totalSold: 0,
+      totalRevenue: 0,
+      request: [],
+      user: [],
+      socket: null,
+      socketioURL: "http://localhost:3000",
+    };
+  },
+  methods: {
+    getBestseller() {
+      api.get("/bestseller/").then((result) => {
+        this.bestseller = result.data;
+      });
+    },
+    getTotalSold() {
+      api.get("/totalsold/").then((result) => {
+        this.totalSold = result.data.totalSold;
+        this.totalRevenue = result.data.totalRevenue;
+      });
+    },
+    async getRequest() {
+      try {
+        const res = await api.get("/allrequest");
+        this.request = res.data.combinedData;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getUser() {
+      try {
+        const res = await api.get("/findUser");
+        this.user = res.data.users;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+  },
+  computed: {
+    filteredBestSell() {
+      return this.bestseller.slice(0, 4);
+    },
+    isLogin() {
+      return this.$store.getters["authAdmin/isLogin"];
+    },
+  },
+  mounted() {
+    if (this.isLogin) {
+      this.getBestseller();
+      this.getTotalSold();
+      this.getRequest();
+      this.getUser();
+    }
+  },
+};
 </script>
-<style>
-
+<style scoped>
+.btn-color {
+  color: #fff;
+  background-color: #00af70;
+}
+.cardHover:hover {
+  border: 1px solid #00af70;
+  cursor: pointer;
+}
 </style>
