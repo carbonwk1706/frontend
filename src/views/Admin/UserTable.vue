@@ -50,7 +50,7 @@
       </tbody>
     </v-table>
     <v-row v-else>
-      <v-divider class="mb-6"></v-divider>
+      <v-divider class="mt-3 mb-6"></v-divider>
       <v-col cols="12">
         <div class="d-flex justify-center">
           <img
@@ -115,7 +115,6 @@ import io from "socket.io-client";
 import router from "@/router";
 
 export default {
-  components: {},
   data() {
     return {
       userItems: [],
