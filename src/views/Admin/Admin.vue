@@ -3,11 +3,11 @@
     <v-row>
       <v-col cols="3">
         <v-card
-        max-width="300"
-        height="150"
+          max-width="300"
+          height="150"
           class="d-flex align-center justify-center"
         >
-        <v-avatar class="bg-color mr-2" >
+          <v-avatar class="bg-color mr-2">
             <v-icon>mdi-cart-outline</v-icon>
           </v-avatar>
           <span>ขายแล้ว {{ totalSold }} เล่ม</span></v-card
@@ -15,11 +15,11 @@
       </v-col>
       <v-col cols="3">
         <v-card
-        max-width="300"
-        height="150"
+          max-width="300"
+          height="150"
           class="d-flex align-center justify-center"
         >
-        <v-avatar class="bg-color mr-2" >
+          <v-avatar class="bg-color mr-2">
             <v-icon>mdi-cash-multiple</v-icon>
           </v-avatar>
           <span>ยอดขายทั้งหมด {{ totalRevenue }} บาท</span>
@@ -27,11 +27,11 @@
       </v-col>
       <v-col cols="3">
         <v-card
-        max-width="300"
-        height="150"
+          max-width="300"
+          height="150"
           class="d-flex align-center justify-center"
         >
-        <v-avatar  color="warning" class="mr-2" >
+          <v-avatar color="warning" class="mr-2">
             <v-icon>mdi-account-check</v-icon>
           </v-avatar>
           <span>
@@ -45,7 +45,7 @@
           height="150"
           class="d-flex align-center justify-center"
         >
-        <v-avatar  color="info" class="mr-2" >
+          <v-avatar color="info" class="mr-2">
             <v-icon>mdi-account</v-icon>
           </v-avatar>
           <span>จำนวนผู้ใช้งาน {{ user.length }} คน</span></v-card
@@ -162,6 +162,9 @@ export default {
         console.log(error);
       }
     },
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
+    },
   },
   computed: {
     filteredBestSell() {
@@ -171,14 +174,19 @@ export default {
       return this.$store.getters["authAdmin/isLogin"];
     },
   },
-  mounted() {
-    if (this.isLogin) {
-      this.getBestseller();
-      this.getTotalSold();
-      this.getRequest();
-      this.getUser();
-    }else{
-        router.push("/login")
+  async mounted() {
+    if (!this.isLogin) {
+      router.push("/login");
+    } else if (this.isLogin) {
+      const res = await api.get("/checkRoles/" + this.getId());
+      if (!res.data.user.roles.includes("LOCAL_ADMIN")) {
+        router.push("/admintable");
+      } else {
+        this.getBestseller();
+        this.getTotalSold();
+        this.getRequest();
+        this.getUser();
+      }
     }
   },
 };
@@ -193,7 +201,7 @@ export default {
   cursor: pointer;
 }
 .bg-color {
-    color: #ffff;
-    background-color: #00af70;
-  }
+  color: #ffff;
+  background-color: #00af70;
+}
 </style>
