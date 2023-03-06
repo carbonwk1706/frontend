@@ -270,7 +270,7 @@
           <v-icon v-if="getCartListCount === 0 || !isLogin" @click="goToCart"
             >mdi-cart</v-icon
           >
-          <v-badge v-else :content="getWishListCount" color="error">
+          <v-badge v-else :content="getCartListCount" color="error">
             <v-icon @click="goToCart">mdi-cart</v-icon>
           </v-badge>
         </div>
