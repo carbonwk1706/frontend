@@ -24,7 +24,7 @@
 
       <v-list density="compact" nav>
         <v-list-item
-          v-if="isLogin"
+        v-if="local_admin"
           prepend-icon="mdi-home-circle"
           title="หน้าแรก"
           value="home"
@@ -33,7 +33,7 @@
           nav
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
-        <v-divider inset v-if="isLogin"></v-divider>
+        <v-divider inset v-if="local_admin"></v-divider>
         <v-list-item
           v-if="admin"
           prepend-icon="mdi-account"
