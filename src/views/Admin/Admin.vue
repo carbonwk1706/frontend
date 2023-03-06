@@ -10,7 +10,7 @@
         <v-avatar class="bg-color mr-2" >
             <v-icon>mdi-cart-outline</v-icon>
           </v-avatar>
-          <h3>ขายแล้ว {{ totalSold }} เล่ม</h3></v-card
+          <span>ขายแล้ว {{ totalSold }} เล่ม</span></v-card
         >
       </v-col>
       <v-col cols="3">
@@ -120,6 +120,7 @@
   </div>
 </template>
 <script>
+import router from "@/router";
 import api from "@/services/api";
 export default {
   data() {
@@ -176,6 +177,8 @@ export default {
       this.getTotalSold();
       this.getRequest();
       this.getUser();
+    }else{
+        router.push("/login")
     }
   },
 };
