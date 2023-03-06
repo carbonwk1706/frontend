@@ -314,6 +314,30 @@ export default {
         this.getMyBook();
       }
     });
+    this.socket.on("update-book-edit", () => {
+      this.fetchApi();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
+    this.socket.on("update-book-delete", () => {
+      this.fetchApi();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
+    this.socket.on("upload-image-book", () => {
+      this.fetchApi();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
+    this.socket.on("upload-pdf-book", () => {
+      this.fetchApi();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
   },
 };
 </script>

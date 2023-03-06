@@ -287,6 +287,30 @@ export default {
         this.getMyBook();
       }
     });
+    this.socket.on("update-book-edit", () => {
+      if (this.isLogin) {
+        this.getWishList();
+        this.getMyBook();
+      }
+    });
+    this.socket.on("update-book-delete", () => {
+      if (this.isLogin) {
+        this.getWishList();
+        this.getMyBook();
+      }
+    });
+    this.socket.on("upload-image-book", () => {
+      if (this.isLogin) {
+        this.getWishList();
+        this.getMyBook();
+      }
+    });
+    this.socket.on("upload-pdf-book", () => {
+      if (this.isLogin) {
+        this.getWishList();
+        this.getMyBook();
+      }
+    });
   },
 };
 </script>
