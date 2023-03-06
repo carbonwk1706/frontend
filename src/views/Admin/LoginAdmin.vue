@@ -117,7 +117,11 @@ export default {
                 this.$store.dispatch("authAdmin/login", admin);
                 this.loading = false;
                 this.hideLogin();
-                router.push("/admin");
+                if(checkRole === "LOCAL_ADMIN"){
+                  router.push("/admin");
+                }else if(checkRole === "ADMIN"){
+                  router.push("/admintable")
+                }
               }, 2000);
             } else {
               this.alertLoginAdmin();
