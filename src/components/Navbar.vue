@@ -767,6 +767,30 @@ export default {
         this.fetchApi();
       }
     });
+    this.socket.on("update-book-edit", () => {
+      if (this.isLogin) {
+        this.getNotification();
+        this.fetchApi();
+      }
+    });
+    this.socket.on("update-book-delete", () => {
+      if (this.isLogin) {
+        this.getNotification();
+        this.fetchApi();
+      }
+    });
+    this.socket.on("upload-image-book", () => {
+      if (this.isLogin) {
+        this.getNotification();
+        this.fetchApi();
+      }
+    });
+    this.socket.on("upload-pdf-book", () => {
+      if (this.isLogin) {
+        this.getNotification();
+        this.fetchApi();
+      }
+    });
     this.socket.on("update-user", (data) => {
       if (this.isLogin) {
         if (this.getId() === data.user._id) {
