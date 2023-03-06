@@ -7,8 +7,10 @@
         height="150"
           class="d-flex align-center justify-center"
         >
-          <v-icon class="mr-2">mdi-cart-outline</v-icon>
-          <span>ขายแล้ว {{ totalSold }} เล่ม</span></v-card
+        <v-avatar class="bg-color mr-2" >
+            <v-icon>mdi-cart-outline</v-icon>
+          </v-avatar>
+          <h3>ขายแล้ว {{ totalSold }} เล่ม</h3></v-card
         >
       </v-col>
       <v-col cols="3">
@@ -17,7 +19,9 @@
         height="150"
           class="d-flex align-center justify-center"
         >
-        <v-icon class="mr-2">mdi-cash-multiple</v-icon>
+        <v-avatar class="bg-color mr-2" >
+            <v-icon>mdi-cash-multiple</v-icon>
+          </v-avatar>
           <span>ยอดขายทั้งหมด {{ totalRevenue }} บาท</span>
         </v-card>
       </v-col>
@@ -27,7 +31,9 @@
         height="150"
           class="d-flex align-center justify-center"
         >
-        <v-icon class="mr-2">mdi-account-check</v-icon>
+        <v-avatar  color="warning" class="mr-2" >
+            <v-icon>mdi-account-check</v-icon>
+          </v-avatar>
           <span>
             คำร้องที่รอการอนุมัติ {{ request.length }} รายการ
           </span></v-card
@@ -39,16 +45,18 @@
           height="150"
           class="d-flex align-center justify-center"
         >
-          <v-icon class="mr-2">mdi-account</v-icon>
+        <v-avatar  color="info" class="mr-2" >
+            <v-icon>mdi-account</v-icon>
+          </v-avatar>
           <span>จำนวนผู้ใช้งาน {{ user.length }} คน</span></v-card
         >
       </v-col>
     </v-row>
   </div>
   <div v-if="bestseller.length > 0" id="bestseller" class="rounded border mt-5">
-    <v-row class="pa-2">
+    <v-row>
       <v-col class="text-center">
-        <h2 class="display-1 font-weight-bold">EBOOK ขายดี</h2>
+        <h2 class="display-1 font-weight-bold bg-color">EBOOK ขายดี</h2>
       </v-col>
     </v-row>
     <v-divider class="mb-6"></v-divider>
@@ -181,4 +189,8 @@ export default {
   border: 1px solid #00af70;
   cursor: pointer;
 }
+.bg-color {
+    color: #ffff;
+    background-color: #00af70;
+  }
 </style>
