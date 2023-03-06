@@ -203,7 +203,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .left {
   display: flex;
   justify-content: left;

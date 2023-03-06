@@ -100,7 +100,7 @@
           >
             ลบ
           </v-btn>
-          <v-btn class="btn-cancel" text @click="showConfirm = false">
+          <v-btn class="btn-cancel"  @click="showConfirm = false">
             ยกเลิก
           </v-btn>
         </v-card-actions>
@@ -219,7 +219,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 .btn-confirm {
   color: #ffff;
   background-color: #b00020;

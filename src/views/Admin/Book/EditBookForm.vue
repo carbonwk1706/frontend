@@ -427,7 +427,7 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
 .text-center {
   display: flex;
   justify-content: center;
