@@ -559,7 +559,7 @@ export default {
       router.push("/recommend");
     },
     goToMyShop() {
-      router.push("/");
+      router.push("/bookusersell");
     },
     goToRegisterSell() {
       router.push("/registersell");

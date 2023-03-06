@@ -1,5 +1,6 @@
 <template>
-  <v-container fluid>
+  <AuthSell v-if="isLogin">
+    <v-container fluid>
     <v-row>
       <v-col cols="12">
         <h2>หนังสือที่วางขาย</h2>
@@ -27,18 +28,15 @@
     <v-table v-if="bookList.length > 0" dense class="elevation-1">
       <thead class="table">
         <tr>
-          <th class="text-left">
-            <span class="text-color">วันเวลาที่เพิ่ม</span>
-          </th>
-          <th class="text-left"><span class="text-color">ชื่อหนังสือ</span></th>
-          <th class="text-left"><span class="text-color">ผู้แต่ง</span></th>
-          <th class="text-left"><span class="text-color">สำนักพิมพ์</span></th>
-          <th class="text-left"><span class="text-color">หมวดหมู่</span></th>
-          <th class="text-left"><span class="text-color">ราคา</span></th>
-          <th class="text-left"><span class="text-color">ยอดขาย</span></th>
-          <th class="text-left"><span class="text-color">เรตติ้ง</span></th>
-          <th class="text-left"><span class="text-color">รูปภาพ</span></th>
-          <th class="text-left"></th>
+          <th class="text-xs-center">ชื่อหนังสือ</th>
+          <th class="text-xs-center">ผู้แต่ง</th>
+          <th class="text-xs-center">สำนักพิมพ์</th>
+          <th class="text-xs-center">หมวดหมู่</th>
+          <th class="text-xs-center">ราคา</th>
+          <th class="text-xs-center">จำนวน</th>
+          <th class="text-xs-center">รูปภาพ</th>
+          
+          <th class="text-xs-center"></th>
         </tr>
       </thead>
       <tbody>
@@ -49,37 +47,30 @@
           )"
           :key="index"
         >
-          <td class="mt-2">{{ formatTime(item.createAt) }}</td>
-          <td class="ellipsis-one-line mt-2">
+          <td class="ellipsis-one-line mt-2 text-xs-center">
             <span>{{ item.name }}</span>
           </td>
-          <td class="mt-2">{{ item.author }}</td>
-          <td class="mt-2">{{ item.publisher }}</td>
-          <td class="mt-2">{{ item.category }}</td>
-          <td class="mt-2">{{ item.price }} บาท</td>
-          <td class="mt-2">{{ item.sold }} เล่ม</td>
-          <td class="mt-2">{{ item.rating }} เรตติ้ง</td>
-          <td class="text-xs-center mt-2">
+          <td class="mt-2 mb-2 text-xs-center">{{ item.author }}</td>
+          <td class="mt-2 mb-2 text-xs-center">{{ item.publisher }}</td>
+          <td class="mt-2 mb-2 text-xs-center">{{ item.category }}</td>
+          <td class="mt-2 mb-2 text-xs-center">{{ item.price }}</td>
+          <td class="mt-2 mb-2 text-xs-center">{{ item.price }}</td>
+          <td class="text-xs-center">
             <v-avatar rounded="0" size="70">
               <v-img :src="item.imageBook" />
             </v-avatar>
-          </td>
-          <td class="d-flex justify-center mt-5">
+          </td>        
+          <td class="d-flex mt-5 text-xs-center">
             <v-btn
               variant="flat"
-              color="grey"
+              color="success"
               class="mr-3"
-              @click="showDetail(item)"
-            >
-              รายละเอียด
-            </v-btn>
-            <v-btn variant="flat" class="mr-3 btn-edit" @click="editBook(item)"
+              @click="editBook(item)"
               >แก้ไข</v-btn
             >
             <v-btn
               variant="flat"
               color="error"
-              class="mr-3"
               @click="
                 showConfirm = true;
                 selectedBook = item;
@@ -118,7 +109,6 @@
         ></v-pagination>
       </v-col>
     </v-row>
-
     <v-dialog
       v-model="showConfirm"
       persistent
@@ -132,8 +122,10 @@
           คุณต้องการลบหนังสือ {{ selectedBook.name }} ใช่หรือไม่?
         </v-card-text>
         <v-card-actions class="text-center">
+          <v-btn color="Grey" text @click="showConfirm = false"> ยกเลิก </v-btn>
           <v-btn
-          class="btn-confirm"
+            color="red darken-1"
+            text
             @click="
               deleteBook(selectedBook);
               showConfirm = false;
@@ -141,19 +133,24 @@
           >
             ลบ
           </v-btn>
-          <v-btn  class="btn-cancel" @click="showConfirm = false"> ยกเลิก </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
   </v-container>
+  </AuthSell>
+  <AuthSell v-if="!isLogin">
+</AuthSell>
 </template>
 
 <script>
 import api from "@/services/api";
-import router from "@/router";
-import moment from "moment";
-import io from "socket.io-client";
+import AuthSell from "@/components/AuthSell.vue";
+
 export default {
+  components: {
+    AuthSell,
+
+  },
   data() {
     return {
       select: "หนังสือทั้งหมด",
@@ -165,14 +162,9 @@ export default {
       inventoryUser: [],
       selectedBook: [],
       showConfirm: false,
-      socket: null,
-      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
-    formatTime(item) {
-      return moment(item).format("MM/DD/YYYY, h:mm:ss a");
-    },
     async fetchApi() {
       try {
         const result = await api.get("/books/all");
@@ -180,9 +172,6 @@ export default {
       } catch (error) {
         console.log(error);
       }
-    },
-    showDetail(item) {
-      this.$router.push(`/detailbookadmin/${item._id}`);
     },
     getBooksCartoon() {
       api.get("/books/cartoon").then((result) => {
@@ -195,18 +184,25 @@ export default {
       });
     },
     editBook(book) {
-      this.$router.push(`/bookadmin/${book._id}`);
+      this.$router.push(`/booktable/${book._id}`);
     },
     addBook() {
-      this.$router.push(`/newbookadmin`);
-    },
-    getId() {
-      return this.$store.getters["authAdmin/getId"];
+      this.$router.push(`/newbook`);
     },
     async deleteBook(book) {
-      await api.delete("/books/" + book._id + "/" + this.getId());
-      this.showAlert();
-      this.fetchApi();
+      this.getCart();
+      if (this.cartList.length === 0) {
+        console.log("Null");
+        try {
+          await api.delete("/books/" + book._id, book);
+          this.showAlert();
+        } catch (error) {
+          console.error(error);
+        }
+        this.fetchApi();
+      } else {
+        console.log(this.cartList);
+      }
     },
     showAlert() {
       this.$swal({
@@ -219,13 +215,17 @@ export default {
         confirmButtonText: "OK",
       });
     },
+    async getCart() {
+      const res = await api.get("/cart");
+      this.cartList = res.data;
+    },
   },
   computed: {
     pages() {
       return Math.ceil(this.bookList.length / this.itemsPerPage);
     },
     isLogin() {
-      return this.$store.getters["authAdmin/isLogin"];
+      return this.$store.getters["auth/isLogin"];
     },
   },
   watch: {
@@ -241,54 +241,17 @@ export default {
       }
     },
   },
-  async mounted() {
-    if (!this.isLogin) {
-      router.push("/login");
-    } else if(this.isLogin){
-      const res = await api.get("/checkRoles/" + this.getId());
-      if(!res.data.user.roles.includes("LOCAL_ADMIN")){
-        router.push("/login")
-      }else{
-        this.fetchApi();
-      }
-    }
-  },
-  created() {
-    this.socket = io(this.socketioURL, {
-      transports: ["websocket", "polling"],
-    });
-    this.socket.on("product-sell", () => {
-      this.fetchApi();
-    });
-    this.socket.on("update-book-edit", () => {
-      this.fetchApi();
-    });
-    this.socket.on("update-book-delete", () => {
-      this.fetchApi();
-    });
-    this.socket.on("upload-image-book", () => {
-      this.fetchApi();
-    });
-    this.socket.on("upload-pdf-book", () => {
-      this.fetchApi();
-    });
+  mounted() {
+    this.fetchApi();
   },
 };
 </script>
-<style scoped>
-.btn-confirm {
-  color: #ffff;
-  background-color: #b00020;
-}
-.btn-cancel {
-  color: #ffff;
-  background-color: #9e9e9e;
-}
+<style>
 .select-width {
   width: 200px;
 }
 .table {
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 .ellipsis-one-line span {
   -webkit-line-clamp: 1;
@@ -324,12 +287,5 @@ export default {
 .text-end {
   display: flex;
   justify-content: end;
-}
-.btn-edit {
-  color: #ffff;
-  background-color: #00af70;
-}
-.text-color {
-  color: #ffff;
 }
 </style>
