@@ -27,12 +27,17 @@
     <v-table v-if="bookList.length > 0" dense class="elevation-1">
       <thead class="table">
         <tr>
-          <th class="text-left">ชื่อหนังสือ</th>
-          <th class="text-left">ผู้แต่ง</th>
-          <th class="text-left">สำนักพิมพ์</th>
-          <th class="text-left">หมวดหมู่</th>
-          <th class="text-left">ราคา</th>
-          <th class="text-left">รูปภาพ</th>
+          <th class="text-left">
+            <span class="text-color">วันเวลาที่เพิ่ม</span>
+          </th>
+          <th class="text-left"><span class="text-color">ชื่อหนังสือ</span></th>
+          <th class="text-left"><span class="text-color">ผู้แต่ง</span></th>
+          <th class="text-left"><span class="text-color">สำนักพิมพ์</span></th>
+          <th class="text-left"><span class="text-color">หมวดหมู่</span></th>
+          <th class="text-left"><span class="text-color">ราคา</span></th>
+          <th class="text-left"><span class="text-color">ยอดขาย</span></th>
+          <th class="text-left"><span class="text-color">เรตติ้ง</span></th>
+          <th class="text-left"><span class="text-color">รูปภาพ</span></th>
           <th class="text-left"></th>
         </tr>
       </thead>
@@ -44,13 +49,16 @@
           )"
           :key="index"
         >
+          <td class="mt-2">{{ formatTime(item.createAt) }}</td>
           <td class="ellipsis-one-line mt-2">
             <span>{{ item.name }}</span>
           </td>
           <td class="mt-2">{{ item.author }}</td>
           <td class="mt-2">{{ item.publisher }}</td>
           <td class="mt-2">{{ item.category }}</td>
-          <td class="mt-2">{{ item.price }}</td>
+          <td class="mt-2">{{ item.price }} บาท</td>
+          <td class="mt-2">{{ item.sold }} เล่ม</td>
+          <td class="mt-2">{{ item.rating }} เรตติ้ง</td>
           <td class="ellipsis mt-2">
             <v-avatar rounded="0" size="80">
               <v-img :src="item.imageBook" />
@@ -59,9 +67,13 @@
           <td class="d-flex justify-center mt-15">
             <v-btn
               variant="flat"
-              color="success"
+              color="grey"
               class="mr-3"
-              @click="editBook(item)"
+              @click="showDetail(item)"
+            >
+              รายละเอียด
+            </v-btn>
+            <v-btn variant="flat" class="mr-3 btn-edit" @click="editBook(item)"
               >แก้ไข</v-btn
             >
             <v-btn
@@ -110,7 +122,6 @@
     <v-dialog
       v-model="showConfirm"
       persistent
-      style="z-index: 900"
       :center="true"
       max-width="500"
       :padding="20"
@@ -121,10 +132,8 @@
           คุณต้องการลบหนังสือ {{ selectedBook.name }} ใช่หรือไม่?
         </v-card-text>
         <v-card-actions class="text-center">
-          <v-btn color="Grey" text @click="showConfirm = false"> ยกเลิก </v-btn>
           <v-btn
-            color="red darken-1"
-            text
+          class="btn-confirm"
             @click="
               deleteBook(selectedBook);
               showConfirm = false;
@@ -132,6 +141,7 @@
           >
             ลบ
           </v-btn>
+          <v-btn  class="btn-cancel" @click="showConfirm = false"> ยกเลิก </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -140,8 +150,10 @@
 
 <script>
 import api from "@/services/api";
+import router from "@/router";
+import moment from "moment";
+import io from "socket.io-client";
 export default {
-  components: {},
   data() {
     return {
       select: "หนังสือทั้งหมด",
@@ -153,9 +165,14 @@ export default {
       inventoryUser: [],
       selectedBook: [],
       showConfirm: false,
+      socket: null,
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
+    formatTime(item) {
+      return moment(item).format("MM/DD/YYYY, h:mm:ss a");
+    },
     async fetchApi() {
       try {
         const result = await api.get("/books/all");
@@ -163,6 +180,9 @@ export default {
       } catch (error) {
         console.log(error);
       }
+    },
+    showDetail(item) {
+      this.$router.push(`/detailbookadmin/${item._id}`);
     },
     getBooksCartoon() {
       api.get("/books/cartoon").then((result) => {
@@ -180,20 +200,13 @@ export default {
     addBook() {
       this.$router.push(`/newbookadmin`);
     },
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
+    },
     async deleteBook(book) {
-      this.getCart();
-      if (this.cartList.length === 0) {
-        console.log("Null");
-        try {
-          await api.delete("/books/" + book._id, book);
-          this.showAlert();
-        } catch (error) {
-          console.error(error);
-        }
-        this.fetchApi();
-      } else {
-        console.log(this.cartList);
-      }
+      await api.delete("/books/" + book._id + "/" + this.getId());
+      this.showAlert();
+      this.fetchApi();
     },
     showAlert() {
       this.$swal({
@@ -206,14 +219,6 @@ export default {
         confirmButtonText: "OK",
       });
     },
-    async getCart() {
-      const res = await api.get("/cart");
-      this.cartList = res.data;
-    },
-    // async getInventoryUser() {
-    //   const res = await api.get("/inventory/" + this.getId());
-    //   this.inventoryUser = res.data;
-    // },
   },
   computed: {
     pages() {
@@ -236,12 +241,49 @@ export default {
       }
     },
   },
-  mounted() {
-    this.fetchApi();
+  async mounted() {
+    if (!this.isLogin) {
+      router.push("/login");
+    } else if(this.isLogin){
+      const res = await api.get("/checkRoles/" + this.getId());
+      if(!res.data.user.roles.includes("LOCAL_ADMIN")){
+        router.push("/login")
+      }else{
+        this.fetchApi();
+      }
+    }
+  },
+  created() {
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("product-sell", () => {
+      this.fetchApi();
+    });
+    this.socket.on("update-book-edit", () => {
+      this.fetchApi();
+    });
+    this.socket.on("update-book-delete", () => {
+      this.fetchApi();
+    });
+    this.socket.on("upload-image-book", () => {
+      this.fetchApi();
+    });
+    this.socket.on("upload-pdf-book", () => {
+      this.fetchApi();
+    });
   },
 };
 </script>
-<style>
+<style scoped>
+.btn-confirm {
+  color: #ffff;
+  background-color: #b00020;
+}
+.btn-cancel {
+  color: #ffff;
+  background-color: #9e9e9e;
+}
 .select-width {
   width: 200px;
 }
@@ -278,6 +320,13 @@ export default {
 .text-center {
   display: flex;
   justify-content: center;
+}
+.btn-edit {
+  color: #ffff;
+  background-color: #00af70;
+}
+.text-color {
+  color: #ffff;
 }
 
 </style>

@@ -2,7 +2,9 @@
   <div class="mb-5">
     <span class="menu-link" @click="goToProfile">จัดการบัญชี</span>
     <v-icon>mdi-chevron-right</v-icon>
-    <span class="menu-link" @click="goToOrderHistory">ประวัติการสั่งซื้อของฉัน</span>
+    <span class="menu-link" @click="goToOrderHistory"
+      >ประวัติการสั่งซื้อของฉัน</span
+    >
     <v-icon>mdi-chevron-right</v-icon>
     <span class="menu-link-current">รายละเอียดการสั่งซื้อ</span>
   </div>
@@ -34,30 +36,62 @@
           <span> {{ detail.count }} เล่ม</span>
         </v-col>
       </v-row>
-      <v-row
-        v-for="(book, index) in books.slice(
-          (page - 1) * itemsPerPage,
-          page * itemsPerPage
-        )"
-        :key="index"
-      >
-        <v-divider class="my-3"></v-divider>
-        <v-col cols="4">
-          <v-img :src="book.imageBook" aspect-ratio="1"></v-img>
-        </v-col>
-        <v-col cols="8">
-          <h3 class="mb-3">{{ book.name }}</h3>
-          <p class="mb-2">โดย {{ book.author }}</p>
-          <p class="mb-2">สำนักพิมพ์ {{ book.publisher }}</p>
-          <p class="mb-2">หมวดหมู่ {{ book.category }}</p>
-          <p class="mb-2">ราคา {{ book.price }} บาท</p>
-        </v-col>
-        <v-divider class="my-3"></v-divider>
-      </v-row>
+      <div v-if="books.length === book.length">
+        <v-row
+          v-for="(book, index) in books.slice(
+            (page - 1) * itemsPerPage,
+            page * itemsPerPage
+          )"
+          :key="index"
+        >
+          <v-divider class="my-3"></v-divider>
+          <v-col cols="4">
+            <v-img :src="book.imageBook" aspect-ratio="1"></v-img>
+          </v-col>
+          <v-col cols="8">
+            <h3 class="mb-3">{{ book.name }}</h3>
+            <p class="mb-2">โดย {{ book.author }}</p>
+            <p class="mb-2">สำนักพิมพ์ {{ book.publisher }}</p>
+            <p class="mb-2">หมวดหมู่ {{ book.category }}</p>
+            <p class="mb-2">ราคา {{ book.price }} บาท</p>
+          </v-col>
+          <v-divider class="my-3"></v-divider>
+        </v-row>
+      </div>
+      <div v-if="books.length < book.length">
+        <v-row
+          v-for="(bookDelete, index) in book.slice(
+            (page - 1) * itemsPerPage,
+            page * itemsPerPage
+          )"
+          :key="index"
+        >
+          <v-divider class="my-3"></v-divider>
+          <v-col cols="4">
+            <v-img :src="bookDelete.imageBook" aspect-ratio="1"></v-img>
+          </v-col>
+          <v-col cols="8">
+            <h3 class="mb-3">{{ bookDelete.name }}</h3>
+            <p class="mb-2">โดย {{ bookDelete.author }}</p>
+            <p class="mb-2">สำนักพิมพ์ {{ bookDelete.publisher }}</p>
+            <p class="mb-2">หมวดหมู่ {{ bookDelete.category }}</p>
+            <p class="mb-2">ราคา {{ bookDelete.price }} บาท</p>
+          </v-col>
+          <v-divider class="my-3"></v-divider>
+        </v-row>
+      </div>
       <v-pagination
+        v-if="books.length === book.length"
         class="mt-5"
         v-model="page"
         :length="pages"
+        circle
+      ></v-pagination>
+      <v-pagination
+        v-if="books.length < book.length"
+        class="mt-5"
+        v-model="page"
+        :length="pages1"
         circle
       ></v-pagination>
     </v-card-text>
@@ -72,6 +106,7 @@ export default {
     return {
       detail: [],
       books: [],
+      book: [],
       page: 1,
       itemsPerPage: 2,
     };
@@ -91,6 +126,9 @@ export default {
       for (let i = 0; i < res.data.books.length; i++) {
         this.books.push(res.data.books[i]);
       }
+      for (let i = 0; i < res.data.book.length; i++) {
+        this.book.push(res.data.book[i]);
+      }
     },
     goToProfile() {
       router.push("/profile");
@@ -103,15 +141,18 @@ export default {
     pages() {
       return Math.ceil(this.books.length / this.itemsPerPage);
     },
+    pages1() {
+      return Math.ceil(this.book.length / this.itemsPerPage);
+    },
     isLogin() {
       return this.$store.getters["auth/isLogin"];
     },
   },
   mounted() {
-    if(this.isLogin){
+    if (this.isLogin) {
       this.getDetailOrder();
-    }else{
-      router.push("/orderhistory")
+    } else {
+      router.push("/orderhistory");
     }
   },
 };
@@ -125,5 +166,9 @@ export default {
 .menu-link-current {
   color: #5a5a5a;
   font-size: 14px;
+}
+.text-noBook {
+  font-size: 18px;
+  font-weight: bold;
 }
 </style>

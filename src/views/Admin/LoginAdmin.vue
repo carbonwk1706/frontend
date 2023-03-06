@@ -36,9 +36,9 @@
               </div>
             </v-form>
 
-            <v-dialog v-model="loading" max-width="500">
+            <v-dialog v-model="loading" max-width="300">
               <v-card>
-                <div class="center-loading">
+                <div class="center-loading mt-3">
                   <v-progress-circular
                     v-if="loading"
                     :size="50"
@@ -117,8 +117,12 @@ export default {
                 this.$store.dispatch("authAdmin/login", admin);
                 this.loading = false;
                 this.hideLogin();
+                if(checkRole === "LOCAL_ADMIN"){
+                  router.push("/admin");
+                }else if(checkRole === "ADMIN"){
+                  router.push("/admintable")
+                }
               }, 2000);
-              router.push("/admin");
             } else {
               this.alertLoginAdmin();
             }

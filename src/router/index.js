@@ -152,6 +152,11 @@ const routes = [
     }
   },
   {
+    path: '/newusertable',
+    name: 'newuser',
+    component: () => import('../views/Admin/NewUserForm.vue'),
+  },
+  {
     path: '/checkout',
     name: 'checkout',
     component: () => import('../components/Shop/Checkout.vue')
@@ -167,10 +172,32 @@ const routes = [
       hideNavbar: true,
       hideNavbarCoin: true
     }
-  },{
+  },
+  {
+    path: '/newadmintable',
+    name: 'newadmin',
+    component: () => import('../views/Admin/NewAdminForm.vue'),
+  },
+  {
     path: '/historyadmin',
     name: 'historyadmin',
     component: () => import('../views/Admin/HistoryAdmin.vue')
+  },
+  {
+    path: '/userhistoryadmin',
+    name: 'userhistoryadmin',
+    component: () => import('../views/Admin/UserHistoryAdmin.vue')
+  },
+  {
+    path: '/detailusercrud/:id',
+    name: 'detailusercrud',
+    component: () => import('../views/Admin/DetailUserCRUD.vue'),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true
+    }
   },
   {
     path: '/search/:searchTerm?',
@@ -225,9 +252,41 @@ const routes = [
     }
   },
   {
+    path: '/detailbookadmin/:id',
+    name: 'detailbookadmin',
+    component: () => import('../views/Admin/Book/DetailBookAdmin.vue'),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true
+    }
+  },
+  {
     path: '/requestcoin/:id',
     name: 'requestcoindetail',
     component: () => import('../views/Admin/DeatailRequsetCoin.vue'),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true
+    }
+  },
+  {
+    path: '/test',
+    name: 'test',
+    component: () => import('../views/Admin/Book/test.vue')
+  },
+  {
+    path: '/historybookcrud',
+    name: 'historybookcrud',
+    component: () => import('../views/Admin/BookHistory.vue')
+  },
+  {
+    path: '/detailbookcrud/:id',
+    name: 'detailbookcrud',
+    component: () => import('../views/Admin/DetailBookCRUD.vue'),
     meta: {
       hideFooter: true,
       hideFooterCoin: true,

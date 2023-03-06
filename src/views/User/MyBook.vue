@@ -233,7 +233,31 @@ export default {
     this.socket.on("new-rating", () => {
       if (this.isLogin) {
         this.getMyBook();
-      this.getCartList();
+        this.getCartList();
+      }
+    });
+    this.socket.on("update-book-edit", () => {
+      if (this.isLogin) {
+        this.getMyBook();
+        this.getCartList();
+      }
+    });
+    this.socket.on("update-book-delete", () => {
+      if (this.isLogin) {
+        this.getMyBook();
+        this.getCartList();
+      }
+    });
+    this.socket.on("upload-image-book", () => {
+      if (this.isLogin) {
+        this.getMyBook();
+        this.getCartList();
+      }
+    });
+    this.socket.on("upload-pdf-book", () => {
+      if (this.isLogin) {
+        this.getMyBook();
+        this.getCartList();
       }
     });
   },

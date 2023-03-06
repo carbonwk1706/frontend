@@ -1178,7 +1178,6 @@ export default {
     });
     this.socket.on("new-rating", () => {
       this.getAllReview();
-      this.getAllReview();
       this.getBestseller();
       this.getNewEntry();
       this.getHalloffame();
@@ -1190,6 +1189,54 @@ export default {
       }
     });
     this.socket.on("product-sell", () => {
+      this.getAllReview();
+      this.getBestseller();
+      this.getNewEntry();
+      this.getHalloffame();
+      this.getRecommend();
+      this.getNewEntry7D();
+      this.getRecommend7d();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
+    this.socket.on("update-book-edit", () => {
+      this.getAllReview();
+      this.getBestseller();
+      this.getNewEntry();
+      this.getHalloffame();
+      this.getRecommend();
+      this.getNewEntry7D();
+      this.getRecommend7d();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
+    this.socket.on("update-book-delete", () => {
+      this.getAllReview();
+      this.getBestseller();
+      this.getNewEntry();
+      this.getHalloffame();
+      this.getRecommend();
+      this.getNewEntry7D();
+      this.getRecommend7d();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
+    this.socket.on("upload-image-book", () => {
+      this.getAllReview();
+      this.getBestseller();
+      this.getNewEntry();
+      this.getHalloffame();
+      this.getRecommend();
+      this.getNewEntry7D();
+      this.getRecommend7d();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
+    this.socket.on("upload-pdf-book", () => {
       this.getAllReview();
       this.getBestseller();
       this.getNewEntry();

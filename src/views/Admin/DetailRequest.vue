@@ -1,8 +1,5 @@
 <template>
   <v-container fluid>
-    <v-btn icon @click="goBack">
-          <v-icon>mdi-arrow-left</v-icon>
-    </v-btn>
     <v-row class="mb-3 mt-3">
       <v-col cols="12" class="d-flex justify-center">
         <h2>รายละเอียดคำร้อง</h2>
@@ -181,22 +178,39 @@
 </template>
 <script>
 import api from "@/services/api";
+import router from "@/router";
 export default {
   data() {
     return {
       request: [],
     };
   },
-  methods: {
-    goBack(){
-      this.$router.push("/approvetable");
-    }
-  },
-  mounted() {
-    api.get("/request/" + this.$route.params.id).then((result) => {
+  methods:{
+    fetchApi(){
+      api.get("/request/" + this.$route.params.id).then((result) => {
       this.request = result.data.request;
-      console.log(this.request);
     });
+    },
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
+    },
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters["authAdmin/isLogin"];
+    },
+  },
+  async mounted() {
+    if (!this.isLogin) {
+      router.push("/login");
+    } else if(this.isLogin){
+      const res = await api.get("/checkRoles/" + this.getId());
+      if(!res.data.user.roles.includes("LOCAL_ADMIN")){
+        router.push("/login")
+      }else{
+        this.fetchApi();
+      }
+    }
   },
 };
 </script>

@@ -24,7 +24,18 @@
 
       <v-list density="compact" nav>
         <v-list-item
-          v-if="!isAdmin"
+        v-if="local_admin"
+          prepend-icon="mdi-home-circle"
+          title="หน้าแรก"
+          value="home"
+          @click="goToHome()"
+          dense
+          nav
+          :style="{ 'max-width': '100%' }"
+        ></v-list-item>
+        <v-divider inset v-if="local_admin"></v-divider>
+        <v-list-item
+          v-if="admin"
           prepend-icon="mdi-account"
           title="รายชื่อแอดมิน"
           value="admin"
@@ -33,8 +44,9 @@
           nav
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
-        <v-divider inset></v-divider>
+        <v-divider inset v-if="admin"></v-divider>
         <v-list-item
+          v-if="admin"
           prepend-icon="mdi-account-group-outline"
           title="รายชื่อผู้ใช้งาน"
           value="users"
@@ -43,28 +55,8 @@
           nav
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
-        <v-divider inset></v-divider>
         <v-list-item
-          prepend-icon="mdi-view-dashboard"
-          title="รายการคำร้อง"
-          value="approve"
-          @click="goToApproveTable()"
-          dense
-          nav
-          :style="{ 'max-width': '100%' }"
-        ></v-list-item>
-        <v-divider inset></v-divider>
-        <v-list-item
-          prepend-icon="mdi-history"
-          title="ประวัติ"
-          value="history"
-          @click="goToHistoryTable()"
-          dense
-          nav
-          :style="{ 'max-width': '100%' }"
-        ></v-list-item>
-        <v-divider inset></v-divider>
-        <v-list-item
+          v-if="local_admin"
           prepend-icon="mdi-book-multiple"
           title="หนังสือที่วางขาย"
           value="books"
@@ -73,8 +65,53 @@
           nav
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
-        <v-divider inset></v-divider>
+        <v-divider inset v-if="local_admin"></v-divider>
         <v-list-item
+          v-if="local_admin"
+          prepend-icon="mdi-view-dashboard"
+          title="รายการคำร้อง"
+          value="approve"
+          @click="goToApproveTable()"
+          dense
+          nav
+          :style="{ 'max-width': '100%' }"
+        ></v-list-item>
+        <v-divider inset v-if="local_admin"></v-divider>
+        <v-list-item
+          v-if="local_admin"
+          prepend-icon="mdi-history"
+          title="ประวัติรายการคำร้อง"
+          value="historyrequest"
+          @click="goToHistoryTable()"
+          dense
+          nav
+          :style="{ 'max-width': '100%' }"
+        ></v-list-item>
+        <v-divider inset v-if="admin"></v-divider>
+        <v-list-item
+          v-if="admin"
+          prepend-icon="mdi-account-clock"
+          title="ประวัติการจัดการผู้ใช้"
+          value="historyuser"
+          @click="goToUserHistoryTable()"
+          dense
+          nav
+          :style="{ 'max-width': '100%' }"
+        ></v-list-item>
+        <v-divider inset v-if="local_admin"></v-divider>
+        <v-list-item
+          v-if="local_admin"
+          prepend-icon="mdi-book-clock"
+          title="ประวัติการจัดการหนังสือ"
+          value="historybook"
+          @click="goToBookHistory()"
+          dense
+          nav
+          :style="{ 'max-width': '100%' }"
+        ></v-list-item>
+        <v-divider inset v-if="isLogin"></v-divider>
+        <v-list-item
+          v-if="isLogin"
           prepend-icon="mdi-exit-to-app"
           title="ออกจากระบบ"
           value="logout"
@@ -88,6 +125,7 @@
   </div>
 </template>
 <script>
+import api from "@/services/api";
 import router from "../router";
 
 export default {
@@ -105,13 +143,17 @@ export default {
         },
       ],
       rail: true,
-      isAdmin: false,
+      user: [],
+      admin: false,
+      local_admin: false,
     };
   },
-  computed: {},
   methods: {
     toggleRail() {
       this.rail = !this.rail;
+    },
+    goToBookHistory() {
+      router.push("/historybookcrud");
     },
     goToUserTable() {
       router.push("/usertable");
@@ -125,8 +167,14 @@ export default {
     goToHistoryTable() {
       router.push("/historyadmin");
     },
+    goToUserHistoryTable() {
+      router.push("/userhistoryadmin");
+    },
     goToBookTable() {
       router.push("/bookadmin");
+    },
+    goToHome() {
+      router.push("/admin");
     },
     logout() {
       this.loading = true;
@@ -135,9 +183,34 @@ export default {
         this.loading = false;
       }, 500);
     },
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
+    },
+    async fetchApi() {
+      const res = await api.get("/checkRoles/" + this.getId());
+      this.user = res.data.user;
+      if (this.hasAdminRole) {
+        this.admin = true;
+      } else {
+        this.local_admin = true;
+      }
+    },
+  },
+  computed: {
+    isLogin() {
+      return this.$store.getters["authAdmin/isLogin"];
+    },
+    hasAdminRole() {
+      return this.user.roles.includes("ADMIN");
+    },
+    hasLocalAdminRole() {
+      return this.user.roles.includes("LOCAL_ADMIN");
+    },
   },
   mounted() {
-    this.isAdmin = this.$store.getters.isAdmin;
+    if (this.isLogin) {
+      this.fetchApi();
+    }
   },
 };
 </script>

@@ -91,7 +91,7 @@
           <v-select
             :items="genders"
             v-model="form.gender"
-            variant="solo"
+            variant="outlined"
           ></v-select>
 
           <v-checkbox

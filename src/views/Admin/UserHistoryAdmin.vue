@@ -5,7 +5,7 @@
         <h2>ประวัติการทำรายการของฉัน</h2>
       </v-col>
     </v-row>
-    <v-row class="mb-1">
+    <v-row>
       <v-col cols="12" class="text-start">
         <div class="select-width">
           <v-select
@@ -17,31 +17,40 @@
         </div>
       </v-col>
     </v-row>
-    <v-table v-if="request.length > 0" class="elevation-1">
+    <v-table v-if="history.length > 0" class="elevation-1">
       <thead class="table">
         <tr>
           <th class="text-left"><span class="text-color">ลำดับ</span></th>
-          <th class="text-left"><span class="text-color">วันที่ทำรายการ</span></th>
+          <th class="text-left">
+            <span class="text-color">วันที่ทำรายการ</span>
+          </th>
+          <th class="text-left">
+            <span class="text-color">ID ที่ทำรายการ</span>
+          </th>
           <th class="text-left"><span class="text-color">รายการที่ทำ</span></th>
-          <th class="text-left"><span class="text-color">สถานะ</span> </th>
           <th class="text-left"></th>
         </tr>
       </thead>
       <tbody>
-        <tr v-for="(item, index) in request.slice(
-          (page - 1) * itemsPerPage,
-          page * itemsPerPage
-        )" :key="index">
+        <tr
+          v-for="(item, index) in history.slice(
+            (page - 1) * itemsPerPage,
+            page * itemsPerPage
+          )"
+          :key="index"
+        >
           <td>{{ index + 1 }}</td>
-          <td>{{ formatTime(item.approvedAt) }}</td>
-          <td>{{ item.request }}</td>
-          <td>{{ item.status }}</td>
+          <td>{{ formatTime(item.createdAt) }}</td>
+          <td>
+            <span class="text-uppercase">{{ item.userId }}</span>
+          </td>
+          <td>{{ item.action }}</td>
           <td>
             <v-btn
               variant="flat"
               color="grey"
               class="mr-3"
-              @click="showDetail(item)"
+              @click="showDetail(item._id)"
             >
               ดูรายละเอียด
             </v-btn>
@@ -68,16 +77,11 @@
       </v-col>
     </v-row>
 
-    <v-row v-if="request.length > 0" class="mt-12">
+    <v-row v-if="history.length > 0" class="mt-12">
       <v-col cols="12" class="pa-0">
-        <v-pagination
-          v-model="page"
-          :length="pages"
-          circle
-        ></v-pagination>
+        <v-pagination v-model="page" :length="pages" circle></v-pagination>
       </v-col>
     </v-row>
-
   </AuthAdmin>
   <AuthAdmin v-else></AuthAdmin>
 </template>
@@ -93,22 +97,17 @@ export default {
   },
   data() {
     return {
-      request: [],
-      select: "รายการทั้งหมด",
-      selectItem: ["รายการทั้งหมด", "รายการขอขายอีบุ๊ค", "รายการขอเติม Coin"],
+      history: [],
       page: 1,
       itemsPerPage: 10,
+      select: "การทำรายการทั้งหมด",
+      selectItem: ["การทำรายการทั้งหมด","การทำรายการเพิ่ม", "การทำรายการแก้ไข", "การทำรายการลบ"],
     };
   },
   methods: {
-    showDetail(item) 
+    showDetail(item)
     {
-      console.log(item.request)
-      if(item.request === "คำร้องขอสมัครขายอีบุ๊ค"){
-        this.$router.push(`/request/${item._id}`);
-      }else if(item.request === "คำร้องขอเพิ่ม Coin"){
-        this.$router.push(`/requestcoin/${item._id}`);
-      }
+      this.$router.push(`/detailusercrud/${item}`);
     },
     getId() {
       return this.$store.getters["authAdmin/getId"];
@@ -116,25 +115,30 @@ export default {
     formatTime(item) {
       return moment(item).format("MM/DD/YYYY, h:mm:ss a");
     },
-    getHistoryRequest() {
-      api.get("/history/request/" + this.getId()).then((result) => {
-        this.request = result.data.processedRequests;
-      });
-    },
-    getHistoryReceipts() {
-      api.get("/history/receipts/" + this.getId()).then((result) => {
-        this.request = result.data.processedReceipts;
-      });
-    },
     fetchApi() {
-      api.get("/history/all/" + this.getId()).then((result) => {
-        this.request = result.data.combinedData;
+      api.get("/historycrud/all/" + this.getId()).then((result) => {
+        this.history = result.data.AdminHistoryCRUD;
+      });
+    },
+    historyCreate() {
+      api.get("/historycrud/create/" + this.getId()).then((result) => {
+        this.history = result.data.AdminHistoryCRUD;
+      });
+    },
+    historyUpdate() {
+      api.get("/historycrud/update/" + this.getId()).then((result) => {
+        this.history = result.data.AdminHistoryCRUD;
+      });
+    },
+    historyDelete() {
+      api.get("/historycrud/delete/" + this.getId()).then((result) => {
+        this.history = result.data.AdminHistoryCRUD;
       });
     },
   },
   computed: {
     pages() {
-      return Math.ceil(this.request.length / this.itemsPerPage);
+      return Math.ceil(this.history.length / this.itemsPerPage);
     },
     isLogin() {
       return this.$store.getters["authAdmin/isLogin"];
@@ -143,12 +147,15 @@ export default {
   watch: {
     select(newValue) {
       if (newValue) {
-        if (newValue === "รายการทั้งหมด") {
+        if (newValue === "การทำรายการทั้งหมด") {
           this.fetchApi();
-        } else if (newValue === "รายการขอขายอีบุ๊ค") {
-          this.getHistoryRequest();
-        } else if (newValue === "รายการขอเติม Coin") {
-          this.getHistoryReceipts();
+        } else if (newValue === "การทำรายการเพิ่ม") {
+          this.historyCreate()
+        } else if (newValue === "การทำรายการแก้ไข") {
+          this.historyUpdate()
+        }
+        else if (newValue === "การทำรายการลบ") {
+          this.historyDelete()
         }
       }
     },
@@ -158,7 +165,7 @@ export default {
       router.push("/login");
     } else if(this.isLogin){
       const res = await api.get("/checkRoles/" + this.getId());
-      if(!res.data.user.roles.includes("LOCAL_ADMIN")){
+      if(!res.data.user.roles.includes("ADMIN")){
         router.push("/login")
       }else{
         this.fetchApi();
@@ -172,7 +179,7 @@ export default {
   color: #ffff;
 }
 .select-width {
-  width: 200px;
+  width: 220px;
 }
 .text-noRequest {
   font-size: 18px;

@@ -2,16 +2,21 @@
   <v-container fluid>
     <v-row class="mb-3">
       <v-col cols="12" class="text-start">
-        <h2>รายการชื่อแอดมิน</h2>
+        <h2>รายชื่อแอดมิน</h2>
       </v-col>
     </v-row>
+
+    <div class="text-end">
+      <v-btn color="blue-grey" class="mb-3" @click="addAdmin"
+        >เพิ่มแอดมิน</v-btn
+      >
+    </div>
     <v-table v-if="userItems.length > 0" dense class="elevation-1">
       <thead class="table">
         <tr>
-          <th class="text-left">Name</th>
-          <th class="text-left">Userame</th>
-          <th class="text-left">Email</th>
-          <th class="text-left">Gender</th>
+          <th class="text-left"><span class="text-color">Name</span></th>
+          <th class="text-left"><span class="text-color">Username</span></th>
+          <th class="text-left"><span class="text-color">Email</span></th>
           <th class="text-left"></th>
         </tr>
       </thead>
@@ -26,13 +31,8 @@
           <td>{{ item.name }}</td>
           <td>{{ item.username }}</td>
           <td>{{ item.email }}</td>
-          <td>{{ item.gender }}</td>
           <td class="d-flex justify-center mt-2">
-            <v-btn
-              variant="flat"
-              color="success"
-              class="mr-3"
-              @click="editUser(item)"
+            <v-btn variant="flat" class="mr-3 btn-edit" @click="editUser(item)"
               >แก้ไข</v-btn
             >
             <v-btn
@@ -78,24 +78,24 @@
       </v-col>
     </v-row>
 
-    <v-dialog v-model="showConfirm" max-width="290">
+    <v-dialog v-model="showConfirm" max-width="450">
       <v-card>
-        <v-card-title class="headline">ยืนยันการลบ</v-card-title>
-        <v-card-text>
+        <v-card-title class="headline text-center">ยืนยันการลบ</v-card-title>
+        <v-card-text class="text-center">
           คุณต้องการลบผู้ใช้ {{ selectedUser.name }} ใช่หรือไม่?
         </v-card-text>
-        <v-card-actions>
-          <v-spacer />
-          <v-btn color="Grey" text @click="showConfirm = false"> ยกเลิก </v-btn>
+        <v-card-actions class="d-flex justify-center">
           <v-btn
-            color="red darken-1"
-            text
+            class="btn-confirm"
             @click="
               deleteUser(selectedUser);
               showConfirm = false;
             "
           >
             ลบ
+          </v-btn>
+          <v-btn class="btn-cancel" @click="showConfirm = false">
+            ยกเลิก
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -105,7 +105,8 @@
 
 <script>
 import api from "@/services/api";
-
+import router from "@/router";
+import io from "socket.io-client";
 export default {
   data() {
     return {
@@ -115,20 +116,20 @@ export default {
       itemsPerPage: 10,
       showForm: false,
       showConfirm: false,
+      socket: null,
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
+    addAdmin() {
+      this.$router.push(`/newadmintable`);
+    },
     getId() {
       return this.$store.getters["authAdmin/getId"];
     },
     async deleteUser(user) {
-      try {
-        await api.delete("/users/" + user._id, user);
-        this.showAlert();
-        this.userItems = this.userItems.filter((item) => item._id !== user._id);
-      } catch (error) {
-        console.error(error);
-      }
+      await api.delete("/users/" + user._id + "/" + this.getId());
+      this.showAlert();
       this.fetchApi();
     },
     editUser(user) {
@@ -150,9 +151,9 @@ export default {
             result.data[i].roles[j] === "ADMIN" ||
             result.data[i].roles[j] === "LOCAL_ADMIN"
           ) {
-            if(result.data[i]._id !== this.getId()){
+            if (result.data[i]._id !== this.getId()) {
               this.userItems.push(result.data[i]);
-            break;
+              break;
             }
           }
         }
@@ -178,13 +179,36 @@ export default {
       return this.$store.getters["authAdmin/isLogin"];
     },
   },
-  mounted() {
-    this.fetchApi();
+  async mounted() {
+    if (!this.isLogin) {
+      router.push("/login");
+    } else if(this.isLogin){
+      const res = await api.get("/checkRoles/" + this.getId());
+      if(!res.data.user.roles.includes("ADMIN")){
+        router.push("/login")
+      }else{
+        this.fetchApi();
+      }
+    }
+  },
+  created() {
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("add-new", () => {
+      this.fetchApi();
+    });
+    this.socket.on("update-user", () => {
+      this.fetchApi();
+    });
+    this.socket.on("delete-user", () => {
+      this.fetchApi();
+    });
   },
 };
 </script>
 
-<style>
+<style scoped>
 .left {
   display: flex;
   justify-content: left;
@@ -193,5 +217,20 @@ export default {
 
 .table {
   background-color: #00af70;
+}
+.btn-edit {
+  color: #ffff;
+  background-color: #00af70;
+}
+.text-color {
+  color: #ffff;
+}
+.btn-confirm {
+  color: #ffff;
+  background-color: #b00020;
+}
+.btn-cancel {
+  color: #ffff;
+  background-color: #9e9e9e;
 }
 </style>

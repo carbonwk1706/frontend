@@ -2,16 +2,20 @@
   <v-container fluid>
     <v-row class="mb-3">
       <v-col cols="12" class="text-start">
-        <h2>รายการชื่อผู้ใช้งาน</h2>
+        <h2>รายชื่อผู้ใช้งาน</h2>
       </v-col>
     </v-row>
+    <div class="text-end">
+      <v-btn color="blue-grey" class="mb-3" @click="addUser"
+        >เพิ่มผู้ใช้งาน</v-btn
+      >
+    </div>
     <v-table v-if="userItems.length > 0" dense class="elevation-1">
       <thead class="table">
         <tr>
-          <th class="text-left">Name</th>
-          <th class="text-left">Userame</th>
-          <th class="text-left">Email</th>
-          <th class="text-left">Gender</th>
+          <th class="text-left"><span class="text-color">Name</span></th>
+          <th class="text-left"><span class="text-color">Username</span></th>
+          <th class="text-left"><span class="text-color">Email</span></th>
           <th class="text-left"></th>
         </tr>
       </thead>
@@ -26,14 +30,9 @@
           <td class="mt-2">{{ item.name }}</td>
           <td class="mt-2">{{ item.username }}</td>
           <td class="mt-2">{{ item.email }}</td>
-          <td class="mt-2">{{ item.gender }}</td>
 
           <td class="d-flex justify-center mt-2">
-            <v-btn
-              variant="flat"
-              color="success"
-              class="mr-3"
-              @click="editUser(item)"
+            <v-btn variant="flat" class="mr-3 btn-edit" @click="editUser(item)"
               >แก้ไข</v-btn
             >
             <v-btn
@@ -51,7 +50,7 @@
       </tbody>
     </v-table>
     <v-row v-else>
-      <v-divider class="mb-6"></v-divider>
+      <v-divider class="mt-3 mb-6"></v-divider>
       <v-col cols="12">
         <div class="d-flex justify-center">
           <img
@@ -92,16 +91,17 @@
           คุณต้องการลบผู้ใช้ {{ selectedUser.name }} ใช่หรือไม่?
         </v-card-text>
         <v-card-actions class="text-center">
-          <v-btn color="Grey" text @click="showConfirm = false"> ยกเลิก </v-btn>
           <v-btn
-            color="red darken-1"
-            text
+            class="btn-confirm"
             @click="
               deleteUser(selectedUser);
               showConfirm = false;
             "
           >
             ลบ
+          </v-btn>
+          <v-btn class="btn-cancel"  @click="showConfirm = false">
+            ยกเลิก
           </v-btn>
         </v-card-actions>
       </v-card>
@@ -112,9 +112,9 @@
 <script>
 import api from "@/services/api";
 import io from "socket.io-client";
+import router from "@/router";
 
 export default {
-  components: {},
   data() {
     return {
       userItems: [],
@@ -128,14 +128,15 @@ export default {
     };
   },
   methods: {
+    addUser() {
+      this.$router.push(`/newusertable`);
+    },
+    getId() {
+      return this.$store.getters["authAdmin/getId"];
+    },
     async deleteUser(user) {
-      try {
-        await api.delete("/users/" + user._id, user);
-        this.showAlert();
-        this.userItems = this.userItems.filter((item) => item._id !== user._id);
-      } catch (error) {
-        console.error(error);
-      }
+      await api.delete("/users/" + user._id + "/" + this.getId());
+      this.showAlert();
       this.fetchApi();
     },
     editUser(user) {
@@ -191,8 +192,17 @@ export default {
       return this.$store.getters["authAdmin/isLogin"];
     },
   },
-  mounted() {
-    this.fetchApi();
+  async mounted() {
+    if (!this.isLogin) {
+      router.push("/login");
+    } else if(this.isLogin){
+      const res = await api.get("/checkRoles/" + this.getId());
+      if(!res.data.user.roles.includes("ADMIN")){
+        router.push("/login")
+      }else{
+        this.fetchApi();
+      }
+    }
   },
   created() {
     this.socket = io(this.socketioURL, {
@@ -201,11 +211,32 @@ export default {
     this.socket.on("new-user", () => {
       this.fetchApi();
     });
+    this.socket.on("add-new", () => {
+      this.fetchApi();
+    });
+    this.socket.on("update-user", () => {
+      this.fetchApi();
+    });
+    this.socket.on("delete-user", () => {
+      this.fetchApi();
+    });
   },
 };
 </script>
 
-<style>
+<style scoped>
+.btn-confirm {
+  color: #ffff;
+  background-color: #b00020;
+}
+.btn-cancel {
+  color: #ffff;
+  background-color: #9e9e9e;
+}
+.btn-edit {
+  color: #ffff;
+  background-color: #00af70;
+}
 .left {
   display: flex;
   justify-content: left;
@@ -220,7 +251,9 @@ export default {
   display: flex;
   justify-content: center;
 }
-
+.text-color {
+  color: #ffff;
+}
 .v-responsive__content {
   max-width: 100%;
 }

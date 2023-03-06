@@ -107,7 +107,7 @@ export default {
         text: "Token ของคุณหมดอายุโปรดเข้าสู่ระบบอีกครั้ง",
         icon: "warning",
         confirmButtonText: "OK",
-      })
+      });
     },
   },
   computed: {
@@ -145,6 +145,11 @@ export default {
             "/historyadmin",
             "/orderhistory",
             "/bookadmin",
+            "/newadmintable",
+            "/newusertable",
+            "/newbookadmin",
+            "/userhistoryadmin",
+            "/historybookcrud"
           ].includes(this.$route.path);
         } else {
           return ![
@@ -160,6 +165,11 @@ export default {
             "/bookadmin",
             "/checkoutcoin",
             "/coinhistory",
+            "/newadmintable",
+            "/newusertable",
+            "/newbookadmin",
+            "/userhistoryadmin",
+            "/historybookcrud"
           ].includes(this.$route.path);
         }
       }
@@ -188,6 +198,11 @@ export default {
             "/approvetable",
             "/historyadmin",
             "/bookadmin",
+            "/newadmintable",
+            "/newusertable",
+            "/newbookadmin",
+            "/userhistoryadmin",
+            "/historybookcrud"
           ].includes(this.$route.path);
         } else {
           return ![
@@ -202,6 +217,11 @@ export default {
             "/bookadmin",
             "/checkoutcoin",
             "/coinhistory",
+            "/newadmintable",
+            "/newusertable",
+            "/newbookadmin",
+            "/userhistoryadmin",
+            "/historybookcrud"
           ].includes(this.$route.path);
         }
       }
@@ -219,6 +239,11 @@ export default {
           "/approvetable",
           "/historyadmin",
           "/bookadmin",
+          "/newadmintable",
+          "/newusertable",
+          "/newbookadmin",
+          "/userhistoryadmin",
+          "/historybookcrud"
         ].includes(this.$route.path);
       }
     },
