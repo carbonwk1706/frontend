@@ -126,8 +126,8 @@ export default {
       for (let i = 0; i < res.data.books.length; i++) {
         this.books.push(res.data.books[i]);
       }
-      for (let i = 0; i < res.data.book.length; i++) {
-        this.book.push(res.data.book[i]);
+      for (let i = 0; i < res.data.oldData.length; i++) {
+        this.book.push(res.data.oldData[i]);
       }
     },
     goToProfile() {

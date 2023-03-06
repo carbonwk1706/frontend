@@ -274,11 +274,6 @@ const routes = [
     }
   },
   {
-    path: '/test',
-    name: 'test',
-    component: () => import('../views/Admin/Book/test.vue')
-  },
-  {
     path: '/historybookcrud',
     name: 'historybookcrud',
     component: () => import('../views/Admin/BookHistory.vue')
@@ -287,6 +282,44 @@ const routes = [
     path: '/detailbookcrud/:id',
     name: 'detailbookcrud',
     component: () => import('../views/Admin/DetailBookCRUD.vue'),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true
+    }
+  },
+  {
+    path: '/newbook',
+    name: 'newbook',
+    component: () => import('../views/UserSell/BookUserSell/AddBookUserSell.vue'),
+  }
+  ,{
+    path: '/payment',
+    name: 'payment',
+    component: () => import('../views/UserSell/Payment.vue'),
+  },
+  {
+    path: '/bookqueue',
+    name: 'bookqueue',
+    component: () => import('../views/UserSell/BookUserSell/BookQueue.vue'),
+  },
+  {
+    path: '/bookusersell',
+    name: 'bookusersell',
+    component: () => import('../views/UserSell/Homesell.vue'),
+   
+  },
+  {
+    path: '/booktable',
+    name: 'booktable',
+    component: () => import('../views/UserSell/BookUserSell/BookTable.vue'),
+   
+  },
+  {
+    path: '/booktable/:id',
+    name: 'editbook',
+    component: () => import('../views/UserSell/BookUserSell/EditBookUserSell.vue'),
     meta: {
       hideFooter: true,
       hideFooterCoin: true,
