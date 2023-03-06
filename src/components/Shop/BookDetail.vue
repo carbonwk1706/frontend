@@ -57,6 +57,11 @@
             <v-btn class="btn-color" rounded width="160" @click="readBook">
               อ่าน
             </v-btn>
+            <iframe
+              :src="book.pdf"
+              frameBorder="0"
+              style="width: 100%; height: 100%"
+            ></iframe>
           </v-row>
         </v-col>
       </v-col>
@@ -215,11 +220,10 @@
       </v-container>
     </v-card>
   </v-dialog>
-
   <Login
-  :visibleModal="visibleModal"
-  @update:isVisible="visibleModal = $event"
-/>
+    :visibleModal="visibleModal"
+    @update:isVisible="visibleModal = $event"
+  />
 </template>
 
 <script>
@@ -249,8 +253,9 @@ export default {
       page: 1,
       itemsPerPage: 2,
       visibleModal: false,
+      isInWishList: false,
       socket: null,
-    socketioURL: "http://localhost:3000",
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
@@ -359,6 +364,20 @@ export default {
         });
       }
     },
+    async IconWishlist() {
+      const res = await api.post("/wishlist/addWishList", {
+        userId: this.getId(),
+        bookId: this.$route.params.id,
+      });
+      if (
+        res.status === 200 &&
+        res.data.message === "Book already exists in wishlist"
+      ) {
+        this.isInWishList = true;
+      } else {
+        this.isInWishList = false;
+      }
+    },
     getId() {
       return this.$store.getters["auth/getId"];
     },
@@ -401,7 +420,7 @@ export default {
               rating: this.rating,
               comment: this.comment,
             });
-            this.clearRating()
+            this.clearRating();
             this.alertSuccess("ส่งข้อมูลสำเร็จ ขอบคุณสำหรับการรีวิว");
             this.checkRating();
             this.getBookDetail();
@@ -411,19 +430,16 @@ export default {
           }
         } else {
           this.alertWarning("คุณยังไม่ได้ซื้อหนังสือเล่มนี้");
-          this.clearRating()
+          this.clearRating();
         }
       } else {
         this.alertWarning("คุณรีวิวหนังสือเล่มนี้ไปแล้ว");
-        this.clearRating()
+        this.clearRating();
       }
     },
-    clearRating(){
+    clearRating() {
       this.rating = 0;
       this.comment = "";
-    },
-    readBook() {
-      alert("อ่านหนังสือ");
     },
     async checkRating() {
       const res = await api.get("/ratingUserBooks/" + this.getId());
@@ -433,6 +449,9 @@ export default {
       } else {
         this.noRating = false;
       }
+    },
+    readBook() {
+      console.log(this.book.pdf);
     },
     async getProfile() {
       const res = await api.get("/profile/" + this.getId());
@@ -476,6 +495,61 @@ export default {
       this.getRatingBook();
       this.getBookDetail();
       this.getRatingBook();
+      if (this.isLogin) {
+        this.visibleModal = false;
+        this.hasBook();
+        this.checkRating();
+        this.getProfile();
+      }
+    });
+    this.socket.on("product-sell", () => {
+      this.getRatingBook();
+      this.getBookDetail();
+      this.getRatingBook();
+      if (this.isLogin) {
+        this.visibleModal = false;
+        this.hasBook();
+        this.checkRating();
+        this.getProfile();
+      }
+    });
+    this.socket.on("update-book-edit", () => {
+      this.getRatingBook();
+      this.getBookDetail();
+      this.getRatingBook();
+      if (this.isLogin) {
+        this.visibleModal = false;
+        this.hasBook();
+        this.checkRating();
+        this.getProfile();
+      }
+    });
+    this.socket.on("update-book-delete", (data) => {
+      if(data.bookDeleted.bookId === this.$route.params.id){
+        router.push("/")
+      }
+    });
+    this.socket.on("upload-image-book", () => {
+      this.getRatingBook();
+      this.getBookDetail();
+      this.getRatingBook();
+      if (this.isLogin) {
+        this.visibleModal = false;
+        this.hasBook();
+        this.checkRating();
+        this.getProfile();
+      }
+    });
+    this.socket.on("upload-pdf-book", () => {
+      this.getRatingBook();
+      this.getBookDetail();
+      this.getRatingBook();
+      if (this.isLogin) {
+        this.visibleModal = false;
+        this.hasBook();
+        this.checkRating();
+        this.getProfile();
+      }
     });
   },
 };
