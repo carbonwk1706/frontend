@@ -59,12 +59,12 @@
           <td class="mt-2">{{ item.price }} บาท</td>
           <td class="mt-2">{{ item.sold }} เล่ม</td>
           <td class="mt-2">{{ item.rating }} เรตติ้ง</td>
-          <td class="ellipsis mt-2">
-            <v-avatar rounded="0" size="80">
+          <td class="text-xs-center mt-2">
+            <v-avatar rounded="0" size="70">
               <v-img :src="item.imageBook" />
             </v-avatar>
           </td>
-          <td class="d-flex justify-center mt-15">
+          <td class="d-flex justify-center mt-5">
             <v-btn
               variant="flat"
               color="grey"
