@@ -282,7 +282,18 @@ const routes = [
     path: '/historybookcrud',
     name: 'historybookcrud',
     component: () => import('../views/Admin/BookHistory.vue')
-  }
+  },
+  {
+    path: '/detailbookcrud/:id',
+    name: 'detailbookcrud',
+    component: () => import('../views/Admin/DetailBookCRUD.vue'),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true
+    }
+  },
 ]
 
 const router = createRouter({
