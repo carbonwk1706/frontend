@@ -76,9 +76,9 @@
           nav
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
-        <v-divider inset v-if="local_admin"></v-divider>
+        <v-divider inset v-if="admin"></v-divider>
         <v-list-item
-        v-if="local_admin"
+        v-if="admin"
         prepend-icon="mdi-account-clock"
         title="ประวัติการจัดการผู้ใช้"
         value="historyuser"
