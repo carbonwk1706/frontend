@@ -122,7 +122,6 @@
     <v-dialog
       v-model="showConfirm"
       persistent
-      style="z-index: 900"
       :center="true"
       max-width="500"
       :padding="20"
@@ -133,10 +132,8 @@
           คุณต้องการลบหนังสือ {{ selectedBook.name }} ใช่หรือไม่?
         </v-card-text>
         <v-card-actions class="text-center">
-          <v-btn color="Grey" text @click="showConfirm = false"> ยกเลิก </v-btn>
           <v-btn
-            color="red darken-1"
-            text
+          class="btn-confirm"
             @click="
               deleteBook(selectedBook);
               showConfirm = false;
@@ -144,6 +141,7 @@
           >
             ลบ
           </v-btn>
+          <v-btn  class="btn-cancel" @click="showConfirm = false"> ยกเลิก </v-btn>
         </v-card-actions>
       </v-card>
     </v-dialog>
@@ -272,7 +270,15 @@ export default {
   },
 };
 </script>
-<style>
+<style scoped>
+.btn-confirm {
+  color: #ffff;
+  background-color: #b00020;
+}
+.btn-cancel {
+  color: #ffff;
+  background-color: #9e9e9e;
+}
 .select-width {
   width: 200px;
 }
