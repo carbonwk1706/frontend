@@ -8,6 +8,7 @@
       "
     />
     <Sidebar v-if="showSidebar && !this.isNotFoundRoute" />
+    <SidebarSell v-if="showSidebarsell && !this.isNotFoundRoute" />
     <v-carousel
       class="mg-carousel"
       v-if="isRootRoute"
@@ -46,11 +47,13 @@ import Navbar from "./components/Navbar.vue";
 import Sidebar from "./components/Sidebar.vue";
 import CoinNavbar from "./components/Coin/Navbar.vue";
 import FooterCoin from "./components/Coin/Footer.vue";
+import SidebarSell from "./components/SidebarSell.vue";
 export default {
   name: "App",
   components: {
     Navbar,
     Sidebar,
+    SidebarSell,
     Footer,
     CoinNavbar,
     FooterCoin,
@@ -149,7 +152,7 @@ export default {
             "/newusertable",
             "/newbookadmin",
             "/userhistoryadmin",
-            "/historybookcrud"
+            "/historybookcrud",
           ].includes(this.$route.path);
         } else {
           return ![
@@ -169,7 +172,11 @@ export default {
             "/newusertable",
             "/newbookadmin",
             "/userhistoryadmin",
-            "/historybookcrud"
+            "/historybookcrud",
+            "/bookusersell",
+            "/booktable",
+            "/bookqueue",
+            "/payment",
           ].includes(this.$route.path);
         }
       }
@@ -202,7 +209,7 @@ export default {
             "/newusertable",
             "/newbookadmin",
             "/userhistoryadmin",
-            "/historybookcrud"
+            "/historybookcrud",
           ].includes(this.$route.path);
         } else {
           return ![
@@ -221,7 +228,11 @@ export default {
             "/newusertable",
             "/newbookadmin",
             "/userhistoryadmin",
-            "/historybookcrud"
+            "/historybookcrud",
+            "/bookusersell",
+            "/booktable",
+            "/bookqueue",
+            "/payment",
           ].includes(this.$route.path);
         }
       }
@@ -243,7 +254,21 @@ export default {
           "/newusertable",
           "/newbookadmin",
           "/userhistoryadmin",
-          "/historybookcrud"
+          "/historybookcrud",
+        ].includes(this.$route.path);
+      }
+    },
+    showSidebarsell() {
+      // const currenRoute = this.$route;
+      // if (currenRoute.meta.hideNavbar && !currenRoute.meta.hideSidebar) {
+      //   return true;
+      // }
+      {
+        return [
+          "/bookusersell",
+          "/booktable",
+          "/bookqueue",
+          "/payment",
         ].includes(this.$route.path);
       }
     },
