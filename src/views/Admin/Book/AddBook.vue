@@ -319,6 +319,16 @@ export default {
       });
     },
   },
+  computed: {
+    isLogin() {
+      return this.$store.getters["authAdmin/isLogin"];
+    },
+  },
+  mounted() {
+    if (!this.isLogin) {
+      router.push("/login");
+    } 
+  },
 };
 </script>
 <style scoped>

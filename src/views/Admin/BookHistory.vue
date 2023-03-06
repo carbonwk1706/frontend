@@ -1,112 +1,109 @@
 <template>
-  <AuthAdmin v-if="isLogin"
-    ><v-row>
-      <v-col cols="12">
-        <h2>ประวัติการทำรายการของฉัน</h2>
-      </v-col>
-    </v-row>
-    <v-row>
-      <v-col cols="12" class="text-start">
-        <div class="select-width">
-          <v-select
-            density="compact"
-            v-model="select"
-            :items="selectItem"
-            variant="outlined"
-          ></v-select>
-        </div>
-      </v-col>
-    </v-row>
-    <v-table v-if="history.length > 0" class="elevation-1">
-      <thead class="table">
-        <tr>
-          <th class="text-left"><span class="text-color">ลำดับ</span></th>
-          <th class="text-left">
-            <span class="text-color">วันที่ทำรายการ</span>
-          </th>
-          <th class="text-left">
-            <span class="text-color">ID หนังสือที่ทำรายการ</span>
-          </th>
-          <th class="text-left"><span class="text-color">รายการที่ทำ</span></th>
-          <th class="text-left"></th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr
-          v-for="(item, index) in history.slice(
-            (page - 1) * itemsPerPage,
-            page * itemsPerPage
-          )"
-          :key="index"
-        >
-          <td>{{ index + 1 }}</td>
-          <td>{{ formatTime(item.createdAt) }}</td>
-          <td>
-            <span class="text-uppercase">{{ item.bookId }}</span>
-          </td>
-          <td>{{ item.action }}</td>
-          <td>
-            <v-btn
-              variant="flat"
-              color="grey"
-              class="mr-3"
-              @click="showDetail(item._id)"
-            >
-              ดูรายละเอียด
-            </v-btn>
-          </td>
-        </tr>
-      </tbody>
-    </v-table>
-    <v-row v-else>
-      <v-divider class="mb-6"></v-divider>
-      <v-col cols="12">
-        <div class="d-flex justify-center">
-          <img
-            src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
-            width="200"
-            height="200"
-          />
-        </div>
-        <div class="text-noRequest text-center">
-          <p>ขออภัยด้วยนะครับ</p>
-        </div>
-        <div class="text-center mt-3">
-          <p class="text-muted">ไม่พบข้อมูลในหัวข้อที่คุณกำลังชมค่ะ</p>
-        </div>
-      </v-col>
-    </v-row>
+  ><v-row>
+    <v-col cols="12">
+      <h2>ประวัติการทำรายการของฉัน</h2>
+    </v-col>
+  </v-row>
+  <v-row>
+    <v-col cols="12" class="text-start">
+      <div class="select-width">
+        <v-select
+          density="compact"
+          v-model="select"
+          :items="selectItem"
+          variant="outlined"
+        ></v-select>
+      </div>
+    </v-col>
+  </v-row>
+  <v-table v-if="history.length > 0" class="elevation-1">
+    <thead class="table">
+      <tr>
+        <th class="text-left"><span class="text-color">ลำดับ</span></th>
+        <th class="text-left">
+          <span class="text-color">วันที่ทำรายการ</span>
+        </th>
+        <th class="text-left">
+          <span class="text-color">ID หนังสือที่ทำรายการ</span>
+        </th>
+        <th class="text-left"><span class="text-color">รายการที่ทำ</span></th>
+        <th class="text-left"></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr
+        v-for="(item, index) in history.slice(
+          (page - 1) * itemsPerPage,
+          page * itemsPerPage
+        )"
+        :key="index"
+      >
+        <td>{{ index + 1 }}</td>
+        <td>{{ formatTime(item.createdAt) }}</td>
+        <td>
+          <span class="text-uppercase">{{ item.bookId }}</span>
+        </td>
+        <td>{{ item.action }}</td>
+        <td>
+          <v-btn
+            variant="flat"
+            color="grey"
+            class="mr-3"
+            @click="showDetail(item._id)"
+          >
+            ดูรายละเอียด
+          </v-btn>
+        </td>
+      </tr>
+    </tbody>
+  </v-table>
+  <v-row v-else>
+    <v-divider class="mb-6"></v-divider>
+    <v-col cols="12">
+      <div class="d-flex justify-center">
+        <img
+          src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
+          width="200"
+          height="200"
+        />
+      </div>
+      <div class="text-noRequest text-center">
+        <p>ขออภัยด้วยนะครับ</p>
+      </div>
+      <div class="text-center mt-3">
+        <p class="text-muted">ไม่พบข้อมูลในหัวข้อที่คุณกำลังชมค่ะ</p>
+      </div>
+    </v-col>
+  </v-row>
 
-    <v-row v-if="history.length > 0" class="mt-12">
-      <v-col cols="12" class="pa-0">
-        <v-pagination v-model="page" :length="pages" circle></v-pagination>
-      </v-col>
-    </v-row>
-  </AuthAdmin>
-  <AuthAdmin v-else></AuthAdmin>
+  <v-row v-if="history.length > 0" class="mt-12">
+    <v-col cols="12" class="pa-0">
+      <v-pagination v-model="page" :length="pages" circle></v-pagination>
+    </v-col>
+  </v-row>
 </template>
 <script>
 import api from "@/services/api";
-import AuthAdmin from "../../components/AuthAdmin.vue";
 import moment from "moment";
 import router from "@/router";
 
 export default {
-  components: {
-    AuthAdmin,
-  },
-  data(){
+  data() {
     return {
       history: [],
       page: 1,
       itemsPerPage: 10,
       select: "การทำรายการทั้งหมด",
-      selectItem: ["การทำรายการทั้งหมด","การทำรายการเพิ่ม", "การทำรายการแก้ไข", "การทำรายการลบ"],
-    }
+      selectItem: [
+        "การทำรายการทั้งหมด",
+        "การทำรายการเพิ่ม",
+        "การทำรายการแก้ไข",
+        "การทำรายการลบ",
+      ],
+    };
   },
-  methods:{
-    showDetail(item)
-    {
+  methods: {
+    showDetail(item) {
       this.$router.push(`/detailbookcrud/${item}`);
     },
     getId() {
@@ -150,24 +147,23 @@ export default {
         if (newValue === "การทำรายการทั้งหมด") {
           this.fetchApi();
         } else if (newValue === "การทำรายการเพิ่ม") {
-          this.historyCreate()
+          this.historyCreate();
         } else if (newValue === "การทำรายการแก้ไข") {
-          this.historyUpdate()
-        }
-        else if (newValue === "การทำรายการลบ") {
-          this.historyDelete()
+          this.historyUpdate();
+        } else if (newValue === "การทำรายการลบ") {
+          this.historyDelete();
         }
       }
     },
   },
-  mounted(){
+  mounted() {
     if (this.isLogin) {
       this.fetchApi();
     } else {
       router.push("/login");
     }
-  }
-}
+  },
+};
 </script>
 <style scoped>
 .text-color {

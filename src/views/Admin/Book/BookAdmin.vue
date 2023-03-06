@@ -27,7 +27,9 @@
     <v-table v-if="bookList.length > 0" dense class="elevation-1">
       <thead class="table">
         <tr>
-          <th class="text-left"><span class="text-color">วันเวลาที่เพิ่ม</span></th>
+          <th class="text-left">
+            <span class="text-color">วันเวลาที่เพิ่ม</span>
+          </th>
           <th class="text-left"><span class="text-color">ชื่อหนังสือ</span></th>
           <th class="text-left"><span class="text-color">ผู้แต่ง</span></th>
           <th class="text-left"><span class="text-color">สำนักพิมพ์</span></th>
@@ -47,7 +49,7 @@
           )"
           :key="index"
         >
-        <td class="mt-2">{{ formatTime(item.createAt) }}</td>
+          <td class="mt-2">{{ formatTime(item.createAt) }}</td>
           <td class="ellipsis-one-line mt-2">
             <span>{{ item.name }}</span>
           </td>
@@ -204,13 +206,9 @@ export default {
       return this.$store.getters["authAdmin/getId"];
     },
     async deleteBook(book) {
-        try {
-          await api.delete("/books/" + book._id + "/" + this.getId());
-          this.showAlert();
-          this.fetchApi();
-        } catch (error) {
-          console.error(error);
-        }
+      await api.delete("/books/" + book._id + "/" + this.getId());
+      this.showAlert();
+      this.fetchApi();
     },
     showAlert() {
       this.$swal({
@@ -246,13 +244,13 @@ export default {
     },
   },
   mounted() {
-    if(this.isLogin){
+    if (this.isLogin) {
       this.fetchApi();
-    }else{
-      router.push("/login")
+    } else {
+      router.push("/login");
     }
   },
-  created(){
+  created() {
     this.socket = io(this.socketioURL, {
       transports: ["websocket", "polling"],
     });
@@ -271,7 +269,7 @@ export default {
     this.socket.on("upload-pdf-book", () => {
       this.fetchApi();
     });
-  }
+  },
 };
 </script>
 <style>
