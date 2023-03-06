@@ -146,6 +146,8 @@ export default {
         price: 0,
         imageBook: "image",
         pdf: "pdf",
+        user: [],
+        local_admin: false,
       },
 
       nameRule: [
@@ -324,10 +326,15 @@ export default {
       return this.$store.getters["authAdmin/isLogin"];
     },
   },
-  mounted() {
+  async mounted() {
     if (!this.isLogin) {
       router.push("/login");
-    } 
+    } else if(this.isLogin){
+      const res = await api.get("/checkRoles/" + this.getId());
+      if(!res.data.user.roles.includes("LOCAL_ADMIN")){
+        router.push("/login")
+      }
+    }
   },
 };
 </script>

@@ -319,11 +319,16 @@ export default {
       return this.$store.getters["authAdmin/isLogin"];
     },
   },
-  mounted() {
-    if (this.isLogin) {
-      this.fetchApi();
-    } else {
+  async mounted() {
+    if (!this.isLogin) {
       router.push("/login");
+    } else if(this.isLogin){
+      const res = await api.get("/checkRoles/" + this.getId());
+      if(!res.data.user.roles.includes("ADMIN")){
+        router.push("/login")
+      }else{
+        this.fetchApi();
+      }
     }
   },
 };
