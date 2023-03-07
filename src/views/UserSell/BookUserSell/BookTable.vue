@@ -28,13 +28,13 @@
     <v-table v-if="bookList.length > 0" dense class="elevation-1">
       <thead class="table">
         <tr>
-          <th class="text-xs-center">ชื่อหนังสือ</th>
-          <th class="text-xs-center">ผู้แต่ง</th>
-          <th class="text-xs-center">สำนักพิมพ์</th>
-          <th class="text-xs-center">หมวดหมู่</th>
-          <th class="text-xs-center">ราคา</th>
-          <th class="text-xs-center">จำนวน</th>
-          <th class="text-xs-center">รูปภาพ</th>
+          <th class="text-xs-center"><span class="text-color">ชื่อหนังสือ</span></th>
+          <th class="text-xs-center"><span class="text-color">ผู้แต่ง</span></th>
+          <th class="text-xs-center"><span class="text-color">สำนักพิมพ์</span></th>
+          <th class="text-xs-center"><span class="text-color">หมวดหมู่</span></th>
+          <th class="text-xs-center"><span class="text-color">ราคา</span></th>
+          <th class="text-xs-center"><span class="text-color">จำนวน</span></th>
+          <th class="text-xs-center"><span class="text-color">รูปภาพ</span></th>
           
           <th class="text-xs-center"></th>
         </tr>
@@ -251,7 +251,7 @@ export default {
   width: 200px;
 }
 .table {
-  background-color: #2F58CD;
+  background-color: #0008C1;
 }
 .ellipsis-one-line span {
   -webkit-line-clamp: 1;
@@ -283,5 +283,8 @@ export default {
 .text-center {
   display: flex;
   justify-content: center;
+}
+.text-color{
+  color: #ffff;
 }
 </style>
