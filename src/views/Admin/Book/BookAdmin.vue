@@ -288,7 +288,7 @@ export default {
   width: 200px;
 }
 .table {
-  background-color: #00af70;
+  background-color: #0008C1;
 }
 .ellipsis-one-line span {
   -webkit-line-clamp: 1;

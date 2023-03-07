@@ -260,14 +260,14 @@ export default {
 <style scoped>
 .btn-color {
   color: #fff;
-  background-color: #00af70;
+  background-color: #0008C1;
 }
 .cardHover:hover {
-  border: 1px solid #00af70;
+  border: 1px solid #0008C1;
   cursor: pointer;
 }
 .bg-color {
   color: #ffff;
-  background-color: #00af70;
+  background-color: #0008C1;
 }
 </style>

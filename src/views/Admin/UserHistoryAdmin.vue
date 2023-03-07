@@ -186,6 +186,6 @@ export default {
   font-weight: bold;
 }
 .table {
-  background-color: #00af70;
+  background-color: #0008C1;
 }
 </style>
