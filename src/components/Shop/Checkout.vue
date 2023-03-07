@@ -76,6 +76,7 @@ export default {
   data() {
     return {
       loading: false,
+      cartList: []
     };
   },
   methods: {
@@ -91,10 +92,17 @@ export default {
         setTimeout(() => {
           this.loading = false;
           this.$store.dispatch("selectItem/setSelectedItems", []);
+          this.getCartList()
           router.push("/mybook");
           this.alertSuccess();
         }, 2000);
       }
+    },
+    getCartList() {
+      api.get("/cart/" + this.getId()).then((result) => {
+        this.cartList = result.data?.items ?? [];
+        this.$store.dispatch("cartList/setCartList", this.cartList);
+      });
     },
     alertSuccess() {
       this.$swal({
