@@ -187,17 +187,17 @@ export default {
   align-items: center;
 }
 .btn-color {
-  color: #00af70;
-  border: 1px solid #00af70;
-  box-shadow: none;
+  color: #0008C1;
+  border: 1px solid #0008C1;
+  box-shadow: none; 
 }
 .btn-color:hover {
   color: #ffff;
-  background-color: #00af70;
+  background-color: #0008C1;
   box-shadow: none;
 }
 .bg-color {
   color: #ffff;
-  background-color: #00af70;
+  background-color: #0008C1;
 }
 </style>

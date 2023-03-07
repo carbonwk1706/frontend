@@ -1,6 +1,6 @@
 <template>
   <div class="d-flex flex-sm-column">
-    <v-app-bar :elevation="10" rounded color="#2F58CD">
+    <v-app-bar :elevation="10" :style="{background: 'linear-gradient(to right, #0008C1, #2146C7)'}">
       <div class="font-text-sidebar ml-5">EBOOK-PUBLISHER</div></v-app-bar
     >
     <v-navigation-drawer
@@ -118,5 +118,8 @@ export default {
   font-family: Prompt, sans-serif;
   font-size: 16px;
   color: #ffffff;
+}
+.v-app-bar {
+  background: linear-gradient(to right, #2F58CD, #B8D7F0);
 }
 </style>

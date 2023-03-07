@@ -1,7 +1,8 @@
 <template>
   <div class="d-flex flex-sm-column">
-    <v-app-bar :elevation="10" rounded color="#00af70"></v-app-bar>
-
+    <v-app-bar :elevation="10" :style="{background: 'linear-gradient(to right, #0008C1, #2146C7)'}">
+      <div class="font-text-sidebar ml-5">EBOOK-ADMIN</div>
+    </v-app-bar>
     <v-navigation-drawer
       v-model="drawer"
       :rail="rail"
