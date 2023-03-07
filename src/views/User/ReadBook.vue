@@ -1,5 +1,5 @@
 <template>
-  <WebViewer initialDoc="https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf" />
+  <WebViewer />
 </template>
 
 <script>

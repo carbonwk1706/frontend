@@ -8,15 +8,15 @@ import WebViewer from "@pdftron/webviewer";
 
 export default {
   name: "Webviewer",
-  props: { initialDoc: { type: String } },
-  setup(props) {
+  setup() {
     const viewer = ref(null);
     onMounted(() => {
       const path = `${process.env.BASE_URL}webviewer`;
+      const pdfDocument = "https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf";
       WebViewer(
         {
           path,
-          initialDoc: props.initialDoc,
+          initialDoc: pdfDocument,
           disabledElements: [
             "header",
             "toolsHeader",
