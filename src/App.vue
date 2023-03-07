@@ -210,6 +210,7 @@ export default {
             "/newbookadmin",
             "/userhistoryadmin",
             "/historybookcrud",
+            "/allreview"
           ].includes(this.$route.path);
         } else {
           return ![
@@ -233,6 +234,7 @@ export default {
             "/booktable",
             "/bookqueue",
             "/payment",
+            "/allreview"
           ].includes(this.$route.path);
         }
       }
