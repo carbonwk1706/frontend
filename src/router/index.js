@@ -327,7 +327,11 @@ const routes = [
       hideNavbarCoin: true
     }
   },
-  
+  {
+    path: '/allreview',
+    name: 'allreview',
+    component: () => import('../components/Shop/AllReview.vue')
+  }
 ]
 
 const router = createRouter({
