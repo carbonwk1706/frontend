@@ -509,8 +509,9 @@ export default {
       }, 1000);
     },
     logout() {
+      window.scrollTo(0, 0)
       this.loading = true;
-      router.push("/");
+      router.push("/")
       setTimeout(() => {
         this.$store.dispatch("auth/logout");
         this.loading = false;
@@ -700,13 +701,6 @@ export default {
         this.$store.dispatch("cartList/setCartList", []);
       }
     },
-    loading(newValue) {
-      if (newValue) {
-        document.body.classList.add("dialog-open");
-      } else {
-        document.body.classList.remove("dialog-open");
-      }
-    },
   },
   mounted() {
     this.visibleModal = false;
@@ -718,7 +712,6 @@ export default {
       this.getCartList();
       this.getNotification();
     }
-
     window.addEventListener("scroll", function () {
       const toolbar2 = document.getElementById("bottom-nav");
       const isDialogOpen = document.body.classList.contains("dialog-open");
