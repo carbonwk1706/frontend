@@ -53,17 +53,9 @@
         ></v-pagination>
       </div>
       <div v-if="coinHistory.length === 0">
-        <div class="d-flex justify-center">
-          <img
-            src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
-            alt=""
-            width="200"
-            height="200"
-          />
-        </div>
         <h3 class="text-center">ขออภัยด้วยนะครับ</h3>
         <div>
-          <p class="text-center" style="color: #5a5a5a">ไม่พบรายการที่คุณค้นหา</p>
+          <p class="text-center" style="color: #5a5a5a">ไม่พบรายการ</p>
         </div>
       </div>
   </Auth>
