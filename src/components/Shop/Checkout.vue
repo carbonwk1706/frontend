@@ -91,7 +91,6 @@ export default {
         setTimeout(() => {
           this.loading = false;
           this.$store.dispatch("selectItem/setSelectedItems", []);
-          this.$store.dispatch("user/setUpdateUser", true);
           router.push("/mybook");
           this.alertSuccess();
         }, 2000);
