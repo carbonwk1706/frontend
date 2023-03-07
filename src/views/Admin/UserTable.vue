@@ -244,7 +244,7 @@ export default {
 }
 
 .table {
-  background-color: #00af70;
+  background-color: #0008C1;
 }
 
 .text-center {

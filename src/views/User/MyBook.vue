@@ -205,12 +205,6 @@ export default {
     getId() {
       return this.$store.getters["auth/getId"];
     },
-    getCartList() {
-      api.get("/cart/" + this.getId()).then((result) => {
-        this.cartList = result.data.items;
-        this.$store.dispatch("cartList/setCartList", this.cartList);
-      });
-    },
   },
   computed: {
     isLogin() {
@@ -223,7 +217,6 @@ export default {
   mounted() {
     if (this.isLogin) {
       this.getMyBook();
-      this.getCartList();
     }
   },
   async created() {
@@ -233,31 +226,26 @@ export default {
     this.socket.on("new-rating", () => {
       if (this.isLogin) {
         this.getMyBook();
-        this.getCartList();
       }
     });
     this.socket.on("update-book-edit", () => {
       if (this.isLogin) {
         this.getMyBook();
-        this.getCartList();
       }
     });
     this.socket.on("update-book-delete", () => {
       if (this.isLogin) {
         this.getMyBook();
-        this.getCartList();
       }
     });
     this.socket.on("upload-image-book", () => {
       if (this.isLogin) {
         this.getMyBook();
-        this.getCartList();
       }
     });
     this.socket.on("upload-pdf-book", () => {
       if (this.isLogin) {
         this.getMyBook();
-        this.getCartList();
       }
     });
   },

@@ -39,13 +39,13 @@
           </v-col>
           <v-col cols="12" class="d-flex justify-center">
             <v-btn
-              color="success"
+              color="#0008C1"
               class="mt-5"
               rounded
               variant="flat"
               @click="showModalConfirm"
             >
-              <span class="font-text">รับเงิน</span>
+              <span class="font-text text-color">รับเงิน</span>
             </v-btn></v-col
           >
         </v-col>
@@ -180,7 +180,7 @@ export default {
 
 <style>
 .btn-bg {
-  background-color: #00af70;
+  background-color: #0008C1;
 }
 .center-loading {
   display: flex;
@@ -193,7 +193,7 @@ export default {
   justify-content: center;
   align-items: center;
 }
-.font-color {
-  font-size: 18px;
+.text-color {
+  color: #ffff;
 }
 </style>

@@ -188,7 +188,6 @@ export default {
                 username: this.user.username,
                 email: this.user.email,
               });
-              console.log(res);
               if (
                 res.status === 200 &&
                 res.data.message === "Username and Email already exist"
@@ -208,7 +207,6 @@ export default {
               const res = await api.post("/checkDuplicateUser/", {
                 email: this.user.email,
               });
-              console.log(res);
               if (
                 res.status === 200 &&
                 res.data.message === "Email already exists"
@@ -228,7 +226,6 @@ export default {
               const res = await api.post("/checkDuplicateUser/", {
                 username: this.user.username,
               });
-              console.log(res);
               if (
                 res.status === 200 &&
                 res.data.message === "Username already exists"

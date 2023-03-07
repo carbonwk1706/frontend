@@ -707,12 +707,6 @@ export default {
         document.body.classList.remove("dialog-open");
       }
     },
-    getUser(newValue) {
-      if (newValue) {
-        this.fetchApi();
-        this.$store.dispatch("user/setUpdateUser", false);
-      }
-    },
   },
   mounted() {
     this.visibleModal = false;
@@ -762,6 +756,30 @@ export default {
       }
     });
     this.socket.on("request-approved", () => {
+      if (this.isLogin) {
+        this.getNotification();
+        this.fetchApi();
+      }
+    });
+    this.socket.on("update-book-edit", () => {
+      if (this.isLogin) {
+        this.getNotification();
+        this.fetchApi();
+      }
+    });
+    this.socket.on("update-book-delete", () => {
+      if (this.isLogin) {
+        this.getNotification();
+        this.fetchApi();
+      }
+    });
+    this.socket.on("upload-image-book", () => {
+      if (this.isLogin) {
+        this.getNotification();
+        this.fetchApi();
+      }
+    });
+    this.socket.on("upload-pdf-book", () => {
       if (this.isLogin) {
         this.getNotification();
         this.fetchApi();

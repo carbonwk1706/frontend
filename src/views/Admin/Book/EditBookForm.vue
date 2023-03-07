@@ -303,7 +303,7 @@ export default {
     },
     submit() {
       api
-        .patch("/books/" + this.$route.params.id, {
+        .put("/books/" + this.$route.params.id, {
           name: this.bookList.name,
           author: this.bookList.author,
           publisher: this.bookList.publisher,

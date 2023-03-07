@@ -23,7 +23,7 @@
     </v-carousel>
     <v-main
       :class="{
-        'padding-main': !showNavbarCoin && !showNavCoinDetail,
+        'padding-main': !showNavbarCoin && !showNavCoinDetail && !routerLogin,
         'padding-main-root': isRootRoute,
       }"
     >
@@ -210,6 +210,7 @@ export default {
             "/newbookadmin",
             "/userhistoryadmin",
             "/historybookcrud",
+            "/allreview",
           ].includes(this.$route.path);
         } else {
           return ![
@@ -233,6 +234,7 @@ export default {
             "/booktable",
             "/bookqueue",
             "/payment",
+            "/allreview",
           ].includes(this.$route.path);
         }
       }
@@ -278,6 +280,11 @@ export default {
         "/checkoutcoin",
         "/coinhistory",
         "/checkoutcoin/qrcode",
+      ].includes(this.$route.path);
+    },
+    routerLogin() {
+      return [
+        "/login",
       ].includes(this.$route.path);
     },
     showFooterCoin() {
@@ -334,6 +341,9 @@ export default {
 }
 .padding-main-root {
   padding-top: 60px;
+}
+.no-padding {
+  padding: 0px;
 }
 .mg-carousel {
   margin-top: 164px;
