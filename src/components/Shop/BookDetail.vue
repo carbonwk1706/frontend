@@ -476,6 +476,17 @@ export default {
       return Math.ceil(this.allRating.length / this.itemsPerPage);
     },
   },
+  watch: {
+    isLogin(newValue) {
+      if (newValue) {
+        this.hasBook();
+        this.checkRating();
+        this.getProfile();
+        this.getBookDetail();
+        this.getRatingBook();
+      }
+    },
+  },
   mounted() {
     this.getBookDetail();
     this.getRatingBook();
@@ -525,8 +536,8 @@ export default {
       }
     });
     this.socket.on("update-book-delete", (data) => {
-      if(data.bookDeleted.bookId === this.$route.params.id){
-        router.push("/")
+      if (data.bookDeleted.bookId === this.$route.params.id) {
+        router.push("/");
       }
     });
     this.socket.on("upload-image-book", () => {
