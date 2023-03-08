@@ -505,7 +505,6 @@ export default {
     this.socket.on("new-rating", () => {
       this.getRatingBook();
       this.getBookDetail();
-      this.getRatingBook();
       if (this.isLogin) {
         this.visibleModal = false;
         this.hasBook();
@@ -516,7 +515,6 @@ export default {
     this.socket.on("product-sell", () => {
       this.getRatingBook();
       this.getBookDetail();
-      this.getRatingBook();
       if (this.isLogin) {
         this.visibleModal = false;
         this.hasBook();
@@ -527,7 +525,6 @@ export default {
     this.socket.on("update-book-edit", () => {
       this.getRatingBook();
       this.getBookDetail();
-      this.getRatingBook();
       if (this.isLogin) {
         this.visibleModal = false;
         this.hasBook();
@@ -543,7 +540,6 @@ export default {
     this.socket.on("upload-image-book", () => {
       this.getRatingBook();
       this.getBookDetail();
-      this.getRatingBook();
       if (this.isLogin) {
         this.visibleModal = false;
         this.hasBook();
@@ -554,7 +550,6 @@ export default {
     this.socket.on("upload-pdf-book", () => {
       this.getRatingBook();
       this.getBookDetail();
-      this.getRatingBook();
       if (this.isLogin) {
         this.visibleModal = false;
         this.hasBook();
