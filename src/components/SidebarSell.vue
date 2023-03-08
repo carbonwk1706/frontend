@@ -25,16 +25,6 @@
 
       <v-list density="compact" nav>
         <v-list-item
-          prepend-icon="mdi-home-circle"
-          title="หน้าแรก"
-          value="Homepage"
-          dense
-          nav
-          @click="goToHomepage()"
-          :style="{ 'max-width': '100%' }"
-        ></v-list-item>
-        <v-divider inset></v-divider>
-        <v-list-item
           prepend-icon="mdi-book-open-page-variant"
           title="จัดการหนังสือ"
           value="admin"
