@@ -264,15 +264,21 @@ export default {
     },
     goToHome() {
       this.showModal = false;
-      router.push("/");
+      router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCart() {
       this.showModal = false;
-      router.push("/cart");
+      router.push("/cart").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCoin() {
       this.showModal = false;
-      router.push("/coin");
+      router.push("/coin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     hideModal() {
       this.showModal = !this.showModal;
@@ -476,6 +482,17 @@ export default {
       return Math.ceil(this.allRating.length / this.itemsPerPage);
     },
   },
+  watch: {
+    isLogin(newValue) {
+      if (newValue) {
+        this.hasBook();
+        this.checkRating();
+        this.getProfile();
+        this.getBookDetail();
+        this.getRatingBook();
+      }
+    },
+  },
   mounted() {
     this.getBookDetail();
     this.getRatingBook();
@@ -494,7 +511,6 @@ export default {
     this.socket.on("new-rating", () => {
       this.getRatingBook();
       this.getBookDetail();
-      this.getRatingBook();
       if (this.isLogin) {
         this.visibleModal = false;
         this.hasBook();
@@ -505,7 +521,6 @@ export default {
     this.socket.on("product-sell", () => {
       this.getRatingBook();
       this.getBookDetail();
-      this.getRatingBook();
       if (this.isLogin) {
         this.visibleModal = false;
         this.hasBook();
@@ -516,7 +531,6 @@ export default {
     this.socket.on("update-book-edit", () => {
       this.getRatingBook();
       this.getBookDetail();
-      this.getRatingBook();
       if (this.isLogin) {
         this.visibleModal = false;
         this.hasBook();
@@ -525,14 +539,13 @@ export default {
       }
     });
     this.socket.on("update-book-delete", (data) => {
-      if(data.bookDeleted.bookId === this.$route.params.id){
-        router.push("/")
+      if (data.bookDeleted.bookId === this.$route.params.id) {
+        router.push("/");
       }
     });
     this.socket.on("upload-image-book", () => {
       this.getRatingBook();
       this.getBookDetail();
-      this.getRatingBook();
       if (this.isLogin) {
         this.visibleModal = false;
         this.hasBook();
@@ -543,7 +556,6 @@ export default {
     this.socket.on("upload-pdf-book", () => {
       this.getRatingBook();
       this.getBookDetail();
-      this.getRatingBook();
       if (this.isLogin) {
         this.visibleModal = false;
         this.hasBook();

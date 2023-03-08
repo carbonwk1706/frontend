@@ -118,7 +118,7 @@
               type="submit"
               block
               variant="outlined"
-              @click="goToHome"
+              @click="Stay"
               >เลือกซื้อหนังสือเล่มอื่นต่อ
             </v-btn>
           </v-card-actions>
@@ -186,23 +186,28 @@ export default {
     toggleLoginModal() {
       this.visibleModal = !this.visibleModal;
     },
-    goToHome() {
+    Stay() {
       this.showModal = false;
-      router.push("/");
     },
     goToCart() {
       this.showModal = false;
-      router.push("/cart");
+      router.push("/cart").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCoin() {
       this.showModal = false;
-      router.push("/coin");
+      router.push("/coin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     hideModal() {
       this.showModal = !this.showModal;
     },
     showDetail(item) {
-      this.$router.push(`/book/${item._id}`);
+      router.push(`/book/${item._id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     async addItem(item) {
       if (this.isLogin) {

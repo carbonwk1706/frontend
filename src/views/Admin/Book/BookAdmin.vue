@@ -182,7 +182,9 @@ export default {
       }
     },
     showDetail(item) {
-      this.$router.push(`/detailbookadmin/${item._id}`);
+      router.push(`/detailbookadmin/${item._id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     getBooksCartoon() {
       api.get("/books/cartoon").then((result) => {
@@ -195,10 +197,14 @@ export default {
       });
     },
     editBook(book) {
-      this.$router.push(`/bookadmin/${book._id}`);
+      router.push(`/bookadmin/${book._id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     addBook() {
-      this.$router.push(`/newbookadmin`);
+      router.push(`/newbookadmin`).then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     getId() {
       return this.$store.getters["authAdmin/getId"];
@@ -243,11 +249,15 @@ export default {
   },
   async mounted() {
     if (!this.isLogin) {
-      router.push("/login");
+      router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
     } else if(this.isLogin){
       const res = await api.get("/checkRoles/" + this.getId());
       if(!res.data.user.roles.includes("LOCAL_ADMIN")){
-        router.push("/login")
+        router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
       }else{
         this.fetchApi();
       }

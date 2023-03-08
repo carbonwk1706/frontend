@@ -21,10 +21,10 @@
     <v-card-text>
       <v-row>
         <v-col cols="6" class="pt-0">
-            <v-col cols="12" class="pt-0 pb-0">
-              <span>รูปภาพที่แจ้งโอน</span>
-              <v-img class="mt-2" :src="detail.imageSlip" width="200px" cover/>
-            </v-col>
+          <v-col cols="12" class="pt-0 pb-0">
+            <span>รูปภาพที่แจ้งโอน</span>
+            <v-img class="mt-2" :src="detail.imageSlip" width="200px" cover />
+          </v-col>
         </v-col>
         <v-col cols="6">
           <v-row>
@@ -49,7 +49,7 @@
                 <span>วันเวลาที่อนุมัติ : </span>
                 <span>{{ formatTime(detail.approvedAt) }}</span>
               </div>
-               <div v-if="detail.status === 'rejected'">
+              <div v-if="detail.status === 'rejected'">
                 <span>วันเวลาที่ปฏิเสธ : </span>
                 <span>{{ formatTime(detail.approvedAt) }}</span>
               </div>
@@ -83,10 +83,14 @@ export default {
   },
   methods: {
     goToCoin() {
-      router.push("/coin");
+      router.push("/coin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCoinHistory() {
-      router.push("/coinhistory");
+      router.push("/coinhistory").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     getId() {
       return this.$store.getters["auth/getId"];
@@ -110,7 +114,9 @@ export default {
     if (this.isLogin) {
       this.getDetailOrder();
     } else {
-      router.push("/orderhistory");
+      router.push("/orderhistory").then(() => {
+        window.scrollTo(0, 0);
+      });
     }
   },
 };

@@ -193,14 +193,18 @@ export default {
       this.myBook = res.data;
     },
     goToProfile() {
-      router.push("/profile");
+      router.push("/profile").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     async getMyBook() {
       const res = await api.get("/inventory/" + this.getId());
       this.myBook = res.data;
     },
     showDetail(item) {
-      this.$router.push(`/book/${item._id}`);
+      router.push(`/book/${item._id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     getId() {
       return this.$store.getters["auth/getId"];

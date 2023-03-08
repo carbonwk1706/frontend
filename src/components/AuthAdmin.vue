@@ -26,7 +26,9 @@ export default {
   },
   methods: {
     goToLoginAndClose() {
-      this.$router.push("/login");
+      this.$router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
       this.showModal = false;
     },
   },

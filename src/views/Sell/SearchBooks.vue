@@ -137,7 +137,7 @@
               type="submit"
               block
               variant="outlined"
-              @click="goToHome"
+              @click="Stay"
               >เลือกซื้อหนังสือเล่มอื่นต่อ
             </v-btn>
           </v-card-actions>
@@ -170,9 +170,9 @@
   </v-container>
 
   <Login
-  :visibleModal="visibleModal"
-  @update:isVisible="visibleModal = $event"
-/>
+    :visibleModal="visibleModal"
+    @update:isVisible="visibleModal = $event"
+  />
 </template>
 
 <script>
@@ -214,36 +214,47 @@ export default {
     },
     goToHome() {
       this.showModal = false;
-      router.push("/");
+      router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
+    },
+    Stay() {
+      this.showModal = false;
     },
     goToCart() {
       this.showModal = false;
-      router.push("/cart");
+      router.push("/cart").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCoin() {
       this.showModal = false;
-      router.push("/coin");
+      router.push("/coin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     hideModal() {
       this.showModal = !this.showModal;
     },
     showDetail(item) {
-      this.$router.push(`/book/${item._id}`);
+      router.push(`/book/${item._id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     alertWarning() {
       this.$swal({
-          scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
-          allowOutsideClick: false,
-          width: "500",
-          text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
-          icon: "warning",
-          confirmButtonText: "OK",
-        }).then((result) => {
-          if (result.value) {
-            this.toggleLoginModal();
-          }
-        });
+        scrollbarPadding: false,
+        confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
+        width: "500",
+        text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
+        icon: "warning",
+        confirmButtonText: "OK",
+      }).then((result) => {
+        if (result.value) {
+          this.toggleLoginModal();
+        }
+      });
     },
     alertSuccess() {
       this.$swal({
@@ -307,22 +318,19 @@ export default {
             this.loadingSearch = false;
             this.searchAllBooks();
           }, 1000);
-        }
-        else if (this.search === "ค้นจากชื่อเรื่อง") {
+        } else if (this.search === "ค้นจากชื่อเรื่อง") {
           this.loadingSearch = true;
           setTimeout(() => {
             this.loadingSearch = false;
             this.matchBooks("name/");
           }, 1000);
-        }
-        else if (this.search === "ค้นจากผู้แต่ง") {
+        } else if (this.search === "ค้นจากผู้แต่ง") {
           this.loadingSearch = true;
           setTimeout(() => {
             this.loadingSearch = false;
             this.matchBooks("author/");
           }, 1000);
-        }
-        else if (this.search === "ค้นจากสำนักพิมพ์") {
+        } else if (this.search === "ค้นจากสำนักพิมพ์") {
           this.loadingSearch = true;
           setTimeout(() => {
             this.loadingSearch = false;

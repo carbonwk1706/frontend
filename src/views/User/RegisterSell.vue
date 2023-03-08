@@ -745,7 +745,9 @@ export default {
             setTimeout(() => {
               this.showModal1 = false;
               this.loading = false;
-              router.push("/");
+              router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
               this.$swal({
                 confirmButtonColor: "#00af70",
                 allowOutsideClick: false,
@@ -794,7 +796,9 @@ export default {
       this.roles = res.data.user.roles;
       for (let i = 0; i < this.roles.length; i++) {
         if (this.roles[i] === "SELL") {
-          router.push("/");
+          router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
         }
       }
     },
@@ -809,7 +813,9 @@ export default {
           this.showModal = true;
           setTimeout(() => {
             this.showModal = false;
-            router.push("/");
+            router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
           }, 2000);
         }
       }

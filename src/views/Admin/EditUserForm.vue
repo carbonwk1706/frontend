@@ -165,8 +165,10 @@ export default {
     };
   },
   methods: {
-    goToUserTable() {
-      router.push("/usertable");
+    goToUserTable(){
+      router.push("/usertable").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     async checkDuplicate() {
       const { valid } = await this.$refs.form.validate();
@@ -265,14 +267,16 @@ export default {
         })
         .then(() => {
           this.$swal({
-            confirmButtonColor: "#00af70",
-            allowOutsideClick: false,
-            width: "500",
-            text: "แก้ไขข้อมูลสำเร็จ",
-            icon: "success",
-            button: "OK",
-          });
-          this.$router.push("/usertable");
+        confirmButtonColor: "#00af70",
+        allowOutsideClick: false,
+        width: "500",
+        text: "แก้ไขข้อมูลสำเร็จ",
+        icon: "success",
+        button: "OK",
+      });
+          router.push("/usertable").then(() => {
+        window.scrollTo(0, 0);
+      });
         });
     },
     showAlert(text) {
@@ -325,12 +329,16 @@ export default {
   },
   async mounted() {
     if (!this.isLogin) {
-      router.push("/login");
-    } else if (this.isLogin) {
+      router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
+    } else if(this.isLogin){
       const res = await api.get("/checkRoles/" + this.getId());
-      if (!res.data.user.roles.includes("ADMIN")) {
-        router.push("/login");
-      } else {
+      if(!res.data.user.roles.includes("ADMIN")){
+        router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
+      }else{
         this.fetchApi();
       }
     }

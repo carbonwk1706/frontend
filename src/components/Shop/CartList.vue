@@ -122,7 +122,9 @@ export default {
         this.showWarning("กรุณาเลือกสินค้าก่อนชำระสินค้า");
       } else {
         this.$store.dispatch("selectItem/setSelectedItems", this.selectItem);
-        router.push("/checkout");
+        router.push("/checkout").then(() => {
+        window.scrollTo(0, 0);
+      });
       }
     },
     getCartList() {
@@ -145,7 +147,9 @@ export default {
       return this.$store.getters["auth/getId"];
     },
     goToHome() {
-      router.push("/");
+      router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
   },
   computed: {

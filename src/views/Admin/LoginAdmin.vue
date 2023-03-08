@@ -120,9 +120,13 @@ export default {
                 this.loading = false;
                 this.hideLogin();
                 if (checkRole === "LOCAL_ADMIN") {
-                  router.push("/admin");
+                  router.push("/admin").then(() => {
+        window.scrollTo(0, 0);
+      });
                 } else if (checkRole === "ADMIN") {
-                  router.push("/admintable");
+                  router.push("/admintable").then(() => {
+        window.scrollTo(0, 0);
+      });
                 }
               }, 2000);
             } else {

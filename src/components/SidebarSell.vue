@@ -104,19 +104,29 @@ export default {
       this.rail = !this.rail;
     },
     goToBookQueue() {
-      router.push("/bookqueue");
+      router.push("/bookqueue").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToPayment() {
-      router.push("/payment");
+      router.push("/payment").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToHistoryTable() {
-      router.push("/historyadmin");
+      router.push("/historyadmin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToBookTable() {
-      router.push("/booktable");
+      router.push("/booktable").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToHome() {
-      router.push("/");
+      router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToHomepage() {
       router.push("/bookusersell");

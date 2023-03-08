@@ -1,6 +1,9 @@
 <template>
   <div class="d-flex flex-sm-column">
-    <v-app-bar :elevation="10" :style="{background: 'linear-gradient(to right, #0008C1, #2146C7)'}">
+    <v-app-bar
+      :elevation="10"
+      :style="{ background: 'linear-gradient(to right, #0008C1, #2146C7)' }"
+    >
       <div class="font-text-sidebar ml-5">EBOOK-ADMIN</div>
     </v-app-bar>
     <v-navigation-drawer
@@ -25,7 +28,7 @@
 
       <v-list density="compact" nav>
         <v-list-item
-        v-if="local_admin"
+          v-if="local_admin"
           prepend-icon="mdi-home-circle"
           title="หน้าแรก"
           value="home"
@@ -154,28 +157,44 @@ export default {
       this.rail = !this.rail;
     },
     goToBookHistory() {
-      router.push("/historybookcrud");
+      router.push("/historybookcrud").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToUserTable() {
-      router.push("/usertable");
+      router.push("/usertable").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToAdminTable() {
-      router.push("/admintable");
+      router.push("/admintable").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToApproveTable() {
-      router.push("/approvetable");
+      router.push("/approvetable").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToHistoryTable() {
-      router.push("/historyadmin");
+      router.push("/historyadmin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToUserHistoryTable() {
-      router.push("/userhistoryadmin");
+      router.push("/userhistoryadmin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToBookTable() {
-      router.push("/bookadmin");
+      router.push("/bookadmin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToHome() {
-      router.push("/admin");
+      router.push("/admin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     logout() {
       this.loading = true;
