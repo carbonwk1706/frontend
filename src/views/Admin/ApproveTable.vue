@@ -180,7 +180,7 @@ export default {
       return this.$store.getters["authAdmin/getId"];
     },
     formatTime(item) {
-      return moment(item).format("MM/DD/YYYY, h:mm:ss a");
+      return moment(item).format("DD/MM/YYYY, HH:mm:ss");
     },
     async approveRequest(item) {
       if (item.request === "คำร้องขอสมัครขายอีบุ๊ค") {

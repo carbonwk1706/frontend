@@ -114,7 +114,7 @@ export default {
       return this.$store.getters["authAdmin/getId"];
     },
     formatTime(item) {
-      return moment(item).format("MM/DD/YYYY, h:mm:ss a");
+      return moment(item).format("DD/MM/YYYY, HH:mm:ss");
     },
     getHistoryRequest() {
       api.get("/history/request/" + this.getId()).then((result) => {

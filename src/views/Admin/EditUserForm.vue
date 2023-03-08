@@ -26,7 +26,9 @@
                 <v-col>
                   <v-card-text class="pa-2">
                     Username <span style="color: red">*</span>
-                    <span style="color: gray"> 4-32 chars [A-z, 0-9, _-@.]</span>
+                    <span style="color: gray">
+                      4-32 chars [A-z, 0-9, _-@.]</span
+                    >
                   </v-card-text>
                   <v-text-field
                     prepend-inner-icon="mdi-account-outline"
@@ -72,19 +74,21 @@
                   />
                 </v-col>
               </v-row>
-              <v-row>
-                <v-col class="text-center">
-                  <v-btn
-                    class="btn-success"
-                    rounded
-                    @click="showConfirmDialog = true"
-                    >ยืนยัน</v-btn
-                  >
-                </v-col>
-                <v-col class="text-center">
-                  <v-btn color="error" rounded @click="goToUserTable">ยกเลิก</v-btn>
-                </v-col>
-              </v-row>
+              <v-divider></v-divider>
+              <v-card-actions class="d-flex justify-center">
+                <v-btn
+                  type="submit"
+                  class="btn-success px-10"
+                  size="large"
+                  variant="elevated"
+                  @click="showConfirmDialog = true"
+                  >ส่งข้อมูล</v-btn
+                >
+
+                <v-btn color="error" class="px-10" size="large"  variant="elevated" @click="goToUserTable"
+                  >ยกเลิก</v-btn
+                >
+              </v-card-actions>
             </v-container>
           </v-form>
         </v-col>
@@ -161,8 +165,8 @@ export default {
     };
   },
   methods: {
-    goToUserTable(){
-      router.push("/usertable")
+    goToUserTable() {
+      router.push("/usertable");
     },
     async checkDuplicate() {
       const { valid } = await this.$refs.form.validate();
@@ -251,23 +255,23 @@ export default {
     },
     submit() {
       api
-        .put("/users/" + this.$route.params.id,  {
+        .put("/users/" + this.$route.params.id, {
           name: this.user.name,
           username: this.user.username,
           password: this.password,
           email: this.user.email,
           roles: this.user.roles,
-          adminId: this.getId()
+          adminId: this.getId(),
         })
         .then(() => {
           this.$swal({
-        confirmButtonColor: "#00af70",
-        allowOutsideClick: false,
-        width: "500",
-        text: "แก้ไขข้อมูลสำเร็จ",
-        icon: "success",
-        button: "OK",
-      });
+            confirmButtonColor: "#00af70",
+            allowOutsideClick: false,
+            width: "500",
+            text: "แก้ไขข้อมูลสำเร็จ",
+            icon: "success",
+            button: "OK",
+          });
           this.$router.push("/usertable");
         });
     },
@@ -322,11 +326,11 @@ export default {
   async mounted() {
     if (!this.isLogin) {
       router.push("/login");
-    } else if(this.isLogin){
+    } else if (this.isLogin) {
       const res = await api.get("/checkRoles/" + this.getId());
-      if(!res.data.user.roles.includes("ADMIN")){
-        router.push("/login")
-      }else{
+      if (!res.data.user.roles.includes("ADMIN")) {
+        router.push("/login");
+      } else {
         this.fetchApi();
       }
     }
