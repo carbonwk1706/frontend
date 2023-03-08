@@ -171,7 +171,7 @@ export default {
   },
   methods: {
     formatTime(item) {
-      return moment(item).format("MM/DD/YYYY, h:mm:ss a");
+      return moment(item).format("DD/MM/YYYY, HH:mm:ss");
     },
     async fetchApi() {
       try {

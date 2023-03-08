@@ -25,12 +25,12 @@
 
       <v-list density="compact" nav>
         <v-list-item
-          prepend-icon="mdi-home-account"
-          title="กลับหน้าหลัก"
-          value="Home"
+          prepend-icon="mdi-home-circle"
+          title="หน้าแรก"
+          value="Homepage"
           dense
           nav
-          @click="goToHome()"
+          @click="goToHomepage()"
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
         <v-divider inset></v-divider>
@@ -53,7 +53,7 @@
           nav
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
-        <v-divider inset></v-divider>
+        
         <v-list-item
           prepend-icon="mdi-cash-multiple"
           title="การจ่ายเงิน"
@@ -61,6 +61,16 @@
           @click="goToPayment()"
           dense
           nav
+          :style="{ 'max-width': '100%' }"
+        ></v-list-item>
+        <v-divider inset></v-divider>
+        <v-list-item
+          prepend-icon="mdi-exit-to-app"
+          title="กลับหน้าหลัก"
+          value="Home"
+          dense
+          nav
+          @click="goToHome()"
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
       </v-list>
@@ -117,6 +127,9 @@ export default {
       router.push("/").then(() => {
         window.scrollTo(0, 0);
       });
+    },
+    goToHomepage() {
+      router.push("/bookusersell");
     },
   },
   mounted() {},

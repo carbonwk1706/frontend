@@ -1,8 +1,9 @@
 <template>
   <NoAuth>
-    <v-container>
-      <v-row justify="center">
-        <v-col cols="12" sm="8" md="6" lg="4">
+    <v-container fluid>
+      <v-row justify="center" class="bg-blue">
+        <v-col cols="6" class=" bg-image"></v-col>
+        <v-col cols="6" >
           <v-card class="mx-auto">
             <v-container>
               <v-toolbar class="bg-color">
@@ -203,5 +204,10 @@ export default {
 .bg-color {
   color: #ffff;
   background-color: #0008C1;
+}
+.bg-image {
+  background-image: url(https://wallpaperaccess.com/full/537653.jpg);
+  background-size: cover;
+  background-position: center;
 }
 </style>
