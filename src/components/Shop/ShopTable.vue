@@ -291,7 +291,7 @@
       </v-row>
     </div>
 
-    <div v-if="reviews.length > 0" id="all_review">
+    <!-- <div v-if="reviews.length > 0" id="all_review">
       <v-row class="mb-1">
         <v-col class="text-start">
           <h2 class="display-1 font-weight-bold">รีวิว</h2>
@@ -384,7 +384,7 @@
           </v-card>
         </v-col>
       </v-row>
-    </div>
+    </div> -->
 
     <div v-if="halloffame.length > 0" id="halloffame">
       <v-row class="mb-1">
@@ -928,7 +928,7 @@ export default {
     goToAllBooks() {
       router.push("/books/all");
     },
-    goToAllReview(){
+    goToAllReview() {
       router.push("/allreview");
     },
     hideModal() {
@@ -941,7 +941,9 @@ export default {
       this.showReview = true;
     },
     showDetail(item) {
-      this.$router.push(`/book/${item._id}`);
+      router.push(`/book/${item._id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     alertWarning() {
       this.$swal({
@@ -1048,14 +1050,13 @@ export default {
       };
     },
     filteredReviews() {
-      if(this.screenWidth > 960){
+      if (this.screenWidth > 960) {
         return this.reviews.slice(0, 3);
-      }else if(this.screenWidth > 600){
+      } else if (this.screenWidth > 600) {
         return this.reviews.slice(0, 2);
-      }else {
+      } else {
         return this.reviews.slice(0, 1);
       }
-      
     },
     filteredNewEntry() {
       if (this.screenWidth > 960) {
