@@ -54,7 +54,7 @@
             </v-row>
           </div>
           <v-row v-else>
-            <v-btn class="btn-color" rounded width="160" @click="readBook">
+            <v-btn class="btn-color" rounded width="160" @click="readBook(book._id)">
               อ่าน
             </v-btn>
             <iframe
@@ -456,8 +456,8 @@ export default {
         this.noRating = false;
       }
     },
-    readBook() {
-      console.log(this.book.pdf);
+    readBook(item) {
+      this.$router.push(`/readbook/${item}`);
     },
     async getProfile() {
       const res = await api.get("/profile/" + this.getId());

@@ -29,6 +29,40 @@ const routes = [
     component: () => import("../views/User/Profile.vue"),
   },
   {
+    path: '/book/:id',
+    name: 'book',
+    component: () => import('../views/Sell/Book.vue')
+  },
+  {
+    path: '/readbook/:id',
+    name: 'readbook',
+    component: () => import('../views/User/ReadBook.vue')
+  }
+  ,
+  {
+    path: '/login',
+    name: 'loginadmin',
+    component: () => import('../views/Admin/LoginAdmin.vue')
+  }
+  ,
+  {
+    path: '/admin',
+    name: 'admin',
+    component: () => import('../views/Admin/Admin.vue')
+  }
+  ,
+  {
+    path: '/usertable',
+    name: 'usertable',
+    component: () => import('../views/Admin/UserTable.vue')
+  }
+  ,
+  {
+    path: '/mybook',
+    name: 'mybook',
+    component: () => import('../views/User/MyBook.vue')
+  },
+  {
     path: "/book/:id",
     name: "book",
     component: () => import("../views/Sell/Book.vue"),
