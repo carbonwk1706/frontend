@@ -96,7 +96,7 @@ export default {
       return this.$store.getters["auth/getId"];
     },
     formatTime(item) {
-      return moment(item).format("MM/DD/YYYY, h:mm:ss a");
+      return moment(item).format("DD/MM/YYYY, HH:mm:ss");
     },
     async getDetailOrder() {
       const res = await api.get(
