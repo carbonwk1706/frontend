@@ -18,8 +18,7 @@
           class="mb-5 d-flex justify-center"
         >
           <v-card class="card-review pa-3" max-width="full" height="280">
-            <div
-            >
+            <div>
               <v-row>
                 <v-col cols="6">
                   <v-card max-width="full" height="250">
@@ -71,12 +70,15 @@
                         >
                           {{ item.book.name }}
                         </p>
-                        <p style="font-size: 12px">Author: {{ item.book.author }}</p>
+                        <p style="font-size: 12px">
+                          Author: {{ item.book.author }}
+                        </p>
                         <p style="font-size: 12px">
                           Category: {{ item.book.category }}
                         </p>
                         <p style="font-size: 12px; color: #e83e8c">
-                          {{ item.book.rating }} คะแนน จาก {{ item.book.ratingsCount }}
+                          {{ item.book.rating }} คะแนน จาก
+                          {{ item.book.ratingsCount }}
                         </p>
                       </v-col>
                     </v-row>
@@ -106,8 +108,7 @@
           class="mb-5"
         >
           <v-card class="mx-auto bg-card pa-3" max-width="340" height="360">
-            <div
-            >
+            <div>
               <v-card max-width="320" height="200">
                 <v-row class="ma-2">
                   <v-col cols="12">
@@ -156,12 +157,15 @@
                       >
                         {{ item.book.name }}
                       </p>
-                      <p style="font-size: 12px">Author: {{ item.book.author }}</p>
+                      <p style="font-size: 12px">
+                        Author: {{ item.book.author }}
+                      </p>
                       <p style="font-size: 12px">
                         Category: {{ book.category }}
                       </p>
                       <p style="font-size: 12px; color: red">
-                        {{ item.book.rating }} คะแนน จาก {{ item.book.ratingsCount }}
+                        {{ item.book.rating }} คะแนน จาก
+                        {{ item.book.ratingsCount }}
                       </p>
                     </v-col>
                   </v-row>
@@ -210,6 +214,7 @@
 <script>
 import api from "@/services/api";
 import router from "@/router";
+import io from "socket.io-client";
 
 export default {
   data() {
@@ -219,6 +224,8 @@ export default {
       itemsPerPage: 10,
       screenWidth: 0,
       showReview: false,
+      socket: null,
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
@@ -230,6 +237,15 @@ export default {
     },
     handleResize() {
       this.screenWidth = window.innerWidth;
+    },
+    async getAllReview() {
+      const res = await api.get("/allrating");
+      this.reviews = res.data.ratings;
+    },
+  },
+  computed: {
+    pages() {
+      return Math.ceil(this.reviews.length / this.itemsPerPage);
     },
   },
   async mounted() {
@@ -243,11 +259,14 @@ export default {
       });
     }
   },
-  computed: {
-    pages() {
-      return Math.ceil(this.reviews.length / this.itemsPerPage);
-    },
-  },
+  async created(){
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("new-rating", () => {
+      this.getAllReview()
+    });
+  }
 };
 </script>
 
