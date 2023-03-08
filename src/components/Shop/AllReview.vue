@@ -10,7 +10,7 @@
       <v-row class="mb-1">
         <v-col
           cols="12"
-          v-for="(book, index) in reviews.slice(
+          v-for="(item, index) in reviews.slice(
             (page - 1) * itemsPerPage,
             page * itemsPerPage
           )"
@@ -19,18 +19,13 @@
         >
           <v-card class="card-review pa-3" max-width="full" height="280">
             <div
-              v-for="(review, index) in book.reviews
-                .slice()
-                .reverse()
-                .splice(0, 1)"
-              :key="index"
             >
               <v-row>
                 <v-col cols="6">
                   <v-card max-width="full" height="250">
                     <v-row class="ma-2">
-                      <v-col cols="12">
-                        <p class="review-comment">{{ review.comment }}</p>
+                      <v-col v-if="item.comment" cols="12">
+                        <p class="review-comment">{{ item.comment }}</p>
                         <p class="text-show-all" @click="hidereview(review)">
                           แสดงทั้งหมด
                         </p>
@@ -39,10 +34,10 @@
                         >รีวิวจาก
                       </v-card-subtitle>
                       <v-col cols="12">
-                        <p>{{ review.user.name }}</p>
+                        <p>{{ item.user.name }}</p>
                         <div style="font-size: 10px">
                           <v-rating
-                            v-model="review.rating"
+                            v-model="item.rating"
                             color="#5a5a5a"
                             active-color="#e83e8c"
                             empty-icon="mdi-cards-heart"
@@ -52,6 +47,9 @@
                             size="16"
                           />
                         </div>
+                        <p style="font-size: 12px">
+                          เวลา : {{ item.createdAt }}
+                        </p>
                       </v-col>
                     </v-row>
                   </v-card>
@@ -61,7 +59,7 @@
                     <v-row class="d-flex justify-center">
                       <v-col cols="12">
                         <v-img
-                          :src="book.imageBook"
+                          :src="item.book.imageBook"
                           max-width="100%"
                           height="150"
                         ></v-img>
@@ -71,14 +69,14 @@
                           style="font-size: 16px; font-weight: bold"
                           class="review-comment"
                         >
-                          {{ book.name }}
+                          {{ item.book.name }}
                         </p>
-                        <p style="font-size: 12px">Author: {{ book.author }}</p>
+                        <p style="font-size: 12px">Author: {{ item.book.author }}</p>
                         <p style="font-size: 12px">
-                          Category: {{ book.category }}
+                          Category: {{ item.book.category }}
                         </p>
-                        <p style="font-size: 12px; color: red">
-                          {{ book.rating }} คะแนน จาก {{ book.ratingsCount }}
+                        <p style="font-size: 12px; color: #e83e8c">
+                          {{ item.book.rating }} คะแนน จาก {{ item.book.ratingsCount }}
                         </p>
                       </v-col>
                     </v-row>
@@ -100,7 +98,7 @@
       <v-row class="mb-1">
         <v-col
           cols="12"
-          v-for="(book, index) in reviews.slice(
+          v-for="(item, index) in reviews.slice(
             (page - 1) * itemsPerPage,
             page * itemsPerPage
           )"
@@ -109,16 +107,11 @@
         >
           <v-card class="mx-auto bg-card pa-3" max-width="340" height="360">
             <div
-              v-for="(review, index) in book.reviews
-                .slice()
-                .reverse()
-                .splice(0, 1)"
-              :key="index"
             >
               <v-card max-width="320" height="200">
                 <v-row class="ma-2">
                   <v-col cols="12">
-                    <p class="review-comment">{{ review.comment }}</p>
+                    <p class="review-comment">{{ item.comment }}</p>
                     <p class="text-show-all" @click="hidereview(review)">
                       แสดงทั้งหมด
                     </p>
@@ -127,10 +120,10 @@
                     >รีวิวจาก
                   </v-card-subtitle>
                   <v-col cols="12">
-                    <p>{{ review.user.name }}</p>
+                    <p>{{ item.user.name }}</p>
                     <div style="font-size: 10px">
                       <v-rating
-                        v-model="review.rating"
+                        v-model="item.rating"
                         color="#5a5a5a"
                         active-color="#e83e8c"
                         empty-icon="mdi-cards-heart"
@@ -148,7 +141,7 @@
               <v-row>
                 <v-col cols="3">
                   <v-img
-                    :src="book.imageBook"
+                    :src="item.book.imageBook"
                     max-width="60"
                     height="90"
                     cover
@@ -161,14 +154,14 @@
                         style="font-size: 16px; font-weight: bold"
                         class="review-comment"
                       >
-                        {{ book.name }}
+                        {{ item.book.name }}
                       </p>
-                      <p style="font-size: 12px">Author: {{ book.author }}</p>
+                      <p style="font-size: 12px">Author: {{ item.book.author }}</p>
                       <p style="font-size: 12px">
                         Category: {{ book.category }}
                       </p>
                       <p style="font-size: 12px; color: red">
-                        {{ book.rating }} คะแนน จาก {{ book.ratingsCount }}
+                        {{ item.book.rating }} คะแนน จาก {{ item.book.ratingsCount }}
                       </p>
                     </v-col>
                   </v-row>
@@ -242,8 +235,8 @@ export default {
   async mounted() {
     this.screenWidth = window.innerWidth;
     window.addEventListener("resize", this.handleResize);
-    const res = await api.get("/allreview/books/reviews/");
-    this.reviews = res.data;
+    const res = await api.get("/allrating");
+    this.reviews = res.data.ratings;
     if (this.reviews.length < 3) {
       router.push("/").then(() => {
         window.scrollTo(0, 0);
