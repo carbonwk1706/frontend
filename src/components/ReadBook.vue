@@ -31,7 +31,7 @@ export default {
             "searchPanel",
           ],
           hideAnnotationPanel: true,
-          readOnly: true,
+          enableReadOnlyMode: true,
           enableAnnotations: false
         },
         viewer.value
