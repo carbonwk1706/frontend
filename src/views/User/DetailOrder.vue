@@ -97,10 +97,14 @@ export default {
       }
     },
     goToProfile() {
-      router.push("/profile");
+      router.push("/profile").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToOrderHistory() {
-      router.push("/orderhistory");
+      router.push("/orderhistory").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
   },
   computed: {

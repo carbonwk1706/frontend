@@ -264,15 +264,21 @@ export default {
     },
     goToHome() {
       this.showModal = false;
-      router.push("/");
+      router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCart() {
       this.showModal = false;
-      router.push("/cart");
+      router.push("/cart").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCoin() {
       this.showModal = false;
-      router.push("/coin");
+      router.push("/coin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     hideModal() {
       this.showModal = !this.showModal;

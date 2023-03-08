@@ -490,83 +490,123 @@ export default {
       setTimeout(() => {
         if (this.searchTerm) {
           this.loadingSearch = false;
-          router.push({
-            name: "search",
-            params: {
-              searchTerm: this.searchTerm,
-            },
-          });
+          router
+            .push({
+              name: "search",
+              params: {
+                searchTerm: this.searchTerm,
+              },
+            })
+            .then(() => {
+              window.scrollTo(0, 0);
+            });
           this.searchTerm = "";
         } else {
           this.loadingSearch = false;
-          router.push({
-            name: "search",
-            params: {
-              searchTerm: "",
-            },
-          });
+          router
+            .push({
+              name: "search",
+              params: {
+                searchTerm: "",
+              },
+            })
+            .then(() => {
+              window.scrollTo(0, 0);
+            });
         }
       }, 1000);
     },
     logout() {
-      window.scrollTo(0, 0)
+      window.scrollTo(0, 0);
       this.loading = true;
-      router.push("/")
+      router.push("/");
       setTimeout(() => {
         this.$store.dispatch("auth/logout");
         this.loading = false;
       }, 2000);
     },
     goToHome() {
-      router.push("/");
+      router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     toggleLoginModal() {
       this.visibleModal = !this.visibleModal;
     },
     goToWishlist() {
-      router.push("/wishlist");
+      router.push("/wishlist").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToAllBooks() {
-      router.push("/books/all");
+      router.push("/books/all").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToAllCartoon() {
-      router.push("/books/cartoon/all");
+      router.push("/books/cartoon/all").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToAllNovel() {
-      router.push("/books/novel/all");
+      router.push("/books/novel/all").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCart() {
-      router.push("/cart");
+      router.push("/cart").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToProfile() {
-      router.push("/profile");
+      router.push("/profile").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToMyBook() {
-      router.push("/mybook");
+      router.push("/mybook").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToBuyHistory() {
-      router.push("/orderhistory");
+      router.push("/orderhistory").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCoinHistory() {
-      router.push("/coinhistory");
+      router.push("/coinhistory").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToBestSeller() {
-      router.push("/bestseller");
+      router.push("/bestseller").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToNewEntry() {
-      router.push("/newentry");
+      router.push("/newentry").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToRecommend() {
-      router.push("/recommend");
+      router.push("/recommend").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToMyShop() {
-      router.push("/bookusersell");
+      router.push("/bookusersell").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToRegisterSell() {
-      router.push("/registersell");
+      router.push("/registersell").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToHalloffame() {
-      router.push("/halloffame");
+      router.push("/halloffame").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     async fetchApi() {
       const res = await api.get("/profile/" + this.getId());
@@ -576,7 +616,9 @@ export default {
       return this.$store.getters["auth/getId"];
     },
     goToAddCoin() {
-      router.push("/coin");
+      router.push("/coin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     async getWishList() {
       const res = await api.get("/wishlist/" + this.getId());

@@ -68,7 +68,10 @@
                 @change="onFileChange"
               >
               </v-file-input>
-              <p v-else>{{ files[0].name }} <v-icon class="ml-1" @click="removeImage">mdi-close-box</v-icon></p>
+              <p v-else>
+                {{ files[0].name }}
+                <v-icon class="ml-1" @click="removeImage">mdi-close-box</v-icon>
+              </p>
             </v-col>
           </v-row>
         </v-col>
@@ -162,7 +165,7 @@ export default {
       reader.readAsDataURL(files);
     },
     removeImage() {
-      this.files = null
+      this.files = null;
       this.imagePreview = "";
     },
     setReceipt() {
@@ -172,7 +175,9 @@ export default {
       return this.$store.getters["auth/getId"];
     },
     goToAddCoin() {
-      router.push("/coin");
+      router.push("/coin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     async fetchApi() {
       const res = await api.get("/profile/" + this.getId());
@@ -207,7 +212,9 @@ export default {
           setTimeout(() => {
             this.loading = false;
             this.$store.dispatch("checkoutCoin/setReceipt", null);
-            router.push("/coin");
+            router.push("/coin").then(() => {
+              window.scrollTo(0, 0);
+            });
             this.alertSuccess();
           }, 2000);
         }

@@ -13,13 +13,17 @@
     watch: {
       isLogin (newValue) {
         if (!newValue) {
-          this.$router.push('/admin')
+          this.$router.push('/admin').then(() => {
+        window.scrollTo(0, 0);
+      });
         }
       }
     },
     mounted () {
       if (this.isLogin) {
-        this.$router.push('/admin')
+        this.$router.push('/admin').then(() => {
+        window.scrollTo(0, 0);
+      });
       }
     }
   }

@@ -181,19 +181,27 @@ export default {
   },
   methods: {
     goToProfile() {
-      router.push("/profile");
+      router.push("/profile").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToHome() {
       this.showModal = false;
-      router.push("/");
+      router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCart() {
       this.showModal = false;
-      router.push("/cart");
+      router.push("/cart").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCoin() {
       this.showModal = false;
-      router.push("/coin");
+      router.push("/coin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     hideModal() {
       this.showModal = !this.showModal;
@@ -239,7 +247,9 @@ export default {
       this.myBook = res.data;
     },
     showDetail(item) {
-      this.$router.push(`/book/${item._id}`);
+      this.$router.push(`/book/${item._id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     getId() {
       return this.$store.getters["auth/getId"];

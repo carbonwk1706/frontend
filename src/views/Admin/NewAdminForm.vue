@@ -163,7 +163,9 @@ export default {
       return v === this.form.password || "รหัสผ่านไม่ตรงกัน";
     },
     goToAdminTable() {
-      router.push("/admintable");
+      router.push("/admintable").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     async checkDuplicate() {
       const { valid } = await this.$refs.form.validate();
@@ -197,7 +199,9 @@ export default {
                 icon: "success",
                 button: "OK",
               });
-              router.push("/admintable");
+              router.push("/admintable").then(() => {
+        window.scrollTo(0, 0);
+      });
             }
           }
         } catch (error) {
@@ -252,11 +256,15 @@ export default {
   },
   async mounted() {
     if (!this.isLogin) {
-      router.push("/login");
+      router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
     } else if(this.isLogin){
       const res = await api.get("/checkRoles/" + this.getId());
       if(!res.data.user.roles.includes("ADMIN")){
-        router.push("/login")
+        router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
       }
     }
   },

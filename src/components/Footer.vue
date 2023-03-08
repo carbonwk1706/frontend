@@ -60,13 +60,19 @@ export default {
   }),
   methods:{
     goToRegisterSell(){
-      router.push("/registersell")
+      router.push("/registersell").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToAllNovel(){
-      router.push("/books/novel/all")
+      router.push("/books/novel/all").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToAllCartoon(){
-      router.push("/books/cartoon/all")
+      router.push("/books/cartoon/all").then(() => {
+        window.scrollTo(0, 0);
+      });
     }
   }
 };

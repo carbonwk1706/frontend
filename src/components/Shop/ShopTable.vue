@@ -903,33 +903,51 @@ export default {
     },
     goToHome() {
       this.showModal = false;
-      router.push("/");
+      router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCart() {
       this.showModal = false;
-      router.push("/cart");
+      router.push("/cart").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCoin() {
       this.showModal = false;
-      router.push("/coin");
+      router.push("/coin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToRecommend() {
-      router.push("/recommend");
+      router.push("/recommend").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToBestSeller() {
-      router.push("/bestseller");
+      router.push("/bestseller").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToNewEntry() {
-      router.push("/newentry");
+      router.push("/newentry").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToHalloffame() {
-      router.push("/halloffame");
+      router.push("/halloffame").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToAllBooks() {
-      router.push("/books/all");
+      router.push("/books/all").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToAllReview() {
-      router.push("/allreview");
+      router.push("/allreview").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     hideModal() {
       this.showModal = !this.showModal;

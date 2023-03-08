@@ -245,7 +245,9 @@ export default {
     const res = await api.get("/allreview/books/reviews/");
     this.reviews = res.data;
     if (this.reviews.length < 3) {
-      router.push("/");
+      router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
     }
   },
   computed: {

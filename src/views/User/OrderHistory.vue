@@ -91,7 +91,9 @@ export default {
       return this.$store.getters["auth/getId"];
     },
     showDetail(id) {
-      this.$router.push(`/receiptbook/${id}`);
+      router.push(`/receiptbook/${id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     formatTime(item) {
       return moment(item).format("MM/DD/YYYY, h:mm:ss a");
@@ -101,7 +103,9 @@ export default {
       this.history = res.data;
     },
     goToProfile() {
-      router.push("/profile");
+      router.push("/profile").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
   },
   computed: {

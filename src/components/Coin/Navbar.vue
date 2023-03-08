@@ -162,32 +162,50 @@ export default {
         this.loading = false;
       }, 2000);
       setTimeout(() => {
-        router.push("/");
+        router.push("/").then(() => {
+          window.scrollTo(0, 0);
+        });
       }, 2000);
     },
     goToAddCoin() {
-      router.push("/coin");
+      router.push("/coin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCoinHistory() {
-      router.push("/coinhistory");
+      router.push("/coinhistory").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToHome() {
-      router.push("/");
+      router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToProfile() {
-      router.push("/profile");
+      router.push("/profile").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToMyBook() {
-      router.push("/mybook");
+      router.push("/mybook").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToBuyHistory() {
-      router.push("/orderhistory");
+      router.push("/orderhistory").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToWishlist() {
-      router.push("/wishlist");
+      router.push("/wishlist").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToRegisterSell() {
-      router.push("/registersell");
+      router.push("/registersell").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
   },
   computed: {

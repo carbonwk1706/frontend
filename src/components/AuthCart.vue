@@ -31,7 +31,9 @@ export default {
   },
   methods: {
     goToLoginAndClose() {
-      this.$router.push("/");
+      this.$router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
       this.showModal = false;
     },
   },
