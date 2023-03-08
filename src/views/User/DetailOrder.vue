@@ -36,7 +36,7 @@
           <span> {{ detail.count }} เล่ม</span>
         </v-col>
       </v-row>
-      <div v-if="books.length === book.length">
+      <div>
         <v-row
           v-for="(book, index) in books.slice(
             (page - 1) * itemsPerPage,
@@ -58,40 +58,10 @@
           <v-divider class="my-3"></v-divider>
         </v-row>
       </div>
-      <div v-if="books.length < book.length">
-        <v-row
-          v-for="(bookDelete, index) in book.slice(
-            (page - 1) * itemsPerPage,
-            page * itemsPerPage
-          )"
-          :key="index"
-        >
-          <v-divider class="my-3"></v-divider>
-          <v-col cols="4">
-            <v-img :src="bookDelete.imageBook" aspect-ratio="1"></v-img>
-          </v-col>
-          <v-col cols="8">
-            <h3 class="mb-3">{{ bookDelete.name }}</h3>
-            <p class="mb-2">โดย {{ bookDelete.author }}</p>
-            <p class="mb-2">สำนักพิมพ์ {{ bookDelete.publisher }}</p>
-            <p class="mb-2">หมวดหมู่ {{ bookDelete.category }}</p>
-            <p class="mb-2">ราคา {{ bookDelete.price }} บาท</p>
-          </v-col>
-          <v-divider class="my-3"></v-divider>
-        </v-row>
-      </div>
       <v-pagination
-        v-if="books.length === book.length"
         class="mt-5"
         v-model="page"
         :length="pages"
-        circle
-      ></v-pagination>
-      <v-pagination
-        v-if="books.length < book.length"
-        class="mt-5"
-        v-model="page"
-        :length="pages1"
         circle
       ></v-pagination>
     </v-card-text>
@@ -106,7 +76,6 @@ export default {
     return {
       detail: [],
       books: [],
-      book: [],
       page: 1,
       itemsPerPage: 2,
     };
@@ -122,27 +91,25 @@ export default {
       const res = await api.get(
         "/receiptbook/" + this.$route.params.id + "/" + this.getId()
       );
-      this.detail = res.data;
+      this.detail = res.data.receiptBook;
       for (let i = 0; i < res.data.books.length; i++) {
         this.books.push(res.data.books[i]);
       }
-      for (let i = 0; i < res.data.oldData.length; i++) {
-        this.book.push(res.data.oldData[i]);
-      }
     },
     goToProfile() {
-      router.push("/profile");
+      router.push("/profile").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToOrderHistory() {
-      router.push("/orderhistory");
+      router.push("/orderhistory").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
   },
   computed: {
     pages() {
       return Math.ceil(this.books.length / this.itemsPerPage);
-    },
-    pages1() {
-      return Math.ceil(this.book.length / this.itemsPerPage);
     },
     isLogin() {
       return this.$store.getters["auth/isLogin"];

@@ -145,7 +145,9 @@ export default {
     },
     cancelPayment() {
       this.$store.dispatch("checkoutCoin/setReceipt", null);
-      router.push("/coin");
+      router.push("/coin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
   },
   computed: {
@@ -158,7 +160,9 @@ export default {
   },
   mounted() {
     if (this.getReceipt === null) {
-      router.push("/coin");
+      router.push("/coin").then(() => {
+        window.scrollTo(0, 0);
+      });
     } else {
       if (this.isLogin) {
         this.setReceipt();
@@ -168,7 +172,9 @@ export default {
         this.currentTime = new Date().toLocaleTimeString().slice(0, 5);
         this.formattedDate = this.date.toISOString().split("T")[0];
       } else {
-        router.push("/");
+        router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
       }
     }
   },

@@ -93,7 +93,9 @@ export default {
           this.loading = false;
           this.$store.dispatch("selectItem/setSelectedItems", []);
           this.getCartList()
-          router.push("/mybook");
+          router.push("/mybook").then(() => {
+        window.scrollTo(0, 0);
+      });
           this.alertSuccess();
         }, 2000);
       }
@@ -129,12 +131,16 @@ export default {
         cancelButtonText: "ปิด",
       }).then((result) => {
         if (result.value) {
-          router.push("/coin");
+          router.push("/coin").then(() => {
+        window.scrollTo(0, 0);
+      });
         }
       });
     },
     goToCartList() {
-      router.push("/cart");
+      router.push("/cart").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     getId() {
       return this.$store.getters["auth/getId"];
@@ -153,7 +159,9 @@ export default {
   },
   mounted() {
     if (this.selectedItems.length === 0 || this.selectedItems === null) {
-      router.push("/cart");
+      router.push("/cart").then(() => {
+        window.scrollTo(0, 0);
+      });
     }
   },
 };

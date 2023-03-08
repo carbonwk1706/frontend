@@ -162,7 +162,9 @@ export default {
   },
   methods: {
     goToUserTable(){
-      router.push("/usertable")
+      router.push("/usertable").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     async checkDuplicate() {
       const { valid } = await this.$refs.form.validate();
@@ -268,7 +270,9 @@ export default {
         icon: "success",
         button: "OK",
       });
-          this.$router.push("/usertable");
+          router.push("/usertable").then(() => {
+        window.scrollTo(0, 0);
+      });
         });
     },
     showAlert(text) {
@@ -321,11 +325,15 @@ export default {
   },
   async mounted() {
     if (!this.isLogin) {
-      router.push("/login");
+      router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
     } else if(this.isLogin){
       const res = await api.get("/checkRoles/" + this.getId());
       if(!res.data.user.roles.includes("ADMIN")){
-        router.push("/login")
+        router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
       }else{
         this.fetchApi();
       }

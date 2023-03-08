@@ -245,13 +245,19 @@ export default {
   }),
   methods: {
     goToWishlist() {
-      router.push("/wishlist");
+      router.push("/wishlist").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToBookcase() {
-      router.push("/mybook");
+      router.push("/mybook").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToHistoryBuy() {
-      router.push("/orderhistory");
+      router.push("/orderhistory").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     firstName() {
       return this.user.firstName ? this.user.firstName : "ไม่ระบุ";

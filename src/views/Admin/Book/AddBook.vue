@@ -232,7 +232,9 @@ export default {
       }
     },
     goToBooks() {
-      router.push("/bookadmin");
+      router.push("/bookadmin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     async checkDuplicate() {
       const { valid } = await this.$refs.form.validate();
@@ -253,7 +255,7 @@ export default {
             res.status === 201 &&
             res.data.message === "BookName already exist"
           ) {
-            this.showAlert("ชื่อหนังนี้ถูกใช้งานไปแล้ว");
+            this.showAlert("ชื่อหนังสือนี้ถูกใช้งานไปแล้ว");
           } else {
             this.submit();
           }
@@ -303,7 +305,9 @@ export default {
           this.handleFileUpload1(bookId);
           this.handleFileUpload2(bookId);
           this.resetForm();
-          this.$router.push("/bookadmin");
+          router.push("/bookadmin").then(() => {
+            window.scrollTo(0, 0);
+          });
           this.showAlertSuccess("เพิ่มหนังสือสำเร็จ");
         }
       } catch (error) {
@@ -328,11 +332,15 @@ export default {
   },
   async mounted() {
     if (!this.isLogin) {
-      router.push("/login");
-    } else if(this.isLogin){
+      router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
+    } else if (this.isLogin) {
       const res = await api.get("/checkRoles/" + this.getId());
-      if(!res.data.user.roles.includes("LOCAL_ADMIN")){
-        router.push("/login")
+      if (!res.data.user.roles.includes("LOCAL_ADMIN")) {
+        router.push("/login").then(() => {
+          window.scrollTo(0, 0);
+        });
       }
     }
   },

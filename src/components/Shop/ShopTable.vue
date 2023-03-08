@@ -291,7 +291,7 @@
       </v-row>
     </div>
 
-    <div v-if="reviews.length > 0" id="all_review">
+    <!-- <div v-if="reviews.length > 0" id="all_review">
       <v-row class="mb-1">
         <v-col class="text-start">
           <h2 class="display-1 font-weight-bold">รีวิว</h2>
@@ -384,7 +384,7 @@
           </v-card>
         </v-col>
       </v-row>
-    </div>
+    </div> -->
 
     <div v-if="halloffame.length > 0" id="halloffame">
       <v-row class="mb-1">
@@ -903,33 +903,51 @@ export default {
     },
     goToHome() {
       this.showModal = false;
-      router.push("/");
+      router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCart() {
       this.showModal = false;
-      router.push("/cart");
+      router.push("/cart").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToCoin() {
       this.showModal = false;
-      router.push("/coin");
+      router.push("/coin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToRecommend() {
-      router.push("/recommend");
+      router.push("/recommend").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToBestSeller() {
-      router.push("/bestseller");
+      router.push("/bestseller").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToNewEntry() {
-      router.push("/newentry");
+      router.push("/newentry").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToHalloffame() {
-      router.push("/halloffame");
+      router.push("/halloffame").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     goToAllBooks() {
-      router.push("/books/all");
+      router.push("/books/all").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
-    goToAllReview(){
-      router.push("/allreview");
+    goToAllReview() {
+      router.push("/allreview").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     hideModal() {
       this.showModal = !this.showModal;
@@ -941,7 +959,9 @@ export default {
       this.showReview = true;
     },
     showDetail(item) {
-      this.$router.push(`/book/${item._id}`);
+      router.push(`/book/${item._id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     alertWarning() {
       this.$swal({
@@ -1048,14 +1068,13 @@ export default {
       };
     },
     filteredReviews() {
-      if(this.screenWidth > 960){
+      if (this.screenWidth > 960) {
         return this.reviews.slice(0, 3);
-      }else if(this.screenWidth > 600){
+      } else if (this.screenWidth > 600) {
         return this.reviews.slice(0, 2);
-      }else {
+      } else {
         return this.reviews.slice(0, 1);
       }
-      
     },
     filteredNewEntry() {
       if (this.screenWidth > 960) {

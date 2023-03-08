@@ -105,9 +105,13 @@ export default {
     {
       console.log(item.request)
       if(item.request === "คำร้องขอสมัครขายอีบุ๊ค"){
-        this.$router.push(`/request/${item._id}`);
+        router.push(`/request/${item._id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
       }else if(item.request === "คำร้องขอเพิ่ม Coin"){
-        this.$router.push(`/requestcoin/${item._id}`);
+        router.push(`/requestcoin/${item._id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
       }
     },
     getId() {
@@ -155,11 +159,15 @@ export default {
   },
   async mounted() {
     if (!this.isLogin) {
-      router.push("/login");
+      router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
     } else if(this.isLogin){
       const res = await api.get("/checkRoles/" + this.getId());
       if(!res.data.user.roles.includes("LOCAL_ADMIN")){
-        router.push("/login")
+        router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
       }else{
         this.fetchApi();
       }

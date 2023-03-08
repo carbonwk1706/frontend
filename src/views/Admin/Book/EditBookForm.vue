@@ -314,7 +314,9 @@ export default {
           adminId: this.getId(),
         })
         .then(() => {
-          this.$router.push("/bookadmin");
+          router.push("/bookadmin").then(() => {
+        window.scrollTo(0, 0);
+      });
           this.showAlertSuccess("แก้ไขข้อมูลสำเร็จ");
         });
     },
@@ -334,7 +336,9 @@ export default {
           const bookId = res.data.book._id;
           const historyId = res.data.history._id;
           this.handleFileUpload1(bookId, historyId);
-          this.$router.push("/bookadmin");
+          router.push("/bookadmin").then(() => {
+        window.scrollTo(0, 0);
+      });
           this.showAlertSuccess("เพิ่มหนังสือสำเร็จ");
         }
       } catch (error) {
@@ -357,7 +361,9 @@ export default {
           const bookId = res.data.book._id;
           const historyId = res.data.history._id;
           this.handleFileUpload2(bookId, historyId);
-          this.$router.push("/bookadmin");
+          router.push("/bookadmin").then(() => {
+        window.scrollTo(0, 0);
+      });
           this.showAlertSuccess("เพิ่มหนังสือสำเร็จ");
         }
       } catch (error) {
@@ -381,7 +387,9 @@ export default {
           const historyId = res.data.history._id;
           this.handleFileUpload1(bookId, historyId);
           this.handleFileUpload2(bookId, historyId);
-          this.$router.push("/bookadmin");
+          router.push("/bookadmin").then(() => {
+        window.scrollTo(0, 0);
+      });
           this.showAlertSuccess("เพิ่มหนังสือสำเร็จ");
         }
       } catch (error) {
@@ -410,7 +418,9 @@ export default {
       });
     },
     goToBooks() {
-      router.push("/bookadmin");
+      router.push("/bookadmin").then(() => {
+        window.scrollTo(0, 0);
+      });
     },
   },
   computed: {
@@ -420,11 +430,15 @@ export default {
   },
   async mounted() {
     if (!this.isLogin) {
-      router.push("/login");
+      router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
     } else if(this.isLogin){
       const res = await api.get("/checkRoles/" + this.getId());
       if(!res.data.user.roles.includes("LOCAL_ADMIN")){
-        router.push("/login")
+        router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
       }else{
         this.fetchApi();
       }
