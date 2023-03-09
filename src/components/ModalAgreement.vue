@@ -43,7 +43,7 @@ export default {
         scrollbarPadding: false,
         title: "บันทึกข้อมูลสำเร็จ",
         allowOutsideClick: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         text: "ยินดีต้องรับ " + this.getName(),
         icon: "success",
         confirmButtonText: 'OK'
@@ -73,7 +73,7 @@ export default {
   align-items: center;
 }
 .btn-color {
-  background-color: #00af70;
+  background-color: #2F58CD;
   width: 100%;
 }
 </style>

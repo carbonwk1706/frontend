@@ -205,7 +205,7 @@
       </v-col>
       <v-col cols="4" class="d-flex justify-center align-center">
         <v-btn @click="goToHome">
-          <v-toolbar-title class="text-center font-text">EBOOK</v-toolbar-title>
+          <v-toolbar-title class="text-center font-text">BOOKNOOK</v-toolbar-title>
         </v-btn>
       </v-col>
       <v-col cols="4" class="d-flex justify-end align-center">
@@ -312,7 +312,7 @@
         <v-card-text>
           <v-col class="px-0">
             <v-btn
-              style="color: #00af70"
+              style="color: #2F58CD"
               rounded
               variant="text"
               @click="goToAllBooks"
@@ -367,7 +367,7 @@
         <v-card-text>
           <v-col class="px-0">
             <v-btn
-              style="color: #00af70"
+              style="color: #2F58CD"
               rounded
               variant="text"
               @click="goToAllBooks"
@@ -640,7 +640,7 @@ export default {
       if (this.notification.length > 0) {
         this.$swal({
           scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
+          confirmButtonColor: "#2F58CD",
           cancelButtonColor: "#999999",
           showCancelButton: true,
           allowOutsideClick: false,
@@ -656,7 +656,7 @@ export default {
               this.$swal({
                 scrollbarPadding: false,
                 allowOutsideClick: false,
-                confirmButtonColor: "#00af70",
+                confirmButtonColor: "#2F58CD",
                 text: "ล้างข้อมูลการแจ้งเตือนเรียบร้อยแล้ว",
                 icon: "success",
                 confirmButtonText: "OK",
@@ -667,7 +667,7 @@ export default {
       } else {
         this.$swal({
           scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
+          confirmButtonColor: "#2F58CD",
           allowOutsideClick: false,
           width: "500",
           text: "คุณล้างข้อมูลการแจ้งหมดแล้ว",
@@ -829,7 +829,7 @@ export default {
           this.$store.dispatch("auth/logout");
           this.$swal({
             scrollbarPadding: false,
-            confirmButtonColor: "#00af70",
+            confirmButtonColor: "#2F58CD",
             allowOutsideClick: false,
             width: "500",
             text: "ID ของคุณถูกแก้ไขโปรดติดต่อ ADMIN",
@@ -846,7 +846,7 @@ export default {
           router.push("/");
           this.$swal({
             scrollbarPadding: false,
-            confirmButtonColor: "#00af70",
+            confirmButtonColor: "#2F58CD",
             allowOutsideClick: false,
             width: "500",
             text: "ID ของคุณถูกลบโดยผู้ดูแลระบบโปรดติดต่อ ADMIN",
@@ -873,7 +873,7 @@ export default {
   background-color: rgba(0, 0, 0, 0.12);
 }
 .app_bar {
-  background-image: linear-gradient(#00af70, #37c13d);
+  background-image: linear-gradient(#2F58CD, #3795BD);
   color: #ffff;
   position: fixed;
   top: 0px;
@@ -921,11 +921,11 @@ export default {
 }
 .text-menu:hover {
   cursor: pointer;
-  border-bottom: 3px solid #00af70;
+  border-bottom: 3px solid #2F58CD;
 }
 .border-bottom {
   cursor: pointer;
-  border-bottom: 3px solid #00af70;
+  border-bottom: 3px solid #2F58CD;
 }
 .text-cursor {
   cursor: pointer;

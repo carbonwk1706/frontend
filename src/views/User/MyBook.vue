@@ -265,7 +265,7 @@ export default {
 }
 .btn-color {
   color: #fff;
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 .text-noBook {
   font-size: 18px;

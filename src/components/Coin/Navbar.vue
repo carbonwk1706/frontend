@@ -122,7 +122,7 @@
           :size="50"
           :width="5"
           indeterminate
-          color="#00af70"
+          color="#2F58CD"
         ></v-progress-circular>
       </div>
       <v-card-text class="text-center">กำลังออกจากระบบ</v-card-text>
@@ -236,7 +236,7 @@ export default {
 
 <style scoped>
 .app_bar {
-  background-color: #00af70;
+  background-image: linear-gradient(#2F58CD, #3795BD);
   color: #ffff;
 }
 

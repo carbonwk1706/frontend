@@ -4,7 +4,7 @@
       <div class="d-flex justify-center">
         <div class="headborder">
           <span style="font-size: 16px" class="mr-2 font-text"> Coin : </span>
-          <span style="font-size: 16px; color: #22d122" class="mr-2 font-text">
+          <span style="font-size: 16px; color: #3795BD" class="mr-2 font-text">
             {{ user.coin }}
           </span>
         </div>
@@ -44,7 +44,7 @@
           <span class="mr-2 font-text"
             >กรุณาเลือกจำนวน Coin ที่ต้องการเติมผ่าน</span
           >
-          <span style="color: #22d122" class="mr-2 font-text"
+          <span style="color: #3795BD" class="mr-2 font-text"
             >"{{ selectedBankAccount }}"</span
           >
         </div>
@@ -215,7 +215,7 @@ export default {
       if (this.selectedCoin <= 0) {
         this.$swal({
           scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
+          confirmButtonColor: "#2F58CD",
           allowOutsideClick: false,
           width: "500",
           text: "กรุณากรอกจำนวนเงินให้ถูกต้อง",
@@ -270,18 +270,18 @@ export default {
 
 <style scoped>
 .highlight {
-  box-shadow: 0 0 15px #37c13d;
+  box-shadow: 0 0 15px #3795BD;
   transition: box-shadow 0.2s ease-in-out;
 }
 
 .highlight:hover {
-  box-shadow: 0 0 30px #37c13d;
+  box-shadow: 0 0 30px #3795BD;
 }
 .headborder {
   display: flex;
   justify-content: center;
   width: 300px;
-  border: 1px solid #22d122;
+  border: 1px solid #3795BD;
   padding: 10px;
 }
 .v-card-text {
@@ -291,7 +291,7 @@ export default {
   height: 100%;
 }
 .button {
-  background-color: #00af70;
+  background-color: #2F58CD;
   color: white;
   height: 50px;
   width: 300px;
@@ -312,7 +312,7 @@ export default {
   align-items: center;
 }
 .btn-bg {
-  background-color: #00af70;
+  background-color: #2F58CD;
   width: 100%;
   padding: 5px;
   margin-bottom: 16px;
@@ -320,7 +320,7 @@ export default {
 }
 .text-coin {
   font-size: 16px;
-  color: #00af70;
+  color: #2F58CD;
   font-weight: bolder;
   height: "200px";
   margin: "10px";
@@ -407,7 +407,7 @@ export default {
     height: 150px;
   }
   .button {
-    background-color: #00af70;
+    background-color: #2F58CD;
     color: white;
     height: 45px;
     width: 250px;
@@ -447,7 +447,7 @@ export default {
     width: 35px;
   }
     .button {
-    background-color: #00af70;
+    background-color: #2F58CD;
     color: white;
     height: 40px;
     width: 225px;
@@ -495,7 +495,7 @@ export default {
     height: 100px;
   }
     .button {
-    background-color: #00af70;
+    background-color: #2F58CD;
     color: white;
     height: 30px;
     width: 200px;
@@ -533,7 +533,7 @@ export default {
     width: 100%;
   }
     .button {
-    background-color: #00af70;
+    background-color: #2F58CD;
     color: white;
     height: 30px;
     width: 175px;
@@ -576,7 +576,7 @@ export default {
     height: 50px;
   }
     .button {
-    background-color: #00af70;
+    background-color: #2F58CD;
     color: white;
     height: 25px;
     width: 150px;

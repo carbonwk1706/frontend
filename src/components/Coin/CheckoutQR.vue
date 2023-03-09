@@ -50,7 +50,7 @@
           :size="50"
           :width="5"
           indeterminate
-          color="#00af70"
+          color="#2F58CD"
         ></v-progress-circular>
       </div>
       <v-card-text class="text-center">กำลังทำการแจ้งชำระเงิน</v-card-text>
@@ -98,7 +98,7 @@ export default {
           this.$swal({
             scrollbarPadding: false,
             width: "500",
-            confirmButtonColor: "#00af70",
+            confirmButtonColor: "#2F58CD",
             text: "กรุณาทำการชำระเงินใหม่อีกครั้ง",
             icon: "error",
             button: "OK",
@@ -135,7 +135,7 @@ export default {
         this.$swal({
           scrollbarPadding: false,
           width: "500",
-          confirmButtonColor: "#00af70",
+          confirmButtonColor: "#2F58CD",
           text: "ชำระเงินสำเร็จ",
           icon: "success",
           button: "OK",
@@ -183,7 +183,7 @@ export default {
 <style scoped>
 .btn-color {
   color: #ffff;
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 .img-size {
   width: 100px;
