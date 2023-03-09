@@ -36,7 +36,14 @@ const routes = [
   {
     path: '/readbook/:id',
     name: 'readbook',
-    component: () => import('../views/User/ReadBook.vue')
+    component: () => import('../views/User/ReadBook.vue'),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true,
+      hideSidebar: true,
+    },
   }
   ,
   {
