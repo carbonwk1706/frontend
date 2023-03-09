@@ -158,8 +158,6 @@ export default {
       page: 1,
       itemsPerPage: 10,
       bookList: [],
-      cartList: [],
-      inventoryUser: [],
       selectedBook: [],
       showConfirm: false,
     };

@@ -279,7 +279,6 @@ export default {
           this.alertSuccess();
         } else {
           this.showModal = true;
-          this.getCartList();
         }
       } else {
         this.alertWarning();
@@ -367,12 +366,6 @@ export default {
     },
     getId() {
       return this.$store.getters["auth/getId"];
-    },
-    getCartList() {
-      api.get("/cart/" + this.getId()).then((result) => {
-        this.cartList = result.data.items;
-        this.$store.dispatch("cartList/setCartList", this.cartList);
-      });
     },
     async getMyBook() {
       const res = await api.get("/inventory/" + this.getId());

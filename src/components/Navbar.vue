@@ -727,9 +727,6 @@ export default {
     getCartListCount() {
       return this.$store.getters["cartList/cartListCount"];
     },
-    getUser() {
-      return this.$store.getters["user/fetchApi"];
-    },
   },
   watch: {
     isLogin(newValue) {
@@ -817,6 +814,11 @@ export default {
     this.socket.on("upload-pdf-book", () => {
       if (this.isLogin) {
         this.getNotification();
+        this.fetchApi();
+      }
+    });
+    this.socket.on("product-sell", () => {
+      if (this.isLogin) {
         this.fetchApi();
       }
     });

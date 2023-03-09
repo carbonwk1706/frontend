@@ -519,8 +519,6 @@ export default {
       }
     });
     this.socket.on("product-sell", () => {
-      this.getRatingBook();
-      this.getBookDetail();
       if (this.isLogin) {
         this.visibleModal = false;
         this.hasBook();
