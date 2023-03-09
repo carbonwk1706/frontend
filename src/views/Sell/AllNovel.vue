@@ -326,12 +326,6 @@ export default {
         this.getMyBook();
       }
     });
-    this.socket.on("product-sell", () => {
-      this.fetchApi();
-      if (this.isLogin) {
-        this.getMyBook();
-      }
-    });
     this.socket.on("update-book-edit", () => {
       this.fetchApi();
       if (this.isLogin) {

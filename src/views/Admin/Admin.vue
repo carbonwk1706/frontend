@@ -199,64 +199,36 @@ export default {
       transports: ["websocket", "polling"],
     });
     this.socket.on("new-user", () => {
-      this.getBestseller();
-      this.getTotalSold();
-      this.getRequest();
       this.getUser();
     });
     this.socket.on("add-new", () => {
-      this.getBestseller();
-      this.getTotalSold();
-      this.getRequest();
       this.getUser();
     });
     this.socket.on("delete-user", () => {
-      this.getBestseller();
-      this.getTotalSold();
-      this.getRequest();
       this.getUser();
     });
     this.socket.on("new-receipt", () => {
-      this.getBestseller();
-      this.getTotalSold();
       this.getRequest();
-      this.getUser();
     });
     this.socket.on("new-request", () => {
-      this.getBestseller();
-      this.getTotalSold();
       this.getRequest();
-      this.getUser();
     });
     this.socket.on("product-sell", () => {
-      this.getBestseller();
       this.getTotalSold();
-      this.getRequest();
-      this.getUser();
     });
     this.socket.on("update-book-edit", () => {
-      this.getBestseller();
       this.getTotalSold();
-      this.getRequest();
-      this.getUser();
     });
     this.socket.on("update-book-delete", () => {
       this.getBestseller();
       this.getTotalSold();
-      this.getRequest();
-      this.getUser();
     });
     this.socket.on("upload-image-book", () => {
       this.getBestseller();
-      this.getTotalSold();
-      this.getRequest();
-      this.getUser();
     });
     this.socket.on("upload-pdf-book", () => {
       this.getBestseller();
       this.getTotalSold();
-      this.getRequest();
-      this.getUser();
     });
   },
 };

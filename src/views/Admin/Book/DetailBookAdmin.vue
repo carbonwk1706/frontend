@@ -90,9 +90,6 @@ export default {
     this.socket.on("product-sell", () => {
       this.fetchApi();
     });
-    this.socket.on("update-book-create", () => {
-      this.fetchApi();
-    });
     this.socket.on("update-book-edit", () => {
       this.fetchApi();
     });

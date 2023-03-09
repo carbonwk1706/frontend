@@ -727,9 +727,6 @@ export default {
     getCartListCount() {
       return this.$store.getters["cartList/cartListCount"];
     },
-    getUser() {
-      return this.$store.getters["user/fetchApi"];
-    },
   },
   watch: {
     isLogin(newValue) {
