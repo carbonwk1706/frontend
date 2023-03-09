@@ -820,6 +820,11 @@ export default {
         this.fetchApi();
       }
     });
+    this.socket.on("product-sell", () => {
+      if (this.isLogin) {
+        this.fetchApi();
+      }
+    });
     this.socket.on("update-user", (data) => {
       if (this.isLogin) {
         if (this.getId() === data.user._id) {

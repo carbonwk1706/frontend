@@ -1208,13 +1208,7 @@ export default {
       }
     });
     this.socket.on("product-sell", () => {
-      this.getAllReview();
       this.getBestseller();
-      this.getNewEntry();
-      this.getHalloffame();
-      this.getRecommend();
-      this.getNewEntry7D();
-      this.getRecommend7d();
       if (this.isLogin) {
         this.getMyBook();
       }
