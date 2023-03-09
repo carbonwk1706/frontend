@@ -1,49 +1,39 @@
 <template>
-  <div id="webviewer" ref="viewer"></div>
+  <div>
+    <div class="my-3">
+      <span @click="goBack" class="back-button"
+        ><v-icon>mdi-arrow-left</v-icon> Back</span
+      >
+    </div>
+    <iframe :src="pdfUrlWithNoToolbar" width="100%" height="800px"></iframe>
+  </div>
 </template>
 
 <script>
-import { ref, onMounted } from "vue";
-import WebViewer from "@pdftron/webviewer";
-
 export default {
-  name: "Webviewer",
-  setup() {
-    const viewer = ref(null);
-    onMounted(() => {
-      const path = `${process.env.BASE_URL}webviewer`;
-      const pdfDocument = "https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf";
-      WebViewer(
-        {
-          path,
-          initialDoc: pdfDocument,
-          disabledElements: [
-            "header",
-            "toolsHeader",
-            "annotationPopup",
-            "annotationCommentButton",
-            "contextMenuPopup",
-            "textSelectionButton",
-            "panToolButton",
-            "outlinesPanelButton",
-            "viewControlsButton",
-            "searchButton",
-            "searchPanel",
-          ],
-          hideAnnotationPanel: true,
-          enableReadOnlyMode: true,
-          enableAnnotations: false
-        },
-        viewer.value
-      )
-    });
-    return { viewer };
+  name: "PdfViewer",
+  data() {
+    return {
+      pdfUrl:
+        "https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf",
+    };
+  },
+  computed: {
+    pdfUrlWithNoToolbar() {
+      return `${this.pdfUrl}#toolbar=0&readonly=1`;
+    },
+  },
+
+  methods: {
+    goBack() {
+      window.history.back();
+    },
   },
 };
 </script>
-
 <style scope>
-#webviewer {
-  height: 800px;
+.back-button {
+  font-size: 20px;
+  cursor: pointer;
 }
 </style>
