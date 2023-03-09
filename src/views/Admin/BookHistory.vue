@@ -1,5 +1,5 @@
 <template>
-  ><v-row>
+  <v-row>
     <v-col cols="12">
       <h2>ประวัติการทำรายการของฉัน</h2>
     </v-col>
