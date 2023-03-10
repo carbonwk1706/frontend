@@ -25,16 +25,6 @@
 
       <v-list density="compact" nav>
         <v-list-item
-          prepend-icon="mdi-home-circle"
-          title="หน้าแรก"
-          value="dashboard"
-          dense
-          nav
-          @click="goToDashboard()"
-          :style="{ 'max-width': '100%' }"
-        ></v-list-item>
-        <v-divider inset></v-divider>
-        <v-list-item
           prepend-icon="mdi-book-open-page-variant"
           title="หนังสือที่วางขาย"
           value="admin"
@@ -53,7 +43,17 @@
           nav
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
-        
+        <v-divider inset></v-divider>
+        <v-list-item
+        prepend-icon="mdi-book-clock"
+        title="ประวัติการจัดการหนังสือ"
+        value="historybook"
+        @click="goToBookHistory()"
+        dense
+        nav
+        :style="{ 'max-width': '100%' }"
+      ></v-list-item>
+      <v-divider inset></v-divider>
         <v-list-item
           prepend-icon="mdi-cash-multiple"
           title="การจ่ายเงิน"
@@ -86,7 +86,7 @@ export default {
     return {
       drawer: true,
       items: [
-        { title: "Home", icon: "mdi-home-city", path: "/bookusersell" },
+        { title: "Home", icon: "mdi-home-city", path: "/booktable" },
         { title: "Admins", icon: "mdi-account", path: "/admintable" },
         {
           title: "Users",
@@ -126,11 +126,10 @@ export default {
         window.scrollTo(0, 0);
       });
     },
-    goToDashboard() {
-      router.push("/bookusersell");
-    },
+    goToBookHistory(){
+      router.push("/historybookusercrud");
+    }
   },
-  mounted() {},
 };
 </script>
 
