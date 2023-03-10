@@ -974,7 +974,7 @@ export default {
     alertWarning() {
       this.$swal({
         scrollbarPadding: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         allowOutsideClick: false,
         width: "500",
         text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
@@ -989,7 +989,7 @@ export default {
     alertSuccess() {
       this.$swal({
         scrollbarPadding: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         allowOutsideClick: false,
         width: "500",
         text: "คุณมีหนังสือนี้ในตะกร้าแล้ว",
@@ -1276,13 +1276,20 @@ export default {
         this.getMyBook();
       }
     });
+    this.socket.on("requestbook-approved", () => {
+      this.getNewEntry();
+      this.getNewEntry7D();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
   },
 };
 </script>
 
 <style scoped>
 .bg-card {
-  background-image: linear-gradient(#00af70, #37c13d);
+  background-image: linear-gradient(#2F58CD, #3795BD);
   color: #ffff;
   cursor: pointer;
 }
@@ -1291,17 +1298,17 @@ export default {
 }
 .text-go {
   cursor: pointer;
-  color: #00af70;
+  color: #2F58CD;
 }
 .btn-color {
   color: #fff;
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 .btn-color:hover {
   background-color: gray !important;
 }
 .cardHover:hover {
-  border: 1px solid #00af70;
+  border: 1px solid #2F58CD;
   cursor: pointer;
 }
 .text-card-center {
@@ -1317,7 +1324,7 @@ export default {
 }
 .btn-bg1 {
   color: #fff;
-  background-color: #00af70;
+  background-color: #2F58CD;
   border-radius: 40px;
   font-size: 16px;
 }
@@ -1340,7 +1347,7 @@ export default {
 .text-show-all {
   font-size: 16px;
   line-height: 1.5;
-  color: #39b449;
+  color: #2F58CD;
   margin-bottom: 10px;
   cursor: pointer;
 }

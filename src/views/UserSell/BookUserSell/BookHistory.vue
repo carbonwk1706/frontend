@@ -104,12 +104,12 @@ export default {
   },
   methods: {
     showDetail(item) {
-      router.push(`/detailbookcrud/${item}`).then(() => {
+      router.push(`/detailbookusercrud/${item}`).then(() => {
         window.scrollTo(0, 0);
       });
     },
     getId() {
-      return this.$store.getters["authAdmin/getId"];
+      return this.$store.getters["auth/getId"];
     },
     formatTime(item) {
       return moment(item).format("DD/MM/YYYY, HH:mm:ss");
@@ -140,7 +140,7 @@ export default {
       return Math.ceil(this.history.length / this.itemsPerPage);
     },
     isLogin() {
-      return this.$store.getters["authAdmin/isLogin"];
+      return this.$store.getters["auth/isLogin"];
     },
   },
   watch: {
@@ -160,17 +160,17 @@ export default {
   },
   async mounted() {
     if (!this.isLogin) {
-      router.push("/login").then(() => {
+      router.push("/").then(() => {
         window.scrollTo(0, 0);
       });
-    } else if(this.isLogin){
+    } else if (this.isLogin) {
       const res = await api.get("/checkRoles/" + this.getId());
-      if(!res.data.user.roles.includes("LOCAL_ADMIN")){
-        router.push("/login").then(() => {
-        window.scrollTo(0, 0);
-      });
+      if (!res.data.user.roles.includes("SELL")) {
+        router.push("/").then(() => {
+          window.scrollTo(0, 0);
+        });
       }else{
-        this.fetchApi();
+        this.fetchApi()
       }
     }
   },
@@ -188,6 +188,6 @@ export default {
   font-weight: bold;
 }
 .table {
-  background-color: #0008C1;
+  background-color: #0008c1;
 }
 </style>

@@ -184,8 +184,8 @@ export default {
       const res = await api.get("/checkRoles/" + this.getId());
       if (!res.data.user.roles.includes("LOCAL_ADMIN")) {
         router.push("/admintable").then(() => {
-        window.scrollTo(0, 0);
-      });
+          window.scrollTo(0, 0);
+        });
       } else {
         this.getBestseller();
         this.getTotalSold();
@@ -199,36 +199,63 @@ export default {
       transports: ["websocket", "polling"],
     });
     this.socket.on("new-user", () => {
-      this.getUser();
+      if (this.isLogin) {
+        this.getUser();
+      }
     });
     this.socket.on("add-new", () => {
-      this.getUser();
+      if (this.isLogin) {
+        this.getUser();
+      }
     });
     this.socket.on("delete-user", () => {
-      this.getUser();
+      if (this.isLogin) {
+        this.getUser();
+      }
+    });
+    this.socket.on("new-request-book", () => {
+      if (this.isLogin) {
+        this.getRequest();
+      }
     });
     this.socket.on("new-receipt", () => {
-      this.getRequest();
+      if (this.isLogin) {
+        this.getRequest();
+      }
     });
     this.socket.on("new-request", () => {
-      this.getRequest();
+      if (this.isLogin) {
+        this.getRequest();
+      }
     });
     this.socket.on("product-sell", () => {
-      this.getTotalSold();
+      if (this.isLogin) {
+        this.getTotalSold();
+      }
     });
     this.socket.on("update-book-edit", () => {
-      this.getTotalSold();
+      if (this.isLogin) {
+        this.getTotalSold();
+        this.getBestseller();
+      }
     });
     this.socket.on("update-book-delete", () => {
-      this.getBestseller();
-      this.getTotalSold();
+      if (this.isLogin) {
+        this.getBestseller();
+        this.getTotalSold();
+      }
     });
     this.socket.on("upload-image-book", () => {
-      this.getBestseller();
+      if (this.isLogin) {
+        this.getTotalSold();
+        this.getBestseller();
+      }
     });
     this.socket.on("upload-pdf-book", () => {
-      this.getBestseller();
-      this.getTotalSold();
+      if (this.isLogin) {
+        this.getBestseller();
+        this.getTotalSold();
+      }
     });
   },
 };
@@ -236,14 +263,14 @@ export default {
 <style scoped>
 .btn-color {
   color: #fff;
-  background-color: #0008C1;
+  background-color: #0008c1;
 }
 .cardHover:hover {
-  border: 1px solid #0008C1;
+  border: 1px solid #0008c1;
   cursor: pointer;
 }
 .bg-color {
   color: #ffff;
-  background-color: #0008C1;
+  background-color: #0008c1;
 }
 </style>

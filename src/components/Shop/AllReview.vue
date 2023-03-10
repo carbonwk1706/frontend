@@ -287,7 +287,7 @@ export default {
 .text-show-all {
   font-size: 16px;
   line-height: 1.5;
-  color: #39b449;
+  color: #2F58CD;
   margin-bottom: 10px;
   cursor: pointer;
 }

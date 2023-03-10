@@ -222,7 +222,7 @@ export default {
         ) {
           this.$swal({
             scrollbarPadding: false,
-            confirmButtonColor: "#00af70",
+            confirmButtonColor: "#2F58CD",
             allowOutsideClick: false,
             width: "500",
             text: "คุณมีหนังสือนี้ในตะกร้าแล้ว",
@@ -236,7 +236,7 @@ export default {
       } else {
         this.$swal({
           scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
+          confirmButtonColor: "#2F58CD",
           allowOutsideClick: false,
           width: "500",
           text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
@@ -349,6 +349,12 @@ export default {
         this.getMyBook();
       }
     });
+    this.socket.on("requestbook-approved", () => {
+      this.fetchApi();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
   },
 };
 </script>
@@ -359,13 +365,13 @@ export default {
 }
 .btn-color {
   color: #fff;
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 .v-btn.success:hover {
   background-color: gray !important;
 }
 .cardHover:hover {
-  border: 1px solid #00af70;
+  border: 1px solid #2F58CD;
   cursor: pointer;
 }
 .text-noBook {
@@ -379,7 +385,7 @@ export default {
 }
 .btn-bg1 {
   color: #fff;
-  background-color: #00af70;
+  background-color: #2F58CD;
   border-radius: 40px;
   font-size: 16px;
 }

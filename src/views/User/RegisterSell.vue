@@ -749,7 +749,7 @@ export default {
         window.scrollTo(0, 0);
       });
               this.$swal({
-                confirmButtonColor: "#00af70",
+                confirmButtonColor: "#2F58CD",
                 allowOutsideClick: false,
                 width: "500",
                 text: "บันทึกข้อมูลสำเร็จ",
@@ -783,7 +783,7 @@ export default {
     showAlert(text) {
       this.$swal({
         scrollbarPadding: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         allowOutsideClick: false,
         width: "500",
         text: text,
@@ -853,11 +853,11 @@ export default {
 }
 .btn-agree {
   border-radius: 20px;
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 .btn-back {
   border-radius: 20px;
-  color: #00af70;
+  color: #2F58CD;
 }
 .img-size {
   width: 100px;

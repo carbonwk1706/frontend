@@ -339,11 +339,6 @@ const routes = [
     component: () => import("../views/UserSell/BookUserSell/BookQueue.vue"),
   },
   {
-    path: "/bookusersell",
-    name: "bookusersell",
-    component: () => import("../views/UserSell/Homesell.vue"),
-  },
-  {
     path: "/booktable",
     name: "booktable",
     component: () => import("../views/UserSell/BookUserSell/BookTable.vue"),
@@ -358,12 +353,65 @@ const routes = [
       hideFooterCoin: true,
       hideNavbar: true,
       hideNavbarCoin: true,
+      hideSidebar: true,
     },
   },
   {
     path: "/allreview",
     name: "allreview",
     component: () => import("../components/Shop/AllReview.vue"),
+  },
+  {
+    path: "/historyrequestbook/:id",
+    name: "historyrequestbook",
+    component: () => import("../views/UserSell/BookUserSell/RequestBookDetail"),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true,
+      hideSidebar: true,
+    },
+  },
+  {
+    path: "/detailbookusersell/:id",
+    name: "detailbookusersell",
+    component: () => import("../views/UserSell/BookUserSell/DetailBookUserSell.vue"),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true,
+      hideSidebar: true,
+    },
+  },
+  {
+    path: "/detailrequestbook/:id",
+    name: "detailrequestbook",
+    component: () => import("../views/Admin/DetailRequestBook.vue"),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true,
+    },
+  },
+  {
+    path: "/historybookusercrud",
+    name: "historybookusercrud",
+    component: () => import("../views/UserSell/BookUserSell/BookHistory.vue"),
+  },
+  {
+    path: "/detailbookusercrud/:id",
+    name: "detailbookusercrud",
+    component: () => import("../views/UserSell/BookUserSell/DetailBookCRUD.vue"),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true,
+      hideSidebar: true,
+    },
   },
 ];
 

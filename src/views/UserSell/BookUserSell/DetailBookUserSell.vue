@@ -59,27 +59,27 @@ export default {
       this.books = res.data
     },
     getId() {
-      return this.$store.getters["authAdmin/getId"];
+      return this.$store.getters["auth/getId"];
     },
   },
   computed: {
     isLogin() {
-      return this.$store.getters["authAdmin/isLogin"];
+      return this.$store.getters["auth/isLogin"];
     },
   },
   async mounted() {
     if (!this.isLogin) {
-      router.push("/login").then(() => {
+      router.push("/").then(() => {
         window.scrollTo(0, 0);
       });
-    } else if(this.isLogin){
+    } else if (this.isLogin) {
       const res = await api.get("/checkRoles/" + this.getId());
-      if(!res.data.user.roles.includes("LOCAL_ADMIN")){
-        router.push("/login").then(() => {
-        window.scrollTo(0, 0);
-      });
+      if (!res.data.user.roles.includes("SELL")) {
+        router.push("/").then(() => {
+          window.scrollTo(0, 0);
+        });
       }else{
-        this.fetchApi();
+        this.fetchApi()
       }
     }
   },
@@ -92,22 +92,27 @@ export default {
         this.fetchApi();
       }
     });
-    this.socket.on("update-book-edit", (data) => {
+    this.socket.on("update-book-edit", () => {
       if(this.isLogin){
-        if(data.book._id === this.$route.params.id){
-          this.fetchApi()
-        }
+        this.fetchApi();
       }
     });
     this.socket.on("update-book-delete", (data) => {
-      if(this.isLogin){
-        if(data.bookDeleted.bookId === this.$route.params.id){
-          router.push("/bookadmin");
-      }
+      if (data.bookDeleted.bookId === this.$route.params.id) {
+        router.push("/booktable");
       }
     });
   },
 };
 </script>
 <style scoped>
+.menu-link {
+  color: #5a5a5a;
+  font-size: 14px;
+  cursor: pointer;
+}
+.menu-link-current {
+  color: #5a5a5a;
+  font-size: 14px;
+}
 </style>

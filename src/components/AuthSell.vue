@@ -63,7 +63,7 @@ export default {
   align-items: center;
 }
 .btn-bg {
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 .img-size{
   width: 100px;

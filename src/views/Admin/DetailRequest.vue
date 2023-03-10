@@ -223,14 +223,5 @@ export default {
   background-color: #f6f6f6;
 }
 
-.preview-image {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  object-fit: contain;
-  cursor: pointer;
-}
+
 </style>

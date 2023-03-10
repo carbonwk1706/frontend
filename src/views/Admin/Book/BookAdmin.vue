@@ -49,7 +49,7 @@
           )"
           :key="index"
         >
-          <td class="mt-2">{{ formatTime(item.createAt) }}</td>
+          <td class="mt-2">{{ formatTime(item.createdAt) }}</td>
           <td class="ellipsis-one-line mt-2">
             <span>{{ item.name }}</span>
           </td>
@@ -58,7 +58,7 @@
           <td class="mt-2">{{ item.category }}</td>
           <td class="mt-2">{{ item.price }} บาท</td>
           <td class="mt-2">{{ item.sold }} เล่ม</td>
-          <td class="mt-2">{{ item.rating }} เรตติ้ง</td>
+          <td class="mt-2">{{ item.rating }}</td>
           <td class="text-xs-center mt-2">
             <v-avatar rounded="0" size="70">
               <v-img :src="item.imageBook" />
@@ -266,19 +266,34 @@ export default {
       transports: ["websocket", "polling"],
     });
     this.socket.on("product-sell", () => {
-      this.fetchApi();
+      if (this.isLogin) {
+        this.fetchApi();
+      }
     });
     this.socket.on("update-book-edit", () => {
-      this.fetchApi();
+      if (this.isLogin) {
+        this.fetchApi();
+      }
     });
     this.socket.on("update-book-delete", () => {
-      this.fetchApi();
+      if (this.isLogin) {
+        this.fetchApi();
+      }
     });
     this.socket.on("upload-image-book", () => {
-      this.fetchApi();
+      if (this.isLogin) {
+        this.fetchApi();
+      }
     });
     this.socket.on("upload-pdf-book", () => {
-      this.fetchApi();
+      if (this.isLogin) {
+        this.fetchApi();
+      }
+    });
+    this.socket.on("requestbook-approved", () => {
+      if (this.isLogin) {
+        this.fetchApi();
+      }
     });
   },
 };

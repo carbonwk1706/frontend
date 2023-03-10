@@ -14,7 +14,7 @@
       v-if="isRootRoute"
       hide-delimiter-background
       :show-arrows="false"
-      color="success"
+      color="#2F58CD"
       style="height: 300"
     >
       <v-carousel-item v-for="(item, i) in items" :key="i">
@@ -106,7 +106,7 @@ export default {
       this.$swal({
         scrollbarPadding: false,
         allowOutsideClick: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         text: "Token ของคุณหมดอายุโปรดเข้าสู่ระบบอีกครั้ง",
         icon: "warning",
         confirmButtonText: "OK",
@@ -153,6 +153,8 @@ export default {
             "/newbookadmin",
             "/userhistoryadmin",
             "/historybookcrud",
+            "/newbook",
+            "/historybookusercrud"
           ].includes(this.$route.path);
         } else {
           return ![
@@ -173,10 +175,11 @@ export default {
             "/newbookadmin",
             "/userhistoryadmin",
             "/historybookcrud",
-            "/bookusersell",
             "/booktable",
             "/bookqueue",
             "/payment",
+            "/newbook",
+            "/historybookusercrud"
           ].includes(this.$route.path);
         }
       }
@@ -211,6 +214,8 @@ export default {
             "/userhistoryadmin",
             "/historybookcrud",
             "/allreview",
+            "/newbook",
+            "/historybookusercrud"
           ].includes(this.$route.path);
         } else {
           return ![
@@ -230,11 +235,12 @@ export default {
             "/newbookadmin",
             "/userhistoryadmin",
             "/historybookcrud",
-            "/bookusersell",
             "/booktable",
             "/bookqueue",
             "/payment",
             "/allreview",
+            "/newbook",
+            "/historybookusercrud"
           ].includes(this.$route.path);
         }
       }
@@ -261,16 +267,17 @@ export default {
       }
     },
     showSidebarsell() {
-      // const currenRoute = this.$route;
-      // if (currenRoute.meta.hideNavbar && !currenRoute.meta.hideSidebar) {
-      //   return true;
-      // }
+      const currenRoute = this.$route;
+      if (currenRoute.meta.hideSidebar) {
+        return true;
+      }
       {
         return [
-          "/bookusersell",
           "/booktable",
           "/bookqueue",
           "/payment",
+          "/newbook",
+          "/historybookusercrud"
         ].includes(this.$route.path);
       }
     },
@@ -283,9 +290,7 @@ export default {
       ].includes(this.$route.path);
     },
     routerLogin() {
-      return [
-        "/login",
-      ].includes(this.$route.path);
+      return ["/login"].includes(this.$route.path);
     },
     showFooterCoin() {
       return [
