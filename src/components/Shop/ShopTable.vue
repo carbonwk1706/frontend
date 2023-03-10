@@ -1261,6 +1261,13 @@ export default {
         this.getMyBook();
       }
     });
+    this.socket.on("requestbook-approved", () => {
+      this.getNewEntry();
+      this.getNewEntry7D();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
   },
 };
 </script>
