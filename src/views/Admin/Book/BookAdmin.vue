@@ -266,22 +266,34 @@ export default {
       transports: ["websocket", "polling"],
     });
     this.socket.on("product-sell", () => {
-      this.fetchApi();
+      if (this.isLogin) {
+        this.fetchApi();
+      }
     });
     this.socket.on("update-book-edit", () => {
-      this.fetchApi();
+      if (this.isLogin) {
+        this.fetchApi();
+      }
     });
     this.socket.on("update-book-delete", () => {
-      this.fetchApi();
+      if (this.isLogin) {
+        this.fetchApi();
+      }
     });
     this.socket.on("upload-image-book", () => {
-      this.fetchApi();
+      if (this.isLogin) {
+        this.fetchApi();
+      }
     });
     this.socket.on("upload-pdf-book", () => {
-      this.fetchApi();
+      if (this.isLogin) {
+        this.fetchApi();
+      }
     });
     this.socket.on("requestbook-approved", () => {
-      this.fetchApi();
+      if (this.isLogin) {
+        this.fetchApi();
+      }
     });
   },
 };

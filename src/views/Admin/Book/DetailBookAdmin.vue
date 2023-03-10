@@ -88,25 +88,26 @@ export default {
       transports: ["websocket", "polling"],
     });
     this.socket.on("product-sell", () => {
-      this.fetchApi();
+      if(this.isLogin){
+        this.fetchApi();
+      }
     });
-    this.socket.on("update-book-edit", () => {
-      this.fetchApi();
+    this.socket.on("update-book-edit", (data) => {
+      if(this.isLogin){
+        if(data.book._id === this.$route.params.id){
+          this.fetchApi()
+        }
+      }
     });
-    this.socket.on("update-book-delete", () => {
-      this.fetchApi();
+    this.socket.on("update-book-delete", (data) => {
+      if(this.isLogin){
+        if(data.bookDeleted.bookId === this.$route.params.id){
+          router.push("/bookadmin");
+      }
+      }
     });
   },
 };
 </script>
 <style scoped>
-.menu-link {
-  color: #5a5a5a;
-  font-size: 14px;
-  cursor: pointer;
-}
-.menu-link-current {
-  color: #5a5a5a;
-  font-size: 14px;
-}
 </style>

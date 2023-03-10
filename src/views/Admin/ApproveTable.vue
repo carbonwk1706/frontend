@@ -153,7 +153,7 @@ export default {
       showCancelDialog: false,
       request: [],
       select: "คำร้องทั้งหมด",
-      selectItem: ["คำร้องทั้งหมด", "คำร้องขอขายอีบุ๊ค", "คำร้องขอเติม Coin"],
+      selectItem: ["คำร้องทั้งหมด", "คำร้องขอขายอีบุ๊ค", "คำร้องขอเติม Coin","คำร้องขอขายหนังสือ"],
       page: 1,
       itemsPerPage: 10,
       socket: null,
@@ -176,6 +176,11 @@ export default {
       });
       } else if (item.request === "คำร้องขอเพิ่ม Coin") {
         router.push(`/requestcoin/${item._id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
+      }
+      else if (item.request === "คำร้องขอขายหนังสือ") {
+        router.push(`/detailrequestbook/${item._id}`).then(() => {
         window.scrollTo(0, 0);
       });
       }
@@ -210,6 +215,18 @@ export default {
         this.showConfirmDialog = false;
         this.fetchApi();
       }
+      else if (item.request === "คำร้องขอขายหนังสือ") {
+        try {
+          await api.patch(`/requestbook/${item._id}/approve`, {
+            adminId: this.getId(),
+          });
+          this.showAlert();
+        } catch (error) {
+          console.log(error);
+        }
+        this.showConfirmDialog = false;
+        this.fetchApi();
+      }
     },
     async rejectsRequest(item) {
       if (item.request === "คำร้องขอสมัครขายอีบุ๊ค") {
@@ -226,6 +243,18 @@ export default {
       } else if (item.request === "คำร้องขอเพิ่ม Coin") {
         try {
           await api.patch(`/requestcoin/${item._id}/reject`, {
+            adminId: this.getId(),
+          });
+          this.showAlert();
+        } catch (error) {
+          console.log(error);
+        }
+        this.showCancelDialog = false;
+        this.fetchApi();
+      }
+      else if (item.request === "คำร้องขอขายหนังสือ") {
+        try {
+          await api.patch(`/requestbook/${item._id}/reject`, {
             adminId: this.getId(),
           });
           this.showAlert();
@@ -256,6 +285,14 @@ export default {
       try {
         const res = await api.get("/requestcoin");
         this.request = res.data.receipt;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getRequestBook() {
+      try {
+        const res = await api.get("/requestbook");
+        this.request = res.data.requests;
       } catch (error) {
         console.log(error);
       }
@@ -301,6 +338,9 @@ export default {
         } else if (newValue === "คำร้องขอเติม Coin") {
           this.getReceipts();
         }
+        else if (newValue === "คำร้องขอขายหนังสือ") {
+          this.getRequestBook();
+        }
       }
     },
   },
@@ -325,10 +365,20 @@ export default {
       transports: ["websocket", "polling"],
     });
     this.socket.on("new-receipt", () => {
-      this.fetchApi();
+      if(this.isLogin){
+        this.fetchApi();
+      }
     });
     this.socket.on("new-request", () => {
-      this.fetchApi();
+      if(this.isLogin){
+        this.fetchApi();
+      }
+    });
+
+    this.socket.on("new-request-book", () => {
+      if(this.isLogin){
+        this.fetchApi();
+      }
     });
   },
 };
@@ -353,6 +403,6 @@ export default {
   background-color: #0008C1;
 }
 .select-width {
-  width: 200px;
+  width: 210px;
 }
 </style>

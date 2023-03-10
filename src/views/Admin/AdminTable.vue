@@ -204,24 +204,25 @@ export default {
       transports: ["websocket", "polling"],
     });
     this.socket.on("add-new", () => {
-      this.fetchApi();
+      if(this.isLogin){
+        this.fetchApi();
+      }
     });
     this.socket.on("update-user", () => {
-      this.fetchApi();
+      if(this.isLogin){
+        this.fetchApi();
+      }
     });
     this.socket.on("delete-user", () => {
-      this.fetchApi();
+      if(this.isLogin){
+        this.fetchApi();
+      }
     });
   },
 };
 </script>
 
 <style scoped>
-.left {
-  display: flex;
-  justify-content: left;
-  align-items: center;
-}
 
 .table {
   background-color: #0008C1;

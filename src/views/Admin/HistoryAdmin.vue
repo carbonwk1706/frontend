@@ -95,7 +95,7 @@ export default {
     return {
       request: [],
       select: "รายการทั้งหมด",
-      selectItem: ["รายการทั้งหมด", "รายการขอขายอีบุ๊ค", "รายการขอเติม Coin"],
+      selectItem: ["รายการทั้งหมด", "คำร้องขอสมัครขายอีบุ๊ค", "คำร้องขอเติม Coin","คำร้องขอขายหนังสือ"],
       page: 1,
       itemsPerPage: 10,
     };
@@ -103,13 +103,17 @@ export default {
   methods: {
     showDetail(item) 
     {
-      console.log(item.request)
       if(item.request === "คำร้องขอสมัครขายอีบุ๊ค"){
         router.push(`/request/${item._id}`).then(() => {
         window.scrollTo(0, 0);
       });
       }else if(item.request === "คำร้องขอเพิ่ม Coin"){
         router.push(`/requestcoin/${item._id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
+      }
+      else if (item.request === "คำร้องขอขายหนังสือ") {
+        router.push(`/detailrequestbook/${item._id}`).then(() => {
         window.scrollTo(0, 0);
       });
       }
@@ -123,6 +127,11 @@ export default {
     getHistoryRequest() {
       api.get("/history/request/" + this.getId()).then((result) => {
         this.request = result.data.processedRequests;
+      });
+    },
+    getHistoryRequestBook() {
+      api.get("/history/requestbook/" + this.getId()).then((result) => {
+        this.request = result.data.processedRequestsBook;
       });
     },
     getHistoryReceipts() {
@@ -149,10 +158,13 @@ export default {
       if (newValue) {
         if (newValue === "รายการทั้งหมด") {
           this.fetchApi();
-        } else if (newValue === "รายการขอขายอีบุ๊ค") {
+        } else if (newValue === "คำร้องขอสมัครขายอีบุ๊ค") {
           this.getHistoryRequest();
-        } else if (newValue === "รายการขอเติม Coin") {
+        } else if (newValue === "คำร้องขอเติม Coin") {
           this.getHistoryReceipts();
+        }
+        else if (newValue === "คำร้องขอขายหนังสือ") {
+          this.getHistoryRequestBook()
         }
       }
     },
@@ -180,7 +192,7 @@ export default {
   color: #ffff;
 }
 .select-width {
-  width: 200px;
+  width: 220px;
 }
 .text-noRequest {
   font-size: 18px;

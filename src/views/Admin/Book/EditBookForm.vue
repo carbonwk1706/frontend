@@ -67,6 +67,7 @@
           prepend-inner-icon="mdi-cash-multiple"
           variant="outlined"
           required
+          disabled
           type="number"
           placeholder="ราคา"
         ></v-text-field>
@@ -447,23 +448,6 @@ export default {
 };
 </script>
 <style scoped>
-.text-center {
-  display: flex;
-  justify-content: center;
-}
-
-.btn-agree {
-  color: #ffff;
-  background-color: #00af70;
-}
-.btn-cancel {
-  color: #ffff;
-  background-color: #b00020;
-}
-.text-center {
-  display: flex;
-  justify-content: center;
-}
 .btn-color {
   color: #ffff;
   background-color: #00af70;

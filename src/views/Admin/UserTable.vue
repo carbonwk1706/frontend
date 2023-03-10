@@ -217,16 +217,24 @@ export default {
       transports: ["websocket", "polling"],
     });
     this.socket.on("new-user", () => {
-      this.fetchApi();
+      if(this.isLogin){
+        this.fetchApi();
+      }
     });
     this.socket.on("add-new", () => {
-      this.fetchApi();
+      if(this.isLogin){
+        this.fetchApi();
+      }
     });
     this.socket.on("update-user", () => {
-      this.fetchApi();
+      if(this.isLogin){
+        this.fetchApi();
+      }
     });
     this.socket.on("delete-user", () => {
-      this.fetchApi();
+      if(this.isLogin){
+        this.fetchApi();
+      }
     });
   },
 };
@@ -244,11 +252,6 @@ export default {
 .btn-edit {
   color: #ffff;
   background-color: #00af70;
-}
-.left {
-  display: flex;
-  justify-content: left;
-  align-items: center;
 }
 
 .table {
