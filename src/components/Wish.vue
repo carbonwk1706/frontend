@@ -229,7 +229,7 @@ export default {
         ) {
           this.$swal({
             scrollbarPadding: false,
-            confirmButtonColor: "#00af70",
+            confirmButtonColor: "#2F58CD",
             allowOutsideClick: false,
             width: "500",
             text: "คุณมีหนังสือนี้ในตะกร้าแล้ว",
@@ -328,10 +328,10 @@ export default {
 <style scoped>
 .btn-color {
   color: #fff;
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 .cardHover:hover {
-  border: 1px solid #00af70;
+  border: 1px solid #2F58CD;
   cursor: pointer;
 }
 .text-noWish {
@@ -365,7 +365,7 @@ export default {
 }
 .btn-bg1 {
   color: #fff;
-  background-color: #00af70;
+  background-color: #2F58CD;
   border-radius: 40px;
   font-size: 16px;
 }

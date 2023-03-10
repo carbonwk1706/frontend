@@ -109,7 +109,7 @@ export default {
     showWarning(text) {
       this.$swal({
         scrollbarPadding: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         allowOutsideClick: false,
         width: "500",
         text: text,
@@ -202,7 +202,7 @@ export default {
 }
 .choose-book {
   font-size: 14px;
-  color: #00bf6c;
+  color: #2F58CD;
   cursor: pointer;
 }
 .text-price {
@@ -218,6 +218,6 @@ export default {
 }
 .btn-bg {
   color: white;
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 </style>

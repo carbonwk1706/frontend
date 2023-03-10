@@ -373,7 +373,7 @@ export default {
     showAlert(text) {
       this.$swal({
         scrollbarPadding: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         allowOutsideClick: false,
         width: "500",
         text: text,
@@ -399,7 +399,7 @@ export default {
 <style scoped>
 .btn-color {
   color: #ffff;
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 .center-loading {
   display: flex;
@@ -417,10 +417,10 @@ export default {
 }
 .btn-agree {
   border-radius: 10px;
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 .font-color {
-  color: #00af70;
+  color: #2F58CD;
   font-size: 16px;
 }
 </style>

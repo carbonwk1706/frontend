@@ -90,7 +90,7 @@
                 <div class="text-center">
                   <v-rating
                     v-model="rating"
-                    color="#00bf6c"
+                    color="#2F58CD"
                     active-color="#e83e8c"
                     empty-icon="mdi-heart-outline"
                     full-icon="mdi-cards-heart"
@@ -286,7 +286,7 @@ export default {
     alertWarning(text) {
       this.$swal({
         scrollbarPadding: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         allowOutsideClick: false,
         width: "500",
         text: text,
@@ -297,7 +297,7 @@ export default {
     alertSuccess(text) {
       this.$swal({
         scrollbarPadding: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         allowOutsideClick: false,
         width: "500",
         text: text,
@@ -322,7 +322,7 @@ export default {
       } else {
         this.$swal({
           scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
+          confirmButtonColor: "#2F58CD",
           allowOutsideClick: false,
           width: "500",
           text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้าตะกร้าด้วยจ้า",
@@ -357,7 +357,7 @@ export default {
       } else {
         this.$swal({
           scrollbarPadding: false,
-          confirmButtonColor: "#00af70",
+          confirmButtonColor: "#2F58CD",
           allowOutsideClick: false,
           width: "500",
           text: "กรุณาเข้าสู่ระบบก่อนนำหนังสือเข้ารายการโปรดด้วยจ้า",
@@ -468,7 +468,7 @@ export default {
       this.allRating = res.data;
     },
     formatTime(item) {
-      return moment(item).format("MM/DD/YYYY, h:mm:ss a");
+      return moment(item).format("DD/MM/YYYY, HH:mm:ss");
     },
   },
   computed: {
@@ -576,7 +576,7 @@ export default {
   cursor: pointer;
 }
 .text-login-2:hover {
-  color: #00af70;
+  color: #2F58CD;
   cursor: pointer;
 }
 .container-border {
@@ -598,7 +598,7 @@ export default {
 }
 .btn-color {
   color: #fff;
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 .herdName {
   display: flex;
@@ -623,7 +623,7 @@ export default {
 }
 .btn-bg1 {
   color: #fff;
-  background-color: #00af70;
+  background-color: #2F58CD;
   border-radius: 40px;
   font-size: 16px;
 }

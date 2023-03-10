@@ -95,7 +95,7 @@ export default {
       });
     },
     formatTime(item) {
-      return moment(item).format("MM/DD/YYYY, h:mm:ss a");
+      return moment(item).format("DD/MM/YYYY, HH:mm:ss");
     },
     async fetchApi() {
       const res = await api.get("/receipt/" + this.getId());

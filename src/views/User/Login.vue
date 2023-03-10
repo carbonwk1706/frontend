@@ -157,7 +157,7 @@ export default {
     alertLogin() {
       this.$swal({
         scrollbarPadding: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         allowOutsideClick: false,
         width: "500",
         text: "Username หรือ Password ไม่ถูกต้อง ! ",
@@ -168,7 +168,7 @@ export default {
     showAlert(text) {
       this.$swal({
         scrollbarPadding: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         allowOutsideClick: false,
         width: "500",
         text: text,
@@ -214,13 +214,13 @@ export default {
 <style scoped>
 
 .btn-color {
-  color: #00af70;
-  border: 1px solid #00af70;
+  color: #2F58CD;
+  border: 1px solid #2F58CD;
   box-shadow: none;
 }
 .btn-color:hover {
   color: #ffff;
-  background-color: #00af70;
+  background-color: #2F58CD;
   box-shadow: none;
 }
 .center-loading {

@@ -227,7 +227,7 @@ export default {
     showAlert(text) {
       this.$swal({
         scrollbarPadding: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         allowOutsideClick: false,
         width: "500",
         text: text,
@@ -242,7 +242,7 @@ export default {
     alertError(text) {
       this.$swal({
         scrollbarPadding: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         allowOutsideClick: false,
         width: "500",
         text: text,
@@ -275,7 +275,7 @@ export default {
 <style scoped>
 .btn-color {
   color: #ffff;
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 .center-loading {
   display: flex;
@@ -292,6 +292,6 @@ export default {
   font-size: 18px;
 }
 .btn-bg {
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 </style>

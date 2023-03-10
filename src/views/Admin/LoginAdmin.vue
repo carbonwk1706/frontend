@@ -1,9 +1,16 @@
 <template>
   <NoAuth>
-    <v-container fluid>
-      <v-row justify="center" class="bg-blue">
-        <v-col cols="6" class=" bg-image"></v-col>
-        <v-col cols="6" >
+    <v-container
+      fluid
+      style="
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        height: 100vh;
+      "
+    >
+      <v-row class="justify-center align-center">
+        <v-col cols="4" sm="8" md="6">
           <v-card class="mx-auto">
             <v-container>
               <v-toolbar class="bg-color">
@@ -18,8 +25,8 @@
                   class="mt-3"
                 />
                 <v-text-field
-                :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
-                @click:append-inner="visible = !visible"
+                  :append-inner-icon="visible ? 'mdi-eye-off' : 'mdi-eye'"
+                  @click:append-inner="visible = !visible"
                   label="Password"
                   prepend-inner-icon="mdi-lock-outline"
                   variant="outlined"
@@ -121,12 +128,12 @@ export default {
                 this.hideLogin();
                 if (checkRole === "LOCAL_ADMIN") {
                   router.push("/admin").then(() => {
-        window.scrollTo(0, 0);
-      });
+                    window.scrollTo(0, 0);
+                  });
                 } else if (checkRole === "ADMIN") {
                   router.push("/admintable").then(() => {
-        window.scrollTo(0, 0);
-      });
+                    window.scrollTo(0, 0);
+                  });
                 }
               }, 2000);
             } else {
@@ -192,18 +199,18 @@ export default {
   align-items: center;
 }
 .btn-color {
-  color: #0008C1;
-  border: 1px solid #0008C1;
-  box-shadow: none; 
+  color: #0008c1;
+  border: 1px solid #0008c1;
+  box-shadow: none;
 }
 .btn-color:hover {
   color: #ffff;
-  background-color: #0008C1;
+  background-color: #0008c1;
   box-shadow: none;
 }
 .bg-color {
   color: #ffff;
-  background-color: #0008C1;
+  background-color: #0008c1;
 }
 .bg-image {
   background-image: url(https://wallpaperaccess.com/full/537653.jpg);

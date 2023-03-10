@@ -313,7 +313,7 @@ export default {
         this.$swal({
           scrollbarPadding: false,
           width: "500",
-          confirmButtonColor: "#00af70",
+          confirmButtonColor: "#2F58CD",
           text: "กรุณาอัพโหลดรูปภาพ",
           icon: "error",
           button: "OK",
@@ -328,7 +328,7 @@ export default {
     showAlert() {
       this.$swal({
         scrollbarPadding: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         customClass: "show-modal",
         text: "เปลี่ยนรูปโปรไฟล์สำเร็จ",
         icon: "success",
@@ -363,12 +363,12 @@ export default {
 <style scoped>
 .btn-color {
   color: #00af70;
-  border: 1px solid #00af70;
+  border: 1px solid #2F58CD;
   box-shadow: none;
 }
 .btn-color:hover {
   color: #ffff;
-  background-color: #00af70;
+  background-color: #2F58CD;
   box-shadow: none;
 }
 .font-size-content {
@@ -381,11 +381,11 @@ export default {
   font-size: 2.5rem;
 }
 .cardHover:hover {
-  border: 1px solid #00af70;
+  border: 1px solid #2F58CD;
   cursor: pointer;
 }
 .text-color {
-  color: #00af70;
+  color: #2F58CD;
   font-family: Prompt, sans-serif;
 }
 .div-border {
@@ -409,6 +409,6 @@ export default {
   align-items: center;
 }
 .btn-bg {
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 </style>

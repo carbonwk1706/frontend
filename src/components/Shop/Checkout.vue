@@ -109,7 +109,7 @@ export default {
     alertSuccess() {
       this.$swal({
         scrollbarPadding: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         allowOutsideClick: false,
         width: "500",
         text: "ซื้อสินค้าสำเร็จ",
@@ -120,7 +120,7 @@ export default {
     alertWarning() {
       this.$swal({
         scrollbarPadding: false,
-        confirmButtonColor: "#00af70",
+        confirmButtonColor: "#2F58CD",
         cancelButtonColor: "#999999",
         showCancelButton: true,
         allowOutsideClick: false,
@@ -178,7 +178,7 @@ export default {
 }
 .btn-bg {
   color: white;
-  background-color: #00af70;
+  background-color: #2F58CD;
 }
 .back-cart {
   font-size: 14px;
