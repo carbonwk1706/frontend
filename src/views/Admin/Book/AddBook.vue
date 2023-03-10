@@ -346,10 +346,6 @@ export default {
 };
 </script>
 <style scoped>
-.text-center {
-  display: flex;
-  justify-content: center;
-}
 .btn-color {
   color: #ffff;
   background-color: #00af70;

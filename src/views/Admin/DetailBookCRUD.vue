@@ -302,11 +302,15 @@ export default {
   },
   async mounted() {
     if (!this.isLogin) {
-      router.push("/login");
+      router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
     } else if(this.isLogin){
       const res = await api.get("/checkRoles/" + this.getId());
       if(!res.data.user.roles.includes("LOCAL_ADMIN")){
-        router.push("/login")
+        router.push("/login").then(() => {
+        window.scrollTo(0, 0);
+      });
       }else{
         this.fetchApi();
       }
@@ -319,14 +323,5 @@ export default {
   background-color: #f6f6f6;
 }
 
-.preview-image {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.8);
-  object-fit: contain;
-  cursor: pointer;
-}
+
 </style>

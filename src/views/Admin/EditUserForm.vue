@@ -74,7 +74,6 @@
                   />
                 </v-col>
               </v-row>
-              <v-divider></v-divider>
               <v-card-actions class="d-flex justify-center">
                 <v-btn
                   type="submit"
@@ -355,20 +354,10 @@ export default {
   color: #ffff;
   background-color: #b00020;
 }
-.headerName {
-  display: flex;
-  justify-content: center;
-  margin-bottom: 30px;
-  font-size: 36px;
-  font-weight: bold;
-}
+
 .text-center {
   display: flex;
   justify-content: center;
 }
-.description {
-  font-size: 20px;
-  font-weight: 500;
-  margin-bottom: 30px;
-}
+
 </style>
