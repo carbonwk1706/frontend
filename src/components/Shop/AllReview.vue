@@ -6,7 +6,7 @@
       </v-col>
     </v-row>
     <v-divider class="mb-6"></v-divider>
-    <div v-if="screenWidth > 500">
+    <div v-if="screenWidth > 835">
       <v-row class="mb-1">
         <v-col
           cols="12"
@@ -25,7 +25,7 @@
                     <v-row class="ma-2">
                       <v-col v-if="item.comment" cols="12">
                         <p class="review-comment">{{ item.comment }}</p>
-                        <p class="text-show-all" @click="hidereview(review)">
+                        <p class="text-show-all" @click="hidereview(item)">
                           แสดงทั้งหมด
                         </p>
                       </v-col>
@@ -66,7 +66,6 @@
                       <v-col cols="12">
                         <p
                           style="font-size: 16px; font-weight: bold"
-                          class="review-comment"
                         >
                           {{ item.book.name }}
                         </p>
@@ -97,84 +96,83 @@
       ></v-pagination>
     </div>
     <div v-else>
-      <v-row class="mb-1">
-        <v-col
-          cols="12"
-          v-for="(item, index) in reviews.slice(
-            (page - 1) * itemsPerPage,
-            page * itemsPerPage
-          )"
-          :key="index"
-          class="mb-5"
+      <v-col
+        v-for="(item, index) in reviews"
+        :key="index"
+        class="d-flex justify-center mb-5"
+      >
+        <v-card
+          class="mx-auto bg-review-card pa-3"
+          max-width="340"
+          height="360"
         >
-          <v-card class="mx-auto bg-card pa-3" max-width="340" height="360">
-            <div>
-              <v-card max-width="320" height="200">
-                <v-row class="ma-2">
-                  <v-col cols="12">
-                    <p class="review-comment">{{ item.comment }}</p>
-                    <p class="text-show-all" @click="hidereview(review)">
-                      แสดงทั้งหมด
-                    </p>
-                  </v-col>
-                  <v-card-subtitle class="subtitle-2 text-uppercase"
-                    >รีวิวจาก
-                  </v-card-subtitle>
-                  <v-col cols="12">
-                    <p>{{ item.user.name }}</p>
-                    <div style="font-size: 10px">
-                      <v-rating
-                        v-model="item.rating"
-                        color="#5a5a5a"
-                        active-color="#e83e8c"
-                        empty-icon="mdi-cards-heart"
-                        full-icon="mdi-cards-heart"
-                        readonly
-                        hover
-                        size="16"
-                      />
-                    </div>
-                  </v-col>
-                </v-row>
-              </v-card>
-            </div>
-            <v-container>
-              <v-row>
-                <v-col cols="3">
-                  <v-img
-                    :src="item.book.imageBook"
-                    max-width="60"
-                    height="90"
-                    cover
-                  ></v-img>
+          <div>
+            <v-card max-width="320" height="200">
+              <v-row class="ma-2">
+                <v-col v-if="item.comment" cols="12">
+                  <p class="review-comment">{{ item.comment }}</p>
+                  <p class="text-show-all" @click="hidereview(item)">
+                    แสดงทั้งหมด
+                  </p>
                 </v-col>
-                <v-col cols="7">
-                  <v-row>
-                    <v-col cols="12">
-                      <p
-                        style="font-size: 16px; font-weight: bold"
-                        class="review-comment"
-                      >
-                        {{ item.book.name }}
-                      </p>
-                      <p style="font-size: 12px">
-                        Author: {{ item.book.author }}
-                      </p>
-                      <p style="font-size: 12px">
-                        Category: {{ book.category }}
-                      </p>
-                      <p style="font-size: 12px; color: red">
-                        {{ item.book.rating }} คะแนน จาก
-                        {{ item.book.ratingsCount }}
-                      </p>
-                    </v-col>
-                  </v-row>
+                <v-card-subtitle class="subtitle-2 text-uppercase"
+                  >รีวิวจาก
+                </v-card-subtitle>
+                <v-col cols="12">
+                  <p>{{ item.user.name }}</p>
+                  <div style="font-size: 10px">
+                    <v-rating
+                      v-model="item.rating"
+                      color="#5a5a5a"
+                      active-color="#e83e8c"
+                      empty-icon="mdi-cards-heart"
+                      full-icon="mdi-cards-heart"
+                      readonly
+                      hover
+                      size="16"
+                    />
+                  </div>
+                  <p style="font-size: 12px">เวลา : {{ item.createdAt }}</p>
                 </v-col>
               </v-row>
-            </v-container>
-          </v-card>
-        </v-col>
-      </v-row>
+            </v-card>
+          </div>
+          <v-container>
+            <v-row>
+              <v-col cols="3">
+                <v-img
+                  :src="item.book.imageBook"
+                  max-width="60"
+                  height="90"
+                  cover
+                ></v-img>
+              </v-col>
+              <v-col cols="7">
+                <v-row>
+                  <v-col cols="12">
+                    <p
+                      style="font-size: 16px; font-weight: bold"
+                      class="review-comment"
+                    >
+                      เรื่อง : {{ item.book.name }}
+                    </p>
+                    <p style="font-size: 12px">
+                      ผู้แต่ง : {{ item.book.author }}
+                    </p>
+                    <p style="font-size: 12px">
+                      หมวดหมู่ : {{ item.book.category }}
+                    </p>
+                    <p style="font-size: 12px; color: #e83e8c">
+                      {{ item.book.rating }} คะแนน จาก
+                      {{ item.book.ratingsCount }}
+                    </p>
+                  </v-col>
+                </v-row>
+              </v-col>
+            </v-row>
+          </v-container>
+        </v-card>
+      </v-col>
       <v-pagination
         class="text-pagination"
         v-model="page"
@@ -259,14 +257,14 @@ export default {
       });
     }
   },
-  async created(){
+  async created() {
     this.socket = io(this.socketioURL, {
       transports: ["websocket", "polling"],
     });
     this.socket.on("new-rating", () => {
-      this.getAllReview()
+      this.getAllReview();
     });
-  }
+  },
 };
 </script>
 
@@ -302,8 +300,8 @@ export default {
 }
 @media (max-width: 900px) {
   .card-review {
-    height: 230px;
-    width: 60%;
+    height: 200px;
+    width: 80%;
     background-color: #f6f6f6;
   }
 }
