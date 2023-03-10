@@ -147,7 +147,6 @@ export default {
         imageBook: "image",
         pdf: "pdf",
         user: [],
-        local_admin: false,
       },
 
       nameRule: [
