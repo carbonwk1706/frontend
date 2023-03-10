@@ -6,8 +6,48 @@
           <h2>หนังสือที่วางขาย</h2>
         </v-col>
       </v-row>
+
       <v-row>
-        <v-col cols="12" class="text-start">
+        <v-col cols="4">
+          <v-card
+            max-width="600"
+            height="150"
+            class="d-flex align-center justify-center"
+          >
+            <v-avatar class="bg-color mr-2">
+              <v-icon>mdi-cart-outline</v-icon>
+            </v-avatar>
+            <span>ขายแล้ว {{ totalSold }} เล่ม</span></v-card
+          >
+        </v-col>
+        <v-col cols="4">
+          <v-card
+            max-width="600"
+            height="150"
+            class="d-flex align-center justify-center"
+          >
+            <v-avatar class="bg-color mr-2">
+              <v-icon>mdi-cash-multiple</v-icon>
+            </v-avatar>
+            <span>ยอดขายทั้งหมด {{ totalRevenue }} บาท</span>
+          </v-card>
+        </v-col>
+        <v-col cols="4">
+          <v-card
+            max-width="600"
+            height="150"
+            class="d-flex align-center justify-center"
+          >
+            <v-avatar class="bg-color mr-2">
+              <v-icon>mdi-book-open-page-variant </v-icon>
+            </v-avatar>
+            <span>หนังสือทั้งหมด {{ bookList.length }} เล่ม</span>
+          </v-card>
+        </v-col>
+      </v-row>
+
+      <v-row>
+        <v-col cols="6" class="text-start">
           <div class="select-width">
             <v-select
               density="compact"
@@ -17,13 +57,14 @@
             ></v-select>
           </div>
         </v-col>
+        <v-col cols="6" class="d-flex justify-end">
+          <div>
+            <v-btn color="blue-grey" class="mb-3" @click="addBook"
+              >เพิ่มหนังสือ</v-btn
+            >
+          </div>
+        </v-col>
       </v-row>
-
-      <div class="d-flex justify-end">
-        <v-btn color="blue-grey" class="mb-3" @click="addBook"
-          >เพิ่มหนังสือ</v-btn
-        >
-      </div>
 
       <v-table v-if="bookList.length > 0" dense class="elevation-1">
         <thead class="table">
@@ -54,27 +95,23 @@
             )"
             :key="index"
           >
-            <td class="mt-2">{{ formatTime(item.books[0].createdAt) }}</td>
+            <td class="mt-2">{{ formatTime(item.createdAt) }}</td>
             <td class="ellipsis-one-line mt-2 text-xs-center">
-              <span>{{ item.books[0].name }}</span>
+              <span>{{ item.name }}</span>
             </td>
-            <td class="mt-2 mb-2 text-xs-center">{{ item.books[0].author }}</td>
+            <td class="mt-2 mb-2 text-xs-center">{{ item.author }}</td>
             <td class="mt-2 mb-2 text-xs-center">
-              {{ item.books[0].publisher }}
-            </td>
-            <td class="mt-2 mb-2 text-xs-center">
-              {{ item.books[0].category }}
+              {{ item.publisher }}
             </td>
             <td class="mt-2 mb-2 text-xs-center">
-              {{ item.books[0].price }} บาท
+              {{ item.category }}
             </td>
-            <td class="mt-2 mb-2 text-xs-center">
-              {{ item.books[0].sold }} เล่ม
-            </td>
-            <td class="mt-2 mb-2 text-xs-center">{{ item.books[0].rating }}</td>
+            <td class="mt-2 mb-2 text-xs-center">{{ item.price }} บาท</td>
+            <td class="mt-2 mb-2 text-xs-center">{{ item.sold }} เล่ม</td>
+            <td class="mt-2 mb-2 text-xs-center">{{ item.rating }}</td>
             <td class="text-xs-center">
               <v-avatar rounded="0" size="70">
-                <v-img :src="item.books[0].imageBook" />
+                <v-img :src="item.imageBook" />
               </v-avatar>
             </td>
             <td class="d-flex mt-5 text-xs-center">
@@ -82,7 +119,7 @@
                 variant="flat"
                 color="grey"
                 class="mr-3"
-                @click="showDetail(item.books[0])"
+                @click="showDetail(item)"
               >
                 รายละเอียด
               </v-btn>
@@ -146,18 +183,17 @@
             คุณต้องการลบหนังสือ {{ selectedBook.name }} ใช่หรือไม่?
           </v-card-text>
           <v-card-actions class="text-center">
-            <v-btn color="Grey" text @click="showConfirm = false">
-              ยกเลิก
-            </v-btn>
             <v-btn
-              color="red darken-1"
-              text
+              class="btn-confirm"
               @click="
                 deleteBook(selectedBook);
                 showConfirm = false;
               "
             >
               ลบ
+            </v-btn>
+            <v-btn class="btn-cancel" @click="showConfirm = false">
+              ยกเลิก
             </v-btn>
           </v-card-actions>
         </v-card>
@@ -171,6 +207,7 @@
 import api from "@/services/api";
 import AuthSell from "@/components/AuthSell.vue";
 import moment from "moment";
+import io from "socket.io-client";
 import router from "@/router";
 
 export default {
@@ -185,15 +222,24 @@ export default {
       itemsPerPage: 10,
       bookList: [],
       selectedBook: [],
+      totalSold: 0,
+      totalRevenue: 0,
       showConfirm: false,
+      socket: null,
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
+    getTotalSold() {
+      api.get("/totalsolduser/" + this.getId()).then((result) => {
+        this.totalSold = result.data.user.totalSold;
+        this.totalRevenue = result.data.user.totalRevenue;
+      });
+    },
     showDetail(item) {
-      console.log(item._id);
-      // router.push(`/detailbookadmin/${item._id}`).then(() => {
-      //   window.scrollTo(0, 0);
-      // });
+      router.push(`/detailbookusersell/${item._id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
     },
     formatTime(item) {
       return moment(item).format("DD/MM/YYYY, HH:mm:ss");
@@ -230,12 +276,8 @@ export default {
       });
     },
     async deleteBook(book) {
-      try {
-        await api.delete("/books/" + book._id, book);
-        this.showAlert();
-      } catch (error) {
-        console.error(error);
-      }
+      await api.delete("/books/" + book._id + "/" + this.getId());
+      this.showAlert();
       this.fetchApi();
     },
     showAlert() {
@@ -271,14 +313,77 @@ export default {
       }
     },
   },
-  mounted() {
-    this.fetchApi();
+  async mounted() {
+    if (!this.isLogin) {
+      router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
+    } else if (this.isLogin) {
+      const res = await api.get("/checkRoles/" + this.getId());
+      if (!res.data.user.roles.includes("SELL")) {
+        router.push("/").then(() => {
+          window.scrollTo(0, 0);
+        });
+      } else {
+        this.fetchApi();
+        this.getTotalSold();
+      }
+    }
+  },
+  created() {
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("product-sell", () => {
+      if (this.isLogin) {
+        this.fetchApi();
+        this.getTotalSold();
+      }
+    });
+    this.socket.on("update-book-edit", () => {
+      if (this.isLogin) {
+        this.fetchApi();
+        this.getTotalSold();
+      }
+    });
+    this.socket.on("update-book-delete", () => {
+      if (this.isLogin) {
+        this.fetchApi();
+        this.getTotalSold();
+      }
+    });
+    this.socket.on("upload-image-book", () => {
+      if (this.isLogin) {
+        this.fetchApi();
+        this.getTotalSold();
+      }
+    });
+    this.socket.on("upload-pdf-book", () => {
+      if (this.isLogin) {
+        this.fetchApi();
+        this.getTotalSold();
+      }
+    });
+    this.socket.on("requestbook-approved", () => {
+      if (this.isLogin) {
+        this.fetchApi();
+        this.getTotalSold();
+      }
+    });
   },
 };
 </script>
 <style>
 .select-width {
   width: 200px;
+}
+.btn-confirm {
+  color: #ffff;
+  background-color: #b00020;
+}
+.btn-cancel {
+  color: #ffff;
+  background-color: #9e9e9e;
 }
 .btn-edit {
   color: #ffff;
@@ -320,5 +425,17 @@ export default {
 }
 .text-color {
   color: #ffff;
+}
+.btn-color {
+  color: #fff;
+  background-color: #0008c1;
+}
+.cardHover:hover {
+  border: 1px solid #0008c1;
+  cursor: pointer;
+}
+.bg-color {
+  color: #ffff;
+  background-color: #0008c1;
 }
 </style>

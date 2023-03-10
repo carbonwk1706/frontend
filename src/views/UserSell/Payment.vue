@@ -91,6 +91,7 @@
 
 <script>
 import api from "@/services/api";
+import router from "@/router";
 import AuthSell from "@/components/AuthSell.vue";
 export default {
   components: {
@@ -172,13 +173,26 @@ export default {
       });
     },
   },
-  mounted() {
-    this.fetchApi();
+  async mounted() {
+    if (!this.isLogin) {
+      router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
+    } else if (this.isLogin) {
+      const res = await api.get("/checkRoles/" + this.getId());
+      if (!res.data.user.roles.includes("SELL")) {
+        router.push("/").then(() => {
+          window.scrollTo(0, 0);
+        });
+      }else{
+        this.fetchApi()
+      }
+    }
   },
-};
+}
 </script>
 
-<style>
+<style scoped>
 .btn-bg {
   background-color: #0008C1;
 }

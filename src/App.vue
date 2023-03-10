@@ -154,6 +154,7 @@ export default {
             "/userhistoryadmin",
             "/historybookcrud",
             "/newbook",
+            "/historybookusercrud"
           ].includes(this.$route.path);
         } else {
           return ![
@@ -174,11 +175,11 @@ export default {
             "/newbookadmin",
             "/userhistoryadmin",
             "/historybookcrud",
-            "/bookusersell",
             "/booktable",
             "/bookqueue",
             "/payment",
             "/newbook",
+            "/historybookusercrud"
           ].includes(this.$route.path);
         }
       }
@@ -214,6 +215,7 @@ export default {
             "/historybookcrud",
             "/allreview",
             "/newbook",
+            "/historybookusercrud"
           ].includes(this.$route.path);
         } else {
           return ![
@@ -233,12 +235,12 @@ export default {
             "/newbookadmin",
             "/userhistoryadmin",
             "/historybookcrud",
-            "/bookusersell",
             "/booktable",
             "/bookqueue",
             "/payment",
             "/allreview",
             "/newbook",
+            "/historybookusercrud"
           ].includes(this.$route.path);
         }
       }
@@ -271,11 +273,11 @@ export default {
       }
       {
         return [
-          "/bookusersell",
           "/booktable",
           "/bookqueue",
           "/payment",
           "/newbook",
+          "/historybookusercrud"
         ].includes(this.$route.path);
       }
     },

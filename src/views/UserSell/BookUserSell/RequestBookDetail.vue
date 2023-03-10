@@ -5,7 +5,7 @@
         <h2>รายละเอียดคำร้อง</h2>
       </v-col>
     </v-row>
-    <v-row  class="bg-white my-3 rounded border px-3">
+    <v-row class="bg-white my-3 rounded border px-3">
       <v-col cols="12">
         <v-card class="card">
           <v-card-text>
@@ -55,40 +55,61 @@
             <p class="mb-2">สำนักพิมพ์ {{ request.publisher }}</p>
             <p class="mb-2">หมวดหมู่ {{ request.category }}</p>
             <p class="mb-2">ราคา {{ request.price }} บาท</p>
+            <p class="mb-2">ไฟล์ pdf {{ request.pdf }}</p>
           </v-col>
         </v-row>
       </v-col>
     </v-row>
-    
   </v-container>
 </template>
 <script>
 import moment from "moment";
 import api from "@/services/api";
+import router from "@/router";
 export default {
   data() {
     return {
       request: [],
     };
   },
-  methods:{
-    fetchApi(){
+  methods: {
+    fetchApi() {
       api.get("/requestbook/" + this.$route.params.id).then((result) => {
-      this.request = result.data.request;
-    });
+        this.request = result.data.request;
+      });
     },
     formatTime(item) {
       return moment(item).format("MM/DD/YYYY, h:mm:ss a");
     },
+    getId() {
+      return this.$store.getters["auth/getId"];
+    },
   },
-  mounted(){
-    this.fetchApi()
-  }
-}
+  computed: {
+    isLogin() {
+      return this.$store.getters["auth/isLogin"];
+    },
+  },
+  async mounted() {
+    if (!this.isLogin) {
+      router.push("/").then(() => {
+        window.scrollTo(0, 0);
+      });
+    } else if (this.isLogin) {
+      const res = await api.get("/checkRoles/" + this.getId());
+      if (!res.data.user.roles.includes("SELL")) {
+        router.push("/").then(() => {
+          window.scrollTo(0, 0);
+        });
+      } else {
+        this.fetchApi();
+      }
+    }
+  },
+};
 </script>
 <style scoped>
 .card {
   background-color: #f6f6f6;
 }
-
 </style>
