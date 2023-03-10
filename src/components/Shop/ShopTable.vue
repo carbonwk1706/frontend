@@ -308,7 +308,14 @@
       </v-row>
       <v-divider class="mb-6"></v-divider>
       <v-row>
-        <v-col v-for="(item, index) in filteredReviews" :key="index" class="mb-5" md="4" sm="6" xs="12">
+        <v-col
+          v-for="(item, index) in filteredReviews"
+          :key="index"
+          class="mb-5"
+          md="4"
+          sm="6"
+          xs="12"
+        >
           <v-card
             class="mx-auto bg-review-card pa-3"
             max-width="340"
@@ -340,9 +347,7 @@
                         size="16"
                       />
                     </div>
-                    <p style="font-size: 12px">
-                      เวลา : {{ item.createdAt }}
-                    </p>
+                    <p style="font-size: 12px">เวลา : {{ item.createdAt }}</p>
                   </v-col>
                 </v-row>
               </v-card>
@@ -826,9 +831,9 @@
       <div class="d-flex justify-end pa-0">
         <v-icon @click="showReview = false">mdi-close</v-icon>
       </div>
-      <p class="text-h6">{{ displayName }}</p>
+      <p class="text-h6">Name: {{ displayName }}</p>
       <v-divider class="my-2"></v-divider>
-      <p>{{ userComment }}</p>
+      <p>Comment: {{ userComment }}</p>
       <div class="my-1">
         <span>Rating: </span>
         <span style="font-size: 10px">
@@ -844,6 +849,7 @@
           />
         </span>
       </div>
+      <p style="font-size: 12px">เวลา : {{ createTime }}</p>
     </v-card>
   </v-dialog>
 
@@ -889,6 +895,7 @@ export default {
       displayName: "",
       userComment: "",
       userRating: 0,
+      createTime: "",
       showFullText: false,
       socket: null,
       socketioURL: "http://localhost:3000",
@@ -956,6 +963,7 @@ export default {
       this.displayName = review.user.name;
       this.userComment = review.comment;
       this.userRating = review.rating;
+      this.createTime = review.createdAt;
       this.showReview = true;
     },
     showDetail(item) {
@@ -1145,6 +1153,13 @@ export default {
   },
   watch: {
     showModal(newValue) {
+      if (newValue) {
+        document.body.classList.add("dialog-open");
+      } else {
+        document.body.classList.remove("dialog-open");
+      }
+    },
+    showReview(newValue) {
       if (newValue) {
         document.body.classList.add("dialog-open");
       } else {
