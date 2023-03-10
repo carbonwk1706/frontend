@@ -27,16 +27,16 @@
         <v-list-item
           prepend-icon="mdi-home-circle"
           title="หน้าแรก"
-          value="Homepage"
+          value="dashboard"
           dense
           nav
-          @click="goToHomepage()"
+          @click="goToDashboard()"
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
         <v-divider inset></v-divider>
         <v-list-item
           prepend-icon="mdi-book-open-page-variant"
-          title="จัดการหนังสือ"
+          title="หนังสือที่วางขาย"
           value="admin"
           @click=" goToBookTable()"
           dense
@@ -45,9 +45,9 @@
         ></v-list-item>
         <v-divider inset></v-divider>
         <v-list-item
-          prepend-icon="mdi-format-list-bulleted-square"
-          title="รายการหนังสือ"
-          value="users"
+        prepend-icon="mdi-history"
+          title="ประวัติการขอขายหนังสือ"
+          value="book"
           @click="goToBookQueue()"
           dense
           nav
@@ -57,7 +57,7 @@
         <v-list-item
           prepend-icon="mdi-cash-multiple"
           title="การจ่ายเงิน"
-          value="approve"
+          value="payment"
           @click="goToPayment()"
           dense
           nav
@@ -86,7 +86,7 @@ export default {
     return {
       drawer: true,
       items: [
-        { title: "Home", icon: "mdi-home-city", path: "/admin" },
+        { title: "Home", icon: "mdi-home-city", path: "/bookusersell" },
         { title: "Admins", icon: "mdi-account", path: "/admintable" },
         {
           title: "Users",
@@ -95,10 +95,8 @@ export default {
         },
       ],
       rail: true,
-      isAdmin: false,
     };
   },
-  computed: {},
   methods: {
     toggleRail() {
       this.rail = !this.rail;
@@ -128,7 +126,7 @@ export default {
         window.scrollTo(0, 0);
       });
     },
-    goToHomepage() {
+    goToDashboard() {
       router.push("/bookusersell");
     },
   },
