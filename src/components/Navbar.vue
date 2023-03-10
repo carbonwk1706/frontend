@@ -594,7 +594,7 @@ export default {
       });
     },
     goToMyShop() {
-      router.push("/bookusersell").then(() => {
+      router.push("/booktable").then(() => {
         window.scrollTo(0, 0);
       });
     },
