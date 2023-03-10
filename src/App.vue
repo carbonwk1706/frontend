@@ -153,6 +153,7 @@ export default {
             "/newbookadmin",
             "/userhistoryadmin",
             "/historybookcrud",
+            "/newbook",
           ].includes(this.$route.path);
         } else {
           return ![
@@ -177,6 +178,7 @@ export default {
             "/booktable",
             "/bookqueue",
             "/payment",
+            "/newbook",
           ].includes(this.$route.path);
         }
       }
@@ -211,6 +213,7 @@ export default {
             "/userhistoryadmin",
             "/historybookcrud",
             "/allreview",
+            "/newbook",
           ].includes(this.$route.path);
         } else {
           return ![
@@ -235,6 +238,7 @@ export default {
             "/bookqueue",
             "/payment",
             "/allreview",
+            "/newbook",
           ].includes(this.$route.path);
         }
       }
@@ -261,16 +265,17 @@ export default {
       }
     },
     showSidebarsell() {
-      // const currenRoute = this.$route;
-      // if (currenRoute.meta.hideNavbar && !currenRoute.meta.hideSidebar) {
-      //   return true;
-      // }
+      const currenRoute = this.$route;
+      if (currenRoute.meta.hideSidebar) {
+        return true;
+      }
       {
         return [
           "/bookusersell",
           "/booktable",
           "/bookqueue",
           "/payment",
+          "/newbook",
         ].includes(this.$route.path);
       }
     },
@@ -283,9 +288,7 @@ export default {
       ].includes(this.$route.path);
     },
     routerLogin() {
-      return [
-        "/login",
-      ].includes(this.$route.path);
+      return ["/login"].includes(this.$route.path);
     },
     showFooterCoin() {
       return [
