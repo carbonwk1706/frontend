@@ -365,6 +365,12 @@ export default {
         this.getMyBook();
       }
     });
+    this.socket.on("requestbook-approved", () => {
+      this.fetchApi();
+      if (this.isLogin) {
+        this.getMyBook();
+      }
+    });
   },
 };
 </script>
