@@ -319,7 +319,7 @@
                 <v-row class="ma-2">
                   <v-col v-if="item.comment" cols="12">
                     <p class="review-comment">{{ item.comment }}</p>
-                    <p class="text-show-all" @click="hidereview(review)">
+                    <p class="text-show-all" @click="hidereview(item)">
                       แสดงทั้งหมด
                     </p>
                   </v-col>
