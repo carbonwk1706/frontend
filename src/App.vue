@@ -247,7 +247,7 @@ export default {
     },
     showSidebar() {
       const currenRoute = this.$route;
-      if (currenRoute.meta.hideNavbar && !currenRoute.meta.hideSidebar) {
+      if (currenRoute.meta.hideNavbar && !currenRoute.meta.hideSidebar && !currenRoute.meta.showNavCoin) {
         return true;
       }
       {
@@ -268,7 +268,7 @@ export default {
     },
     showSidebarsell() {
       const currenRoute = this.$route;
-      if (currenRoute.meta.hideSidebar) {
+      if (currenRoute.meta.hideSidebar && !currenRoute.meta.showNavCoin) {
         return true;
       }
       {

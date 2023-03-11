@@ -43,6 +43,7 @@ const routes = [
       hideNavbar: true,
       hideNavbarCoin: true,
       hideSidebar: true,
+      showNavCoin: true,
     },
   }
   ,
@@ -266,6 +267,7 @@ const routes = [
       hideFooter: true,
       hideNavbar: true,
       hideSidebar: true,
+      showNavCoin: true,
     },
   },
   {
