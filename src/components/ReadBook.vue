@@ -5,17 +5,18 @@
         ><v-icon>mdi-arrow-left</v-icon> Back</span
       >
     </div>
-    <iframe :src="pdfUrlWithNoToolbar" width="100%" height="800px"></iframe>
+    <iframe :src="pdfUrl" width="100%" height="800px"></iframe>
   </div>
 </template>
 
 <script>
+import api from "@/services/api";
+
 export default {
   name: "PdfViewer",
   data() {
     return {
-      pdfUrl:
-        "https://pdftron.s3.amazonaws.com/downloads/pl/demo-annotated.pdf",
+      pdfUrl: "",
     };
   },
   computed: {
@@ -25,9 +26,17 @@ export default {
   },
 
   methods: {
+    async getBook() {
+      const res = await api.get("/books/" + this.$route.params.id);
+      this.pdfUrl = res.data.pdf
+      console.log(this.pdfUrl);
+    },
     goBack() {
       window.history.back();
     },
+  },
+  mounted() {
+    this.getBook();
   },
 };
 </script>
