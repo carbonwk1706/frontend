@@ -25,7 +25,11 @@
                     <v-row class="ma-2">
                       <v-col v-if="item.comment" cols="12">
                         <p class="review-comment">{{ item.comment }}</p>
-                        <p class="text-show-all" @click="hidereview(item)">
+                        <p
+                          v-if="isLimitedComment(item.comment)"
+                          class="text-show-all"
+                          @click="hidereview(item)"
+                        >
                           แสดงทั้งหมด
                         </p>
                       </v-col>
@@ -47,7 +51,7 @@
                           />
                         </div>
                         <p style="font-size: 12px">
-                          เวลา : {{ item.createdAt }}
+                          เวลา : {{ formatTime(item.createdAt) }}
                         </p>
                       </v-col>
                     </v-row>
@@ -64,9 +68,7 @@
                         ></v-img>
                       </v-col>
                       <v-col cols="12">
-                        <p
-                          style="font-size: 16px; font-weight: bold"
-                        >
+                        <p style="font-size: 16px; font-weight: bold">
                           {{ item.book.name }}
                         </p>
                         <p style="font-size: 12px">
@@ -132,7 +134,7 @@
                       size="16"
                     />
                   </div>
-                  <p style="font-size: 12px">เวลา : {{ item.createdAt }}</p>
+                  <p style="font-size: 12px">เวลา : {{ formatTime(item.createdAt) }}</p>
                 </v-col>
               </v-row>
             </v-card>
@@ -187,9 +189,9 @@
       <div class="d-flex justify-end pa-0">
         <v-icon @click="showReview = false">mdi-close</v-icon>
       </div>
-      <p class="text-h6">{{ displayName }}</p>
+      <p class="text-h6">รีวิวจาก : {{ displayName }}</p>
       <v-divider class="my-2"></v-divider>
-      <p>{{ userComment }}</p>
+      <p>Comment: {{ userComment }}</p>
       <div class="my-1">
         <span>Rating: </span>
         <span style="font-size: 10px">
@@ -204,7 +206,8 @@
             size="16"
           />
         </span>
-      </div>
+      </div>review
+      <p style="font-size: 12px">เวลา : {{ formatTime(createTime) }}</p>
     </v-card>
   </v-dialog>
 </template>
@@ -213,6 +216,7 @@
 import api from "@/services/api";
 import router from "@/router";
 import io from "socket.io-client";
+import moment from "moment";
 
 export default {
   data() {
@@ -227,6 +231,16 @@ export default {
     };
   },
   methods: {
+    formatTime(item) {
+      return moment(item).format("DD/MM/YYYY, HH:mm:ss");
+    },
+    isLimitedComment(comment) {
+      if (comment.length > 50) {
+        return true;
+      } else {
+        return false;
+      }
+    },
     hidereview(review) {
       this.displayName = review.user.name;
       this.userComment = review.comment;
@@ -287,7 +301,7 @@ export default {
 .text-show-all {
   font-size: 16px;
   line-height: 1.5;
-  color: #2F58CD;
+  color: #2f58cd;
   margin-bottom: 10px;
   cursor: pointer;
 }

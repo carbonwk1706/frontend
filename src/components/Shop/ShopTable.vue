@@ -319,20 +319,32 @@
           <v-card
             class="mx-auto bg-review-card pa-3"
             max-width="340"
-            height="360"
+            height="400"
           >
             <div>
-              <v-card max-width="320" height="200">
+              <v-card max-width="320" height="240">
                 <v-row class="ma-2">
+                  <v-col cols="12" class="py-0">
+                    <p style="font-size: 14px; color: gray">COMMENT</p>
+                  </v-col>
                   <v-col v-if="item.comment" cols="12">
                     <p class="review-comment">{{ item.comment }}</p>
-                    <p class="text-show-all" @click="hidereview(item)">
+                    <p
+                      v-if="isLimitedComment(item.comment)"
+                      class="text-show-all"
+                      @click="hidereview(item)"
+                    >
                       แสดงทั้งหมด
                     </p>
                   </v-col>
-                  <v-card-subtitle class="subtitle-2 text-uppercase"
-                    >รีวิวจาก
-                  </v-card-subtitle>
+                  <v-col v-else cols="12">
+                    <p style="font-size: 14px; color: gray">
+                      ผู้ใช้ไม่ได้แสดงความคิดเห็น
+                    </p>
+                  </v-col>
+                  <v-col cols="12" class="py-0">
+                    <p style="font-size: 14px; color: gray">รีวิวจาก</p>
+                  </v-col>
                   <v-col cols="12">
                     <p>{{ item.user.name }}</p>
                     <div style="font-size: 10px">
@@ -347,7 +359,7 @@
                         size="16"
                       />
                     </div>
-                    <p style="font-size: 12px">เวลา : {{ item.createdAt }}</p>
+                    <p style="font-size: 12px">เวลา : {{ formatTime(item.createdAt) }} </p>
                   </v-col>
                 </v-row>
               </v-card>
@@ -831,7 +843,7 @@
       <div class="d-flex justify-end pa-0">
         <v-icon @click="showReview = false">mdi-close</v-icon>
       </div>
-      <p class="text-h6">Name: {{ displayName }}</p>
+      <p class="text-h6">รีวิวจาก : {{ displayName }}</p>
       <v-divider class="my-2"></v-divider>
       <p>Comment: {{ userComment }}</p>
       <div class="my-1">
@@ -849,7 +861,7 @@
           />
         </span>
       </div>
-      <p style="font-size: 12px">เวลา : {{ createTime }}</p>
+      <p style="font-size: 12px">เวลา : {{ formatTime(createTime) }}</p>
     </v-card>
   </v-dialog>
 
@@ -870,6 +882,7 @@ import api from "@/services/api";
 import Login from "@/views/User/Login.vue";
 import Register from "@/views/User/Register.vue";
 import io from "socket.io-client";
+import moment from "moment";
 
 export default {
   name: "ShopTable",
@@ -902,6 +915,9 @@ export default {
     };
   },
   methods: {
+    formatTime(item) {
+      return moment(item).format("DD/MM/YYYY, HH:mm:ss");
+    },
     toggleLoginModal() {
       this.visibleModal = !this.visibleModal;
     },
@@ -985,6 +1001,13 @@ export default {
           this.toggleLoginModal();
         }
       });
+    },
+    isLimitedComment(comment) {
+      if (comment.length > 50) {
+        return true;
+      } else {
+        return false;
+      }
     },
     alertSuccess() {
       this.$swal({
@@ -1289,7 +1312,7 @@ export default {
 
 <style scoped>
 .bg-card {
-  background-image: linear-gradient(#2F58CD, #3795BD);
+  background-image: linear-gradient(#2f58cd, #3795bd);
   color: #ffff;
   cursor: pointer;
 }
@@ -1298,17 +1321,17 @@ export default {
 }
 .text-go {
   cursor: pointer;
-  color: #2F58CD;
+  color: #2f58cd;
 }
 .btn-color {
   color: #fff;
-  background-color: #2F58CD;
+  background-color: #2f58cd;
 }
 .btn-color:hover {
   background-color: gray !important;
 }
 .cardHover:hover {
-  border: 1px solid #2F58CD;
+  border: 1px solid #2f58cd;
   cursor: pointer;
 }
 .text-card-center {
@@ -1324,7 +1347,7 @@ export default {
 }
 .btn-bg1 {
   color: #fff;
-  background-color: #2F58CD;
+  background-color: #2f58cd;
   border-radius: 40px;
   font-size: 16px;
 }
@@ -1347,7 +1370,7 @@ export default {
 .text-show-all {
   font-size: 16px;
   line-height: 1.5;
-  color: #2F58CD;
+  color: #2f58cd;
   margin-bottom: 10px;
   cursor: pointer;
 }
