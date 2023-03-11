@@ -60,7 +60,7 @@
                 <span class="mr-1">{{ item.coin }}</span>
                 <span v-if="item.coin !== 'กำหนดเอง'"
                   ><v-img
-                    src="https://www.pngall.com/wp-content/uploads/10/USD-Coin-Logo-PNG-File.png"
+                    :src="'http://localhost:3000/uploads/coin.png'"
                     class="responsive-img-coin"
                   ></v-img
                 ></span>

@@ -57,11 +57,6 @@
             <v-btn class="btn-color" rounded width="160" @click="readBook(book._id)">
               อ่าน
             </v-btn>
-            <iframe
-              :src="book.pdf"
-              frameBorder="0"
-              style="width: 100%; height: 100%"
-            ></iframe>
           </v-row>
         </v-col>
       </v-col>
