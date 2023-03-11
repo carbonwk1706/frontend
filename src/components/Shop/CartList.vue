@@ -9,12 +9,12 @@
   <div v-if="cartList.length === 0 || cartList === null">
     <v-divider></v-divider>
     <div class="noBook" v-if="cartList.length === 0 || cartList === null">
-      <span>ไม่พบสิ้นค้าในตะกร้า</span>
+      <span class="mb-5">ไม่พบสิ้นค้าในตะกร้า</span>
     </div>
     <div class="d-flex justify-center">
       <img
-        src="https://shop.unicornstore.in/beam/themes/2019/assets/img/cart_empty.png"
-        width="400"
+        :src="'http://localhost:3000/uploads/carticon.png'"
+        width="200"
         cover
       />
     </div>

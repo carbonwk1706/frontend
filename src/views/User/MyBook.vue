@@ -45,7 +45,7 @@
       <template v-if="myBook.length === 0 || myBook === null">
         <div class="d-flex justify-center">
           <img
-            src="https://www.mebmarket.com/web/dist/assets/images/imgMebcatMebphone@2x.png"
+            :src="'http://localhost:3000/uploads/notfoundicon.png'"
             width="200"
             height="200"
           />
