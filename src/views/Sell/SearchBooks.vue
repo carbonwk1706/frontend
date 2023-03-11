@@ -309,7 +309,15 @@ export default {
     },
     async filterSearch() {
       if (!this.inputSearch) {
-        this.alertWarning("กรุณาระบุคำที่ต้องการค้นหาด้วยครับ");
+        this.$swal({
+          scrollbarPadding: false,
+          confirmButtonColor: "#2F58CD",
+          allowOutsideClick: false,
+          width: "500",
+          text: "กรุณาระบุคำที่ต้องการค้นหาด้วยครับ",
+          icon: "warning",
+          button: "OK",
+        });
       } else {
         if (this.search === "ค้นหาทั้งหมด") {
           this.loadingSearch = true;
@@ -462,13 +470,13 @@ export default {
 }
 .btn-color {
   color: #fff;
-  background-color: #2F58CD;
+  background-color: #2f58cd;
 }
 .v-btn.success:hover {
   background-color: gray !important;
 }
 .cardHover:hover {
-  border: 1px solid #2F58CD;
+  border: 1px solid #2f58cd;
   cursor: pointer;
 }
 
@@ -478,7 +486,7 @@ export default {
 }
 .btn-bg1 {
   color: #fff;
-  background-color: #2F58CD;
+  background-color: #2f58cd;
   border-radius: 40px;
   font-size: 16px;
 }
