@@ -336,6 +336,11 @@ const routes = [
     component: () => import("../views/UserSell/Payment.vue"),
   },
   {
+    path: "/paymenthistory",
+    name: "paymenthistory",
+    component: () => import("../views/UserSell/PaymentHistory.vue"),
+  },
+  {
     path: "/bookqueue",
     name: "bookqueue",
     component: () => import("../views/UserSell/BookUserSell/BookQueue.vue"),
@@ -399,6 +404,17 @@ const routes = [
     },
   },
   {
+    path: "/detailrequestpayment/:id",
+    name: "detailrequestpayment",
+    component: () => import("../views/Admin/DetailRequestPayment.vue"),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true,
+    },
+  },
+  {
     path: "/historybookusercrud",
     name: "historybookusercrud",
     component: () => import("../views/UserSell/BookUserSell/BookHistory.vue"),
@@ -407,6 +423,18 @@ const routes = [
     path: "/detailbookusercrud/:id",
     name: "detailbookusercrud",
     component: () => import("../views/UserSell/BookUserSell/DetailBookCRUD.vue"),
+    meta: {
+      hideFooter: true,
+      hideFooterCoin: true,
+      hideNavbar: true,
+      hideNavbarCoin: true,
+      hideSidebar: true,
+    },
+  },
+  {
+    path: "/detailpaymenthistory/:id",
+    name: "detailpaymenthistory",
+    component: () => import("../views/UserSell/DetailPaymentHistory.vue"),
     meta: {
       hideFooter: true,
       hideFooterCoin: true,
