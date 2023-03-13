@@ -153,7 +153,7 @@ export default {
       showCancelDialog: false,
       request: [],
       select: "คำร้องทั้งหมด",
-      selectItem: ["คำร้องทั้งหมด", "คำร้องขอขายอีบุ๊ค", "คำร้องขอเติม Coin","คำร้องขอขายหนังสือ"],
+      selectItem: ["คำร้องทั้งหมด", "คำร้องขอขายอีบุ๊ค", "คำร้องขอเติม Coin","คำร้องขอขายหนังสือ","คำร้องแจ้งขอถอนเงิน"],
       page: 1,
       itemsPerPage: 10,
       socket: null,
@@ -181,6 +181,11 @@ export default {
       }
       else if (item.request === "คำร้องขอขายหนังสือ") {
         router.push(`/detailrequestbook/${item._id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
+      }
+      else if (item.request === "คำร้องแจ้งขอถอนเงิน") {
+        router.push(`/detailrequestpayment/${item._id}`).then(() => {
         window.scrollTo(0, 0);
       });
       }
@@ -227,6 +232,18 @@ export default {
         this.showConfirmDialog = false;
         this.fetchApi();
       }
+      else if (item.request === "คำร้องแจ้งขอถอนเงิน") {
+        try {
+          await api.patch(`/requestpayment/${item._id}/approve`, {
+            adminId: this.getId(),
+          });
+          this.showAlert();
+        } catch (error) {
+          console.log(error);
+        }
+        this.showConfirmDialog = false;
+        this.fetchApi();
+      }
     },
     async rejectsRequest(item) {
       if (item.request === "คำร้องขอสมัครขายอีบุ๊ค") {
@@ -264,6 +281,18 @@ export default {
         this.showCancelDialog = false;
         this.fetchApi();
       }
+      else if (item.request === "คำร้องแจ้งขอถอนเงิน") {
+        try {
+          await api.patch(`/requestpayment/${item._id}/reject`, {
+            adminId: this.getId(),
+          });
+          this.showAlert();
+        } catch (error) {
+          console.log(error);
+        }
+        this.showCancelDialog = false;
+        this.fetchApi();
+      }
     },
     async fetchApi() {
       try {
@@ -292,6 +321,14 @@ export default {
     async getRequestBook() {
       try {
         const res = await api.get("/requestbook");
+        this.request = res.data.requests;
+      } catch (error) {
+        console.log(error);
+      }
+    },
+    async getRequestPayment() {
+      try {
+        const res = await api.get("/requestpayment");
         this.request = res.data.requests;
       } catch (error) {
         console.log(error);
@@ -341,6 +378,9 @@ export default {
         else if (newValue === "คำร้องขอขายหนังสือ") {
           this.getRequestBook();
         }
+        else if (newValue === "คำร้องแจ้งขอถอนเงิน") {
+          this.getRequestPayment();
+        }
       }
     },
   },
@@ -363,6 +403,11 @@ export default {
   created() {
     this.socket = io(this.socketioURL, {
       transports: ["websocket", "polling"],
+    });
+    this.socket.on("new-request-payment", () => {
+      if (this.isLogin) {
+        this.fetchApi();
+      }
     });
     this.socket.on("new-receipt", () => {
       if(this.isLogin){
