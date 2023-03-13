@@ -42,7 +42,7 @@
                 <span>วันที่</span>
               </v-col>
               <v-col cols="6" class="d-flex justify-end">
-                <span>{{ request.createdAt }}</span>
+                <span>{{ formatTime(request.createdAt) }}</span>
               </v-col>
               <v-divider></v-divider>
               <v-col cols="6" class="d-flex justify-start">
@@ -84,6 +84,7 @@
 <script>
 import router from "@/router";
 import api from "@/services/api";
+import moment from "moment";
 export default {
   data() {
     return {
@@ -98,6 +99,9 @@ export default {
     },
     getId() {
       return this.$store.getters["authAdmin/getId"];
+    },
+    formatTime(item) {
+      return moment(item).format("DD/MM/YYYY, HH:mm:ss");
     },
   },
   computed: {
