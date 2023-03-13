@@ -443,6 +443,11 @@ const routes = [
       hideSidebar: true,
     },
   },
+  {
+    path: "/carousel",
+    name: "carousel",
+    component: () => import("../views/Admin/Carousel.vue"),
+  },
 ];
 
 const scrollBehavior = (to, from, savedPosition) => {
