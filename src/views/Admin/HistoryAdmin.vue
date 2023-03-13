@@ -95,7 +95,7 @@ export default {
     return {
       request: [],
       select: "รายการทั้งหมด",
-      selectItem: ["รายการทั้งหมด", "คำร้องขอสมัครขายอีบุ๊ค", "คำร้องขอเติม Coin","คำร้องขอขายหนังสือ"],
+      selectItem: ["รายการทั้งหมด", "คำร้องขอสมัครขายอีบุ๊ค", "คำร้องขอเติม Coin","คำร้องขอขายหนังสือ","คำร้องแจ้งขอถอนเงิน"],
       page: 1,
       itemsPerPage: 10,
     };
@@ -114,6 +114,11 @@ export default {
       }
       else if (item.request === "คำร้องขอขายหนังสือ") {
         router.push(`/detailrequestbook/${item._id}`).then(() => {
+        window.scrollTo(0, 0);
+      });
+      }
+      else if (item.request === "คำร้องแจ้งขอถอนเงิน") {
+        router.push(`/detailrequestpayment/${item._id}`).then(() => {
         window.scrollTo(0, 0);
       });
       }
@@ -137,6 +142,11 @@ export default {
     getHistoryReceipts() {
       api.get("/history/receipts/" + this.getId()).then((result) => {
         this.request = result.data.processedReceipts;
+      });
+    },
+    getHistoryRequestPayment() {
+      api.get("/history/requestpayment/" + this.getId()).then((result) => {
+        this.request = result.data.processedRequestsPayment;
       });
     },
     fetchApi() {
@@ -165,6 +175,9 @@ export default {
         }
         else if (newValue === "คำร้องขอขายหนังสือ") {
           this.getHistoryRequestBook()
+        }
+        else if (newValue === "คำร้องแจ้งขอถอนเงิน") {
+          this.getHistoryRequestPayment()
         }
       }
     },
