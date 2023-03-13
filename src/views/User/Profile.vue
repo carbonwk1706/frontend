@@ -303,7 +303,6 @@ export default {
           this.loading = false;
           setTimeout(() => {
             this.fetchApi();
-            this.$store.dispatch("user/setUpdateUser", true);
           }, 1000);
           this.showAlert();
         } catch (error) {
@@ -362,7 +361,7 @@ export default {
 </script>
 <style scoped>
 .btn-color {
-  color: #00af70;
+  color: #2F58CD;
   border: 1px solid #2F58CD;
   box-shadow: none;
 }
