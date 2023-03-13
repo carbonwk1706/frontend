@@ -346,6 +346,8 @@ export default {
         router.push("/").then(() => {
           window.scrollTo(0, 0);
         });
+      } else{
+        this.fetchApi()
       }
     }
   }
