@@ -16,9 +16,10 @@
       :show-arrows="false"
       color="#2F58CD"
       style="height: 300"
+      cycle
     >
-      <v-carousel-item v-for="(item, i) in items" :key="i">
-        <v-img :src="item.src" cover height="300"></v-img>
+      <v-carousel-item v-for="(item, index) in items" :key="index">
+        <v-img :src="item.imageURL" cover height="300"></v-img>
       </v-carousel-item>
     </v-carousel>
     <v-main
@@ -48,6 +49,8 @@ import Sidebar from "./components/Sidebar.vue";
 import CoinNavbar from "./components/Coin/Navbar.vue";
 import FooterCoin from "./components/Coin/Footer.vue";
 import SidebarSell from "./components/SidebarSell.vue";
+import api from "@/services/api";
+import io from "socket.io-client";
 export default {
   name: "App",
   components: {
@@ -59,28 +62,34 @@ export default {
     FooterCoin,
   },
 
-  created() {
+  async created() {
     window.addEventListener("storage", this.handleStorageChange);
+    this.socket = io(this.socketioURL, {
+      transports: ["websocket", "polling"],
+    });
+    this.socket.on("upload-image-carousel", () => {
+      this.getCarousel();
+    });
+    this.socket.on("delete-image-carousel", () => {
+      this.getCarousel();
+    });
+    this.socket.on("edit-image-carousel", () => {
+      this.getCarousel();
+    });
+    this.getCarousel();
   },
   data() {
     return {
-      items: [
-        {
-          src: "https://cdn.vuetifyjs.com/images/carousel/squirrel.jpg",
-        },
-        {
-          src: "https://cdn.vuetifyjs.com/images/carousel/sky.jpg",
-        },
-        {
-          src: "https://cdn.vuetifyjs.com/images/carousel/bird.jpg",
-        },
-        {
-          src: "https://cdn.vuetifyjs.com/images/carousel/planet.jpg",
-        },
-      ],
+      items: [],
+      socket: null,
+      socketioURL: "http://localhost:3000",
     };
   },
   methods: {
+    async getCarousel() {
+      const res = await api.get("/carousel/");
+      this.items = res.data.carousels;
+    },
     handleStorageChange(event) {
       if (this.isLogin) {
         if (
@@ -154,7 +163,8 @@ export default {
             "/userhistoryadmin",
             "/historybookcrud",
             "/newbook",
-            "/historybookusercrud"
+            "/historybookusercrud",
+            "/carousel",
           ].includes(this.$route.path);
         } else {
           return ![
@@ -180,7 +190,8 @@ export default {
             "/payment",
             "/paymenthistory",
             "/newbook",
-            "/historybookusercrud"
+            "/historybookusercrud",
+            "/carousel",
           ].includes(this.$route.path);
         }
       }
@@ -216,7 +227,8 @@ export default {
             "/historybookcrud",
             "/allreview",
             "/newbook",
-            "/historybookusercrud"
+            "/historybookusercrud",
+            "/carousel",
           ].includes(this.$route.path);
         } else {
           return ![
@@ -242,14 +254,19 @@ export default {
             "/paymenthistory",
             "/allreview",
             "/newbook",
-            "/historybookusercrud"
+            "/historybookusercrud",
+            "/carousel",
           ].includes(this.$route.path);
         }
       }
     },
     showSidebar() {
       const currenRoute = this.$route;
-      if (currenRoute.meta.hideNavbar && !currenRoute.meta.hideSidebar && !currenRoute.meta.showNavCoin) {
+      if (
+        currenRoute.meta.hideNavbar &&
+        !currenRoute.meta.hideSidebar &&
+        !currenRoute.meta.showNavCoin
+      ) {
         return true;
       }
       {
@@ -265,6 +282,7 @@ export default {
           "/newbookadmin",
           "/userhistoryadmin",
           "/historybookcrud",
+          "/carousel",
         ].includes(this.$route.path);
       }
     },
@@ -280,7 +298,7 @@ export default {
           "/payment",
           "/paymenthistory",
           "/newbook",
-          "/historybookusercrud"
+          "/historybookusercrud",
         ].includes(this.$route.path);
       }
     },

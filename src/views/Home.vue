@@ -8,7 +8,6 @@ import { defineComponent } from "vue";
 import ModalAgreement from "@/components/ModalAgreement.vue";
 import ShopTable from "../components/Shop/ShopTable.vue";
 
-// Components
 
 export default defineComponent({
   name: "HomeView",
