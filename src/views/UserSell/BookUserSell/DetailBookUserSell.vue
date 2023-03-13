@@ -106,13 +106,4 @@ export default {
 };
 </script>
 <style scoped>
-.menu-link {
-  color: #5a5a5a;
-  font-size: 14px;
-  cursor: pointer;
-}
-.menu-link-current {
-  color: #5a5a5a;
-  font-size: 14px;
-}
 </style>
