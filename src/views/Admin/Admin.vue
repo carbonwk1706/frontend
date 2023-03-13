@@ -198,6 +198,12 @@ export default {
     this.socket = io(this.socketioURL, {
       transports: ["websocket", "polling"],
     });
+
+    this.socket.on("new-request-payment", () => {
+      if (this.isLogin) {
+        this.getRequest();
+      }
+    });
     this.socket.on("new-user", () => {
       if (this.isLogin) {
         this.getUser();
