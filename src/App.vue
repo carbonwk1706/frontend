@@ -178,6 +178,7 @@ export default {
             "/booktable",
             "/bookqueue",
             "/payment",
+            "/paymenthistory",
             "/newbook",
             "/historybookusercrud"
           ].includes(this.$route.path);
@@ -238,6 +239,7 @@ export default {
             "/booktable",
             "/bookqueue",
             "/payment",
+            "/paymenthistory",
             "/allreview",
             "/newbook",
             "/historybookusercrud"
@@ -276,6 +278,7 @@ export default {
           "/booktable",
           "/bookqueue",
           "/payment",
+          "/paymenthistory",
           "/newbook",
           "/historybookusercrud"
         ].includes(this.$route.path);
