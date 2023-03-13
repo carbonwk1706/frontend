@@ -213,7 +213,7 @@ export default {
         });
         this.removeImage1();
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async handleFileUpload2(bookId) {
@@ -227,7 +227,7 @@ export default {
         });
         this.removePDF();
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     goToBooks() {
@@ -310,7 +310,7 @@ export default {
           this.showAlertSuccess("เพิ่มหนังสือสำเร็จ");
         }
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     showAlertSuccess(text) {

@@ -143,7 +143,7 @@ export default {
             this.alertLogin();
           }
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
       }
     },

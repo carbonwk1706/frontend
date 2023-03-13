@@ -666,7 +666,7 @@ export default {
         });
         this.removeImage1();
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async handleFileUpload2(requestId) {
@@ -680,7 +680,7 @@ export default {
         });
         this.removeImage2();
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async goPage2() {
@@ -690,7 +690,6 @@ export default {
       } else if (!this.imageIDCard) {
         this.showAlert("กรุณาอัพโหลดรูปภาพ");
       } else {
-        console.log(this.files1);
         this.page++;
       }
     },
@@ -759,7 +758,7 @@ export default {
             }, 2000);
           }
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
       } else {
         this.showAlert("กรุณากดยืนยันเพื่อส่งข้อมูล");

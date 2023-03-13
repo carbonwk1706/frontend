@@ -228,7 +228,7 @@ export default {
           });
           this.getCarousel();
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
       } else {
         this.$swal({
@@ -265,7 +265,7 @@ export default {
           });
           this.getCarousel();
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
       } else {
         this.$swal({

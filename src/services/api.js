@@ -52,7 +52,7 @@ api.interceptors.response.use(
           });
           break;
         case 404:
-          console.log("error")
+          alert(error);
           break;
         case 502:
           setTimeout(() => {

@@ -306,7 +306,7 @@ export default {
           }, 1000);
           this.showAlert();
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
       } else {
         this.$swal({

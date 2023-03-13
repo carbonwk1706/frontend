@@ -338,7 +338,7 @@ export default {
           }, 2000);
         }
       } catch (e) {
-        console.log(e);
+        alert(e);
       }
     },
 
@@ -367,7 +367,7 @@ export default {
           this.login();
         }
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     showAlert(text) {

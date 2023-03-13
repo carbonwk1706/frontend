@@ -214,7 +214,7 @@ export default {
           this.alertError("รหัสผ่านไม่ถูกต้อง");
         }
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     hideModal() {
@@ -257,7 +257,6 @@ export default {
     async editUser() {
       await api.put("/profile/" + this.getId(), this.user);
       this.hideModal();
-      console.log("edit");
       this.$emit("update:someEvent");
       this.showAlert("บันทึกข้อมูลสำเร็จ");
     },

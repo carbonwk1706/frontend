@@ -228,7 +228,7 @@ export default {
         }
         this.removeImage();
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async handleFileUpload2(bookId, historyId) {
@@ -248,7 +248,7 @@ export default {
         }
         this.removePDF();
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async checkDuplicate() {
@@ -356,7 +356,7 @@ export default {
           this.showAlertSuccess("เพิ่มหนังสือสำเร็จ");
         }
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async submitPDF() {
@@ -381,7 +381,7 @@ export default {
           this.showAlertSuccess("เพิ่มหนังสือสำเร็จ");
         }
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async submitImagePDF() {
@@ -407,7 +407,7 @@ export default {
           this.showAlertSuccess("เพิ่มหนังสือสำเร็จ");
         }
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     showAlert(text) {

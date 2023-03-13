@@ -152,7 +152,7 @@ export default {
         const res = await api.get("/allrequest");
         this.request = res.data.combinedData;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async getUser() {
@@ -160,7 +160,7 @@ export default {
         const res = await api.get("/findUser");
         this.user = res.data.users;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     getId() {

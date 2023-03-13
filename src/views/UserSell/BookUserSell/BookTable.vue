@@ -249,7 +249,7 @@ export default {
         const result = await api.get("/booksell/" + this.getId());
         this.bookList = result.data;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     getId() {

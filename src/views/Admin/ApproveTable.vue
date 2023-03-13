@@ -204,7 +204,7 @@ export default {
           });
           this.showAlert();
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
         this.showConfirmDialog = false;
         this.fetchApi();
@@ -215,7 +215,7 @@ export default {
           });
           this.showAlert();
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
         this.showConfirmDialog = false;
         this.fetchApi();
@@ -227,7 +227,7 @@ export default {
           });
           this.showAlert();
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
         this.showConfirmDialog = false;
         this.fetchApi();
@@ -239,7 +239,7 @@ export default {
           });
           this.showAlert();
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
         this.showConfirmDialog = false;
         this.fetchApi();
@@ -253,7 +253,7 @@ export default {
           });
           this.showAlert();
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
         this.showCancelDialog = false;
         this.fetchApi();
@@ -264,7 +264,7 @@ export default {
           });
           this.showAlert();
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
         this.showCancelDialog = false;
         this.fetchApi();
@@ -276,7 +276,7 @@ export default {
           });
           this.showAlert();
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
         this.showCancelDialog = false;
         this.fetchApi();
@@ -288,7 +288,7 @@ export default {
           });
           this.showAlert();
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
         this.showCancelDialog = false;
         this.fetchApi();
@@ -299,7 +299,7 @@ export default {
         const res = await api.get("/allrequest");
         this.request = res.data.combinedData;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async getRequest() {
@@ -307,7 +307,7 @@ export default {
         const res = await api.get("/request");
         this.request = res.data.requests;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async getReceipts() {
@@ -315,7 +315,7 @@ export default {
         const res = await api.get("/requestcoin");
         this.request = res.data.receipt;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async getRequestBook() {
@@ -323,7 +323,7 @@ export default {
         const res = await api.get("/requestbook");
         this.request = res.data.requests;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async getRequestPayment() {
@@ -331,7 +331,7 @@ export default {
         const res = await api.get("/requestpayment");
         this.request = res.data.requests;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     showAlert() {

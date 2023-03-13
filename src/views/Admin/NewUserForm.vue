@@ -231,7 +231,7 @@ export default {
           adminId: this.getId()
         });
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     showAlert(text) {

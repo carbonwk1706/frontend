@@ -7,9 +7,7 @@
       <v-row>
         <v-col cols="12" class="d-flex flex-row align-center pa-0 mb-3 mt-3">
           <v-row>
-            <v-col cols="6" class="d-flex justify-start"
-              ><span>Username: </span></v-col
-            >
+            <v-col cols="6" class="d-flex justify-start"><span>Username: </span></v-col>
             <v-col cols="6" class="d-flex justify-end"
               ><span>{{ user.username }} </span></v-col
             >
@@ -27,10 +25,7 @@
             >
             <v-col cols="6" class="d-flex justify-start">
               <v-avatar color="info">
-                <v-img
-                  :src="'http://localhost:3000/uploads/kbank.png'"
-                  cover
-                ></v-img>
+                <v-img :src="'http://localhost:3000/uploads/kbank.png'" cover></v-img>
               </v-avatar>
               <h4 class="ml-3">ธนาคาร กสิรกร เลขบัญชี 058-1502-710</h4></v-col
             >
@@ -86,9 +81,7 @@
       <v-row>
         <v-col>
           <div class="d-flex flex-row align-center justify-center mb-5">
-            <span style="font-size: 18px" class="text-total-price mr-2"
-              >ยอดชำระ
-            </span>
+            <span style="font-size: 18px" class="text-total-price mr-2">ยอดชำระ </span>
             <span class="text-total-price"> {{ receipt.coin }} </span>
           </div>
           <div class="d-flex flex-row align-center justify-center">
@@ -105,8 +98,7 @@
     <v-card>
       <v-card-title class="center">
         <div class="img-size">
-          <v-img src="https://media.tenor.com/9XCr9dBEygwAAAAi/peach-cat.gif">
-          </v-img>
+          <v-img src="https://media.tenor.com/9XCr9dBEygwAAAAi/peach-cat.gif"> </v-img>
         </div>
       </v-card-title>
       <div class="center-loading">
@@ -242,7 +234,7 @@ export default {
         });
         this.removeImage();
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
   },
@@ -282,7 +274,7 @@ export default {
 }
 .btn-bg {
   color: white;
-  background-color: #2F58CD;
+  background-color: #2f58cd;
 }
 .img-size {
   width: 100px;

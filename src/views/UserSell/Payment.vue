@@ -190,7 +190,7 @@ export default {
           this.showConfirm = false;
         }
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     getId() {

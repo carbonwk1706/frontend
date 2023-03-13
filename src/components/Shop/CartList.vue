@@ -140,7 +140,7 @@ export default {
         await api.delete("/cart/" + this.getId() + "/books/" + item);
         this.getCartList();
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     getId() {
@@ -172,7 +172,6 @@ export default {
     },
     isLogin(newValue) {
       if (!newValue) {
-        console.log(newValue)
         this.$store.dispatch("cartList/setCartList", []);
       }
     },

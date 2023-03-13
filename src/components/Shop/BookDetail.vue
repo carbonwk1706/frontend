@@ -347,7 +347,7 @@ export default {
             this.getWishList();
           }
         } catch (error) {
-          console.log(error);
+          alert(error);
         }
       } else {
         this.$swal({

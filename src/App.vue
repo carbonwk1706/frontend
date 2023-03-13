@@ -18,7 +18,7 @@
       style="height: 300"
       cycle
     >
-      <v-carousel-item v-for="(item, index) in items" :key="index">
+      <v-carousel-item eager v-for="(item, index) in items" :key="index">
         <v-img :src="item.imageURL" cover height="300"></v-img>
       </v-carousel-item>
     </v-carousel>

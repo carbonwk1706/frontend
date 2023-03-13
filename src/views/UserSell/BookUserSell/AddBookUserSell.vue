@@ -223,7 +223,7 @@ export default {
         });
         this.removeImage1();
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async handleFileUpload2(requestId) {
@@ -237,7 +237,7 @@ export default {
         });
         this.removePDF();
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     async checkDuplicate() {
@@ -264,7 +264,7 @@ export default {
             this.submit();
           }
         } catch (error) {
-          console.log(error)
+          alert(error);
         }
       }
     },
@@ -304,7 +304,7 @@ export default {
           this.showAlertSuccess("ขอคำร้องเพิ่มหนังสือสำเร็จ");
         }
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
     showAlert(text) {

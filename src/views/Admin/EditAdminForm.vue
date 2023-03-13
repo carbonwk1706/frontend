@@ -178,7 +178,7 @@ export default {
           try {
             this.submit();
           } catch (error) {
-            console.log(error);
+            alert(error);
           }
         } else {
           if (
@@ -199,7 +199,7 @@ export default {
                 this.submit();
               }
             } catch (error) {
-              console.log(error);
+              alert(error);
             }
           } else if (
             this.user.username === this.currentUsername &&
@@ -218,7 +218,7 @@ export default {
                 this.submit();
               }
             } catch (error) {
-              console.log(error);
+              alert(error);
             }
           } else if (
             this.user.username !== this.currentUsername &&
@@ -237,7 +237,7 @@ export default {
                 this.submit();
               }
             } catch (error) {
-              console.log(error);
+              alert(error);
             }
           }
         }
@@ -313,7 +313,7 @@ export default {
         this.currentUsername = this.user.username;
         this.currentEmail = this.user.email;
       } catch (error) {
-        console.log(error);
+        alert(error);
       }
     },
   },
