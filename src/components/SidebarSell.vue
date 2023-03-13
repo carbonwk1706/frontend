@@ -9,7 +9,8 @@
       permanent
       @click="rail = false"
       :responsive="true"
-      :style="{ 'max-width': '100%' }"
+      max-width="100%"
+      style="z-index: 800;"
     >
       <v-list-item nav>
         <template v-slot:append>
@@ -64,6 +65,16 @@
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
         <v-divider inset></v-divider>
+        <v-list-item
+        prepend-icon="mdi-account-clock"
+        title="ประวัติการแจ้งถอนเงิน"
+        value="historypayment"
+        @click="goToBookHistoryPayment()"
+        dense
+        nav
+        :style="{ 'max-width': '100%' }"
+      ></v-list-item>
+      <v-divider inset></v-divider>
         <v-list-item
           prepend-icon="mdi-exit-to-app"
           title="กลับหน้าหลัก"
@@ -127,7 +138,14 @@ export default {
       });
     },
     goToBookHistory(){
-      router.push("/historybookusercrud");
+      router.push("/historybookusercrud").then(() => {
+        window.scrollTo(0, 0);
+      });
+    },
+    goToBookHistoryPayment(){
+      router.push("/paymenthistory").then(() => {
+        window.scrollTo(0, 0);
+      });
     }
   },
 };
