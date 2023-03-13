@@ -12,7 +12,8 @@
       permanent
       @click="rail = false"
       :responsive="true"
-      :style="{ 'max-width': '100%' }"
+      style="z-index: 800;"
+      max-width="100%"
     >
       <v-list-item nav>
         <template v-slot:append>
@@ -38,6 +39,17 @@
           :style="{ 'max-width': '100%' }"
         ></v-list-item>
         <v-divider inset v-if="local_admin"></v-divider>
+        <v-list-item
+        v-if="local_admin"
+        prepend-icon="mdi-image-edit"
+        title="แก้ไขรูปภาพ"
+        value="image"
+        @click="goToCarousel()"
+        dense
+        nav
+        :style="{ 'max-width': '100%' }"
+      ></v-list-item>
+      <v-divider inset v-if="local_admin"></v-divider>
         <v-list-item
           v-if="admin"
           prepend-icon="mdi-account"
@@ -193,6 +205,11 @@ export default {
     },
     goToHome() {
       router.push("/admin").then(() => {
+        window.scrollTo(0, 0);
+      });
+    },
+    goToCarousel(){
+      router.push("/carousel").then(() => {
         window.scrollTo(0, 0);
       });
     },
