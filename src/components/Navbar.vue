@@ -769,6 +769,19 @@ export default {
     this.socket = io(this.socketioURL, {
       transports: ["websocket", "polling"],
     });
+
+    this.socket.on("requestpayment-rejected", () => {
+      if (this.isLogin) {
+        this.getNotification();
+        this.fetchApi();
+      }
+    });
+    this.socket.on("requestpayment-approved", () => {
+      if (this.isLogin) {
+        this.getNotification();
+        this.fetchApi();
+      }
+    });
     this.socket.on("requestbook-rejected", () => {
       if (this.isLogin) {
         this.getNotification();
