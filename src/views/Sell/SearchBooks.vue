@@ -30,7 +30,7 @@
     <div v-if="loadingSearch" class="d-flex justify-center">
       <v-progress-circular
         :width="4"
-        color="green"
+        color="#2F58CD"
         indeterminate
       ></v-progress-circular>
     </div>

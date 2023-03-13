@@ -483,7 +483,7 @@
             :size="50"
             :width="5"
             indeterminate
-            color="success"
+            color="#2F58CD"
           ></v-progress-circular>
         </div>
         <v-card-text class="text-center">กำลังทำการส่งข้อมูล</v-card-text>
